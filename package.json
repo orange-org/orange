@@ -1,0 +1,23 @@
+{
+  "name": "orange",
+  "version": "1.0.0",
+  "description": "TypeScript and Electron based UI for Bitcoin Core",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orange-org/orange.git"
+  },
+  "author": "",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/orange-org/orange/issues"
+  },
+  "homepage": "https://github.com/orange-org/orange#readme",
+  "devDependencies": {
+    "electron": "^7.1.2"
+  }
+}

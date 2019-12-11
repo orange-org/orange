@@ -1,31 +1,41 @@
 import { app, BrowserWindow } from "electron";
-import * as path from "path";
+import { join } from "path";
 
-let mainWindow: Electron.BrowserWindow;
+let mainWindow: BrowserWindow;
+let splashScreen: BrowserWindow;
 
 function createWindow() {
+  splashScreen = new BrowserWindow({
+    center: true,
+    width: 480,
+    height: 320,
+    title: "Orange"
+  });
+
+  splashScreen.loadFile(join(__dirname, "splash-screen.html"));
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js")
-    },
-    width: 800
-  });
+  // mainWindow = new BrowserWindow({
+  //   height: 600,
+  //   webPreferences: {
+  //     preload: path.join(__dirname, 'preload.js'),
+  //   },
+  //   width: 800,
+  // });
 
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  // // and load the index.html of the app.
+  // mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  // // Open the DevTools.
+  // // mainWindow.webContents.openDevTools();
 
-  // Emitted when the window is closed.
-  mainWindow.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+  // // Emitted when the window is closed.
+  // mainWindow.on('closed', () => {
+  //   // Dereference the window object, usually you would store windows
+  //   // in an array if your app supports multi windows, this is the time
+  //   // when you should delete the corresponding element.
+  //   mainWindow = null;
+  // });
 }
 
 // This method will be called when Electron has finished

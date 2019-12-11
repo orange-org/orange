@@ -43,7 +43,7 @@
     "watch": "tsc -w",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix",
-    "start": "npm run build && electron ./dist/src/main.js",
+    "start": "npm run build && electron ./dist/main.js",
     "prepare-dist": "ts-node build-scripts/prepare-dist.ts",
     "tsc": "tsc"
   }

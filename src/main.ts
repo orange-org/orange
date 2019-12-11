@@ -9,7 +9,7 @@ function createWindow() {
     center: true,
     width: 480,
     height: 320,
-    title: "Orange"
+    title: "Orange",
   });
 
   splashScreen.loadFile(join(__dirname, "index.html"));

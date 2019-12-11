@@ -1,23 +1,27 @@
 {
   "name": "orange",
   "version": "1.0.0",
-  "description": "TypeScript and Electron based UI for Bitcoin Core",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/orange-org/orange.git"
-  },
-  "author": "",
-  "license": "Unlicense",
-  "bugs": {
-    "url": "https://github.com/orange-org/orange/issues"
-  },
-  "homepage": "https://github.com/orange-org/orange#readme",
+  "description": "",
   "devDependencies": {
-    "electron": "^7.1.2"
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "electron": "^6.0.8",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "typescript": "^3.6.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint '**/*.{ts,tsx,js}'",
+    "lint-fix": "npm run lint -- --fix",
+    "start": "npm run build && electron ./dist/main.js"
+  },
+  "dependencies": {
+    "react": "^16.12.0"
   }
 }

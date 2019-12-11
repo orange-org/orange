@@ -12,7 +12,25 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "1.19.1",
     "typescript": "^3.6.0"
+  },
+  "dependencies": {
+    "react": "^16.12.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,css,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "scripts": {
     "build": "tsc",
@@ -20,8 +38,5 @@
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix",
     "start": "npm run build && electron ./dist/main.js"
-  },
-  "dependencies": {
-    "react": "^16.12.0"
   }
 }

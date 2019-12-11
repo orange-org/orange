@@ -5,6 +5,8 @@
   "devDependencies": {
     "@types/bluebird": "^3.5.29",
     "@types/fs-extra": "^8.0.1",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "bluebird": "^3.7.2",
@@ -16,17 +18,21 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "fs-extra": "^8.1.0",
+    "html-webpack-plugin": "^3.2.0",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "npm-run-all": "^4.1.5",
     "pkg-dir": "^4.2.0",
     "prettier": "1.19.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "ts-loader": "^6.2.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.6.0"
+    "typescript": "^3.6.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
-  "dependencies": {
-    "react": "^16.12.0"
-  },
+  "dependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -39,7 +45,7 @@
     ]
   },
   "scripts": {
-    "build": "run-s prepare-dist tsc",
+    "build": "webpack --config ./webpack.config.js",
     "watch": "tsc -w",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix",

@@ -1,10 +1,13 @@
-const { join, normalize } = require("path");
+const { join } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = [
   {
     mode: "development",
-    entry: normalize("./src/main.ts"),
+    entry: join(__dirname, "src", "main.ts"),
+    node: {
+      __dirname: false
+    },
     target: "electron-main",
     module: {
       rules: [
@@ -22,7 +25,7 @@ module.exports = [
   },
   {
     mode: "development",
-    entry: normalize("./src/renderer.tsx"),
+    entry: join(__dirname, "src", "renderer.tsx"),
     target: "electron-renderer",
     devtool: "source-map",
     module: {
@@ -40,7 +43,7 @@ module.exports = [
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: normalize("./src/index.html")
+        template: join(__dirname, "src", "index.html")
       })
     ]
   }

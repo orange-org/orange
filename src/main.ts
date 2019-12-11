@@ -12,7 +12,7 @@ function createWindow() {
     title: "Orange"
   });
 
-  splashScreen.loadFile(join(__dirname, "splash-screen.html"));
+  splashScreen.loadFile(join(__dirname, "index.html"));
 
   // Create the browser window.
   // mainWindow = new BrowserWindow({

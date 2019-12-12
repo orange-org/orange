@@ -1,18 +1,23 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, systemPreferences } from "electron";
 import { join } from "path";
 
 let mainWindow: BrowserWindow;
-let splashScreen: BrowserWindow;
+
+console.log(
+  "systemPreferences",
+  systemPreferences.getColor("window-background"),
+);
 
 function createWindow() {
-  splashScreen = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     center: true,
-    width: 480,
-    height: 320,
+    // width: 480,
+    // height: 320,
     title: "Orange",
+    webPreferences: { nodeIntegration: true },
   });
 
-  splashScreen.loadFile(join(__dirname, "index.html"));
+  mainWindow.loadFile(join(__dirname, "index.html"));
 
   // Create the browser window.
   // mainWindow = new BrowserWindow({
@@ -29,13 +34,13 @@ function createWindow() {
   // // Open the DevTools.
   // // mainWindow.webContents.openDevTools();
 
-  // // Emitted when the window is closed.
-  // mainWindow.on('closed', () => {
-  //   // Dereference the window object, usually you would store windows
-  //   // in an array if your app supports multi windows, this is the time
-  //   // when you should delete the corresponding element.
-  //   mainWindow = null;
-  // });
+  // Emitted when the window is closed.
+  mainWindow.on("closed", () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null;
+  });
 }
 
 // This method will be called when Electron has finished

@@ -10,7 +10,6 @@
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
     "bluebird": "^3.7.2",
-    "electron": "^6.0.8",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",
@@ -33,7 +32,9 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "electron": "^6.0.8"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

@@ -6,7 +6,7 @@ module.exports = [
     mode: "development",
     entry: join(__dirname, "src", "main.ts"),
     node: {
-      __dirname: false
+      __dirname: false,
     },
     target: "electron-main",
     module: {
@@ -14,14 +14,17 @@ module.exports = [
         {
           test: /\.ts$/,
           include: /src/,
-          use: [{ loader: "ts-loader" }]
-        }
-      ]
+          use: [{ loader: "ts-loader" }],
+        },
+      ],
     },
     output: {
       path: join(__dirname, "dist"),
-      filename: "main.js"
-    }
+      filename: "main.js",
+    },
+    resolve: {
+      extensions: [".ts", ".tsx", ".json"],
+    },
   },
   {
     mode: "development",
@@ -33,18 +36,21 @@ module.exports = [
         {
           test: /\.ts(x?)$/,
           include: /src/,
-          use: [{ loader: "ts-loader" }]
-        }
-      ]
+          use: [{ loader: "ts-loader" }],
+        },
+      ],
     },
     output: {
       path: join(__dirname, "dist"),
-      filename: "renderer.js"
+      filename: "renderer.js",
     },
     plugins: [
       new HtmlWebpackPlugin({
-        template: join(__dirname, "src", "index.html")
-      })
-    ]
-  }
+        template: join(__dirname, "src", "index.html"),
+      }),
+    ],
+    resolve: {
+      extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+    },
+  },
 ];

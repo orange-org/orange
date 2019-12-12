@@ -5,11 +5,16 @@ import { orangeApp } from "./reducers";
 import { Provider } from "react-redux";
 import { connect } from "react-redux";
 import { State, MainState } from "./types";
+import { ipcRenderer } from "electron";
+import { setSystemPreference } from "./actions";
 
 const store = createStore(orangeApp);
 
+ipcRenderer.on("system-preference", (event, message) => {
+  store.dispatch(setSystemPreference(message));
+});
+
 const mapStateToProps = (state: State) => {
-  console.log("state", state);
   return {
     systemPreferences: state.main.systemPreferences,
   };
@@ -17,9 +22,12 @@ const mapStateToProps = (state: State) => {
 
 class Index extends React.Component<MainState> {
   render() {
-    console.log("this.props", this.props);
     return (
-      <div style={{ background: "#e8e8e8" }}>
+      <div
+        style={{
+          background: this.props.systemPreferences.colorWindowBackground,
+        }}
+      >
         {this.props.systemPreferences.foo}
       </div>
     );

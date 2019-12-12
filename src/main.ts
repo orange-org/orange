@@ -1,12 +1,7 @@
-import { app, BrowserWindow, systemPreferences } from "electron";
+import { app, BrowserWindow, systemPreferences, ipcMain } from "electron";
 import { join } from "path";
 
 let mainWindow: BrowserWindow;
-
-console.log(
-  "systemPreferences",
-  systemPreferences.getColor("window-background"),
-);
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -18,6 +13,12 @@ function createWindow() {
   });
 
   mainWindow.loadFile(join(__dirname, "index.html"));
+
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow.webContents.send("system-preference", {
+      colorWindowBackground: systemPreferences.getColor("window-background"),
+    });
+  });
 
   // Create the browser window.
   // mainWindow = new BrowserWindow({

@@ -33,7 +33,7 @@ module.exports = [
   },
   {
     mode: "development",
-    entry: join(__dirname, "src", "renderer.tsx"),
+    entry: join(__dirname, "src", "renderer", "renderer.tsx"),
     target: "electron-renderer",
     module: {
       rules: [

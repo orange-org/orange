@@ -6,12 +6,8 @@
   "scripts": {
     "wds": "webpack-dev-server --config webpack.renderer.dev.config.js",
     "electron": "webpack --config webpack.main.config.js && electron ./dist/main.js",
-    "electron-dev": "electron ./dist/main.js",
-    "build-main": "webpack --config webpack.main.config.js",
-    "watch": "tsc -w",
     "lint": "eslint '**/*.{ts,tsx,js}'",
-    "lint-fix": "npm run lint -- --fix",
-    "start": "npm run build && electron ./dist/main.js"
+    "lint-fix": "npm run lint -- --fix"
   },
   "dependencies": {
     "@babel/core": "^7.7.5",

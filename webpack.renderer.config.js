@@ -2,13 +2,14 @@ const webpack = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const { join } = require("path");
 
 const baseConfig = require("./webpack.base.config");
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-renderer",
   entry: {
-    app: ["@babel/polyfill", "./src/renderer.tsx"],
+    app: ["@babel/polyfill", join(".", "src", "renderer", "renderer.tsx")],
   },
   module: {
     rules: [
@@ -62,7 +63,7 @@ module.exports = merge.smart(baseConfig, {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      reportFiles: ["src/renderer/**/*"],
+      reportFiles: [join("src", "renderer", "**", "*")],
     }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin(),

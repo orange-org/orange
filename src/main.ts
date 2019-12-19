@@ -1,5 +1,6 @@
-import { app, BrowserWindow, systemPreferences, ipcMain } from "electron";
+import { app, BrowserWindow, systemPreferences } from "electron";
 import { join } from "path";
+import { format } from "url";
 
 let mainWindow: BrowserWindow;
 
@@ -12,7 +13,25 @@ function createWindow() {
     webPreferences: { nodeIntegration: true },
   });
 
-  mainWindow.loadFile(join(__dirname, "index.html"));
+  console.log(
+    "name",
+    format({
+      pathname: join(__dirname, "index.html"),
+      protocol: "file:",
+      slashes: true,
+    }),
+  );
+
+  // mainWindow.loadURL(
+  //   format({
+  //     pathname: join(__dirname, "index.html"),
+  //     protocol: "file:",
+  //     slashes: true,
+  //   }),
+  // );
+
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1";
+  mainWindow.loadURL(`http://localhost:2003`);
 
   mainWindow.webContents.on("did-finish-load", () => {
     mainWindow.webContents.send("system-preference", {

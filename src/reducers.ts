@@ -3,7 +3,7 @@ import { SET_SYSTEM_PREFERENCE } from "./actions";
 import { Action, MainState } from "./types";
 
 const initialState: MainState = {
-  systemPreferences: { foo: "It workz!" },
+  systemPreferences: { foo: "It workzzz!" },
 };
 
 function main(state = initialState, action: Action): MainState {

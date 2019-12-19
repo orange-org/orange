@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { createStore } from "redux";
-import { orangeApp } from "./reducers";
-import { Provider } from "react-redux";
-import { connect } from "react-redux";
-import { State, MainState } from "./types";
+import { Provider, connect } from "react-redux";
 import { ipcRenderer } from "electron";
+import { orangeApp } from "./reducers";
+import { State, MainState } from "./types";
 import { setSystemPreference } from "./actions";
 
 const store = createStore(orangeApp);
@@ -22,13 +21,15 @@ const mapStateToProps = (state: State) => {
 
 class Index extends React.Component<MainState> {
   render() {
+    const { systemPreferences } = this.props;
+
     return (
       <div
         style={{
-          background: this.props.systemPreferences.colorWindowBackground,
+          background: systemPreferences.colorWindowBackground,
         }}
       >
-        {this.props.systemPreferences.foo}
+        {systemPreferences.foo}
       </div>
     );
   }
@@ -36,9 +37,12 @@ class Index extends React.Component<MainState> {
 
 const ConnectedIndex = connect(mapStateToProps)(Index);
 
+const mainElement = document.createElement("div");
+document.body.appendChild(mainElement);
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedIndex />
   </Provider>,
-  document.getElementById("app"),
+  mainElement,
 );

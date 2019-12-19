@@ -4,8 +4,8 @@
   "description": "Electron and TypeScript UI client for Bitcoin Core",
   "license": "Unlicense",
   "scripts": {
-    "webpack-dev-server": "webpack-dev-server --hot --config webpack.renderer.dev.config.js",
-    "electron": "run-s build-main electron-dev",
+    "wds": "webpack-dev-server --config webpack.renderer.dev.config.js",
+    "electron": "webpack --config webpack.main.config.js && electron ./dist/main.js",
     "electron-dev": "electron ./dist/main.js",
     "build-main": "webpack --config webpack.main.config.js",
     "watch": "tsc -w",

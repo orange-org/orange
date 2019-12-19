@@ -4,17 +4,20 @@
   "description": "Electron and TypeScript UI client for Bitcoin Core",
   "license": "Unlicense",
   "scripts": {
-    "build": "webpack-dev-server --hot --config ./webpack.config.js",
+    "webpack-dev-server": "webpack-dev-server --hot --config webpack.renderer.dev.config.js",
+    "electron": "run-s build-main electron-dev",
+    "electron-dev": "electron ./dist/main.js",
+    "build-main": "webpack --config webpack.main.config.js",
     "watch": "tsc -w",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix",
-    "start": "npm run build && electron ./dist/main.js",
-    "electron": "electron ./dist/main.js"
+    "start": "npm run build && electron ./dist/main.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.7.5",
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/plugin-proposal-decorators": "^7.7.4",
+    "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
@@ -28,6 +31,7 @@
     "@typescript-eslint/parser": "^2.11.0",
     "babel-loader": "^8.0.6",
     "bluebird": "^3.7.2",
+    "electron": "^6.0.8",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",
@@ -48,6 +52,7 @@
     "react-hot-loader": "^4.12.18",
     "react-redux": "^7.1.3",
     "redux": "^4.0.4",
+    "source-map-loader": "^0.2.4",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.6.0",
@@ -55,9 +60,6 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {
-    "electron": "^6.0.8"
   },
   "husky": {
     "hooks": {

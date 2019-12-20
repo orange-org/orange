@@ -1,4 +1,4 @@
 declare const styles: {
-  readonly red: string;
+  readonly index: string;
 };
 export = styles;

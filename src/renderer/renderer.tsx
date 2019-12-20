@@ -6,6 +6,7 @@ import { ipcRenderer } from "electron";
 import { orangeApp } from "./reducers";
 import { setSystemPreference } from "./actions";
 import { Index } from "./index";
+// import { startAndMonitorBitcoind } from "../main/start-and-monitor-bitcoind";
 
 import "./global.scss";
 
@@ -14,6 +15,8 @@ const store = createStore(orangeApp);
 ipcRenderer.on("system-preference", (event, message) => {
   store.dispatch(setSystemPreference(message));
 });
+
+// startAndMonitorBitcoind(store);
 
 const mainElement = document.createElement("div");
 document.body.appendChild(mainElement);

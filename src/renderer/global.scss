@@ -1,4 +1,14 @@
+html,
 body {
+  height: 100%;
+  width: 100%;
   background-color: yellow;
   margin: 0;
+}
+
+body {
+  div:first-of-type {
+    height: 100%;
+    width: 100%;
+  }
 }

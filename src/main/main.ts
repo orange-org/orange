@@ -1,10 +1,14 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
-import { join } from "path";
-import { format } from "url";
+import { installExtensions } from "./install-extensions";
+import { startAndMonitorBitcoind } from "./start-and-monitor-bitcoind";
+// import { join } from "path";
 
 let mainWindow: BrowserWindow;
 
 function createWindow() {
+  installExtensions();
+  startAndMonitorBitcoind();
+
   mainWindow = new BrowserWindow({
     center: true,
     // width: 480,
@@ -12,15 +16,6 @@ function createWindow() {
     title: "Orange",
     webPreferences: { nodeIntegration: true },
   });
-
-  console.log(
-    "name",
-    format({
-      pathname: join(__dirname, "index.html"),
-      protocol: "file:",
-      slashes: true,
-    }),
-  );
 
   // mainWindow.loadURL(
   //   format({

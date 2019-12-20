@@ -41,17 +41,5 @@ module.exports = merge.smart(baseConfig, {
         process.env.NODE_ENV || "development",
       ),
     }),
-    new CopyPlugin([
-      {
-        from: join(__dirname, "src", "vendor"),
-        to: join(__dirname, "dist", "vendor"),
-      },
-    ]),
-    new PermissionsOutputPlugin({
-      buildFolders: [
-        join(__dirname, "src", "vendor"),
-        join(__dirname, "dist", "vendor"),
-      ],
-    }),
   ],
 });

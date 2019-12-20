@@ -1,22 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { ipcRenderer } from "electron";
-import { orangeApp } from "./reducers";
-import { setSystemPreference } from "./actions";
 import { Index } from "./index";
-// import { startAndMonitorBitcoind } from "../main/start-and-monitor-bitcoind";
+import { store } from "./store";
+import { registerIpcListeners } from "./register-ipc-listeners";
 
 import "./global.scss";
 
-const store = createStore(orangeApp);
-
-ipcRenderer.on("system-preference", (event, message) => {
-  store.dispatch(setSystemPreference(message));
-});
-
-// startAndMonitorBitcoind(store);
+registerIpcListeners();
 
 const mainElement = document.createElement("div");
 document.body.appendChild(mainElement);

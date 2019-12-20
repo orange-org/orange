@@ -1,9 +1,13 @@
 import { combineReducers } from "redux";
-import { SET_SYSTEM_PREFERENCE } from "./actions";
+import { SET_SYSTEM_PREFERENCE, RECEIVE_BITCOIND_LINE } from "./actions";
 import { Action, MainState } from "./types";
+import { calculateBitcoindOutput } from "./calculate-bitcoind-output";
 
 const initialState: MainState = {
   systemPreferences: { foo: "It workzzz!" },
+  bitcoindOutput: {
+    initMessage: "",
+  },
 };
 
 function main(state = initialState, action: Action): MainState {
@@ -15,6 +19,14 @@ function main(state = initialState, action: Action): MainState {
           ...state.systemPreferences,
           ...action.payload,
         },
+      };
+    case RECEIVE_BITCOIND_LINE:
+      return {
+        ...state,
+        bitcoindOutput: calculateBitcoindOutput(
+          state.bitcoindOutput,
+          action.payload,
+        ),
       };
     default:
       return state;

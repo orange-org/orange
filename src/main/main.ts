@@ -1,18 +1,18 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
+import { createInterface } from "readline";
 import { installExtensions } from "./install-extensions";
-import { startAndMonitorBitcoind } from "./start-and-monitor-bitcoind";
+import { startBitcoind } from "./start-bitcoind";
 // import { join } from "path";
 
 let mainWindow: BrowserWindow;
 
+const bitcoindProcess = startBitcoind();
+
 function createWindow() {
   installExtensions();
-  startAndMonitorBitcoind();
 
   mainWindow = new BrowserWindow({
     center: true,
-    // width: 480,
-    // height: 320,
     title: "Orange",
     webPreferences: { nodeIntegration: true },
   });
@@ -32,8 +32,11 @@ function createWindow() {
     mainWindow.webContents.send("system-preference", {
       colorWindowBackground: systemPreferences.getColor("window-background"),
     });
-  });
 
+    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+      mainWindow.webContents.send("bitcoind-line", line);
+    });
+  });
   // Create the browser window.
   // mainWindow = new BrowserWindow({
   //   height: 600,

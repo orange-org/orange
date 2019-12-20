@@ -5,7 +5,8 @@
   "license": "Unlicense",
   "scripts": {
     "wds": "webpack-dev-server --config webpack.renderer.dev.config.js",
-    "electron": "webpack --config webpack.main.config.js && electron ./dist/main.js",
+    "electron": "webpack --config webpack.main.config.js && npm run copy-bitcoind && electron ./dist/main.js",
+    "copy-bitcoind": "cp -R src/vendor dist/vendor",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix"
   },
@@ -28,6 +29,7 @@
     "@typescript-eslint/parser": "^2.11.0",
     "babel-loader": "^8.0.6",
     "bluebird": "^3.7.2",
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.0",
     "electron": "^6.0.8",
     "electron-devtools-installer": "^2.2.4",
@@ -64,7 +66,8 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-permissions-plugin": "^1.0.6"
   },
   "husky": {
     "hooks": {

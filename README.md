@@ -12,3 +12,4 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 
 - Ban default exports
 - Organize imports
+- Write a cross-platform solution for copying `vendor/bitcoind` to `dist/`

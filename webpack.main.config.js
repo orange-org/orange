@@ -2,6 +2,8 @@ const webpack = require("webpack");
 const merge = require("webpack-merge");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
+const PermissionsOutputPlugin = require("webpack-permissions-plugin");
 
 const baseConfig = require("./webpack.base.config");
 
@@ -38,6 +40,18 @@ module.exports = merge.smart(baseConfig, {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),
+    }),
+    new CopyPlugin([
+      {
+        from: join(__dirname, "src", "vendor"),
+        to: join(__dirname, "dist", "vendor"),
+      },
+    ]),
+    new PermissionsOutputPlugin({
+      buildFolders: [
+        join(__dirname, "src", "vendor"),
+        join(__dirname, "dist", "vendor"),
+      ],
     }),
   ],
 });

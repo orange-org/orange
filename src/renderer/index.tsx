@@ -1,6 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { MainState, State } from "./types";
+import { shouldShowSplashScreen } from "./selectors";
+import { SplashScreen } from "./SplashScreen";
 
 import * as styles from "./index.module.scss";
 
@@ -15,7 +17,7 @@ class IndexComponent extends React.Component<MainState> {
           background: systemPreferences.colorWindowBackground,
         }}
       >
-        {systemPreferences.foo}
+        {shouldShowSplashScreen && <SplashScreen />}
       </div>
     );
   }
@@ -24,6 +26,7 @@ class IndexComponent extends React.Component<MainState> {
 const mapStateToProps = (state: State) => {
   return {
     systemPreferences: state.main.systemPreferences,
+    shouldShowSplashScreen: shouldShowSplashScreen(state),
   };
 };
 

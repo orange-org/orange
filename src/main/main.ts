@@ -34,6 +34,7 @@ function createWindow() {
     });
 
     createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+      console.log(line);
       mainWindow.webContents.send("bitcoind-line", line);
     });
   });

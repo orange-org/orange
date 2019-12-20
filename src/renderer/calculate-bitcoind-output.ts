@@ -1,7 +1,7 @@
 /* eslint-disable no-cond-assign */
 import { BitcoindOutput } from "./types";
 
-const initMessageString = "init message: ";
+const initMessage = "init message: ";
 const timestampRegExp = /\d{4}-\d{2}-\d{2}\D\d{2}:\d{2}:\d{2}\D\s/;
 
 function parseLine(line: string, prefix: string) {
@@ -14,7 +14,7 @@ export function calculateBitcoindOutput(
 ): BitcoindOutput {
   let parsedLine;
 
-  if ((parsedLine = parseLine(line, initMessageString))) {
+  if ((parsedLine = parseLine(line, initMessage))) {
     return {
       ...bitcoindOutputState,
       initMessage: parsedLine[1],

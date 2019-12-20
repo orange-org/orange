@@ -11,7 +11,7 @@ module.exports = {
     __filename: false,
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js", ".json"],
+    extensions: [".tsx", ".ts", ".js", ".json", ".scss"],
   },
   devtool: "source-map",
   plugins: [],

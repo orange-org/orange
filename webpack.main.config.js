@@ -1,13 +1,14 @@
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const { join } = require("path");
 
 const baseConfig = require("./webpack.base.config");
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-main",
   entry: {
-    main: "./src/main.ts",
+    main: join(__dirname, "src", "main", "main.ts"),
   },
   module: {
     rules: [

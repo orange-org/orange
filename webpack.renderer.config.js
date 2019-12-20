@@ -3,13 +3,20 @@ const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { TypedCssModulesPlugin } = require("typed-css-modules-webpack-plugin");
 
 const baseConfig = require("./webpack.base.config");
+
+const isDevelopment = process.env.NODE_ENV === "development";
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-renderer",
   entry: {
-    app: ["@babel/polyfill", join(".", "src", "renderer", "renderer.tsx")],
+    app: [
+      "@babel/polyfill",
+      join(__dirname, "src", "renderer", "renderer.tsx"),
+    ],
   },
   module: {
     rules: [
@@ -34,12 +41,37 @@ module.exports = merge.smart(baseConfig, {
         },
       },
       {
-        test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"],
+        test: /\.module\.scss$/,
+        loader: [
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              sourceMap: isDevelopment,
+            },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: isDevelopment,
+            },
+          },
+        ],
       },
       {
-        test: /\.css$/,
-        loaders: ["style-loader", "css-loader"],
+        test: /\.scss$/,
+        exclude: /\.module\.scss$/,
+        loader: [
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: isDevelopment,
+            },
+          },
+        ],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/,
@@ -63,7 +95,7 @@ module.exports = merge.smart(baseConfig, {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      reportFiles: [join("src", "renderer", "**", "*")],
+      reportFiles: [join(__dirname, "src", "renderer", "**", "*")],
     }),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin(),
@@ -71,6 +103,13 @@ module.exports = merge.smart(baseConfig, {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),
+    }),
+    new MiniCssExtractPlugin({
+      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
+      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
+    }),
+    new TypedCssModulesPlugin({
+      globPattern: "src/**/*.scss",
     }),
   ],
 });

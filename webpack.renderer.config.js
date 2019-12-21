@@ -94,9 +94,7 @@ module.exports = merge.smart(baseConfig, {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      reportFiles: [join(__dirname, "src", "renderer", "**", "*")],
-    }),
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin(),
     new webpack.DefinePlugin({

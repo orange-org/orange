@@ -1,6 +1,6 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { MainState, State } from "./types";
+// import { connect } from "react-redux";
+// import { MainState, RootState } from "./types";
 
 // import * as styles from "./index.module.scss";
 

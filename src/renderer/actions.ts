@@ -1,10 +1,9 @@
-export const SET_SYSTEM_PREFERENCE = "SET_SYSTEM_PREFERENCE";
-export const RECEIVE_BITCOIND_LINE = "RECEIVE_BITCOIND_LINE";
+import { createAction } from "typesafe-actions";
 
-export function setSystemPreference(payload: { [name: string]: string }) {
-  return { type: SET_SYSTEM_PREFERENCE, payload };
-}
+export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<{
+  [name: string]: string;
+}>();
 
-export function receiveBitcoindLine(payload: string) {
-  return { type: RECEIVE_BITCOIND_LINE, payload };
-}
+export const receiveBitcoindLine = createAction("RECEIVE_BITCOIND_LINE")<
+  string
+>();

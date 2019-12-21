@@ -1,14 +1,20 @@
-import * as React from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { MainState, State } from "./types";
+// import { State } from "./types";
 import { shouldShowSplashScreen } from "./selectors";
 import { SplashScreen } from "./SplashScreen";
 
 import * as styles from "./index.module.scss";
 
-class IndexComponent extends React.Component<MainState> {
+type State = {
+  systemPreferences: any;
+};
+
+class IndexComponent extends React.Component<State> {
   render() {
     const { systemPreferences } = this.props;
+
+    console.log("systemPreferences", systemPreferences);
 
     return (
       <div
@@ -25,7 +31,7 @@ class IndexComponent extends React.Component<MainState> {
 
 const mapStateToProps = (state: State) => {
   return {
-    systemPreferences: state.main.systemPreferences,
+    systemPreferences: state.systemPreferences,
     shouldShowSplashScreen: shouldShowSplashScreen(state),
   };
 };

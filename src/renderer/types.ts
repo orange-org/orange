@@ -1,15 +1,6 @@
-export type Action = {
-  type: string;
-  payload: any;
-};
-
-export type BitcoindOutput = { initMessage: string };
-
-export type MainState = {
-  systemPreferences: { [name: string]: string };
-  bitcoindOutput: BitcoindOutput;
-};
+// import { DeepReadonly } from "utility-types";
 
 export type State = {
-  main: MainState;
+  systemPreferences: { [name: string]: string };
+  bitcoindOutput: { initMessage: string };
 };

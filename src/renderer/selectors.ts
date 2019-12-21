@@ -1,5 +1,5 @@
-import { State } from "./types";
+// import { RootState } from "./types";
 
-export function shouldShowSplashScreen(state: State) {
-  return state !== null;
+export function shouldShowSplashScreen(state: any) {
+  return state.bitcoindOutput.initMessage !== "Done loading";
 }

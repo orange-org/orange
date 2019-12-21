@@ -6,7 +6,7 @@ import { startBitcoind } from "./start-bitcoind";
 
 let mainWindow: BrowserWindow;
 
-const bitcoindProcess = startBitcoind();
+// const bitcoindProcess = startBitcoind();
 
 function createWindow() {
   installExtensions();
@@ -33,10 +33,10 @@ function createWindow() {
       colorWindowBackground: systemPreferences.getColor("window-background"),
     });
 
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      console.log(line);
-      mainWindow.webContents.send("bitcoind-line", line);
-    });
+    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+    //   // console.log(line);
+    //   mainWindow.webContents.send("bitcoind-line", line);
+    // });
   });
   // Create the browser window.
   // mainWindow = new BrowserWindow({
@@ -58,7 +58,7 @@ function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    // mainWindow = null;
   });
 }
 

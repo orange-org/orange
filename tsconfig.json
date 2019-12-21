@@ -1,14 +1,24 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "pretty": true,
+    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "strict": true,
     "outDir": "dist",
     "baseUrl": ".",
     "jsx": "react",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "paths": {},
+    "declaration": false, // emit declarations
+    "importHelpers": false, // importing helper functions from tslib
+    "noEmitHelpers": true, // disable emitting inline helper functions
+    "noEmitOnError": true,
+    "removeComments": true,
+    "stripInternal": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }

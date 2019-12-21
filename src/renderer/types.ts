@@ -1,6 +1,6 @@
-// import { DeepReadonly } from "utility-types";
+import { DeepReadonly } from "utility-types";
 
-export type State = {
+export type State = DeepReadonly<{
   systemPreferences: { [name: string]: string };
   bitcoindOutput: { initMessage: string };
-};
+}>;

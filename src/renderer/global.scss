@@ -2,13 +2,11 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background-color: yellow;
   margin: 0;
+  background-color: black;
 }
 
-body {
-  div:first-of-type {
-    height: 100%;
-    width: 100%;
-  }
+body > div {
+  height: 100%;
+  width: 100%;
 }

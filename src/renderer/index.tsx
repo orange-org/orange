@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 import * as selectors from "./selectors";
 import { SplashScreen } from "./SplashScreen";
 
-function useShouldShowSplashScreen() {
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${(props: { backgroundColor: string }) =>
+    props.backgroundColor};
+`;
+
+const useShouldShowSplashScreen = () => {
   const shouldShowSplashScreenSelectorResult = useSelector(
     selectors.shouldShowSplashScreen,
   );
@@ -18,19 +26,15 @@ function useShouldShowSplashScreen() {
   }, []);
 
   return shouldShowSplashScreenSelectorResult || shouldWaitForSplashScreen;
-}
+};
 
 export const Index: React.FC = () => {
   const systemPreferences = useSelector(selectors.getSystemPreferences);
   const shouldShowSplashScreen = useShouldShowSplashScreen();
 
   return (
-    <div
-      style={{
-        background: systemPreferences.colorWindowBackground,
-      }}
-    >
+    <Container backgroundColor={systemPreferences.colorWindowBackground}>
       {shouldShowSplashScreen && <SplashScreen />}
-    </div>
+    </Container>
   );
 };

@@ -6,7 +6,8 @@ import { startBitcoind } from "./start-bitcoind";
 
 let mainWindow: BrowserWindow;
 
-const bitcoindProcess = startBitcoind();
+// const bitcoindProcess = startBitcoind();
+const bitcoindProcess = { stdout: "" };
 
 function createWindow() {
   installExtensions();
@@ -33,10 +34,10 @@ function createWindow() {
       colorWindowBackground: systemPreferences.getColor("window-background"),
     });
 
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      console.log(line);
-      mainWindow.webContents.send("bitcoind-line", line);
-    });
+    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+    //   console.log(line);
+    //   mainWindow.webContents.send("bitcoind-line", line);
+    // });
   });
   // Create the browser window.
   // mainWindow = new BrowserWindow({

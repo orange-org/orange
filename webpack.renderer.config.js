@@ -3,12 +3,8 @@ const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { TypedCssModulesPlugin } = require("typed-css-modules-webpack-plugin");
 
 const baseConfig = require("./webpack.base.config");
-
-const isDevelopment = process.env.NODE_ENV === "development";
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-renderer",
@@ -41,39 +37,6 @@ module.exports = merge.smart(baseConfig, {
         },
       },
       {
-        test: /\.module\.scss$/,
-        loader: [
-          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-              sourceMap: isDevelopment,
-            },
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: isDevelopment,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.scss$/,
-        exclude: /\.module\.scss$/,
-        loader: [
-          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: isDevelopment,
-            },
-          },
-        ],
-      },
-      {
         test: /\.(gif|png|jpe?g|svg)$/,
         use: [
           "file-loader",
@@ -101,13 +64,6 @@ module.exports = merge.smart(baseConfig, {
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),
-    }),
-    new MiniCssExtractPlugin({
-      filename: isDevelopment ? "[name].css" : "[name].[hash].css",
-      chunkFilename: isDevelopment ? "[id].css" : "[id].[hash].css",
-    }),
-    new TypedCssModulesPlugin({
-      globPattern: "src/**/*.scss",
     }),
   ],
 });

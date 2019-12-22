@@ -1,39 +1,36 @@
-import React from "react";
-import { connect } from "react-redux";
-// import { State } from "./types";
-import { shouldShowSplashScreen } from "./selectors";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import * as selectors from "./selectors";
 import { SplashScreen } from "./SplashScreen";
 
-import * as styles from "./index.module.scss";
+function useShouldShowSplashScreen() {
+  const shouldShowSplashScreenSelectorResult = useSelector(
+    selectors.shouldShowSplashScreen,
+  );
+  const [shouldWaitForSplashScreen, setShouldWaitForSplashScreen] = useState(
+    true,
+  );
 
-type State = {
-  systemPreferences: any;
-};
+  useEffect(() => {
+    setTimeout(() => {
+      setShouldWaitForSplashScreen(false);
+    }, 6000);
+  }, []);
 
-class IndexComponent extends React.Component<State> {
-  render() {
-    const { systemPreferences } = this.props;
-
-    console.log("systemPreferences", systemPreferences);
-
-    return (
-      <div
-        className={styles.index}
-        style={{
-          background: systemPreferences.colorWindowBackground,
-        }}
-      >
-        {shouldShowSplashScreen && <SplashScreen />}
-      </div>
-    );
-  }
+  return shouldShowSplashScreenSelectorResult || shouldWaitForSplashScreen;
 }
 
-const mapStateToProps = (state: State) => {
-  return {
-    systemPreferences: state.systemPreferences,
-    shouldShowSplashScreen: shouldShowSplashScreen(state),
-  };
-};
+export const Index: React.FC = () => {
+  const systemPreferences = useSelector(selectors.getSystemPreferences);
+  const shouldShowSplashScreen = useShouldShowSplashScreen();
 
-export const Index = connect(mapStateToProps)(IndexComponent);
+  return (
+    <div
+      style={{
+        background: systemPreferences.colorWindowBackground,
+      }}
+    >
+      {shouldShowSplashScreen && <SplashScreen />}
+    </div>
+  );
+};

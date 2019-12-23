@@ -9,6 +9,7 @@ const Container = styled.div`
   height: 100%;
   background-color: ${(props: { backgroundColor: string }) =>
     props.backgroundColor};
+  overflow: hidden;
 `;
 
 const useShouldShowSplashScreen = () => {

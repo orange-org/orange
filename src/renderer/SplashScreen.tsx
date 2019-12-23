@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import * as styles from "./styles";
 
 const Container = styled.div`
   width: 480px;
@@ -9,6 +10,9 @@ const Container = styled.div`
     white,
     RGB(247, 247, 247) 85%
   );
+  ${styles.roundedCorners};
+  ${styles.shadow};
+  ${styles.centerInParent};
 `;
 
 export const SplashScreen: React.FC = () => {

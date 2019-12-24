@@ -25,16 +25,16 @@
     "jsx": "preserve",
 
     "pretty": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
     "declaration": false, // emit declarations
     "importHelpers": false, // importing helper functions from tslib
     "noEmitHelpers": true, // disable emitting inline helper functions
     "removeComments": true,
-    "stripInternal": true,
+    "stripInternal": true
 
-    "paths": {
-      "*": ["*", "./*"]
-    }
+    // "paths": {
+    //   "renderer/*": ["renderer/*"]
+    // }
   },
   "include": ["src/**/*"]
 }

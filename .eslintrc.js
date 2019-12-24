@@ -37,7 +37,6 @@ module.exports = {
       },
     ],
     "no-unused-vars": "off",
-    "react/prefer-stateless-function": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "@typescript-eslint/no-unused-vars": [
       "error",

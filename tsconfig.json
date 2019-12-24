@@ -30,7 +30,8 @@
     "importHelpers": false, // importing helper functions from tslib
     "noEmitHelpers": true, // disable emitting inline helper functions
     "removeComments": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "resolveJsonModule": true
 
     // "paths": {
     //   "renderer/*": ["renderer/*"]

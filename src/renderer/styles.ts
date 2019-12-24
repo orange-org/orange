@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 
 export const roundedCorners = css`
-  border-radius: 7px;
+  border-radius: 6px;
 `;
 
 export const shadow = css`

@@ -34,10 +34,12 @@ module.exports = {
         jsx: "never",
         ts: "never",
         tsx: "never",
+        json: "allow",
       },
     ],
     "no-unused-vars": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
+    "react/jsx-one-expression-per-line": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

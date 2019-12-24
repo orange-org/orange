@@ -1,7 +1,5 @@
 import { State } from "./types";
 
-// import { RootState } from "./types";
-
 export function shouldShowSplashScreen(state: State) {
   return state.bitcoindOutput.initMessage !== "Done loading";
 }

@@ -1,13 +1,13 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
-import { createInterface } from "readline";
+// import { createInterface } from "readline";
 import { installExtensions } from "./install-extensions";
-import { startBitcoind } from "./start-bitcoind";
+// import { startBitcoind } from "./start-bitcoind";
 // import { join } from "path";
 
 let mainWindow: BrowserWindow;
 
 // const bitcoindProcess = startBitcoind();
-const bitcoindProcess = { stdout: "" };
+// const bitcoindProcess = { stdout: "" };
 
 function createWindow() {
   installExtensions();

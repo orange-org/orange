@@ -3,11 +3,11 @@ import { setSystemPreference, receiveBitcoindLine } from "./actions";
 import { store } from "./store";
 
 export function registerIpcListeners() {
-  ipcRenderer.on("system-preference", (event, message) => {
+  ipcRenderer.on("system-preference", (_event, message) => {
     store.dispatch(setSystemPreference(message));
   });
 
-  ipcRenderer.on("bitcoind-line", (event, line) => {
+  ipcRenderer.on("bitcoind-line", (_event, line) => {
     store.dispatch(receiveBitcoindLine(line));
   });
 }

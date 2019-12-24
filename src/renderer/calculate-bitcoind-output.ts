@@ -1,6 +1,6 @@
-/* eslint-disable no-cond-assign */
-// import { State } from "./types";
+import { State } from "./types";
 
+/* eslint-disable no-cond-assign */
 const initMessage = "init message: ";
 const timestampRegExp = /\d{4}-\d{2}-\d{2}\D\d{2}:\d{2}:\d{2}\D\s/;
 
@@ -9,17 +9,17 @@ function parseLine(line: string, prefix: string) {
 }
 
 export function calculateBitcoindOutput(
-  bitcoindOutputState: any,
+  bitcoindOutput: State["bitcoindOutput"],
   line: string,
-): any {
+) {
   let parsedLine;
 
   if ((parsedLine = parseLine(line, initMessage))) {
     return {
-      ...bitcoindOutputState,
+      ...bitcoindOutput,
       initMessage: parsedLine[1],
     };
   }
 
-  return bitcoindOutputState;
+  return bitcoindOutput;
 }

@@ -4,7 +4,7 @@ import { State } from "./types";
 import { calculateBitcoindOutput } from "./calculate-bitcoind-output";
 
 const initialState: State = {
-  systemPreferences: { foo: "It workzzz!" },
+  systemPreferences: {},
   bitcoindOutput: {
     initMessage: "",
   },

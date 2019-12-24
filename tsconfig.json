@@ -1,25 +1,40 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "node",
-    "pretty": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+
     "strict": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "jsx": "react",
-    "paths": {},
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "module": "commonjs",
+    "target": "ES2017",
+    "sourceMap": true,
+
+    "skipLibCheck": true,
+
+    "allowJs": true,
+    "checkJs": true,
+    "maxNodeModuleJsDepth": 2,
+
+    "jsx": "preserve",
+
+    "pretty": true,
+    "baseUrl": "./src",
     "declaration": false, // emit declarations
     "importHelpers": false, // importing helper functions from tslib
     "noEmitHelpers": true, // disable emitting inline helper functions
-    "noEmitOnError": true,
     "removeComments": true,
     "stripInternal": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
+
+    "paths": {
+      "*": ["*", "./*"]
+    }
   },
   "include": ["src/**/*"]
 }

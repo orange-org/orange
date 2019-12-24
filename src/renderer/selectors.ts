@@ -1,4 +1,4 @@
-import { State } from "./types";
+import { State } from "./reducers";
 
 export function shouldShowSplashScreen(state: State) {
   return state.bitcoindOutput.initMessage !== "Done loading";

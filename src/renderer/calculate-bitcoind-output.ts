@@ -1,4 +1,4 @@
-import { State } from "./types";
+import { State } from "./reducers";
 
 /* eslint-disable no-cond-assign */
 const initMessage = "init message: ";

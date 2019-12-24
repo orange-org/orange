@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import * as styles from "renderer/styles";
 import bitcoinPng from "assets/bitcoin.png";
+import * as selectors from "renderer/selectors";
 
 import { version } from "../../package.json";
 
@@ -54,19 +56,22 @@ const BottomAlignedContainerWithCenteredContent = styled.div`
 `;
 
 export const SplashScreen: React.FC = () => {
+  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersionShort);
+  const initMessage = useSelector(selectors.getInitMessage);
+
   return (
     <Container>
       <TopRow>
         <RightAlignedContainerWithLeftJustifiedContent>
           <Title>Orange</Title>
           <Version>Version {version}</Version>
-          <Version>Bitcoin Core version v0.19.99.0</Version>
+          <Version>Bitcoin Core version {bitcoinCoreVersion}</Version>
         </RightAlignedContainerWithLeftJustifiedContent>
       </TopRow>
 
       <BottomRow>
         <BottomAlignedContainerWithCenteredContent>
-          Loading block index...
+          {initMessage}
         </BottomAlignedContainerWithCenteredContent>
       </BottomRow>
     </Container>

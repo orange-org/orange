@@ -5,13 +5,14 @@ import { calculateBitcoindOutput } from "./calculate-bitcoind-output";
 
 export type State = DeepReadonly<{
   systemPreferences: { [name: string]: string };
-  bitcoindOutput: { initMessage: string };
+  bitcoindOutput: { initMessage: string; version: string };
 }>;
 
 const initialState: State = {
   systemPreferences: {},
   bitcoindOutput: {
     initMessage: "",
+    version: "",
   },
 };
 
@@ -23,10 +24,13 @@ export const orangeApp = createReducer(initialState)
       ...action.payload,
     },
   }))
-  .handleAction(receiveBitcoindLine, (state, action) => ({
-    ...state,
-    bitcoindOutput: calculateBitcoindOutput(
-      state.bitcoindOutput,
-      action.payload,
-    ),
-  }));
+  .handleAction(
+    receiveBitcoindLine,
+    (state, action): State => ({
+      ...state,
+      bitcoindOutput: calculateBitcoindOutput(
+        state.bitcoindOutput,
+        action.payload,
+      ),
+    }),
+  );

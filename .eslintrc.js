@@ -23,7 +23,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "@typescript-eslint", "import"],
   rules: {
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
@@ -53,6 +53,9 @@ module.exports = {
       version: "detect",
     },
     "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+      },
       node: {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       },

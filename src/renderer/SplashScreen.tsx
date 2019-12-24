@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import bitcoinPng from "../assets/bitcoin.png";
-import * as styles from "./styles";
+import * as styles from "src/renderer/styles";
+import bitcoinPng from "src/assets/bitcoin.png";
 
 const Container = styled.div`
   width: 480px;

@@ -25,7 +25,7 @@
     "jsx": "preserve",
 
     "pretty": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "declaration": false, // emit declarations
     "importHelpers": false, // importing helper functions from tslib
     "noEmitHelpers": true, // disable emitting inline helper functions

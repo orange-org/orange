@@ -7,7 +7,7 @@ const { join } = require("path");
 const baseConfig = require("./webpack.base.config");
 
 module.exports = merge.smart(baseConfig, {
-  target: "electron-renderer",
+  target: "web",
   entry: {
     app: [
       "@babel/polyfill",

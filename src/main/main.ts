@@ -1,10 +1,12 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
-import { createInterface } from "readline";
+// import { createInterface } from "readline";
+// import { startBitcoind } from "./start-bitcoind";
 import { installExtensions } from "./install-extensions";
-import { startBitcoind } from "./start-bitcoind";
 // import { join } from "path";
 
-let mainWindow: BrowserWindow;
+app.enableSandbox();
+
+let mainWindow: BrowserWindow | null;
 
 function createWindow() {
   installExtensions();
@@ -12,7 +14,13 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     center: true,
     title: "Orange",
-    webPreferences: { nodeIntegration: true },
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+      nodeIntegrationInSubFrames: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+    },
   });
 
   // mainWindow.loadURL(
@@ -27,19 +35,22 @@ function createWindow() {
   mainWindow.loadURL(`http://localhost:2003`);
 
   mainWindow.webContents.on("did-finish-load", () => {
+    if (!mainWindow) return;
+
     mainWindow.webContents.send("system-preference", {
       colorWindowBackground: systemPreferences.getColor("window-background"),
     });
 
-    const bitcoindProcess = startBitcoind();
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      console.log(line);
-      mainWindow.webContents.send("bitcoind-line", line);
-    });
+    // const bitcoindProcess = startBitcoind();
+    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+    //   if (!mainWindow) return;
+    //   console.log(line);
+    //   mainWindow.webContents.send("bitcoind-line", line);
+    // });
 
-    createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
-      console.log(line);
-    });
+    // createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
+    //   console.log(line);
+    // });
   });
   // Create the browser window.
   // mainWindow = new BrowserWindow({
@@ -61,7 +72,7 @@ function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    // mainWindow = null;
+    mainWindow = null;
   });
 }
 

@@ -9,8 +9,8 @@ module.exports = merge.smart(baseConfig, {
     },
   },
   devServer: {
+    writeToDisk: true,
     port: 2003,
-    https: true,
     compress: true,
     noInfo: true,
     stats: "errors-only",

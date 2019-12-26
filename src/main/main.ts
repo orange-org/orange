@@ -37,8 +37,7 @@ function createWindow() {
   //   },
   // );
 
-  // process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1";
-  mainWindow.loadURL(`http://localhost:2003`);
+  mainWindow.loadFile(join(__dirname, "index.html"));
 
   mainWindow.webContents.on("did-finish-load", () => {
     if (!mainWindow) return;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { app, BrowserWindow, systemPreferences } from "electron";
 import { join } from "path";
 import { createInterface } from "readline";
@@ -15,17 +16,28 @@ function createWindow() {
     center: true,
     title: "Orange",
     webPreferences: {
+      // The below configurations are set to achieve the maximum
+      // security possible in Electron
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
       nodeIntegrationInSubFrames: false,
       nodeIntegrationInWorker: false,
+      allowRunningInsecureContent: false,
       sandbox: true,
       preload: join(__dirname, "preload.js"),
     },
   });
 
-  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1";
+  // This prevents Electron from making any network requests to the outside
+  // world.
+  // mainWindow.webContents.session.webRequest.onBeforeRequest(
+  //   (details, response) => {
+  //     response({ cancel: !isWhitelistedUrl(detials.url) });
+  //   },
+  // );
+
+  // process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1";
   mainWindow.loadURL(`http://localhost:2003`);
 
   mainWindow.webContents.on("did-finish-load", () => {
@@ -38,19 +50,19 @@ function createWindow() {
       },
     });
 
-    const bitcoindProcess = startBitcoind();
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      if (!mainWindow) return;
-      console.log(line);
-      mainWindow.webContents.send("message-from-main", {
-        type: "bitcoind-line",
-        message: line,
-      });
-    });
+    // const bitcoindProcess = startBitcoind();
+    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+    //   if (!mainWindow) return;
+    //   console.log(line);
+    //   mainWindow.webContents.send("message-from-main", {
+    //     type: "bitcoind-line",
+    //     message: line,
+    //   });
+    // });
 
-    createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
-      console.log(line);
-    });
+    // createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
+    //   console.log(line);
+    // });
   });
 
   // // Open the DevTools.

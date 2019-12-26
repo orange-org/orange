@@ -5,6 +5,7 @@
   "license": "Unlicense",
   "scripts": {
     "wds": "webpack-dev-server --config webpack.renderer.dev.config.js",
+    "build-renderer": "webpack --config webpack.renderer.config.js",
     "electron": "webpack --config webpack.main.config.js && npm run copy-bitcoind && electron ./dist/main.js",
     "copy-bitcoind": "cp -R src/vendor dist/vendor",
     "lint": "eslint '**/*.{ts,tsx,js}'",

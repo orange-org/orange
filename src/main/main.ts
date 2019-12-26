@@ -1,8 +1,8 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
-// import { createInterface } from "readline";
-// import { startBitcoind } from "./start-bitcoind";
+import { join } from "path";
+import { createInterface } from "readline";
+import { startBitcoind } from "./start-bitcoind";
 import { installExtensions } from "./install-extensions";
-// import { join } from "path";
 
 app.enableSandbox();
 
@@ -16,20 +16,14 @@ function createWindow() {
     title: "Orange",
     webPreferences: {
       contextIsolation: true,
+      enableRemoteModule: false,
       nodeIntegration: false,
       nodeIntegrationInSubFrames: false,
       nodeIntegrationInWorker: false,
       sandbox: true,
+      preload: join(__dirname, "preload.js"),
     },
   });
-
-  // mainWindow.loadURL(
-  //   format({
-  //     pathname: join(__dirname, "index.html"),
-  //     protocol: "file:",
-  //     slashes: true,
-  //   }),
-  // );
 
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1";
   mainWindow.loadURL(`http://localhost:2003`);
@@ -37,32 +31,27 @@ function createWindow() {
   mainWindow.webContents.on("did-finish-load", () => {
     if (!mainWindow) return;
 
-    mainWindow.webContents.send("system-preference", {
-      colorWindowBackground: systemPreferences.getColor("window-background"),
+    mainWindow.webContents.send("message-from-main", {
+      type: "system-preference",
+      message: {
+        colorWindowBackground: systemPreferences.getColor("window-background"),
+      },
     });
 
-    // const bitcoindProcess = startBitcoind();
-    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-    //   if (!mainWindow) return;
-    //   console.log(line);
-    //   mainWindow.webContents.send("bitcoind-line", line);
-    // });
+    const bitcoindProcess = startBitcoind();
+    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+      if (!mainWindow) return;
+      console.log(line);
+      mainWindow.webContents.send("message-from-main", {
+        type: "bitcoind-line",
+        message: line,
+      });
+    });
 
-    // createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
-    //   console.log(line);
-    // });
+    createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
+      console.log(line);
+    });
   });
-  // Create the browser window.
-  // mainWindow = new BrowserWindow({
-  //   height: 600,
-  //   webPreferences: {
-  //     preload: path.join(__dirname, 'preload.js'),
-  //   },
-  //   width: 800,
-  // });
-
-  // // and load the index.html of the app.
-  // mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // // Open the DevTools.
   mainWindow.webContents.openDevTools();

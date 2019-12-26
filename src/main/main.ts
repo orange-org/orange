@@ -19,6 +19,7 @@ function createWindow() {
       // The below configurations are set to achieve the maximum
       // security possible in Electron
       contextIsolation: true,
+      webSecurity: true,
       enableRemoteModule: false,
       nodeIntegration: false,
       nodeIntegrationInSubFrames: false,
@@ -75,6 +76,19 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+// Disable web view creation
+app.on("web-contents-created", (event, contents) => {
+  event.preventDefault();
+
+  contents.on("will-attach-webview", contentEvent => {
+    contentEvent.preventDefault();
+  });
+
+  contents.on("new-window", contentEvent => {
+    contentEvent.preventDefault();
+  });
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

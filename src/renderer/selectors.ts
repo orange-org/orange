@@ -1,17 +1,16 @@
 import { createSelector } from "reselect";
 import { State } from "./reducers";
 
-export const shouldShowSplashScreen = (state: State) => {
-  return state.bitcoindOutput.initMessage !== "Done loading";
-};
+export const showSplashScreen = (state: State) =>
+  state.bitcoindOutput.initMessage !== "Done loading";
 
-export const getSystemPreferences = (state: State) => {
-  return state.systemPreferences;
-};
+export const showRpcConsole = (state: State) =>
+  state.bitcoindOutput.initMessage === "Done loading";
 
-export const getBitcoinCoreVersion = (state: State) => {
-  return state.bitcoindOutput.version;
-};
+export const getSystemPreferences = (state: State) => state.systemPreferences;
+
+export const getBitcoinCoreVersion = (state: State) =>
+  state.bitcoindOutput.version;
 
 export const getBitcoinCoreVersionShort = createSelector(
   getBitcoinCoreVersion,

@@ -2,9 +2,9 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
 import { join } from "path";
 import { createInterface } from "readline";
-import { startBitcoind } from "./start-bitcoind";
-import { installExtensions } from "./install-extensions";
-import { isWhitelistedUrl } from "./is-whitelisted-url";
+import { startBitcoind } from "./startBitcoind";
+import { installExtensions } from "./installExtensions";
+import { isWhitelistedUrl } from "./isWhitelistedUrl";
 
 app.enableSandbox();
 

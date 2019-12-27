@@ -3,8 +3,8 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { Index } from "./index";
 import { store } from "./store";
-import { registerListenersForMainProcess } from "./register-listeners-for-main-process";
-import { GlobalStyles } from "./global-styles";
+import { registerListenersForMainProcess } from "./registerListenersForMainProcess";
+import { GlobalStyles } from "./globalStyles";
 
 registerListenersForMainProcess();
 

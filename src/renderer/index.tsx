@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import * as selectors from "./selectors";
 import { SplashScreen } from "./SplashScreen";
+import { RpcConsole } from "./RpcConsole";
 
 const Container = styled.div`
   width: 100%;
@@ -12,30 +13,30 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const useShouldShowSplashScreen = () => {
-  const shouldShowSplashScreenSelectorResult = useSelector(
-    selectors.shouldShowSplashScreen,
+const useShowSplashScreen = () => {
+  const showSplashScreenSelectorResult = useSelector(
+    selectors.showSplashScreen,
   );
-  const [shouldWaitForSplashScreen, setShouldWaitForSplashScreen] = useState(
-    true,
-  );
+  const [waitForSplashScreen, setWaitForSplashScreen] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setShouldWaitForSplashScreen(false);
+      setWaitForSplashScreen(false);
     }, 6000);
   }, []);
 
-  return shouldShowSplashScreenSelectorResult || shouldWaitForSplashScreen;
+  return showSplashScreenSelectorResult || waitForSplashScreen;
 };
 
 export const Index: React.FC = () => {
   const systemPreferences = useSelector(selectors.getSystemPreferences);
-  const shouldShowSplashScreen = useShouldShowSplashScreen();
+  const showSplashScreen = useShowSplashScreen();
+  const showRpcConsole = useSelector(selectors.showRpcConsole);
 
   return (
     <Container backgroundColor={systemPreferences.colorWindowBackground}>
-      {shouldShowSplashScreen && <SplashScreen />}
+      {showSplashScreen && <SplashScreen />}
+      {showRpcConsole && !showSplashScreen && <RpcConsole />}
     </Container>
   );
 };

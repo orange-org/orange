@@ -1,7 +1,7 @@
 import { createReducer } from "typesafe-actions";
 import { DeepReadonly } from "utility-types";
 import { setSystemPreference, receiveBitcoindLine } from "./actions";
-import { calculateBitcoindOutput } from "./calculate-bitcoind-output";
+import { calculateBitcoindOutput } from "./calculateBitcoindOutput";
 
 export type State = DeepReadonly<{
   systemPreferences: { [name: string]: string };

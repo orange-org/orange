@@ -16,7 +16,7 @@ In Orange the `main` process handles the native environment. It uses Node.js to 
 
 ### The `renderer` process
 
-`main` then starts the `renderer` process. The `renderer` process is where Orange UI code actually is.
+`main` starts the `renderer` process. The `renderer` process is where Orange UI code actually is.
 
 The `renderer` process has no access to Node.js APIs, the filesystem, or any operating system features. The `renderer` process is also prohibited from:
 
@@ -25,7 +25,7 @@ The `renderer` process has no access to Node.js APIs, the filesystem, or any ope
 - opening webpages
 - navigating
 
-`renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser. The `renderer` process uses npm modules.
+`renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
 
 ### How does `renderer` get the data to display if it's sandboxed
 
@@ -37,13 +37,13 @@ When `renderer` wants to send an RPC message to `bitcoind`, it sends that messag
 
 ### npm modules pose a security risk
 
-The goal of this architecture is to keep Orange secure even if a compromised npm module slipped unnoticed into its code.
+While npm modules pose a security risk, we don't want to unnecessarily limit their use. The JavaScript ecosystem is rich. We want to benefit from it if we can do so safely.
 
-At the same time, we don't want to unnecessarily limit our use of npm modules. The JavaScript ecosystem is rich. We want to benefit from it if we can do so safely.
+The goal of this architecture is to keep Orange secure even if a compromised npm module were to slip into the code unnoticed.
 
 ### npm modules outside of the `renderer` process
 
-Currently, the build and development steps of Orange use npm modules such as `webpack` and its related plugins to generate the Orange distributable code. This poses a security risk that should be evaluated and fixed.
+Currently, the build and development steps of Orange use npm modules such as `webpack` and related plugins to generate the Orange distributable code. This poses a security risk that should be evaluated and fixed.
 
 <details><summary>Some implementation details</summary>
 

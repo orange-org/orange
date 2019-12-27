@@ -4,6 +4,7 @@ import { join } from "path";
 import { createInterface } from "readline";
 import { startBitcoind } from "./start-bitcoind";
 import { installExtensions } from "./install-extensions";
+import { isWhitelistedUrl } from "./is-whitelisted-url";
 
 app.enableSandbox();
 
@@ -26,17 +27,19 @@ function createWindow() {
       nodeIntegrationInWorker: false,
       allowRunningInsecureContent: false,
       sandbox: true,
+
       preload: join(__dirname, "preload.js"),
     },
   });
 
   // This prevents Electron from making any network requests to the outside
-  // world.
-  // mainWindow.webContents.session.webRequest.onBeforeRequest(
-  //   (details, response) => {
-  //     response({ cancel: !isWhitelistedUrl(detials.url) });
-  //   },
-  // );
+  // world. It also prevents loading any content from a non-whitelisted domain.
+  // This provides redundancy to the content security policy set on the `renderer` process
+  mainWindow.webContents.session.webRequest.onBeforeRequest(
+    (details, response) => {
+      response({ cancel: !isWhitelistedUrl(details.url) });
+    },
+  );
 
   mainWindow.loadFile(join(__dirname, "index.html"));
 
@@ -78,9 +81,7 @@ function createWindow() {
 }
 
 // Disable web view creation
-app.on("web-contents-created", (event, contents) => {
-  event.preventDefault();
-
+app.on("web-contents-created", (_event, contents) => {
   contents.on("will-attach-webview", contentEvent => {
     contentEvent.preventDefault();
   });
@@ -111,6 +112,3 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.

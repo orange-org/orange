@@ -66,17 +66,22 @@ module.exports = merge.smart(baseConfig, {
       template: join(__dirname, "src", "renderer", "index.html"),
       templateParameters: {
         contentSecurityPolicy: [
-          // Allow the following actions
-
-          // This is
-          ["script-src-elem", isDevelopment ? "'self'" : "'none'"],
-          ["style-src-elem", "'none'"],
-          ["connect-src", "'none'"],
-          ["img-src", "'none'"],
-          // ["style-src-elem", "'unsafe-inline'"],
-          // ["connect-src", "http: ws: file: 'self'"],
-          // ["script-src-elem", "'self'"],
-          // ["img-src", "'self'"],
+          // This is needed for styled-components to be able to inline itself
+          // I looked into using a nonce or a hash but that didn't make sense.
+          // See https://github.com/orange-org/orange/issues/1
+          ["style-src-elem", "'unsafe-inline'"],
+          [
+            "connect-src",
+            isDevelopment
+              ? // For development:
+                // http: and ws: are needed for hot module replacement
+                "http: ws:"
+              : // For production, prohibit all outbound connections
+                "'none'",
+          ],
+          // Allow scripts and images loaded from the same location as index.html
+          ["script-src-elem", "'self'"],
+          ["img-src", "'self'"],
 
           // Completely disallow the following
           ["child-src", "'none'"],
@@ -98,7 +103,6 @@ module.exports = merge.smart(baseConfig, {
 
           return `${previousValue}${directive} ${source};`;
         }, ""),
-        // "style-src-elem 'unsafe-inline'; script-src-elem 'self'; img-src 'self'; connect-src http: ws: file: 'self'; child-src 'none'; font-src 'none'; frame-src 'none'; manifest-src 'none'; media-src 'none'; object-src 'none'; script-src 'none'; script-src-attr 'none'; style-src 'none'; style-src-attr 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; navigate-to 'none';",
       },
     }),
     new webpack.DefinePlugin({

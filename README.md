@@ -25,6 +25,22 @@ The `renderer` process has no access to Node.js APIs, the filesystem, or any ope
 - opening webpages
 - navigating
 
+<details><summary>Some implementation details</summary>
+
+We implement the [security recommendations](https://electronjs.org/docs/tutorial/security?q=j#checklist-security-recommendations) provided by Electron. Many of these recommendations are particular to loading "remote content", that is content over the network. In Orange we disable networking completely, but we consider npm modules in the `renderer` process to be equivalent to "remote content" so we follow these recommendations as strictly as possible:
+
+- Node integration is disabled
+- Content isolation is enabled
+- Web security is enabled
+- A strict content security policy is provided
+- Running insecure content is disabled
+- No experimental Chromium or Blink features are used
+- WebView creation is disabled
+- Navigation is disabled
+- The remote module is disabled
+
+</details>
+
 `renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
 
 ### How does `renderer` get the data to display if it's sandboxed?
@@ -43,11 +59,11 @@ The goal of this architecture is to keep Orange secure even if a compromised npm
 
 ### How is the communication between `renderer` and `main` secured?
 
-`main` and `renderer` use a nonce (i.e. password) to communicate with each other. This nonce is generated and agreed upon only after all the npm modules have been downloaded, so remote code has no way of knowing what this nonce is.
+`main` and `renderer` use a nonce (i.e. password) to communicate with each other. This nonce is generated and agreed upon only after all the npm modules have been downloaded, so remote code has no way of knowing what it is.
 
 <details><summary>Implementation details</summary>
 
-After the npm modules have been downloaded but before the Orange distributable is created, the string `__NONCE__` in the code will be replaced with a base64 encoded random bytes. This nonce is only known to the local Orange code, not to the npm modules.
+After the npm modules have been downloaded but before the Orange distributable is created, the string `__NONCE__` in the code will be replaced with a base64 encoded random bytes. Care has to be taken to make sure this nonce is only known to the local Orange code, not to the npm modules.
 
 </details>
 
@@ -55,27 +71,11 @@ After the npm modules have been downloaded but before the Orange distributable i
 
 Currently, the build and development steps of Orange use npm modules such as `webpack` and related plugins to generate the Orange distributable code. This poses a security risk that should be evaluated and fixed.
 
-<details><summary>Some implementation details</summary>
-
-We implement the [security recommendations](https://electronjs.org/docs/tutorial/security?q=j#checklist-security-recommendations) provided by Electron. Many of these recommendations are particular to loading "remote content", that is content over the network. In Orange we disable networking completely, but we consider npm modules in the `renderer` process to be equivalent to "remote content" so we follow these recommendations as strictly as possible:
-
-- Node integration is disabled
-- Content isolation is enabled
-- Web security is enabled
-- A strict content security policy is provided
-- Running insecure content is disabled
-- No experimental Chromium or Blink features are used
-- WebView creation is disabled
-- Navigation is disabled
-- The remote module is disabled
-
-</details>
-
 ## Decisions and rationale
 
 ### Match Bitcoin Core Qt as closely as possible
 
-One of the main goals of this project is to explore if using TypeScript and Electron for the UI will improve the process of Bitcoin software development in general. This project is not meant to provide an alternative user experience.
+One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating.
 
 ## Todos
 

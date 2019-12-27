@@ -27,7 +27,7 @@ The `renderer` process has no access to Node.js APIs, the filesystem, or any ope
 
 `renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
 
-### How does `renderer` get the data to display if it's sandboxed
+### How does `renderer` get the data to display if it's sandboxed?
 
 This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It can relay messages between the two.
 
@@ -40,6 +40,16 @@ When `renderer` wants to send an RPC message to `bitcoind`, it sends that messag
 While npm modules pose a security risk, we don't want to unnecessarily limit their use. The JavaScript ecosystem is rich. We want to benefit from it if we can do so safely.
 
 The goal of this architecture is to keep Orange secure even if a compromised npm module were to slip into the code unnoticed.
+
+### How is the communication between `renderer` and `main` secured?
+
+`main` and `renderer` use a nonce (i.e. password) to communicate with each other. This nonce is generated and agreed upon only after all the npm modules have been downloaded, so remote code has no way of knowing what this nonce is.
+
+<details><summary>Implementation details</summary>
+
+After the npm modules have been downloaded but before the Orange distributable is created, the string `__NONCE__` in the code will be replaced with a base64 encoded random bytes. This nonce is only known to the local Orange code, not to the npm modules.
+
+</details>
 
 ### npm modules outside of the `renderer` process
 

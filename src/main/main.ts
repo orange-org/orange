@@ -47,25 +47,29 @@ function createWindow() {
     if (!mainWindow) return;
 
     mainWindow.webContents.send("message-from-main", {
+      scope: "orange",
       type: "system-preference",
+      nonce: __NONCE__,
       message: {
         colorWindowBackground: systemPreferences.getColor("window-background"),
       },
     });
 
-    // const bitcoindProcess = startBitcoind();
-    // createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-    //   if (!mainWindow) return;
-    //   console.log(line);
-    //   mainWindow.webContents.send("message-from-main", {
-    //     type: "bitcoind-line",
-    //     message: line,
-    //   });
-    // });
+    const bitcoindProcess = startBitcoind();
+    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
+      if (!mainWindow) return;
+      console.log(line);
+      mainWindow.webContents.send("message-from-main", {
+        scope: "orange",
+        type: "bitcoind-line",
+        nonce: __NONCE__,
+        message: line,
+      });
+    });
 
-    // createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
-    //   console.log(line);
-    // });
+    createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
+      console.log(line);
+    });
   });
 
   // // Open the DevTools.

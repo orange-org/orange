@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+const { DefinePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
@@ -35,7 +35,7 @@ module.exports = merge.smart(baseConfig, {
     new ForkTsCheckerWebpackPlugin({
       reportFiles: ["src/main/**/*"],
     }),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),

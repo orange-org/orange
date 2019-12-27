@@ -1,6 +1,6 @@
+/* eslint-disable no-cond-assign */
 import { State } from "./reducers";
 
-/* eslint-disable no-cond-assign */
 const initMessage = "init message: ";
 const bitcoinCoreVersion = "Bitcoin Core version ";
 const timestampRegExp = /\d{4}-\d{2}-\d{2}\D\d{2}:\d{2}:\d{2}\D\s/;

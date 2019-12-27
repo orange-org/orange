@@ -1,5 +1,7 @@
 const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const { DefinePlugin } = require("webpack");
+const crypto = require("crypto");
 
 module.exports = {
   mode: "development",
@@ -16,5 +18,9 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin()],
   },
   devtool: "source-map",
-  plugins: [],
+  plugins: [
+    new DefinePlugin({
+      __NONCE__: JSON.stringify(crypto.randomBytes(16).toString("base64")),
+    }),
+  ],
 };

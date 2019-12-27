@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+const { DefinePlugin, NamedModulesPlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
@@ -60,7 +60,7 @@ module.exports = merge.smart(baseConfig, {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
-    new webpack.NamedModulesPlugin(),
+    new NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       title: "Orange",
       template: join(__dirname, "src", "renderer", "index.html"),
@@ -73,9 +73,8 @@ module.exports = merge.smart(baseConfig, {
           [
             "connect-src",
             isDevelopment
-              ? // For development:
-                // http: and ws: are needed for hot module replacement
-                "http: ws:"
+              ? // These are needed for hot module replacement during development
+                "http: ws: file:"
               : // For production, prohibit all outbound connections
                 "'none'",
           ],
@@ -98,14 +97,14 @@ module.exports = merge.smart(baseConfig, {
           ["base-uri", "'none'"],
           ["form-action", "'none'"],
           ["navigate-to", "'none'"],
-        ].reduce((previousValue, currentValue) => {
-          const [directive, source] = currentValue;
-
-          return `${previousValue}${directive} ${source};`;
-        }, ""),
+        ].reduce(
+          (previousValue, [directive, source]) =>
+            `${previousValue}${directive} ${source};`,
+          "",
+        ),
       },
     }),
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),

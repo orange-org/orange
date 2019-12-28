@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { app, BrowserWindow, systemPreferences } from "electron";
+import { app, BrowserWindow, systemPreferences, ipcMain } from "electron";
 import { join } from "path";
 import { createInterface } from "readline";
-import { MessageFromMain } from "typings/types";
-import { startBitcoind } from "./startBitcoind";
-import { installExtensions } from "./installExtensions";
-import { isWhitelistedUrl } from "./isWhitelistedUrl";
+import { MessageFromMain, RpcRequest } from "typings/types";
+import { startBitcoind } from "main/startBitcoind";
+import { installExtensions } from "main/installExtensions";
+import { isWhitelistedUrl } from "main/isWhitelistedUrl";
+import { sendRpcRequestToBitcoind } from "main/sendRpcRequestToBitcoind";
 
 app.enableSandbox();
 
@@ -66,7 +67,7 @@ function createWindow() {
 
     const bitcoindProcess = startBitcoind();
     createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      console.log(line);
+      // console.log(line);
       broadcastMessage({
         nonce: __NONCE__,
         type: "bitcoind-line",
@@ -78,12 +79,16 @@ function createWindow() {
       console.log(line);
     });
 
+    ipcMain.on("message-from-renderer", (_event, data: RpcRequest) => {
+      sendRpcRequestToBitcoind(data);
+    });
+
     // setTimeout(() => {
     //   bitcoindProcess.kill("SIGINT");
     // }, 30000);
   });
 
-  // // Open the DevTools.
+  // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.

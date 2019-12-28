@@ -1,6 +1,6 @@
 import { MessageFromMain } from "typings/types";
-import { setSystemPreference, receiveBitcoindLine } from "./actions";
-import { store } from "./store";
+import { setSystemPreference, receiveBitcoindLine } from "renderer/actions";
+import { store } from "renderer/store";
 
 function isMessageFromMain(data: any): data is MessageFromMain<any> {
   return data.source === "@orange/main";

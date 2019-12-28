@@ -83,3 +83,4 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 - Organize imports
 - Write a cross-platform solution for copying `vendor/bitcoind` to `dist/`
 - Handle error when `bitcoind` is already running
+- Look into using HTTPS for RPC calls

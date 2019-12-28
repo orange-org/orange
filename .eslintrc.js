@@ -43,6 +43,7 @@ module.exports = {
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-no-undef": "off", // Not needed with TypeScript
     "import/no-unresolved": "off", // Not needed with Typescript
+    "react/jsx-curly-newline": "off", // Conflicts with Prettier
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

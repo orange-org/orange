@@ -4,4 +4,6 @@ ipcRenderer.on("message-from-main", (_event, data) => {
   window.postMessage(data, "*");
 });
 
-// window.addEventListener('message')
+window.addEventListener("message", event => {
+  ipcRenderer.send(event.data);
+});

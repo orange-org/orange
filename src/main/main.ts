@@ -2,6 +2,7 @@
 import { app, BrowserWindow, systemPreferences } from "electron";
 import { join } from "path";
 import { createInterface } from "readline";
+import { MessageFromMain } from "typings/types";
 import { startBitcoind } from "./startBitcoind";
 import { installExtensions } from "./installExtensions";
 import { isWhitelistedUrl } from "./isWhitelistedUrl";
@@ -9,6 +10,17 @@ import { isWhitelistedUrl } from "./isWhitelistedUrl";
 app.enableSandbox();
 
 let mainWindow: BrowserWindow | null;
+
+function broadcastMessage<MessageType>(
+  payload: Omit<MessageFromMain<MessageType>, "source">,
+) {
+  if (!mainWindow) return;
+
+  mainWindow.webContents.send("message-from-main", {
+    source: "@orange/main",
+    ...payload,
+  });
+}
 
 function createWindow() {
   installExtensions();
@@ -44,12 +56,9 @@ function createWindow() {
   mainWindow.loadFile(join(__dirname, "index.html"));
 
   mainWindow.webContents.on("did-finish-load", () => {
-    if (!mainWindow) return;
-
-    mainWindow.webContents.send("message-from-main", {
-      scope: "orange",
-      type: "system-preference",
+    broadcastMessage({
       nonce: __NONCE__,
+      type: "system-preference",
       message: {
         colorWindowBackground: systemPreferences.getColor("window-background"),
       },
@@ -57,12 +66,10 @@ function createWindow() {
 
     const bitcoindProcess = startBitcoind();
     createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      if (!mainWindow) return;
       console.log(line);
-      mainWindow.webContents.send("message-from-main", {
-        scope: "orange",
-        type: "bitcoind-line",
+      broadcastMessage({
         nonce: __NONCE__,
+        type: "bitcoind-line",
         message: line,
       });
     });

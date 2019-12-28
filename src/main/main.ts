@@ -70,6 +70,10 @@ function createWindow() {
     createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
       console.log(line);
     });
+
+    // setTimeout(() => {
+    //   bitcoindProcess.kill("SIGINT");
+    // }, 30000);
   });
 
   // // Open the DevTools.

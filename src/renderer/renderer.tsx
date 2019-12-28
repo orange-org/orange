@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Index } from "./index";
+import { Index } from "./Index";
 import { store } from "./store";
 import { registerListenersForMainProcess } from "./registerListenersForMainProcess";
 import { GlobalStyles } from "./globalStyles";

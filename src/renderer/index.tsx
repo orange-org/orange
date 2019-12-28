@@ -13,6 +13,22 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
+fetch("http://localhost:18332/", {
+  method: "POST",
+  headers: {
+    Authorization: `Basic ${Buffer.from("XXX:YYY").toString("base64")}`,
+    "content-type": "text/plain",
+  },
+  body: JSON.stringify({
+    jsonrpc: "1.0",
+    id: "curltest",
+    method: "getnetworkinfo",
+    params: [],
+  }),
+})
+  .then(response => response.json())
+  .then(data => console.log(data.result));
+
 const useShowSplashScreen = () => {
   const showSplashScreenSelectorResult = useSelector(
     selectors.showSplashScreen,

@@ -42,6 +42,7 @@ module.exports = {
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-no-undef": "off", // Not needed with TypeScript
+    "import/no-unresolved": "off", // Not needed with Typescript
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

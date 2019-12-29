@@ -1,6 +1,6 @@
 import { dirname } from "path";
+import { isDevelopment } from "./isDevelopment";
 
-const isDevelopment = process.env.NODE_ENV !== "production";
 const thisFileDirname = dirname(__filename);
 
 export const isWhitelistedUrl = (url: string) => {

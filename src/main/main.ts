@@ -1,30 +1,19 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { app, BrowserWindow, systemPreferences, ipcMain } from "electron";
+import { app, BrowserWindow } from "electron";
 import { join } from "path";
-import { createInterface } from "readline";
-import { MessageFromMain, RpcRequest } from "typings/types";
-import { startBitcoind } from "main/startBitcoind";
 import { installExtensions } from "main/installExtensions";
-import { isWhitelistedUrl } from "main/isWhitelistedUrl";
-import { sendRpcRequestToBitcoind } from "main/sendRpcRequestToBitcoind";
+import { isDevelopment } from "main/isDevelopment";
+import { performFinishLoadSetup } from "main/performFinishLoadSetup";
+import { preventNetworkRequests } from "./preventNetworkRequests";
+import { preventNewWebViewsAndWindows } from "./preventNewWebViewsAndWindows";
 
 app.enableSandbox();
 
-let mainWindow: BrowserWindow | null;
-
-function broadcastMessage<MessageType>(
-  payload: Omit<MessageFromMain<MessageType>, "source">,
-) {
-  if (!mainWindow) return;
-
-  mainWindow.webContents.send("message-from-main", {
-    source: "@orange/main",
-    ...payload,
-  });
-}
+let mainWindow: BrowserWindow;
 
 function createWindow() {
-  installExtensions();
+  if (isDevelopment) {
+    installExtensions();
+  }
 
   mainWindow = new BrowserWindow({
     center: true,
@@ -45,90 +34,25 @@ function createWindow() {
     },
   });
 
-  // This prevents Electron from making any network requests to the outside
-  // world. It also prevents loading any content from a non-whitelisted domain.
-  // This provides redundancy to the content security policy set on the `renderer` process
-  mainWindow.webContents.session.webRequest.onBeforeRequest(
-    (details, response) => {
-      response({ cancel: !isWhitelistedUrl(details.url) });
-    },
-  );
+  preventNetworkRequests(mainWindow);
 
   mainWindow.loadFile(join(__dirname, "index.html"));
 
   mainWindow.webContents.on("did-finish-load", () => {
-    broadcastMessage({
-      nonce: __NONCE__,
-      type: "system-preference",
-      message: {
-        colorWindowBackground: systemPreferences.getColor("window-background"),
-      },
-    });
-
-    const bitcoindProcess = startBitcoind();
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      // console.log(line);
-      broadcastMessage({
-        nonce: __NONCE__,
-        type: "bitcoind-line",
-        message: line,
-      });
-    });
-
-    createInterface({ input: bitcoindProcess.stderr }).on("line", line => {
-      console.log(line);
-    });
-
-    ipcMain.on("message-from-renderer", (_event, data: RpcRequest) => {
-      sendRpcRequestToBitcoind(data);
-    });
-
-    // setTimeout(() => {
-    //   bitcoindProcess.kill("SIGINT");
-    // }, 30000);
+    performFinishLoadSetup(mainWindow);
   });
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  // Emitted when the window is closed.
-  mainWindow.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+  if (isDevelopment) {
+    mainWindow.webContents.openDevTools();
+  }
 }
 
 // Disable web view creation
-app.on("web-contents-created", (_event, contents) => {
-  contents.on("will-attach-webview", contentEvent => {
-    contentEvent.preventDefault();
-  });
+app.on("web-contents-created", preventNewWebViewsAndWindows);
 
-  contents.on("new-window", contentEvent => {
-    contentEvent.preventDefault();
-  });
-});
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
 
-// Quit when all windows are closed.
 app.on("window-all-closed", () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
-
-app.on("activate", () => {
-  // On OS X it"s common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+  app.quit();
 });

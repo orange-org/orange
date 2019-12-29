@@ -29,6 +29,8 @@ export function registerListenersForMainProcess() {
         store.dispatch(setSystemPreference(data.message));
       } else if (isBitcoindLine(data)) {
         store.dispatch(receiveBitcoindLine(data.message));
+      } else {
+        console.log("data.message", data.message);
       }
     }
   });

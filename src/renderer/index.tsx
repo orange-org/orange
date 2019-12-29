@@ -22,13 +22,13 @@ const useShowSplashScreen = () => {
   useEffect(() => {
     setTimeout(() => {
       setWaitForSplashScreen(false);
-    }, 6000);
+    }, 3000);
   }, []);
 
   return showSplashScreenSelectorResult || waitForSplashScreen;
 };
 
-export const Index: React.FC = () => {
+const IndexFc: React.FC = () => {
   const systemPreferences = useSelector(selectors.getSystemPreferences);
   const showSplashScreen = useShowSplashScreen();
   const showRpcConsole = useSelector(selectors.showRpcConsole);
@@ -40,3 +40,13 @@ export const Index: React.FC = () => {
     </Container>
   );
 };
+
+export class Index extends React.Component {
+  componentDidCatch(error: Error | null) {
+    console.log("e", error);
+  }
+
+  render() {
+    return <IndexFc />;
+  }
+}

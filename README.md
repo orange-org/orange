@@ -25,6 +25,8 @@ The `renderer` process has no access to Node.js APIs, the filesystem, or any ope
 - opening webpages
 - navigating
 
+`renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
+
 <details><summary>Some implementation details</summary>
 
 We implement the [security recommendations](https://electronjs.org/docs/tutorial/security?q=j#checklist-security-recommendations) provided by Electron. Many of these recommendations are particular to loading "remote content", that is content over the network. In Orange we disable networking completely, but we consider npm modules in the `renderer` process to be equivalent to "remote content" so we follow these recommendations as strictly as possible:
@@ -40,8 +42,6 @@ We implement the [security recommendations](https://electronjs.org/docs/tutorial
 - The remote module is disabled
 
 </details>
-
-`renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
 
 ### How does `renderer` get the data to display if it's sandboxed?
 
@@ -75,7 +75,7 @@ Currently, the build and development steps of Orange use npm modules such as `we
 
 ### Match Bitcoin Core Qt as closely as possible
 
-One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating.
+One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating. However, Qt is a native framework. Electron is not. So Qt gives you native looking UI and colors for free. With Electron, building the UI is more like building a website. We don't get the native controls and colors out of the box. So the UI in Orange, while it tries to match the UI of Electron, it is not native. It uses [Material Design](https://material.io/design/) by way of [React Material UI](https://material-ui.com/) library.
 
 ## Todos
 

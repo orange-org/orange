@@ -1,10 +1,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { Index } from "./Index";
-import { store } from "./store";
-import { registerListenersForMainProcess } from "./registerListenersForMainProcess";
-import { GlobalStyles } from "./globalStyles";
+import { Index } from "renderer/Index";
+import { store } from "renderer/store";
+import { registerListenersForMainProcess } from "renderer/registerListenersForMainProcess";
+import { GlobalStyles } from "renderer/globalStyles";
+
+import "typeface-roboto";
 
 registerListenersForMainProcess();
 

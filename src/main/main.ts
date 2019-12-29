@@ -3,8 +3,9 @@ import { join } from "path";
 import { installExtensions } from "main/installExtensions";
 import { isDevelopment } from "main/isDevelopment";
 import { performFinishLoadSetup } from "main/performFinishLoadSetup";
-import { preventNetworkRequests } from "./preventNetworkRequests";
+import { preventNetworkAndResourceRequests } from "./preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "./preventNewWebViewsAndWindows";
+import { getAppRoot } from "./getAppRoot";
 
 app.enableSandbox();
 
@@ -34,9 +35,9 @@ function createWindow() {
     },
   });
 
-  preventNetworkRequests(mainWindow);
+  preventNetworkAndResourceRequests(mainWindow);
 
-  mainWindow.loadFile(join(__dirname, "index.html"));
+  mainWindow.loadFile(join(getAppRoot(), "renderer", "index.html"));
 
   mainWindow.webContents.on("did-finish-load", () => {
     performFinishLoadSetup(mainWindow);

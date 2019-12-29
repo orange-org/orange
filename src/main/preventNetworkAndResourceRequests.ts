@@ -1,7 +1,7 @@
 import { BrowserWindow } from "electron";
 import { isWhitelistedUrl } from "main/isWhitelistedUrl";
 
-export function preventNetworkRequests(mainWindow: BrowserWindow) {
+export function preventNetworkAndResourceRequests(mainWindow: BrowserWindow) {
   // This prevents Electron from making any network requests to the outside
   // world. It also prevents loading any content from a non-whitelisted domain.
   // This provides redundancy to the content security policy set on the `renderer` process

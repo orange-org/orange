@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import * as selectors from "./selectors";
-import { SplashScreen } from "./SplashScreen";
-import { RpcConsole } from "./RpcConsole";
+import * as selectors from "renderer/selectors";
+import { SplashScreen } from "renderer/SplashScreen";
+import { RpcConsole } from "renderer/RpcConsole";
 
 const Container = styled.div`
   width: 100%;

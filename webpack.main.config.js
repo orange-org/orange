@@ -11,6 +11,10 @@ module.exports = merge.smart(baseConfig, {
     main: join(__dirname, "src", "main", "main.ts"),
     preload: join(__dirname, "src", "main", "preload.ts"),
   },
+  output: {
+    path: join(__dirname, "dist", "main"),
+    filename: "[name].js",
+  },
   module: {
     rules: [
       {

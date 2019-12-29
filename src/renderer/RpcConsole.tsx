@@ -1,6 +1,7 @@
 import React from "react";
 import { sendRpcRequestToMain } from "renderer/SendRpcRequestToMain";
 import { useShortPolling } from "renderer/hooks";
+import Button from "@material-ui/core/Button";
 
 export const RpcConsole: React.FC = () => {
   useShortPolling(
@@ -15,9 +16,10 @@ export const RpcConsole: React.FC = () => {
   return (
     <>
       <p>RPC CONSOLE!!</p>
-      <button type="button" onClick={() => null}>
-        CLICK ME!
-      </button>
+
+      <Button variant="contained" color="primary">
+        Hello World
+      </Button>
     </>
   );
 };

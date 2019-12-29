@@ -16,6 +16,10 @@ module.exports = merge.smart(baseConfig, {
       join(__dirname, "src", "renderer", "renderer.tsx"),
     ],
   },
+  output: {
+    path: join(__dirname, "dist", "renderer"),
+    filename: "[name].js",
+  },
   module: {
     rules: [
       {
@@ -50,6 +54,14 @@ module.exports = merge.smart(baseConfig, {
           },
         ],
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        use: ["file-loader?name=fonts/[name].[ext]"],
+      },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",
@@ -81,10 +93,10 @@ module.exports = merge.smart(baseConfig, {
           // Allow scripts and images loaded from the same location as index.html
           ["script-src-elem", "'self'"],
           ["img-src", "'self'"],
+          ["font-src", "'self'"],
 
           // Completely disallow the following
           ["child-src", "'none'"],
-          ["font-src", "'none'"],
           ["frame-src", "'none'"],
           ["manifest-src", "'none'"],
           ["media-src", "'none'"],

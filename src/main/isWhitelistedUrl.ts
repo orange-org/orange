@@ -1,7 +1,6 @@
 import { dirname } from "path";
 import { isDevelopment } from "./isDevelopment";
-
-const thisFileDirname = dirname(__filename);
+import { getAppRoot } from "./getAppRoot";
 
 export const isWhitelistedUrl = (url: string) => {
   const { protocol, hostname, pathname } = new URL(url);
@@ -29,8 +28,8 @@ export const isWhitelistedUrl = (url: string) => {
   }
 
   // In either development or production, allow loading any file
-  // in the same directory as this file
-  if (protocol === "file:" && dirname(pathname) === thisFileDirname) {
+  // located in the app root directory
+  if (protocol === "file:" && pathname.match(new RegExp(`^${getAppRoot()}`))) {
     return true;
   }
 

@@ -1,10 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { Provider } from "react-redux";
+
 import { Index } from "renderer/Index";
 import { store } from "renderer/store";
 import { registerListenersForMainProcess } from "renderer/registerListenersForMainProcess";
-import { GlobalStyles } from "renderer/globalStyles";
+import { GlobalCss } from "renderer/globalStyles";
+import { theme } from "renderer/theme";
 
 import "typeface-roboto";
 
@@ -15,8 +18,11 @@ document.body.appendChild(mainElement);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Index />
-    <GlobalStyles />
+    <ThemeProvider theme={createMuiTheme(theme)}>
+      <CssBaseline />
+      <GlobalCss />
+      <Index />
+    </ThemeProvider>
   </Provider>,
   mainElement,
 );

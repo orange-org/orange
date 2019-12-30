@@ -4,14 +4,15 @@ import styled from "styled-components";
 import * as selectors from "renderer/selectors";
 import { SplashScreen } from "renderer/SplashScreen";
 import { RpcConsole } from "renderer/RpcConsole";
+import { Paper } from "@material-ui/core";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: ${(props: { backgroundColor: string }) =>
-    props.backgroundColor};
-  overflow: hidden;
-`;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   background-color: ${(props: { backgroundColor: string }) =>
+//     props.backgroundColor};
+//   overflow: hidden;
+// `;
 
 const useShowSplashScreen = () => {
   const showSplashScreenSelectorResult = useSelector(
@@ -29,15 +30,15 @@ const useShowSplashScreen = () => {
 };
 
 const IndexFc: React.FC = () => {
-  const systemPreferences = useSelector(selectors.getSystemPreferences);
   const showSplashScreen = useShowSplashScreen();
   const showRpcConsole = useSelector(selectors.showRpcConsole);
 
   return (
-    <Container backgroundColor={systemPreferences.colorWindowBackground}>
-      {showSplashScreen && <SplashScreen />}
-      {showRpcConsole && !showSplashScreen && <RpcConsole />}
-    </Container>
+    <>
+      <RpcConsole />
+      {/* {showSplashScreen && <SplashScreen />}
+      {showRpcConsole && !showSplashScreen && <RpcConsole />} */}
+    </>
   );
 };
 

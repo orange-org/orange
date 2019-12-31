@@ -1,3 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 
-declare const __NONCE__ = "__NONCE__";
+interface __NONCE__ extends string {
+  // Add a property with a random key
+  // to throw off TypeScript's duck typing
+  // and make it insist on __NONCE__ type
+  // specifically rather than any string
+  asdlj289amcagwajfs84jcmxaoeur: "";
+}
+
+declare const __NONCE__: __NONCE__;

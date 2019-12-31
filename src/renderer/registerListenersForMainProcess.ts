@@ -33,7 +33,7 @@ export function registerListenersForMainProcess() {
     const { data } = event;
 
     if (isMessageFromMain(data)) {
-      if (data.nonce !== "__NONCE__") {
+      if (data.nonce !== __NONCE__) {
         debugger;
       }
 

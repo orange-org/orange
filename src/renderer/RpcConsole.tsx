@@ -59,7 +59,7 @@ export const RpcConsole: React.FC = () => {
   useShortPolling(
     () =>
       sendRpcRequestToMain({
-        nonce: "__NONCE__",
+        nonce: __NONCE__,
         method: "getnetworkinfo",
       }),
     1000,

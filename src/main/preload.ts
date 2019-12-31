@@ -12,7 +12,7 @@ function isMessageFromRenderer(data: any): data is MessageFromRenderer<any> {
 window.addEventListener("message", event => {
   const { data } = event;
 
-  if (isMessageFromRenderer(data) && data.nonce === "__NONCE__") {
+  if (isMessageFromRenderer(data) && data.nonce === __NONCE__) {
     ipcRenderer.send("message-from-renderer", event.data);
   }
 });

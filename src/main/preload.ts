@@ -13,6 +13,6 @@ window.addEventListener("message", event => {
   const { data } = event;
 
   if (isMessageFromRenderer(data) && data.nonce === __NONCE__) {
-    ipcRenderer.send("message-from-renderer", event.data);
+    ipcRenderer.send("message-from-renderer", data);
   }
 });

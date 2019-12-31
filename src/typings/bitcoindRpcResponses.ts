@@ -1,5 +1,8 @@
 /* eslint-disable camelcase */
+import { NetworkInfoRpcRequest } from "typings/bitcoindRpcRequests";
+
 type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED";
+
 type Network = {
   name: string;
   limited: boolean;
@@ -24,3 +27,14 @@ export type NetworkInfo = {
   localaddresses: [];
   warnings: string;
 };
+
+export type NetworkInfoRpcResponse = {
+  method: NetworkInfoRpcRequest["method"];
+  payload: {
+    result: NetworkInfo;
+  };
+};
+
+export type RpcResponse = NetworkInfoRpcResponse;
+
+export type RawRpcResponse = { result: any };

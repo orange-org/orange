@@ -1,4 +1,3 @@
-const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
@@ -18,7 +17,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new DefinePlugin({
-      __NONCE__: 'crypto.randomBytes(16).toString("base64")',
+      __NONCE__: JSON.stringify('crypto.randomBytes(16).toString("base64")'),
     }),
   ],
 };

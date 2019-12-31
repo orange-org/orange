@@ -8,10 +8,12 @@ import {
   Grid,
   Divider,
 } from "@material-ui/core";
+import clsx from "clsx";
+import { useSelector } from "react-redux";
 
 import { sendRpcRequestToMain } from "renderer/SendRpcRequestToMain";
 import { useShortPolling } from "renderer/hooks";
-// import { Paper } from "./Paper";
+import * as selectors from "renderer/redux/selectors";
 
 const useStyles = makeStyles({
   root: {
@@ -65,6 +67,7 @@ export const RpcConsole: React.FC = () => {
     1000,
   );
   const c = useStyles();
+  const networkInfo = useSelector(selectors.getNetworkInfo);
 
   const renderRow = (name: string, value: string) => {
     return (
@@ -97,7 +100,7 @@ export const RpcConsole: React.FC = () => {
       >
         <ButtonGroup variant="contained" color="primary">
           <Button
-            className={`${c.navigationButton} ${c.selectedNavigationButton}`}
+            className={clsx(c.navigationButton, c.selectedNavigationButton)}
           >
             Information
           </Button>
@@ -116,7 +119,7 @@ export const RpcConsole: React.FC = () => {
       {renderSectionHeading("General")}
       <div className={c.table}>
         {renderRow("Client version", "v0.19.09.0-bb03485e2-dirty")}
-        {renderRow("User agent", "/Satoshi:0.18.00/")}
+        {renderRow("User agent", networkInfo?.subversion || "N/A")}
         {renderRow("Datadir", "/Users/mk/Library/Application Support/Bitcoin")}
         {renderRow(
           "Blocksdir",

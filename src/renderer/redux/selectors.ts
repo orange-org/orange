@@ -21,3 +21,6 @@ export const getBitcoinCoreVersionShort = createSelector(
 
 export const getInitMessage = (state: State) =>
   state.bitcoindOutput?.initMessage;
+
+export const getNetworkInfo = (state: State) =>
+  state.bitcoindRpcResponses.networkInfo;

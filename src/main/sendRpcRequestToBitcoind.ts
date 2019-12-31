@@ -1,10 +1,14 @@
+/* eslint-disable prefer-destructuring */
 import { username, password } from "main/bitcoindCredentials";
-import { RpcRequest, RpcResponse } from "typings/types";
 import http from "http";
+import { RpcRequest } from "typings/bitcoindRpcRequests";
+import { RpcResponse, RawRpcResponse } from "typings/bitcoindRpcResponses";
 
-export const sendRpcRequestToBitcoind = (rpcRequest: RpcRequest) => {
+export const sendRpcRequestToBitcoind = (
+  rpcRequest: RpcRequest,
+): Promise<RpcResponse> => {
   return new Promise<RpcResponse>((resolve, reject) => {
-    const { method, params } = rpcRequest;
+    const { method, params = [] } = rpcRequest;
     const url = "http://localhost:18332/";
 
     const request = http.request(
@@ -19,14 +23,16 @@ export const sendRpcRequestToBitcoind = (rpcRequest: RpcRequest) => {
       response => {
         response.setEncoding("utf8");
         response.on("data", data => {
-          console.log("data", data);
-          return resolve(JSON.parse(data));
+          const payload = JSON.parse(data) as RawRpcResponse;
+
+          resolve({ method, payload });
         });
-        response.on("error", reject);
+
+        response.on("error", error => reject(error));
       },
     );
 
-    request.on("error", reject);
+    request.on("error", error => reject(error));
 
     request.write(
       JSON.stringify({

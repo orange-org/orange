@@ -1,10 +1,11 @@
-import { MessageFromMain, RpcResponse } from "typings/types";
+import { MessageFromMain } from "typings/types";
 import {
   setSystemPreference,
   receiveBitcoindLine,
   receiveBitcoindRpcResponse,
 } from "renderer/redux/actions";
 import { store } from "renderer/redux/store";
+import { RpcResponse } from "typings/bitcoindRpcResponses";
 
 function isMessageFromMain(data: any): data is MessageFromMain<any> {
   return data.source === "@orange/main";

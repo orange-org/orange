@@ -1,8 +1,17 @@
-import { BrowserWindow, systemPreferences, ipcMain } from "electron";
+import { BrowserWindow, ipcMain } from "electron";
 import { createInterface } from "readline";
-import { MessageFromMain, RpcRequest } from "typings/types";
-import { startBitcoind } from "./startBitcoind";
-import { sendRpcRequestToBitcoind } from "./sendRpcRequestToBitcoind";
+
+import { MessageFromMain, MessageFromRenderer } from "typings/types";
+import { startBitcoind } from "main/startBitcoind";
+import { sendRpcRequestToBitcoind } from "main/sendRpcRequestToBitcoind";
+import { RpcRequest } from "typings/bitcoindRpcRequests";
+import { RpcResponse } from "typings/bitcoindRpcResponses";
+
+function isRpcRequestMessage(
+  data: MessageFromRenderer<any>,
+): data is MessageFromRenderer<RpcRequest> {
+  return data.message.method !== undefined;
+}
 
 export function performFinishLoadSetup(mainWindow: BrowserWindow) {
   function broadcastMessage<MessageType>(
@@ -13,14 +22,6 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
       ...payload,
     });
   }
-
-  broadcastMessage({
-    nonce: __NONCE__,
-    type: "system-preference",
-    message: {
-      colorWindowBackground: systemPreferences.getColor("window-background"),
-    },
-  });
 
   const bitcoindProcess = startBitcoind();
   createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
@@ -36,17 +37,22 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
     throw new Error(`bitcoind error: ${data}`);
   });
 
-  ipcMain.on("message-from-renderer", async (_event, data: RpcRequest) => {
-    try {
-      broadcastMessage({
-        nonce: __NONCE__,
-        type: "bitcoind-rpc-response",
-        message: (await sendRpcRequestToBitcoind(data)).result,
-      });
-    } catch (error) {
-      throw new Error(`Error with \`sendRpcRequestToBitcoind\`: ${error}`);
-    }
-  });
+  ipcMain.on(
+    "message-from-renderer",
+    async (_event, data: MessageFromRenderer<any>) => {
+      if (isRpcRequestMessage(data)) {
+        try {
+          broadcastMessage<RpcResponse>({
+            nonce: __NONCE__,
+            type: "bitcoind-rpc-response",
+            message: await sendRpcRequestToBitcoind(data.message),
+          });
+        } catch (error) {
+          throw new Error(`Error with \`sendRpcRequestToBitcoind\`: ${error}`);
+        }
+      }
+    },
+  );
 
   // setTimeout(() => {
   //   bitcoindProcess.kill("SIGINT");

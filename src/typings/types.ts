@@ -13,14 +13,3 @@ export type MessageFromRenderer<MessageType> = {
   type: "bitcoind-rpc-request";
   message: MessageType;
 };
-
-export type RpcRequest = {
-  method: "getnetworkinfo";
-  params?: [];
-};
-
-export type RpcRequestWithNonce = { nonce: __NONCE__ } & RpcRequest;
-
-export type RpcResponse = {
-  result: Json;
-};

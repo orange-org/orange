@@ -1,5 +1,7 @@
 import { createAction } from "typesafe-actions";
-import { Json, RpcResponse } from "typings/types";
+
+import { RpcResponse } from "typings/bitcoindRpcResponses";
+import { Json } from "typings/types";
 
 export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
   Json

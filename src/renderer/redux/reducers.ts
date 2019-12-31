@@ -1,18 +1,26 @@
 import { createReducer } from "typesafe-actions";
 import { DeepReadonly } from "utility-types";
-import { setSystemPreference, receiveBitcoindLine } from "./actions";
-import { calculateBitcoindOutput } from "./calculateBitcoindOutput";
+
+import { NetworkInfo } from "typings/bitcoindRpcResponses";
+import {
+  setSystemPreference,
+  receiveBitcoindLine,
+} from "renderer/redux/actions";
+import { calculateBitcoindOutput } from "renderer/redux/calculateBitcoindOutput";
 
 export type State = DeepReadonly<{
-  systemPreferences: { [name: string]: string };
-  bitcoindOutput: { initMessage: string; version: string };
+  systemPreferences: { [name: string]: string } | undefined;
+  bitcoindOutput: Partial<{ initMessage: string; version: string }> | undefined;
+  bitcoindRpcResponse: {
+    networkInfo: NetworkInfo | undefined;
+  };
 }>;
 
 const initialState: State = {
-  systemPreferences: {},
-  bitcoindOutput: {
-    initMessage: "",
-    version: "",
+  systemPreferences: undefined,
+  bitcoindOutput: undefined,
+  bitcoindRpcResponse: {
+    networkInfo: undefined,
   },
 };
 
@@ -30,11 +38,11 @@ export const orangeApp = createReducer(initialState)
       state.bitcoindOutput,
       action.payload,
     ),
-  }))
-  .handleAction(receiveBitcoindRpcResponse, (state, action) => ({
-    ...state,
-    bitcoindRpcResponses: calculateBitcoindRpcResponses(
-      state.bitcoindRpcResponses,
-      action.payload,
-    ),
   }));
+// .handleAction(receiveBitcoindRpcResponse, (state, action) => ({
+//   ...state,
+//   bitcoindRpcResponses: calculateBitcoindRpcResponses(
+//     state.bitcoindRpcResponses,
+//     action.payload,
+//   ),
+// }));

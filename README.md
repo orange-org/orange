@@ -84,3 +84,4 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 - Write a cross-platform solution for copying `vendor/bitcoind` to `dist/`
 - Handle error when `bitcoind` is already running
 - Look into using HTTPS for RPC calls
+- DRY up Babel config in webpack config

@@ -75,7 +75,7 @@ Currently, the build and development steps of Orange use npm modules such as `we
 
 ### Match Bitcoin Core Qt as closely as possible
 
-One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating. However, Qt is a native framework. Electron is not. So Qt gives you native looking UI and colors for free. With Electron, building the UI is more like building a website. We don't get the native controls and colors out of the box. So the UI in Orange, while it tries to match the UI of Electron, it is not native. It uses [Material Design](https://material.io/design/) by way of [React Material UI](https://material-ui.com/) library.
+One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating. However, Qt is a native framework. Electron is not. So Qt gives you a native looking UI and colors for free. With Electron, building the UI is more like building a website. We don't get the native controls and colors out of the box. So the UI in Orange, while it tries to match the UI of Electron, it is not native. It uses [Material Design](https://material.io/design/) by way of [React Material UI](https://material-ui.com/) library. Colors and other UI aspects are inspired by macOS.
 
 ## Todos
 

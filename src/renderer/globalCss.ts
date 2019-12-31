@@ -5,6 +5,7 @@ export const GlobalCss = withStyles({
     "html, body": {
       height: "100%",
       width: "100%",
+      overflow: "hidden",
     },
   },
 })(() => null);

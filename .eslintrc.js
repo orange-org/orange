@@ -14,7 +14,6 @@ module.exports = {
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
-    __NONCE__: "readonly",
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -43,6 +42,7 @@ module.exports = {
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-no-undef": "off", // Not needed with TypeScript
     "import/no-unresolved": "off", // Not needed with Typescript
+    "react/prop-types": "off", // Not needed with Typescript
     "react/jsx-curly-newline": "off", // Conflicts with Prettier
     "@typescript-eslint/no-unused-vars": [
       "error",

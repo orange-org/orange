@@ -18,7 +18,10 @@ export const sendRpcRequestToBitcoind = (rpcRequest: RpcRequest) => {
       },
       response => {
         response.setEncoding("utf8");
-        response.on("data", data => resolve(JSON.parse(data)));
+        response.on("data", data => {
+          console.log("data", data);
+          return resolve(JSON.parse(data));
+        });
         response.on("error", reject);
       },
     );

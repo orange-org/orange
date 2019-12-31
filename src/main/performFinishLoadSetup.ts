@@ -15,7 +15,7 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
   }
 
   broadcastMessage({
-    nonce: __NONCE__,
+    nonce: "__NONCE__",
     type: "system-preference",
     message: {
       colorWindowBackground: systemPreferences.getColor("window-background"),
@@ -26,7 +26,7 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
   createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
     // console.log(line);
     broadcastMessage({
-      nonce: __NONCE__,
+      nonce: "__NONCE__",
       type: "bitcoind-line",
       message: line,
     });
@@ -39,8 +39,8 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
   ipcMain.on("message-from-renderer", async (_event, data: RpcRequest) => {
     try {
       broadcastMessage({
-        nonce: __NONCE__,
-        type: "bitcoind-rpc-success-response",
+        nonce: "__NONCE__",
+        type: "bitcoind-rpc-response",
         message: (await sendRpcRequestToBitcoind(data)).result,
       });
     } catch (error) {

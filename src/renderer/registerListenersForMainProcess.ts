@@ -1,5 +1,9 @@
-import { MessageFromMain } from "typings/types";
-import { setSystemPreference, receiveBitcoindLine } from "renderer/actions";
+import { MessageFromMain, RpcResponse } from "typings/types";
+import {
+  setSystemPreference,
+  receiveBitcoindLine,
+  receiveBitcoindRpcResponse,
+} from "renderer/actions";
 import { store } from "renderer/store";
 
 function isMessageFromMain(data: any): data is MessageFromMain<any> {
@@ -7,13 +11,21 @@ function isMessageFromMain(data: any): data is MessageFromMain<any> {
 }
 
 function isSystemPreference(
-  data: any,
+  data: MessageFromMain<any>,
 ): data is MessageFromMain<{ [name: string]: string }> {
   return data.type === "system-preference";
 }
 
-function isBitcoindLine(data: any): data is MessageFromMain<string> {
+function isBitcoindLine(
+  data: MessageFromMain<any>,
+): data is MessageFromMain<string> {
   return data.type === "bitcoind-line";
+}
+
+function isBitcoindRpcResponse(
+  data: MessageFromMain<any>,
+): data is MessageFromMain<RpcResponse> {
+  return data.type === "bitcoind-rpc-response";
 }
 
 export function registerListenersForMainProcess() {
@@ -21,7 +33,7 @@ export function registerListenersForMainProcess() {
     const { data } = event;
 
     if (isMessageFromMain(data)) {
-      if (data.nonce !== __NONCE__) {
+      if (data.nonce !== "__NONCE__") {
         debugger;
       }
 
@@ -29,8 +41,8 @@ export function registerListenersForMainProcess() {
         store.dispatch(setSystemPreference(data.message));
       } else if (isBitcoindLine(data)) {
         store.dispatch(receiveBitcoindLine(data.message));
-      } else {
-        console.log("data.message", data.message);
+      } else if (isBitcoindRpcResponse(data)) {
+        store.dispatch(receiveBitcoindRpcResponse(data.message));
       }
     }
   });

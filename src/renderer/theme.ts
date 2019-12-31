@@ -14,25 +14,77 @@ export const theme: ThemeOptions = {
       hover: "#ffffff",
     },
   },
+  typography: {
+    h1: {
+      fontSize: "1.25rem",
+    },
+    h2: {
+      fontSize: "1.3rem",
+      fontWeight: 400,
+    },
+    h3: {
+      fontSize: "1.1rem",
+    },
+    h4: {
+      fontSize: "1.06rem",
+    },
+    h5: {
+      fontSize: "0.75rem",
+    },
+    h6: {
+      fontSize: "0.62rem",
+    },
+    body1: {
+      fontSize: "0.9rem",
+    },
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        textTransform: "inherit",
+      },
+      containedPrimary: {
+        "&:hover": {
+          backgroundColor: "#ffffff",
+        },
+      },
+    },
+  },
   props: {
     MuiPaper: {
       elevation: 0,
+    },
+    MuiButtonBase: {
+      disableRipple: true,
+      disableTouchRipple: true,
+    },
+    MuiButton: {
+      disableFocusRipple: true,
     },
   },
   shadows: [
     "none",
     "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
 
-    // "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
-    // "0px 0px 0px 0px rgba(0,0,0,0.2),0px 0px 0px 0px rgba(0,0,0,0.14),0px 0px 0px 1px rgba(0,0,0,0.12)",
-    "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 0 0 1px rgba(0,0,0,0.12)",
+    // Idle buttons
+    // /* Original */ "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
+    // /* Flat */ "0px 0px 0px 0px rgba(0,0,0,0.2),0px 0px 0px 0px rgba(0,0,0,0.14),0px 0px 0px 1px rgba(0,0,0,0.12)",
+    /* Tiny shadow */ "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 0 0 1px rgba(0,0,0,0.12)",
 
     "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
-    "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+
+    // Hovered button
+    // /* original */ "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+    /* Tiny shadow */ "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 0 0 1px rgba(0,0,0,0.12)",
+
     "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
     "0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)",
     "0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12)",
-    "0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)",
+
+    // Pressed button
+    // /* original */ "0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)",
+    /* Tiny shadow */ "none",
+
     "0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)",
     "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
     "0px 6px 7px -4px rgba(0,0,0,0.2),0px 11px 15px 1px rgba(0,0,0,0.14),0px 4px 20px 3px rgba(0,0,0,0.12)",

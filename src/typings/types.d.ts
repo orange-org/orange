@@ -1,15 +1,26 @@
+export type Json = { [name: string]: string };
+
 export type MessageFromMain<MessageType> = {
-  nonce: __NONCE__;
+  nonce: "__NONCE__";
   source: "@orange/main";
-  type: "system-preference" | "bitcoind-line" | "bitcoind-rpc-success-response";
+  type: "system-preference" | "bitcoind-line" | "bitcoind-rpc-response";
+  message: MessageType;
+};
+
+export type MessageFromRenderer<MessageType> = {
+  nonce: "__NONCE__";
+  source: "@orange/renderer";
+  type: "bitcoind-rpc-request";
   message: MessageType;
 };
 
 export type RpcRequest = {
-  nonce: __NONCE__;
-  source: "@orange/renderer";
   method: "getnetworkinfo";
-  params?: string[];
+  params?: [];
 };
 
-export type RpcResponse = any;
+export type RpcRequestWithNonce = { nonce: "__NONCE__" } & RpcRequest;
+
+export type RpcResponse = {
+  result: Json;
+};

@@ -1,9 +1,14 @@
 import { createAction } from "typesafe-actions";
+import { Json, RpcResponse } from "typings/types";
 
-export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<{
-  [name: string]: string;
-}>();
+export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
+  Json
+>();
 
 export const receiveBitcoindLine = createAction("RECEIVE_BITCOIND_LINE")<
   string
 >();
+
+export const receiveBitcoindRpcResponse = createAction(
+  "RECEIVE_BITCOIND_RPC_RESPONSE",
+)<RpcResponse>();

@@ -1,5 +1,9 @@
-import { RpcRequest } from "typings/types";
+import {
+  RpcRequest,
+  MessageFromRenderer,
+  RpcRequestWithNonce,
+} from "typings/types";
 
-export const sendRpcRequestToMain = (data: Omit<RpcRequest, "source">) => {
+export const sendRpcRequestToMain = (data: RpcRequestWithNonce) => {
   window.postMessage({ source: "@orange/renderer", ...data }, "*");
 };

@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { Index } from "renderer/Index";
 import { store } from "renderer/store";
 import { registerListenersForMainProcess } from "renderer/registerListenersForMainProcess";
-import { GlobalCss } from "renderer/globalStyles";
+import { GlobalCss } from "renderer/globalCss";
 import { theme } from "renderer/theme";
 
 import "typeface-roboto";

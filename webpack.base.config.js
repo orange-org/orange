@@ -18,7 +18,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new DefinePlugin({
-      __NONCE__: JSON.stringify('crypto.randomBytes(16).toString("base64")'),
+      __NONCE__: 'crypto.randomBytes(16).toString("base64")',
     }),
   ],
 };

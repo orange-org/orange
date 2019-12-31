@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import * as selectors from "renderer/selectors";
+import * as selectors from "renderer/redux/selectors";
 import { SplashScreen } from "renderer/SplashScreen";
 import { RpcConsole } from "renderer/RpcConsole";
 import { Paper } from "@material-ui/core";

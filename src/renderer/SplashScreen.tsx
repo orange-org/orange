@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import * as styles from "renderer/styles";
 import bitcoinPng from "assets/bitcoin.png";
-import * as selectors from "renderer/selectors";
+import * as selectors from "renderer/redux/selectors";
 
 import { version } from "../../package.json";
 

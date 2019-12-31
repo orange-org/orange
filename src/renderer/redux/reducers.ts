@@ -24,13 +24,17 @@ export const orangeApp = createReducer(initialState)
       ...action.payload,
     },
   }))
-  .handleAction(
-    receiveBitcoindLine,
-    (state, action): State => ({
-      ...state,
-      bitcoindOutput: calculateBitcoindOutput(
-        state.bitcoindOutput,
-        action.payload,
-      ),
-    }),
-  );
+  .handleAction(receiveBitcoindLine, (state, action) => ({
+    ...state,
+    bitcoindOutput: calculateBitcoindOutput(
+      state.bitcoindOutput,
+      action.payload,
+    ),
+  }))
+  .handleAction(receiveBitcoindRpcResponse, (state, action) => ({
+    ...state,
+    bitcoindRpcResponses: calculateBitcoindRpcResponses(
+      state.bitcoindRpcResponses,
+      action.payload,
+    ),
+  }));

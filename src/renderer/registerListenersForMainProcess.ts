@@ -3,8 +3,8 @@ import {
   setSystemPreference,
   receiveBitcoindLine,
   receiveBitcoindRpcResponse,
-} from "renderer/actions";
-import { store } from "renderer/store";
+} from "renderer/redux/actions";
+import { store } from "renderer/redux/store";
 
 function isMessageFromMain(data: any): data is MessageFromMain<any> {
   return data.source === "@orange/main";

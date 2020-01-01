@@ -6,7 +6,7 @@ import * as styles from "renderer/styles";
 import bitcoinPng from "assets/bitcoin.png";
 import * as selectors from "renderer/redux/selectors";
 
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 
 const Container = styled.div`
   padding-top: 20px;

@@ -13,6 +13,8 @@ window.addEventListener("message", event => {
   const { data } = event;
 
   if (isMessageFromRenderer(data) && data.nonce === __NONCE__) {
+    debugger;
+    console.log("=\nFILE: preload.ts\nLINE: 17\n=");
     ipcRenderer.send("message-from-renderer", data);
   }
 });

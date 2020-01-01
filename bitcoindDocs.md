@@ -139,3 +139,81 @@ verifymessage "address" "signature" "message"
   "warnings": "This is a pre-release test build - use at your own risk - do not use for mining or merchant applications"
 }
 ```
+
+## `getblockchaininfo` response
+
+```json
+{
+  "chain": "main",
+  "blocks": 131302,
+  "headers": 610675,
+  "bestblockhash": "0000000000000e7dd813dbc8770f5d6480730b16706bcb94931e1401f986f065",
+  "difficulty": 876954.4935135372,
+  "mediantime": 1308254452,
+  "verificationprogress": 0.001548356203356627,
+  "initialblockdownload": true,
+  "chainwork": "00000000000000000000000000000000000000000000000105ff9d61c17c7093",
+  "size_on_disk": 311407975,
+  "pruned": true,
+  "pruneheight": 0,
+  "automatic_pruning": true,
+  "prune_target_size": 999292928,
+  "softforks": {
+    "bip34": {
+      "type": "buried",
+      "active": false,
+      "height": 227931
+    },
+    "bip66": {
+      "type": "buried",
+      "active": false,
+      "height": 363725
+    },
+    "bip65": {
+      "type": "buried",
+      "active": false,
+      "height": 388381
+    },
+    "csv": {
+      "type": "buried",
+      "active": false,
+      "height": 419328
+    },
+    "segwit": {
+      "type": "buried",
+      "active": false,
+      "height": 481824
+    }
+  },
+  "warnings": "This is a pre-release test build - use at your own risk - do not use for mining or merchant applications"
+}
+```
+
+## `getmempoolinfo` response
+
+```json
+{
+  "loaded": true,
+  "size": 0,
+  "bytes": 0,
+  "usage": 0,
+  "maxmempool": 300000000,
+  "mempoolminfee": 0.00001,
+  "minrelaytxfee": 0.00001
+}
+```
+
+## `getmemoryinfo` response
+
+```json
+{
+  "locked": {
+    "used": 288,
+    "free": 261856,
+    "total": 262144,
+    "locked": 262144,
+    "chunks_used": 1,
+    "chunks_free": 1
+  }
+}
+```

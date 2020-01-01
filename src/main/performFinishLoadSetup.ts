@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from "electron";
+import { BrowserWindow, ipcMain, App } from "electron";
 import { createInterface } from "readline";
 
 import { MessageFromMain, MessageFromRenderer } from "typings/types";
@@ -7,13 +7,15 @@ import { sendRpcRequestToBitcoind } from "main/sendRpcRequestToBitcoind";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse } from "typings/bitcoindRpcResponses";
 
+const doneCleaningUp = false;
+
 function isRpcRequestMessage(
   data: MessageFromRenderer<any>,
 ): data is MessageFromRenderer<RpcRequest> {
   return data.message.method !== undefined;
 }
 
-export function performFinishLoadSetup(mainWindow: BrowserWindow) {
+export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
   function broadcastMessage<MessageType>(
     payload: Omit<MessageFromMain<MessageType>, "source">,
   ) {
@@ -44,7 +46,7 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
         try {
           broadcastMessage<RpcResponse>({
             nonce: __NONCE__,
-            type: "bitcoind-rpc-response",
+            type: "rpc-response",
             message: await sendRpcRequestToBitcoind(data.message),
           });
         } catch (error) {
@@ -54,7 +56,12 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow) {
     },
   );
 
-  // setTimeout(() => {
-  //   bitcoindProcess.kill("SIGINT");
-  // }, 30000);
+  app.on("before-quit", event => {
+    if (!doneCleaningUp) {
+      event.preventDefault();
+      bitcoindProcess.kill();
+    } else {
+      app.quit();
+    }
+  });
 }

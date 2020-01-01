@@ -26,25 +26,25 @@ function isBitcoindLine(
 function isBitcoindRpcResponse(
   data: MessageFromMain<any>,
 ): data is MessageFromMain<RpcResponse> {
-  return data.type === "bitcoind-rpc-response";
+  return data.type === "rpc-response";
 }
 
-export function registerListenersForMainProcess() {
-  window.addEventListener("message", event => {
-    const { data } = event;
+// export function registerListenersForMainProcess() {
+//   window.addEventListener("message", event => {
+//     const { data } = event;
 
-    if (isMessageFromMain(data)) {
-      if (data.nonce !== __NONCE__) {
-        debugger;
-      }
+//     if (isMessageFromMain(data)) {
+//       if (data.nonce !== __NONCE__) {
+//         debugger;
+//       }
 
-      if (isSystemPreference(data)) {
-        store.dispatch(setSystemPreference(data.message));
-      } else if (isBitcoindLine(data)) {
-        store.dispatch(receiveBitcoindLine(data.message));
-      } else if (isBitcoindRpcResponse(data)) {
-        store.dispatch(receiveBitcoindRpcResponse(data.message));
-      }
-    }
-  });
-}
+//       if (isSystemPreference(data)) {
+//         store.dispatch(setSystemPreference(data.message));
+//       } else if (isBitcoindLine(data)) {
+//         store.dispatch(receiveBitcoindLine(data.message));
+//       } else if (isBitcoindRpcResponse(data)) {
+//         store.dispatch(receiveBitcoindRpcResponse(data.message));
+//       }
+//     }
+//   });
+// }

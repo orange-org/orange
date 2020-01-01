@@ -40,7 +40,7 @@ function createWindow() {
   mainWindow.loadFile(join(getAppRoot(), "renderer", "index.html"));
 
   mainWindow.webContents.on("did-finish-load", () => {
-    performFinishLoadSetup(mainWindow);
+    performFinishLoadSetup(mainWindow, app);
   });
 
   // Open the DevTools.
@@ -53,7 +53,3 @@ function createWindow() {
 app.on("web-contents-created", preventNewWebViewsAndWindows);
 
 app.on("ready", createWindow);
-
-app.on("window-all-closed", () => {
-  app.quit();
-});

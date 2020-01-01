@@ -5,13 +5,13 @@ import { Provider } from "react-redux";
 
 import { Index } from "renderer/Index";
 import { store } from "renderer/redux/store";
-import { registerListenersForMainProcess } from "renderer/registerListenersForMainProcess";
+// import { registerListenersForMainProcess } from "renderer/redux/registerListenersForMainProcess";
 import { GlobalCss } from "renderer/globalCss";
 import { theme } from "renderer/theme";
 
 import "typeface-roboto";
 
-registerListenersForMainProcess();
+// registerListenersForMainProcess();
 
 const mainElement = document.createElement("div");
 document.body.appendChild(mainElement);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import {
   Typography,
@@ -9,11 +9,12 @@ import {
   Divider,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-import { sendRpcRequestToMain } from "renderer/SendRpcRequestToMain";
+import { sendRpcRequestToMain } from "renderer/redux/SendRpcRequestToMain";
 import { useShortPolling } from "renderer/hooks";
 import * as selectors from "renderer/redux/selectors";
+import * as actions from "renderer/redux/actions";
 
 const useStyles = makeStyles({
   root: {
@@ -58,16 +59,22 @@ const useStyles = makeStyles({
 });
 
 export const RpcConsole: React.FC = () => {
-  useShortPolling(
-    () =>
-      sendRpcRequestToMain({
-        nonce: __NONCE__,
-        method: "getnetworkinfo",
-      }),
-    1000,
-  );
   const c = useStyles();
   const networkInfo = useSelector(selectors.getNetworkInfo);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   actions.getNetworkInfo();
+  // }, []);
+
+  // useShortPolling(
+  //   () =>
+  //     sendRpcRequestToMain({
+  //       nonce: __NONCE__,
+  //       method: "getnetworkinfo",
+  //     }),
+  //   10000,
+  // );
 
   const renderRow = (name: string, value: string) => {
     return (
@@ -115,6 +122,14 @@ export const RpcConsole: React.FC = () => {
           </Button>
         </ButtonGroup>
       </Grid>
+
+      <Button
+        onClick={() => {
+          dispatch(actions.getNetworkInfo(__NONCE__));
+        }}
+      >
+        Click me
+      </Button>
 
       {renderSectionHeading("General")}
       <div className={c.table}>

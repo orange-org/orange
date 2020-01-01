@@ -41,6 +41,7 @@ module.exports = {
     "no-unused-vars": "off",
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "react/jsx-one-expression-per-line": "off",
+    "no-unused-expressions": "off", // Conflicts with TypeScript optional chaining
     "react/jsx-no-undef": "off", // Not needed with TypeScript
     "import/no-unresolved": "off", // Not needed with Typescript
     "react/prop-types": "off", // Not needed with Typescript

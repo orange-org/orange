@@ -7,8 +7,6 @@ import { sendRpcRequestToBitcoind } from "main/sendRpcRequestToBitcoind";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse } from "typings/bitcoindRpcResponses";
 
-const doneCleaningUp = false;
-
 function isRpcRequestMessage(
   data: MessageFromRenderer<any>,
 ): data is MessageFromRenderer<RpcRequest> {
@@ -16,6 +14,9 @@ function isRpcRequestMessage(
 }
 
 export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
+  let bitcoindIsRunning = false;
+  let quitAttempted = false;
+
   function broadcastMessage<MessageType>(
     payload: Omit<MessageFromMain<MessageType>, "source">,
   ) {
@@ -26,6 +27,7 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
   }
 
   const bitcoindProcess = startBitcoind();
+  bitcoindIsRunning = true;
   createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
     // console.log(line);
     broadcastMessage({
@@ -33,6 +35,14 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
       type: "bitcoind-line",
       message: line,
     });
+  });
+
+  bitcoindProcess.on("exit", () => {
+    bitcoindIsRunning = false;
+
+    if (quitAttempted) {
+      app.quit();
+    }
   });
 
   bitcoindProcess.stderr.on("data", data => {
@@ -57,11 +67,11 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
   );
 
   app.on("before-quit", event => {
-    if (!doneCleaningUp) {
+    quitAttempted = true;
+
+    if (bitcoindIsRunning) {
       event.preventDefault();
       bitcoindProcess.kill();
-    } else {
-      app.quit();
     }
   });
 }

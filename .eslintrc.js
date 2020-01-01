@@ -47,6 +47,7 @@ module.exports = {
     "react/prop-types": "off", // Not needed with Typescript
     "react/jsx-curly-newline": "off", // Conflicts with Prettier
     "lines-between-class-members": "off",
+    "@typescript-eslint/no-unused-vars": "off", // Conflicts with TypeScript
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

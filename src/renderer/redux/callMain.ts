@@ -1,35 +1,10 @@
-// import { MessageFromRenderer } from "typings/types";
-import { generateUuid } from "renderer/generateUuid";
+import { MessageToMain } from "typings/types";
 
-export const callMain = (
-  callType: string,
-  callPayload: { method: string; nonce: __NONCE__ },
-) => {
-  return new Promise((resolve, reject) => {
-    const requestId = generateUuid();
-    const windowMessageEventHandler = (event: MessageEvent) => {
-      const { data: response } = event;
+export const callMain = <T>(payload: Omit<MessageToMain<T>, "source">) => {
+  const messageToMain: MessageToMain<any> = {
+    source: "@orange/renderer",
+    ...payload,
+  };
 
-      if (response.id === requestId) {
-        if (response.ok) {
-          resolve(response);
-        } else {
-          reject(response);
-        }
-      }
-
-      window.removeEventListener("message", windowMessageEventHandler);
-    };
-    window.addEventListener("message", windowMessageEventHandler);
-
-    const { nonce, ...message } = callPayload;
-    const messageFromRenderer = {
-      type: callType,
-      source: "@orange/renderer",
-      nonce,
-      message,
-    };
-
-    window.postMessage(messageFromRenderer, "*");
-  });
+  window.postMessage(messageToMain, "*");
 };

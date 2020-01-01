@@ -1,8 +1,8 @@
-import { MessageFromMain } from "typings/types";
+import { MessageToRenderer } from "typings/types";
 import { BrowserWindow } from "electron";
 
 export function sendMessageToRenderer<MessageType>(
-  payload: Omit<MessageFromMain<MessageType>, "source">,
+  payload: Omit<MessageToRenderer<MessageType>, "source">,
   mainWindow: BrowserWindow,
 ) {
   if (!mainWindow.isDestroyed()) {

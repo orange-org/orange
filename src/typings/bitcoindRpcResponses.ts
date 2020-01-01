@@ -29,12 +29,14 @@ export type NetworkInfo = {
 };
 
 export type NetworkInfoRpcResponse = {
-  method: NetworkInfoRpcRequest["method"];
   payload: {
     result: NetworkInfo;
   };
 };
 
-export type RpcResponse = NetworkInfoRpcResponse;
+export type RpcResponse = {
+  ok: boolean;
+  requestId: string;
+} & NetworkInfoRpcResponse;
 
 export type RawRpcResponse = { result: any };

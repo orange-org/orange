@@ -1,4 +1,4 @@
-import { MessageFromMain } from "typings/types";
+import { MessageToRenderer } from "typings/types";
 import {
   setSystemPreference,
   receiveBitcoindLine,
@@ -7,25 +7,25 @@ import {
 import { store } from "renderer/redux/store";
 import { RpcResponse } from "typings/bitcoindRpcResponses";
 
-function isMessageFromMain(data: any): data is MessageFromMain<any> {
+function isMessageFromMain(data: any): data is MessageToRenderer<any> {
   return data.source === "@orange/main";
 }
 
 function isSystemPreference(
-  data: MessageFromMain<any>,
-): data is MessageFromMain<{ [name: string]: string }> {
+  data: MessageToRenderer<any>,
+): data is MessageToRenderer<{ [name: string]: string }> {
   return data.type === "system-preference";
 }
 
 function isBitcoindLine(
-  data: MessageFromMain<any>,
-): data is MessageFromMain<string> {
+  data: MessageToRenderer<any>,
+): data is MessageToRenderer<string> {
   return data.type === "bitcoind-line";
 }
 
 function isBitcoindRpcResponse(
-  data: MessageFromMain<any>,
-): data is MessageFromMain<RpcResponse> {
+  data: MessageToRenderer<any>,
+): data is MessageToRenderer<RpcResponse> {
   return data.type === "rpc-response";
 }
 

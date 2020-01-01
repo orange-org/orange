@@ -1,9 +1,9 @@
 import { RpcRequestWithNonce, RpcRequest } from "typings/bitcoindRpcRequests";
-import { MessageFromRenderer } from "typings/types";
+import { MessageToMain } from "typings/types";
 
 export const sendRpcRequestToMain = (data: RpcRequestWithNonce) => {
   const { nonce, ...message } = data;
-  const messageFromRenderer: MessageFromRenderer<RpcRequest> = {
+  const messageFromRenderer: MessageToMain<RpcRequest> = {
     type: "rpc-request",
     source: "@orange/renderer",
     nonce,

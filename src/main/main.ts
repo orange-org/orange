@@ -39,12 +39,12 @@ function createWindow() {
 
   mainWindow.loadFile(join(getAppRoot(), "renderer", "index.html"));
 
-  mainWindow.webContents.on("did-finish-load", () => {
+  mainWindow.webContents.once("did-finish-load", () => {
     performFinishLoadSetup(mainWindow, app);
   });
 
-  // Open the DevTools.
   if (isDevelopment) {
+    mainWindow.maximize();
     mainWindow.webContents.openDevTools();
   }
 }

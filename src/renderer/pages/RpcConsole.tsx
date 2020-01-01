@@ -125,7 +125,7 @@ export const RpcConsole: React.FC = () => {
 
       <Button
         onClick={() => {
-          dispatch(actions.getNetworkInfo(__NONCE__));
+          dispatch(actions.requestNetworkInfo(__NONCE__));
         }}
       >
         Click me

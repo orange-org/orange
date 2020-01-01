@@ -6,7 +6,8 @@
   "scripts": {
     "wds": "webpack-dev-server --config webpack.renderer.dev.config.js",
     "build-renderer": "webpack --config webpack.renderer.config.js",
-    "electron": "webpack --config webpack.main.config.js && npm run copy-bitcoind && electron ./dist/main/main.js",
+    "electron": "npm run build-main && electron ./dist/main/main.js",
+    "build-main": "webpack --config webpack.main.config.js && npm run copy-bitcoind",
     "copy-bitcoind": "cp -R src/vendor dist/vendor",
     "lint": "eslint '**/*.{ts,tsx,js}'",
     "lint-fix": "npm run lint -- --fix"

@@ -14,7 +14,8 @@
       "outFiles": ["${workspaceRoot}/dist/main/main.js"],
       "sourceMaps": true,
       "args": ["."],
-      "outputCapture": "std"
+      "outputCapture": "std",
+      "preLaunchTask": "build-main"
     }
   ]
 }

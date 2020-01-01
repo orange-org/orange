@@ -46,6 +46,7 @@ module.exports = {
     "import/no-unresolved": "off", // Not needed with Typescript
     "react/prop-types": "off", // Not needed with Typescript
     "react/jsx-curly-newline": "off", // Conflicts with Prettier
+    "lines-between-class-members": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

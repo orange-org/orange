@@ -3,9 +3,9 @@ import { join } from "path";
 import { installExtensions } from "main/installExtensions";
 import { isDevelopment } from "main/isDevelopment";
 import { performFinishLoadSetup } from "main/performFinishLoadSetup";
-import { preventNetworkAndResourceRequests } from "./preventNetworkAndResourceRequests";
-import { preventNewWebViewsAndWindows } from "./preventNewWebViewsAndWindows";
-import { getAppRoot } from "./getAppRoot";
+import { preventNetworkAndResourceRequests } from "main/preventNetworkAndResourceRequests";
+import { preventNewWebViewsAndWindows } from "main/preventNewWebViewsAndWindows";
+import { getAppRoot } from "main/getAppRoot";
 
 app.enableSandbox();
 

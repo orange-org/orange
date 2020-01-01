@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron";
 import { MessageFromMain, MessageFromRenderer } from "typings/types";
 
-ipcRenderer.on("message-from-main", (_event, data: MessageFromMain<any>) => {
+ipcRenderer.on("message-to-renderer", (_event, data: MessageFromMain<any>) => {
   window.postMessage(data, "*");
 });
 
@@ -13,8 +13,6 @@ window.addEventListener("message", event => {
   const { data } = event;
 
   if (isMessageFromRenderer(data) && data.nonce === __NONCE__) {
-    debugger;
-    console.log("=\nFILE: preload.ts\nLINE: 17\n=");
-    ipcRenderer.send("message-from-renderer", data);
+    ipcRenderer.send("message-to-main", data);
   }
 });

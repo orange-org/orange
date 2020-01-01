@@ -24,13 +24,13 @@ export const rpcClient = async (
       const { data: response } = event;
 
       if (isRpcResponse(response, requestId)) {
+        window.removeEventListener("message", windowMessageEventHandler);
+
         if (response.message.ok) {
           resolve(response.message);
         } else {
           reject(response.message);
         }
-
-        window.removeEventListener("message", windowMessageEventHandler);
       }
     };
     window.addEventListener("message", windowMessageEventHandler);

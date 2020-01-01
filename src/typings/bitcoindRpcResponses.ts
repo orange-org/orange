@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { NetworkInfoRpcRequest } from "typings/bitcoindRpcRequests";
+// import { NetworkInfoRpcRequest } from "typings/bitcoindRpcRequests";
 
 type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED";
 
@@ -34,9 +34,21 @@ export type NetworkInfoRpcResponse = {
   };
 };
 
+export type BestBlockHash = {
+  stuff: boolean;
+};
+
+export type BestBlockHashRpcResponse = {
+  payload: {
+    result: BestBlockHash;
+  };
+};
+
 export type RpcResponse = {
   ok: boolean;
   requestId: string;
-} & NetworkInfoRpcResponse;
+} & (NetworkInfoRpcResponse | BestBlockHashRpcResponse);
 
 export type RawRpcResponse = { result: any };
+
+type NarrowAction<T, N> = T extends { type: N } ? T : never;

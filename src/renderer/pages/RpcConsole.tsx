@@ -61,11 +61,12 @@ const useStyles = makeStyles({
 export const RpcConsole: React.FC = () => {
   const c = useStyles();
   const networkInfo = useSelector(selectors.getNetworkInfo);
+  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersion);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   actions.getNetworkInfo();
-  // }, []);
+  useEffect(() => {
+    dispatch(actions.requestNetworkInfo(__NONCE__));
+  }, []);
 
   // useShortPolling(
   //   () =>
@@ -123,17 +124,9 @@ export const RpcConsole: React.FC = () => {
         </ButtonGroup>
       </Grid>
 
-      <Button
-        onClick={() => {
-          dispatch(actions.requestNetworkInfo(__NONCE__));
-        }}
-      >
-        Click me
-      </Button>
-
       {renderSectionHeading("General")}
       <div className={c.table}>
-        {renderRow("Client version", "v0.19.09.0-bb03485e2-dirty")}
+        {renderRow("Client version", bitcoinCoreVersion || "N/A")}
         {renderRow("User agent", networkInfo?.subversion || "N/A")}
         {renderRow("Datadir", "/Users/mk/Library/Application Support/Bitcoin")}
         {renderRow(

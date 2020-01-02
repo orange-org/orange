@@ -33,7 +33,7 @@ class BitcoindManager {
     this.isProcessRunning = true;
 
     createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      // console.log(line);
+      console.log(line);
       sendMessageToRenderer(
         {
           nonce: __NONCE__,

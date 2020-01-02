@@ -5,6 +5,7 @@ import {
   NetworkInfo,
   BlockchainInfo,
   Block,
+  PeerInfo,
 } from "typings/bitcoindRpcResponses";
 import { rpcClient } from "renderer/redux/rpcClient";
 import { Json } from "typings/types";
@@ -30,6 +31,12 @@ export const setBlock = createAction("SET_BLOCK")<Block>();
 
 export const setBestBlock = createAction("SET_BEST_BLOCK")<Block>();
 
+export const setUptime = createAction("SET_UPTIME")<number>();
+
+export const setStartupTime = createAction("SET_STARTUP_TIME")<string>();
+
+export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
+
 const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
   action: PayloadActionCreator<string, T>,
@@ -54,7 +61,17 @@ export const requestBlockchainInfo = createSimpleRpcRequest<BlockchainInfo>(
   setBlockchainInfo,
 );
 
+export const requestUptime = createSimpleRpcRequest<number>(
+  "uptime",
+  setUptime,
+);
+
 export const requestBlock = createSimpleRpcRequest<Block>("getblock", setBlock);
+
+export const requestPeerInfo = createSimpleRpcRequest<PeerInfo>(
+  "getpeerinfo",
+  setPeerInfo,
+);
 
 export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
   return async (dispatch: Dispatch, getState: () => State) => {
@@ -66,5 +83,14 @@ export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);
       dispatch(setBestBlock(bestBlock));
     }
+  };
+};
+
+export const requestStartupTime = (nonce: NONCE) => {
+  return async (dispatch: Dispatch) => {
+    const uptime = await requestUptime(nonce)(dispatch);
+    const startupTime = new Date(Date.now() - uptime * 1000).toString();
+
+    dispatch(setStartupTime(startupTime));
   };
 };

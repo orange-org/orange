@@ -18,11 +18,23 @@ export type BlockRpcRequest = {
   params: [string, number?];
 };
 
+export type UptimeRpcRequest = {
+  method: "uptime";
+  params?: [];
+};
+
+export type PeerInfoRpcRequest = {
+  method: "getpeerinfo";
+  params?: [];
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest
   | BlockRpcRequest
+  | UptimeRpcRequest
+  | PeerInfoRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

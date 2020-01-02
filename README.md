@@ -86,3 +86,5 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 - Look into using HTTPS for RPC calls
 - DRY up Babel config in webpack config
 - Remove "View => Reload" from menu
+- Find a way to grab `blocks/` dir from Bitcoin Core and display it correctly in RPC Console
+- Format startup time correctly

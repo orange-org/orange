@@ -65,18 +65,23 @@ export const RpcConsole: React.FC = () => {
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
+    dispatch(actions.requestStartupTime(__NONCE__));
   }, []);
 
-  usePolling(async () => {
+  usePolling(() => {
     dispatch(actions.requestBlockchainInfoAndBestBlock(__NONCE__));
+    dispatch(actions.requestPeerInfo(__NONCE__));
   }, 1000);
 
   const networkInfo = useSelector(selectors.getNetworkInfo);
   const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersion);
   const currentNumberOfBlocks = useSelector(selectors.getCurrentNumberOfBlocks);
   const lastBlockTime = useSelector(selectors.getLastBlockTime);
+  const dataDir = useSelector(selectors.getDataDir);
+  const startupTime = useSelector(selectors.getStartupTime);
+  const connectionSummary = useSelector(selectors.getConnectionSummary);
 
-  const renderRow = (name: string, value: string) => {
+  const renderRow = (name: string, value: string = "N/A") => {
     return (
       <div className={c.row}>
         <div className={c.cell}>
@@ -125,14 +130,11 @@ export const RpcConsole: React.FC = () => {
 
       {renderSectionHeading("General")}
       <div className={c.table}>
-        {renderRow("Client version", bitcoinCoreVersion || "N/A")}
-        {renderRow("User agent", networkInfo?.subversion || "N/A")}
-        {renderRow("Datadir", "/Users/mk/Library/Application Support/Bitcoin")}
-        {renderRow(
-          "Blocksdir",
-          "/Users/mk/Library/Application Support/Bitcoin/blocks",
-        )}
-        {renderRow("Startup time", "Fri Dec 27 12:23:43 2010")}
+        {renderRow("Client version", bitcoinCoreVersion)}
+        {renderRow("User agent", networkInfo?.subversion)}
+        {renderRow("Datadir", dataDir)}
+        {renderRow("Blocksdir", `${dataDir}/blocks`)}
+        {renderRow("Startup time", startupTime)}
       </div>
 
       <Divider />
@@ -140,7 +142,12 @@ export const RpcConsole: React.FC = () => {
       {renderSectionHeading("Network")}
       <div className={c.table}>
         {renderRow("Name", "main")}
-        {renderRow("Number of connections", "0 (In: 0 / Out: 0)")}
+        {renderRow(
+          "Number of connections",
+          connectionSummary !== undefined
+            ? `${connectionSummary.total} (In: ${connectionSummary.in} / Out: ${connectionSummary.out})`
+            : undefined,
+        )}
       </div>
 
       <Divider />
@@ -149,9 +156,9 @@ export const RpcConsole: React.FC = () => {
       <div className={c.table}>
         {renderRow(
           "Current number of blocks",
-          currentNumberOfBlocks?.toString() || "N/A",
+          currentNumberOfBlocks?.toString(),
         )}
-        {renderRow("Last block time", lastBlockTime?.toString() || "N/A")}
+        {renderRow("Last block time", lastBlockTime?.toString())}
       </div>
 
       <Divider />

@@ -5,27 +5,26 @@ import {
   NetworkInfo,
   BlockchainInfo,
   Block,
+  PeerInfo,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
-import {
-  setSystemPreference,
-  receiveBitcoindLine,
-  setNetworkInfo,
-  setBlockchainInfo,
-  setBlock,
-  setBestBlock,
-} from "renderer/redux/actions";
-import { calculateBitcoindOutput } from "renderer/redux/calculateBitcoindOutput";
+import * as actions from "renderer/redux/actions";
+import { calculateStateFromBitcoindLogLine } from "renderer/redux/calculateStateFromBitcoindLogLine";
 
 export type State = DeepReadonly<
   OrUndefined<{
     systemPreferences: { [name: string]: string };
     lastInitMessage: string;
     bitcoinCoreVersion: string;
+    dataDir: string;
+    blockIndex: string;
+    startupTime: string;
     networkInfo: NetworkInfo;
     blockchainInfo: BlockchainInfo;
     lastRequestedBlock: Block;
     bestBlock: Block;
+    uptime: number;
+    peerInfo: PeerInfo;
   }>
 >;
 
@@ -33,37 +32,54 @@ const initialState: State = {
   systemPreferences: undefined,
   lastInitMessage: undefined,
   bitcoinCoreVersion: undefined,
+  blockIndex: undefined,
+  dataDir: undefined,
+  startupTime: undefined,
   networkInfo: undefined,
   blockchainInfo: undefined,
   lastRequestedBlock: undefined,
   bestBlock: undefined,
+  uptime: undefined,
+  peerInfo: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
-  .handleAction(setSystemPreference, (state, action) => ({
+  .handleAction(actions.setSystemPreference, (state, action) => ({
     ...state,
     systemPreferences: {
       ...state.systemPreferences,
       ...action.payload,
     },
   }))
-  .handleAction(receiveBitcoindLine, (state, action) => ({
+  .handleAction(actions.receiveBitcoindLine, (state, action) => ({
     ...state,
-    ...calculateBitcoindOutput(state, action.payload),
+    ...calculateStateFromBitcoindLogLine(state, action.payload),
   }))
-  .handleAction(setNetworkInfo, (state, action) => ({
+  .handleAction(actions.setNetworkInfo, (state, action) => ({
     ...state,
     networkInfo: action.payload,
   }))
-  .handleAction(setBlockchainInfo, (state, action) => ({
+  .handleAction(actions.setBlockchainInfo, (state, action) => ({
     ...state,
     blockchainInfo: action.payload,
   }))
-  .handleAction(setBlock, (state, action) => ({
+  .handleAction(actions.setBlock, (state, action) => ({
     ...state,
     block: action.payload,
   }))
-  .handleAction(setBestBlock, (state, action) => ({
+  .handleAction(actions.setBestBlock, (state, action) => ({
     ...state,
     bestBlock: action.payload,
+  }))
+  .handleAction(actions.setUptime, (state, action) => ({
+    ...state,
+    uptime: action.payload,
+  }))
+  .handleAction(actions.setStartupTime, (state, action) => ({
+    ...state,
+    startupTime: action.payload,
+  }))
+  .handleAction(actions.setPeerInfo, (state, action) => ({
+    ...state,
+    peerInfo: action.payload,
   }));

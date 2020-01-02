@@ -3,6 +3,8 @@ import {
   NetworkInfoRpcRequest,
   BlockchainInfoRpcRequest,
   BlockRpcRequest,
+  UptimeRpcRequest,
+  PeerInfoRpcRequest,
 } from "typings/bitcoindRpcRequests";
 
 type CreateRpcResponse<Method, Result> = {
@@ -12,7 +14,7 @@ type CreateRpcResponse<Method, Result> = {
   };
 };
 
-type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED";
+type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED" | "NETWORK";
 
 type Network = {
   name: string;
@@ -121,9 +123,79 @@ export type BlockRpcResponse = CreateRpcResponse<
   Block
 >;
 
+export type Uptime = number; // In seconds
+
+export type UptimeRpcResponse = CreateRpcResponse<
+  UptimeRpcRequest["method"],
+  number
+>;
+
+export type PeerInfo = {
+  id: number;
+  addr: string;
+  addrlocal: string;
+  addrbind: string;
+  services: string;
+  servicesnames: LocalServicesNames[];
+  relaytxes: boolean;
+  lastsend: number;
+  lastrecv: number;
+  bytessent: number;
+  bytesrecv: number;
+  conntime: number;
+  timeoffset: number;
+  pingtime: number;
+  minping: number;
+  version: number;
+  subver: string;
+  inbound: boolean;
+  addnode: boolean;
+  startingheight: number;
+  banscore: number;
+  synced_headers: number;
+  synced_blocks: number;
+  inflight: [];
+  whitelisted: boolean;
+  permissions: [];
+  minfeefilter: number;
+  bytessent_per_msg: {
+    feefilter: number;
+    getaddr: number;
+    ping: number;
+    pong: number;
+    sendcmpct: number;
+    sendheaders: number;
+    verack: number;
+    version: number;
+  };
+  bytesrecv_per_msg: {
+    addr: number;
+    feefilter: number;
+    getheaders: number;
+    inv: number;
+    ping: number;
+    pong: number;
+    sendcmpct: number;
+    sendheaders: number;
+    verack: number;
+    version: number;
+  };
+}[];
+
+export type PeerInfoRpcResponse = CreateRpcResponse<
+  PeerInfoRpcRequest["method"],
+  PeerInfo
+>;
+
 export type RpcResponse = {
   ok: boolean;
   requestId: string;
-} & (NetworkInfoRpcResponse | BestBlockHashRpcResponse | BlockRpcResponse);
+} & (
+  | NetworkInfoRpcResponse
+  | BestBlockHashRpcResponse
+  | BlockRpcResponse
+  | UptimeRpcResponse
+  | PeerInfoRpcResponse
+);
 
 export type RawRpcResponse = { result: any };

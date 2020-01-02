@@ -34,7 +34,7 @@ const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
   action: PayloadActionCreator<string, T>,
 ) => {
-  return (nonce: __NONCE__, params?: RpcRequest["params"]) => {
+  return (nonce: NONCE, params?: RpcRequest["params"]) => {
     return async (dispatch: Dispatch) => {
       const response = await rpcClient(nonce, { method, params });
       dispatch(action((response.payload.result as unknown) as T));
@@ -56,7 +56,7 @@ export const requestBlockchainInfo = createSimpleRpcRequest<BlockchainInfo>(
 
 export const requestBlock = createSimpleRpcRequest<Block>("getblock", setBlock);
 
-export const requestBlockchainInfoAndBestBlock = (nonce: __NONCE__) => {
+export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
   return async (dispatch: Dispatch, getState: () => State) => {
     await requestBlockchainInfo(nonce)(dispatch);
 

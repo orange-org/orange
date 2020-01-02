@@ -15,7 +15,7 @@ const isRpcResponse = (
 };
 
 export const rpcClient = (
-  nonce: __NONCE__,
+  nonce: NONCE,
   rpcRequest: Omit<RpcRequest, "requestId">,
 ): Promise<RpcResponse> => {
   return new Promise((resolve, reject) => {

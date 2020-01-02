@@ -25,4 +25,4 @@ export type RpcRequest = { requestId: string } & (
   | BlockRpcRequest
 );
 
-export type RpcRequestWithNonce = { nonce: __NONCE__ } & RpcRequest;
+export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

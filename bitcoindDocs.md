@@ -217,3 +217,36 @@ verifymessage "address" "signature" "message"
   }
 }
 ```
+
+## `getblock` response
+
+```json
+{
+  "hash": "00000000000005260001a0c2575649686b2ab6efabdb83c838e9471fd303d39a",
+  "confirmations": 4962,
+  "strippedsize": 258006,
+  "size": 258006,
+  "weight": 1032024,
+  "height": 193936,
+  "version": 1,
+  "versionHex": "00000001",
+  "merkleroot": "b08ba2eb12e3329984abf67fc9a21f7802a1a715b7616a2da96cc583d3a1a6ef",
+  "tx": [
+    "f00eccc905315110b023ba59a87276c7e02eddec38e8a42474b63b8d23a81560",
+    "c9c0f195e6b5a9330f0856e657ea641ec59f54ddd4eb793b84574c52acba2004",
+    "cf87a872e24a2631086ea2237719f56a1d9c1496684db46b00d1b2cb0d96be7d",
+    "1f4a2d02541d295302761d1aae1ed465b6fcb0d5ccee340898f86dbe245bfad8",
+    "5a000ee4194798f5394755dd7ac290ac913acfee681cf064b6cb8a03fdd9bd58"
+    // Etc............
+  ],
+  "time": 1344991373,
+  "mediantime": 1344985864,
+  "nonce": 2072129030,
+  "bits": "1a07a85e",
+  "difficulty": 2190865.970102859,
+  "chainwork": "0000000000000000000000000000000000000000000000173d5a3c6c4a66124f",
+  "nTx": 447,
+  "previousblockhash": "00000000000004ca92f0a745595514f7d8b6554084312be2012f73c1f41048e4",
+  "nextblockhash": "00000000000003e37e19c7450026758b585c27b50c0bbbd686eb35775183466a"
+}
+```

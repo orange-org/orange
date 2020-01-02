@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function useShortPolling(callback: () => unknown, interval: number) {
+export function usePolling(callback: () => unknown, interval: number) {
   useEffect(() => {
     callback();
 

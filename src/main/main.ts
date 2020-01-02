@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import { join } from "path";
 import { installExtensions } from "main/installExtensions";
 import { isDevelopment } from "main/isDevelopment";
@@ -42,6 +42,8 @@ function createWindow() {
   mainWindow.webContents.once("did-finish-load", () => {
     performFinishLoadSetup(mainWindow, app);
   });
+
+  globalShortcut.register("CmdOrCtrl+R", () => null);
 
   if (isDevelopment) {
     mainWindow.maximize();

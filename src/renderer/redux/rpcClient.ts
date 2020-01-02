@@ -14,11 +14,11 @@ const isRpcResponse = (
   );
 };
 
-export const rpcClient = async (
+export const rpcClient = (
   nonce: __NONCE__,
   rpcRequest: Omit<RpcRequest, "requestId">,
-) => {
-  return new Promise<RpcResponse>((resolve, reject) => {
+): Promise<RpcResponse> => {
+  return new Promise((resolve, reject) => {
     const requestId = generateUuid();
     const windowMessageEventHandler = (event: MessageEvent) => {
       const { data: response } = event;
@@ -38,7 +38,7 @@ export const rpcClient = async (
     callMain<RpcRequest>({
       nonce,
       type: "rpc-request",
-      message: { ...rpcRequest, requestId },
+      message: { ...(rpcRequest as RpcRequest), requestId },
     });
   });
 };

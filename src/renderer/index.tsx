@@ -35,9 +35,9 @@ const IndexFc: React.FC = () => {
 
   return (
     <>
-      <RpcConsole />
-      {/* {showSplashScreen && <SplashScreen />}
-      {showRpcConsole && !showSplashScreen && <RpcConsole />} */}
+      {/* <RpcConsole /> */}
+      {showSplashScreen && <SplashScreen />}
+      {showRpcConsole && !showSplashScreen && <RpcConsole />}
     </>
   );
 };

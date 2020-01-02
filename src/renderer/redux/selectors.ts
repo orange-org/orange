@@ -2,15 +2,14 @@ import { createSelector } from "reselect";
 import { State } from "./reducers";
 
 export const showSplashScreen = (state: State) =>
-  state.bitcoindOutput?.initMessage !== "Done loading";
+  state.lastInitMessage !== "Done loading";
 
 export const showRpcConsole = (state: State) =>
-  state.bitcoindOutput?.initMessage === "Done loading";
+  state.lastInitMessage === "Done loading";
 
 export const getSystemPreferences = (state: State) => state.systemPreferences;
 
-export const getBitcoinCoreVersion = (state: State) =>
-  state.bitcoindOutput?.version;
+export const getBitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
 
 export const getBitcoinCoreVersionShort = createSelector(
   getBitcoinCoreVersion,
@@ -19,8 +18,14 @@ export const getBitcoinCoreVersionShort = createSelector(
   },
 );
 
-export const getInitMessage = (state: State) =>
-  state.bitcoindOutput?.initMessage;
+export const getInitMessage = (state: State) => state.lastInitMessage;
 
-export const getNetworkInfo = (state: State) =>
-  state.bitcoindRpcResponses.networkInfo;
+export const getNetworkInfo = (state: State) => state.networkInfo;
+
+export const getBestBlockHash = (state: State) =>
+  state.blockchainInfo?.bestblockhash;
+
+export const getCurrentNumberOfBlocks = (state: State) =>
+  state.blockchainInfo?.blocks;
+
+export const getLastBlockTime = (state: State) => state.bestBlock?.time;

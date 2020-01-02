@@ -9,25 +9,22 @@ function parseLine(line: string, prefix: string) {
   return line.match(new RegExp(`${timestampRegExp.source}${prefix}(.*)`));
 }
 
-export function calculateBitcoindOutput(
-  bitcoindOutput: State["bitcoindOutput"],
-  line: string,
-) {
+export function calculateBitcoindOutput(state: State, line: string) {
   let parsedLine;
 
   if ((parsedLine = parseLine(line, initMessage))) {
     return {
-      ...bitcoindOutput,
-      initMessage: parsedLine[1],
+      ...state,
+      lastInitMessage: parsedLine[1],
     };
   }
 
   if ((parsedLine = parseLine(line, bitcoinCoreVersion))) {
     return {
-      ...bitcoindOutput,
-      version: parsedLine[1],
+      ...state,
+      bitcoinCoreVersion: parsedLine[1],
     };
   }
 
-  return bitcoindOutput;
+  return state;
 }

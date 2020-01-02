@@ -28,7 +28,7 @@ export const sendRpcRequestToBitcoind = (
         response.on("data", data => {
           const payload = JSON.parse(data) as RawRpcResponse;
 
-          resolve({ payload, ok: true, requestId });
+          resolve({ method, payload, ok: true, requestId } as RpcResponse);
         });
 
         response.on("error", error => reject(error));

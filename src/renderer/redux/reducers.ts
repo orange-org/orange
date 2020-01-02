@@ -1,28 +1,42 @@
 import { createReducer } from "typesafe-actions";
 import { DeepReadonly } from "utility-types";
 
-import { NetworkInfo } from "typings/bitcoindRpcResponses";
+import {
+  NetworkInfo,
+  BlockchainInfo,
+  Block,
+} from "typings/bitcoindRpcResponses";
+import { OrUndefined } from "typings/typeHelpers";
 import {
   setSystemPreference,
   receiveBitcoindLine,
   setNetworkInfo,
+  setBlockchainInfo,
+  setBlock,
+  setBestBlock,
 } from "renderer/redux/actions";
 import { calculateBitcoindOutput } from "renderer/redux/calculateBitcoindOutput";
 
-export type State = DeepReadonly<{
-  systemPreferences: { [name: string]: string } | undefined;
-  bitcoindOutput: Partial<{ initMessage: string; version: string }> | undefined;
-  bitcoindRpcResponses: {
-    networkInfo: NetworkInfo | undefined;
-  };
-}>;
+export type State = DeepReadonly<
+  OrUndefined<{
+    systemPreferences: { [name: string]: string };
+    lastInitMessage: string;
+    bitcoinCoreVersion: string;
+    networkInfo: NetworkInfo;
+    blockchainInfo: BlockchainInfo;
+    lastRequestedBlock: Block;
+    bestBlock: Block;
+  }>
+>;
 
 const initialState: State = {
   systemPreferences: undefined,
-  bitcoindOutput: undefined,
-  bitcoindRpcResponses: {
-    networkInfo: undefined,
-  },
+  lastInitMessage: undefined,
+  bitcoinCoreVersion: undefined,
+  networkInfo: undefined,
+  blockchainInfo: undefined,
+  lastRequestedBlock: undefined,
+  bestBlock: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
@@ -35,15 +49,21 @@ export const orangeApp = createReducer(initialState)
   }))
   .handleAction(receiveBitcoindLine, (state, action) => ({
     ...state,
-    bitcoindOutput: calculateBitcoindOutput(
-      state.bitcoindOutput,
-      action.payload,
-    ),
+    ...calculateBitcoindOutput(state, action.payload),
   }))
   .handleAction(setNetworkInfo, (state, action) => ({
     ...state,
-    bitcoindRpcResponses: {
-      ...state.bitcoindRpcResponses,
-      networkInfo: action.payload,
-    },
+    networkInfo: action.payload,
+  }))
+  .handleAction(setBlockchainInfo, (state, action) => ({
+    ...state,
+    blockchainInfo: action.payload,
+  }))
+  .handleAction(setBlock, (state, action) => ({
+    ...state,
+    block: action.payload,
+  }))
+  .handleAction(setBestBlock, (state, action) => ({
+    ...state,
+    bestBlock: action.payload,
   }));

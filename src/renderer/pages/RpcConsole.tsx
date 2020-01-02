@@ -12,9 +12,10 @@ import clsx from "clsx";
 import { useSelector, useDispatch } from "react-redux";
 
 import { sendRpcRequestToMain } from "renderer/redux/SendRpcRequestToMain";
-import { useShortPolling } from "renderer/hooks";
+import { usePolling } from "renderer/hooks";
 import * as selectors from "renderer/redux/selectors";
 import * as actions from "renderer/redux/actions";
+import { rpcClient } from "renderer/redux/rpcClient";
 
 const useStyles = makeStyles({
   root: {
@@ -60,22 +61,20 @@ const useStyles = makeStyles({
 
 export const RpcConsole: React.FC = () => {
   const c = useStyles();
-  const networkInfo = useSelector(selectors.getNetworkInfo);
-  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersion);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
-  // useShortPolling(
-  //   () =>
-  //     sendRpcRequestToMain({
-  //       nonce: __NONCE__,
-  //       method: "getnetworkinfo",
-  //     }),
-  //   10000,
-  // );
+  usePolling(async () => {
+    dispatch(actions.requestBlockchainInfoAndBestBlock(__NONCE__));
+  }, 1000);
+
+  const networkInfo = useSelector(selectors.getNetworkInfo);
+  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersion);
+  const currentNumberOfBlocks = useSelector(selectors.getCurrentNumberOfBlocks);
+  const lastBlockTime = useSelector(selectors.getLastBlockTime);
 
   const renderRow = (name: string, value: string) => {
     return (
@@ -148,8 +147,11 @@ export const RpcConsole: React.FC = () => {
 
       {renderSectionHeading("Block chain")}
       <div className={c.table}>
-        {renderRow("Current number of blocks", "3228")}
-        {renderRow("Last block time", "Fri Dec 27 12:23:43 2010")}
+        {renderRow(
+          "Current number of blocks",
+          currentNumberOfBlocks?.toString() || "N/A",
+        )}
+        {renderRow("Last block time", lastBlockTime?.toString() || "N/A")}
       </div>
 
       <Divider />

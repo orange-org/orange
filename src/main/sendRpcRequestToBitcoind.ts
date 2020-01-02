@@ -1,11 +1,12 @@
 /* eslint-disable prefer-destructuring */
-import { username, password } from "main/bitcoindCredentials";
 import http from "http";
+import { ipcMain, BrowserWindow } from "electron";
+
+import { username, password } from "main/bitcoindCredentials";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse, RawRpcResponse } from "typings/bitcoindRpcResponses";
-import { ipcMain, BrowserWindow } from "electron";
 import { MessageToMain } from "typings/types";
-import { sendMessageToRenderer } from "./sendMessageToRenderer";
+import { sendMessageToRenderer } from "main/sendMessageToRenderer";
 
 export const sendRpcRequestToBitcoind = (
   rpcRequest: RpcRequest,
@@ -25,12 +26,17 @@ export const sendRpcRequestToBitcoind = (
       },
       response => {
         response.setEncoding("utf8");
-        response.on("data", data => {
-          const payload = JSON.parse(data) as RawRpcResponse;
 
-          resolve({ method, payload, ok: true, requestId } as RpcResponse);
+        let data = "";
+
+        response.on("data", dataChunk => {
+          data += dataChunk;
         });
 
+        response.on("end", () => {
+          const payload = JSON.parse(data) as RawRpcResponse;
+          resolve({ method, payload, ok: true, requestId } as RpcResponse);
+        });
         response.on("error", error => reject(error));
       },
     );

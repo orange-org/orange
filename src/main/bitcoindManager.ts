@@ -17,11 +17,11 @@ class BitcoindManager {
     }
 
     const bitcoindProcess = spawn(join(getAppRoot(), "vendor", "bitcoind"), [
-      "-reindex",
+      // "-reindex",
       "-testnet",
       "-server",
-      "-maxuploadtarget=1",
-      "-listen=0",
+      // "-maxuploadtarget=1",
+      // "-listen=0",
       // "-maxconnections=1",
       // "-blocksonly",
       `-rpcuser=${username}`,

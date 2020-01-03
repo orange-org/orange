@@ -28,6 +28,11 @@ export type PeerInfoRpcRequest = {
   params?: [];
 };
 
+export type MempoolInfoRpcRequest = {
+  method: "getmempoolinfo";
+  params?: [];
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -35,6 +40,7 @@ export type RpcRequest = { requestId: string } & (
   | BlockRpcRequest
   | UptimeRpcRequest
   | PeerInfoRpcRequest
+  | MempoolInfoRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

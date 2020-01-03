@@ -2,5 +2,5 @@
   "search.exclude": {
     "dist": true
   },
-  "cSpell.words": ["bitcoind", "clsx"]
+  "cSpell.words": ["Mempool", "bitcoind", "clsx"]
 }

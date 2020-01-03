@@ -6,6 +6,7 @@ import {
   BlockchainInfo,
   Block,
   PeerInfo,
+  MempoolInfo,
 } from "typings/bitcoindRpcResponses";
 import { rpcClient } from "renderer/redux/rpcClient";
 import { Json } from "typings/types";
@@ -36,6 +37,8 @@ export const setUptime = createAction("SET_UPTIME")<number>();
 export const setStartupTime = createAction("SET_STARTUP_TIME")<string>();
 
 export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
+
+export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
@@ -71,6 +74,11 @@ export const requestBlock = createSimpleRpcRequest<Block>("getblock", setBlock);
 export const requestPeerInfo = createSimpleRpcRequest<PeerInfo>(
   "getpeerinfo",
   setPeerInfo,
+);
+
+export const requestMempoolInfo = createSimpleRpcRequest<MempoolInfo>(
+  "getmempoolinfo",
+  setMempoolInfo,
 );
 
 export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {

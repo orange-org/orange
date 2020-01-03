@@ -71,6 +71,7 @@ export const RpcConsole: React.FC = () => {
   usePolling(() => {
     dispatch(actions.requestBlockchainInfoAndBestBlock(__NONCE__));
     dispatch(actions.requestPeerInfo(__NONCE__));
+    dispatch(actions.requestMempoolInfo(__NONCE__));
   }, 1000);
 
   const networkInfo = useSelector(selectors.getNetworkInfo);
@@ -80,8 +81,10 @@ export const RpcConsole: React.FC = () => {
   const dataDir = useSelector(selectors.getDataDir);
   const startupTime = useSelector(selectors.getStartupTime);
   const connectionSummary = useSelector(selectors.getConnectionSummary);
+  const mempoolInfo = useSelector(selectors.getMempoolInfo);
+  const chainName = useSelector(selectors.getChainName);
 
-  const renderRow = (name: string, value: string = "N/A") => {
+  const renderRow = (name: string, value: string | number = "N/A") => {
     return (
       <div className={c.row}>
         <div className={c.cell}>
@@ -141,7 +144,7 @@ export const RpcConsole: React.FC = () => {
 
       {renderSectionHeading("Network")}
       <div className={c.table}>
-        {renderRow("Name", "main")}
+        {renderRow("Name", chainName)}
         {renderRow(
           "Number of connections",
           connectionSummary !== undefined
@@ -154,19 +157,16 @@ export const RpcConsole: React.FC = () => {
 
       {renderSectionHeading("Block chain")}
       <div className={c.table}>
-        {renderRow(
-          "Current number of blocks",
-          currentNumberOfBlocks?.toString(),
-        )}
-        {renderRow("Last block time", lastBlockTime?.toString())}
+        {renderRow("Current number of blocks", currentNumberOfBlocks)}
+        {renderRow("Last block time", lastBlockTime)}
       </div>
 
       <Divider />
 
       {renderSectionHeading("Memory Pool")}
       <div className={c.table}>
-        {renderRow("Current number of transactions", "0")}
-        {renderRow("Memory usage", "0.00 KB")}
+        {renderRow("Current number of transactions", mempoolInfo?.size)}
+        {renderRow("Memory usage", mempoolInfo?.usage)}
       </div>
     </Paper>
   );

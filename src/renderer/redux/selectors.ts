@@ -47,10 +47,10 @@ export const getConnectionSummary = createSelector(getPeerInfo, peerInfo => {
 
       return connectionSummary;
     },
-    {
-      total: 0,
-      in: 0,
-      out: 0,
-    },
+    { total: 0, in: 0, out: 0 },
   );
 });
+
+export const getMempoolInfo = (state: State) => state.mempoolInfo;
+
+export const getChainName = (state: State) => state.blockchainInfo?.chain;

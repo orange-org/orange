@@ -5,6 +5,7 @@ import {
   BlockRpcRequest,
   UptimeRpcRequest,
   PeerInfoRpcRequest,
+  MempoolInfoRpcRequest,
 } from "typings/bitcoindRpcRequests";
 
 type CreateRpcResponse<Method, Result> = {
@@ -187,6 +188,21 @@ export type PeerInfoRpcResponse = CreateRpcResponse<
   PeerInfo
 >;
 
+export type MempoolInfo = {
+  loaded: boolean;
+  size: number;
+  bytes: number;
+  usage: number;
+  maxmempool: number;
+  mempoolminfee: number;
+  minrelaytxfee: number;
+};
+
+export type MempoolInfoRpcResponse = CreateRpcResponse<
+  MempoolInfoRpcRequest["method"],
+  MempoolInfo
+>;
+
 export type RpcResponse = {
   ok: boolean;
   requestId: string;
@@ -196,6 +212,7 @@ export type RpcResponse = {
   | BlockRpcResponse
   | UptimeRpcResponse
   | PeerInfoRpcResponse
+  | MempoolInfoRpcResponse
 );
 
 export type RawRpcResponse = { result: any };

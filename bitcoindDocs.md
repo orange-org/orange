@@ -95,16 +95,13 @@ verifymessage "address" "signature" "message"
 
 ### `getnetworkinfo` response
 
-```
+```json
 {
   "version": 199900,
   "subversion": "/Satoshi:0.19.99/",
   "protocolversion": 70015,
   "localservices": "0000000000000408",
-  "localservicesnames": [
-    "WITNESS",
-    "NETWORK_LIMITED"
-  ],
+  "localservicesnames": ["WITNESS", "NETWORK_LIMITED"],
   "localrelay": true,
   "timeoffset": 0,
   "networkactive": true,
@@ -132,10 +129,9 @@ verifymessage "address" "signature" "message"
       "proxy_randomize_credentials": false
     }
   ],
-  "relayfee": 0.00001000,
-  "incrementalfee": 0.00001000,
-  "localaddresses": [
-  ],
+  "relayfee": 0.00001,
+  "incrementalfee": 0.00001,
+  "localaddresses": [],
   "warnings": "This is a pre-release test build - use at your own risk - do not use for mining or merchant applications"
 }
 ```

@@ -6,6 +6,7 @@ import {
   BlockchainInfo,
   Block,
   PeerInfo,
+  MempoolInfo,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
 import * as actions from "renderer/redux/actions";
@@ -25,6 +26,7 @@ export type State = DeepReadonly<
     bestBlock: Block;
     uptime: number;
     peerInfo: PeerInfo;
+    mempoolInfo: MempoolInfo;
   }>
 >;
 
@@ -41,6 +43,7 @@ const initialState: State = {
   bestBlock: undefined,
   uptime: undefined,
   peerInfo: undefined,
+  mempoolInfo: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
@@ -82,4 +85,8 @@ export const orangeApp = createReducer(initialState)
   .handleAction(actions.setPeerInfo, (state, action) => ({
     ...state,
     peerInfo: action.payload,
+  }))
+  .handleAction(actions.setMempoolInfo, (state, action) => ({
+    ...state,
+    mempoolInfo: action.payload,
   }));

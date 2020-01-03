@@ -49,6 +49,13 @@ export const theme: ThemeOptions = {
         },
       },
     },
+
+    MuiPaper: {
+      root: {
+        border: "1px solid #dfdfdf",
+        borderTopColor: "#dadada",
+      },
+    },
   },
   props: {
     MuiPaper: {

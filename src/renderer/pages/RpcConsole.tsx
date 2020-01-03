@@ -1,26 +1,21 @@
-import React, { useEffect } from "react";
-import Button from "@material-ui/core/Button";
 import {
-  Typography,
-  makeStyles,
   ButtonGroup,
-  Paper,
-  Grid,
   Divider,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography,
 } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import clsx from "clsx";
-import { useSelector, useDispatch } from "react-redux";
-
-import { sendRpcRequestToMain } from "renderer/redux/SendRpcRequestToMain";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { usePolling } from "renderer/hooks";
-import * as selectors from "renderer/redux/selectors";
 import * as actions from "renderer/redux/actions";
-import { rpcClient } from "renderer/redux/rpcClient";
+import * as selectors from "renderer/redux/selectors";
 
 const useStyles = makeStyles({
   root: {
-    border: "1px solid #dfdfdf",
-    borderTopColor: "#dadada",
     margin: "10px",
     marginTop: "30px",
     padding: "25px",

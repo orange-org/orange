@@ -43,11 +43,11 @@ function createWindow() {
     performFinishLoadSetup(mainWindow, app);
   });
 
-  globalShortcut.register("CmdOrCtrl+R", () => null);
-
   if (isDevelopment) {
     mainWindow.maximize();
     mainWindow.webContents.openDevTools();
+  } else {
+    globalShortcut.register("CmdOrCtrl+R", () => null);
   }
 }
 

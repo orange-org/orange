@@ -2,7 +2,7 @@
 
 ## Response for `help`
 
-```
+```bash
 == Blockchain ==
 getbestblockhash
 getblock "blockhash" ( verbosity )

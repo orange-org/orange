@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
-import * as selectors from "renderer/redux/selectors";
-import { SplashScreen } from "renderer/pages/SplashScreen";
 import { RpcConsole } from "renderer/pages/RpcConsole";
-import { Paper } from "@material-ui/core";
-
-// const Container = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   background-color: ${(props: { backgroundColor: string }) =>
-//     props.backgroundColor};
-//   overflow: hidden;
-// `;
+import { SplashScreen } from "renderer/pages/SplashScreen";
+import { Warnings } from "renderer/pages/Warnings";
+import * as selectors from "renderer/redux/selectors";
 
 const useShowSplashScreen = () => {
   const showSplashScreenSelectorResult = useSelector(
@@ -32,10 +23,11 @@ const useShowSplashScreen = () => {
 const IndexFc: React.FC = () => {
   const showSplashScreen = useShowSplashScreen();
   const showRpcConsole = useSelector(selectors.showRpcConsole);
+  const showWarnings = useSelector(selectors.showWarnings);
 
   return (
     <>
-      {/* <RpcConsole /> */}
+      {showWarnings && <Warnings />}
       {showSplashScreen && <SplashScreen />}
       {showRpcConsole && !showSplashScreen && <RpcConsole />}
     </>

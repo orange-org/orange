@@ -54,3 +54,13 @@ export const getConnectionSummary = createSelector(getPeerInfo, peerInfo => {
 export const getMempoolInfo = (state: State) => state.mempoolInfo;
 
 export const getChainName = (state: State) => state.blockchainInfo?.chain;
+
+export const getWarnings = (state: State) => {
+  return state.blockchainInfo?.warnings || state.networkInfo?.warnings;
+};
+
+export const showWarnings = (state: State) => {
+  const warningsLength = getWarnings(state)?.length;
+
+  return warningsLength !== undefined && warningsLength > 0;
+};

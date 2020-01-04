@@ -34,8 +34,8 @@
     "resolveJsonModule": true,
 
     "paths": {
-      "r/*": ["renderer/*"],
-      "m/*": ["main/*"]
+      "_r/*": ["renderer/*"],
+      "_m/*": ["main/*"]
     }
   },
   "include": ["src/**/*"]

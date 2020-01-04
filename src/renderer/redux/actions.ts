@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
-import { State } from "r/redux/reducers";
-import { rpcClient } from "r/redux/rpcClient";
-import * as selectors from "r/redux/selectors";
+import { State } from "_r/redux/reducers";
+import { rpcClient } from "_r/redux/rpcClient";
+import * as selectors from "_r/redux/selectors";
 import { createAction, PayloadActionCreator } from "typesafe-actions";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import {

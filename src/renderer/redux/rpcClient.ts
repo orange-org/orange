@@ -1,4 +1,4 @@
-import { callMain } from "r/redux/callMain";
+import { callMain } from "_r/redux/callMain";
 import { generateUuid } from "renderer/generateUuid";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse } from "typings/bitcoindRpcResponses";

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import { orangeApp } from "r/redux/reducers";
+import { orangeApp } from "_r/redux/reducers";
 
 const composeEnhancers =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({

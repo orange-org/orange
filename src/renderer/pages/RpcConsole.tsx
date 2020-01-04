@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { usePolling } from "renderer/hooks";
+import { usePolling } from "_r/hooks";
 import * as actions from "_r/redux/actions";
 import * as selectors from "_r/redux/selectors";
 

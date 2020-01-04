@@ -64,3 +64,7 @@ export const showWarnings = (state: State) => {
 
   return warningsLength !== undefined && warningsLength > 0;
 };
+
+export const getProcessingBlocksOnDisk = (state: State) => {
+  return state.processingBlocksOnDisk;
+};

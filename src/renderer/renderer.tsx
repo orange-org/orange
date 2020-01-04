@@ -13,9 +13,6 @@ import "typeface-roboto";
 
 registerBitcoindLogListener();
 
-const mainElement = document.createElement("div");
-document.body.appendChild(mainElement);
-
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={createMuiTheme(theme)}>
@@ -24,5 +21,5 @@ ReactDOM.render(
       <Index />
     </ThemeProvider>
   </Provider>,
-  mainElement,
+  document.getElementById("app"),
 );

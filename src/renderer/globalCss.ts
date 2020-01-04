@@ -7,5 +7,11 @@ export const GlobalCss = withStyles({
       width: "100%",
       overflow: "hidden",
     },
+
+    "#app": {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    },
   },
 })(() => null);

@@ -14,20 +14,20 @@ import { usePolling } from "renderer/hooks";
 import * as actions from "_r/redux/actions";
 import * as selectors from "_r/redux/selectors";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    margin: "10px",
-    marginTop: "30px",
-    padding: "25px",
+    margin: theme.spacing(2),
+    marginTop: theme.spacing(6),
+    padding: theme.spacing(6),
 
     "& .heading:not(:first-child)": {
-      marginTop: "20px",
+      marginTop: theme.spacing(6),
     },
   },
 
   table: {
     display: "table",
-    borderSpacing: "15px",
+    borderSpacing: `${theme.spacing(3)}px`,
   },
 
   row: {
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
     backgroundImage: "linear-gradient(to bottom, #B0B0B5, #909095)",
     color: "#ffffff",
   },
-});
+}));
 
 export const RpcConsole: React.FC = () => {
   const c = useStyles();
@@ -78,6 +78,11 @@ export const RpcConsole: React.FC = () => {
   const connectionSummary = useSelector(selectors.getConnectionSummary);
   const mempoolInfo = useSelector(selectors.getMempoolInfo);
   const chainName = useSelector(selectors.getChainName);
+  const showRpcConsole = useSelector(selectors.showRpcConsole);
+
+  if (showRpcConsole === false) {
+    return null;
+  }
 
   const renderRow = (name: string, value: string | number = "N/A") => {
     return (

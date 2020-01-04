@@ -89,3 +89,4 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 - Find a way to grab `blocks/` dir from Bitcoin Core and display it correctly in RPC Console
 - Format startup time correctly
 - Format mempool numbers correctly
+- Make progress bar glow like macOS

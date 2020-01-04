@@ -4,32 +4,20 @@ import { SplashScreen } from "_r/pages/SplashScreen";
 import { Warnings } from "_r/pages/Warnings";
 import React from "react";
 import { useSelector } from "react-redux";
-
-const useShowSplashScreen = () => {
-  const showSplashScreenSelectorResult = useSelector(
-    selectors.showSplashScreen,
-  );
-  const [waitForSplashScreen, setWaitForSplashScreen] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setWaitForSplashScreen(false);
-    }, 3000);
-  }, []);
-
-  return showSplashScreenSelectorResult || waitForSplashScreen;
-};
+import * as selectors from "_r/redux/selectors";
 
 const IndexFc: React.FC = () => {
-  const showSplashScreen = useShowSplashScreen();
-  const showRpcConsole = useSelector(selectors.showRpcConsole);
-  const showWarnings = useSelector(selectors.showWarnings);
+  const showSplashScreen = useSelector(selectors.showSplashScreen);
 
   return (
     <>
-      {showWarnings && <Warnings />}
-      {showSplashScreen && <SplashScreen />}
-      {showRpcConsole && !showSplashScreen && <RpcConsole />}
+      {(showSplashScreen && <SplashScreen />) || (
+        <>
+          <Warnings />
+          <RpcConsole />
+          <ProgressBar />
+        </>
+      )}
     </>
   );
 };

@@ -5,11 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import * as selectors from "_r/redux/selectors";
 import * as actions from "_r/redux/actions";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    margin: "10px",
-    marginTop: "10px",
-    padding: "5px",
+    margin: theme.spacing(2),
+    padding: theme.spacing(1),
     display: "flex",
     alignItems: "center",
   },
@@ -19,10 +18,10 @@ const useStyles = makeStyles({
   },
 
   text: {
-    marginLeft: "10px",
+    marginLeft: theme.spacing(2),
     fontWeight: 500,
   },
-});
+}));
 
 export const Warnings: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,8 +30,13 @@ export const Warnings: React.FC = () => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
+  const showWarnings = useSelector(selectors.showWarnings);
   const warnings = useSelector(selectors.getWarnings);
   const c = useStyles();
+
+  if (showWarnings === false) {
+    return null;
+  }
 
   return (
     <Paper className={c.root}>

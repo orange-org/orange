@@ -1,26 +1,25 @@
 import { Dispatch } from "redux";
-import { createAction, PayloadActionCreator } from "typesafe-actions";
-
-import {
-  NetworkInfo,
-  BlockchainInfo,
-  Block,
-  PeerInfo,
-  MempoolInfo,
-} from "typings/bitcoindRpcResponses";
-import { rpcClient } from "renderer/redux/rpcClient";
-import { Json } from "typings/types";
-import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { State } from "renderer/redux/reducers";
+import { rpcClient } from "renderer/redux/rpcClient";
 import * as selectors from "renderer/redux/selectors";
+import { createAction, PayloadActionCreator } from "typesafe-actions";
+import { RpcRequest } from "typings/bitcoindRpcRequests";
+import {
+  Block,
+  BlockchainInfo,
+  MempoolInfo,
+  NetworkInfo,
+  PeerInfo,
+} from "typings/bitcoindRpcResponses";
+import { Json } from "typings/types";
 
 export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
   Json
 >();
 
-export const receiveBitcoindLine = createAction("RECEIVE_BITCOIND_LOG_LINE")<
-  string
->();
+export const receiveBitcoindLogLines = createAction(
+  "RECEIVE_BITCOIND_LOG_LINES",
+)<string[]>();
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 

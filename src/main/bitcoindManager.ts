@@ -12,6 +12,8 @@ class BitcoindManager {
   bitcoindProcess: ChildProcess | null = null;
 
   startProcess = (mainWindow: BrowserWindow) => {
+    const lines: string[] = [];
+
     if (this.bitcoindProcess !== null) {
       throw new Error("bitcoind process is already running");
     }
@@ -34,15 +36,21 @@ class BitcoindManager {
 
     createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
       console.log(line);
+      lines.push(line);
+    });
+
+    setInterval(() => {
       sendMessageToRenderer(
         {
           nonce: __NONCE__,
-          type: "bitcoind-line",
-          message: line,
+          type: "bitcoind-log-lines",
+          message: lines,
         },
         mainWindow,
       );
-    });
+
+      lines.length = 0;
+    }, 1000);
 
     bitcoindProcess.stderr.on("data", data => {
       throw new Error(`bitcoind error: ${data}`);

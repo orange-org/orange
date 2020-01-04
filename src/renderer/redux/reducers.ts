@@ -10,9 +10,9 @@ import {
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
 import * as actions from "renderer/redux/actions";
-import { calculateStateFromBitcoindLogLine } from "renderer/redux/calculateStateFromBitcoindLogLine";
+import { calculateStateFromBitcoindLogLines } from "renderer/redux/calculateStateFromBitcoindLogLine";
 
-export type State = DeepReadonly<
+type NullableState = DeepReadonly<
   OrUndefined<{
     systemPreferences: { [name: string]: string };
     lastInitMessage: string;
@@ -30,6 +30,15 @@ export type State = DeepReadonly<
   }>
 >;
 
+type UnnullableState = DeepReadonly<{
+  processingBlocksOnDisk: {
+    active: boolean;
+    progress: number;
+  };
+}>;
+
+export type State = NullableState & UnnullableState;
+
 const initialState: State = {
   systemPreferences: undefined,
   lastInitMessage: undefined,
@@ -44,6 +53,10 @@ const initialState: State = {
   uptime: undefined,
   peerInfo: undefined,
   mempoolInfo: undefined,
+  processingBlocksOnDisk: {
+    active: false,
+    progress: 0,
+  },
 };
 
 export const orangeApp = createReducer(initialState)
@@ -54,9 +67,9 @@ export const orangeApp = createReducer(initialState)
       ...action.payload,
     },
   }))
-  .handleAction(actions.receiveBitcoindLine, (state, action) => ({
+  .handleAction(actions.receiveBitcoindLogLines, (state, action) => ({
     ...state,
-    ...calculateStateFromBitcoindLogLine(state, action.payload),
+    ...calculateStateFromBitcoindLogLines(state, action.payload),
   }))
   .handleAction(actions.setNetworkInfo, (state, action) => ({
     ...state,

@@ -3,7 +3,7 @@ export type Json = { [name: string]: string };
 export type MessageToRenderer<MessageType> = {
   nonce: NONCE;
   source: "@orange/main";
-  type: "system-preference" | "bitcoind-line" | "rpc-response";
+  type: "system-preference" | "bitcoind-log-lines" | "rpc-response";
   message: MessageType;
 };
 

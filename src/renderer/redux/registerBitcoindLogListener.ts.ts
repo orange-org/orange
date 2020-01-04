@@ -1,7 +1,7 @@
 import { MessageToRenderer } from "typings/types";
 import {
   setSystemPreference,
-  receiveBitcoindLine,
+  receiveBitcoindLogLines,
 } from "renderer/redux/actions";
 import { store } from "renderer/redux/store";
 
@@ -17,8 +17,8 @@ function isSystemPreference(
 
 function isBitcoindLine(
   data: MessageToRenderer<any>,
-): data is MessageToRenderer<string> {
-  return data.type === "bitcoind-line";
+): data is MessageToRenderer<string[]> {
+  return data.type === "bitcoind-log-lines";
 }
 
 export function registerBitcoindLogListener() {
@@ -33,7 +33,7 @@ export function registerBitcoindLogListener() {
       if (isSystemPreference(data)) {
         store.dispatch(setSystemPreference(data.message));
       } else if (isBitcoindLine(data)) {
-        store.dispatch(receiveBitcoindLine(data.message));
+        store.dispatch(receiveBitcoindLogLines(data.message));
       }
     }
   });

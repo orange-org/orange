@@ -9,8 +9,8 @@ import {
   MempoolInfo,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
-import * as actions from "renderer/redux/actions";
-import { calculateStateFromBitcoindLogLines } from "renderer/redux/calculateStateFromBitcoindLogLine";
+import * as actions from "r/redux/actions";
+import { calculateStateFromBitcoindLogLines } from "r/redux/calculateStateFromBitcoindLogLine";
 
 type NullableState = DeepReadonly<
   OrUndefined<{

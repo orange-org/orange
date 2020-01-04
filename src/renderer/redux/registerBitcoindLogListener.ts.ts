@@ -1,9 +1,6 @@
 import { MessageToRenderer } from "typings/types";
-import {
-  setSystemPreference,
-  receiveBitcoindLogLines,
-} from "renderer/redux/actions";
-import { store } from "renderer/redux/store";
+import { setSystemPreference, receiveBitcoindLogLines } from "r/redux/actions";
+import { store } from "r/redux/store";
 
 function isMessageToRenderer(data: any): data is MessageToRenderer<any> {
   return data.source === "@orange/main";

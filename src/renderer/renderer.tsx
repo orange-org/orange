@@ -3,11 +3,11 @@ import * as ReactDOM from "react-dom";
 import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { Provider } from "react-redux";
 
-import { Index } from "renderer/Index";
-import { store } from "renderer/redux/store";
-import { registerBitcoindLogListener } from "renderer/redux/registerBitcoindLogListener.ts";
-import { GlobalCss } from "renderer/globalCss";
-import { theme } from "renderer/theme";
+import { Index } from "r/Index";
+import { store } from "r/redux/store";
+import { registerBitcoindLogListener } from "r/redux/registerBitcoindLogListener.ts";
+import { GlobalCss } from "r/globalCss";
+import { theme } from "r/theme";
 
 import "typeface-roboto";
 

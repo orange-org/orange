@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { RpcConsole } from "r/pages/RpcConsole";
+import { SplashScreen } from "r/pages/SplashScreen";
+import { Warnings } from "r/pages/Warnings";
+import { ProgressBar } from "r/pages/ProgressBar";
 import { useSelector } from "react-redux";
-import { RpcConsole } from "renderer/pages/RpcConsole";
-import { SplashScreen } from "renderer/pages/SplashScreen";
-import { Warnings } from "renderer/pages/Warnings";
-import * as selectors from "renderer/redux/selectors";
+import * as selectors from "r/redux/selectors";
 
 const useShowSplashScreen = () => {
   const showSplashScreenSelectorResult = useSelector(

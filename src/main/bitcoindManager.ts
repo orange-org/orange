@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
-import { spawn, ChildProcess } from "child_process";
-import { join } from "path";
-import { username, password } from "main/bitcoindCredentials";
-import { getAppRoot } from "main/getAppRoot";
+import { ChildProcess, spawn } from "child_process";
 import { BrowserWindow } from "electron";
+import { password, username } from "m/bitcoindCredentials";
+import { getAppRoot } from "m/getAppRoot";
+import { join } from "path";
 import { createInterface } from "readline";
-import { sendMessageToRenderer } from "./sendMessageToRenderer";
+import { sendMessageToRenderer } from "m/sendMessageToRenderer";
 
 class BitcoindManager {
   isProcessRunning = false;

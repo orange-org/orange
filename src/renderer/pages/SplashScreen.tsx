@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 import * as styles from "renderer/styles";
 import bitcoinPng from "assets/bitcoin.png";
-import * as selectors from "renderer/redux/selectors";
+import * as selectors from "r/redux/selectors";
 
 import { version } from "../../../package.json";
 

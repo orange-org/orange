@@ -31,11 +31,12 @@
     "noEmitHelpers": true, // disable emitting inline helper functions
     "removeComments": true,
     "stripInternal": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
 
-    // "paths": {
-    //   "renderer/*": ["renderer/*"]
-    // }
+    "paths": {
+      "r/*": ["renderer/*"],
+      "m/*": ["main/*"]
+    }
   },
   "include": ["src/**/*"]
 }

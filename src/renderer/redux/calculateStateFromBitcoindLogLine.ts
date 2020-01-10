@@ -1,15 +1,17 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-cond-assign */
-import { State } from "./reducers";
+import { State } from "_r/redux/reducers";
 
 const initMessage = "init message: ";
 const bitcoinCoreVersion = "Bitcoin Core version ";
 const usingDataDirectory = "Using data directory ";
 const openingLevelDbIn = "Opening LevelDB in ";
 const updateTip = "UpdateTip: ";
+const synchronizingBlockHeaders = "Synchronizing blockheaders, ";
 
 const timestampRegExp = /\d{4}-\d{2}-\d{2}\D\d{2}:\d{2}:\d{2}\D\s/;
 const updateTipRegExp = /new best=([a-fA-F0-9]+).*height=(\d+).*progress=(\d*\.?\d*)/;
+const synchronizingBlockHeadersRegExp = /height: \d+ \(~?(\d+\.\d+)%\)/;
 
 function parseLine(line: string, prefix: string) {
   return line.match(new RegExp(`${timestampRegExp.source}${prefix}(.*)`));
@@ -29,10 +31,6 @@ const lineParsingDefinitions: [string, string | StateKeysFunction][] = [
       ) as RegExpMatchArray;
       const bestBlockHash = parsedData[1];
       const blocks = parseInt(parsedData[2], 10);
-      const processingBlocksOnDisk = {
-        active: true,
-        progress: parseFloat(parsedData[3]),
-      };
 
       return {
         ...state,
@@ -44,7 +42,22 @@ const lineParsingDefinitions: [string, string | StateKeysFunction][] = [
           ...state.blockchainInfo,
           blocks,
         },
-        processingBlocksOnDisk,
+
+        // We multiply by 100 here because this comes in as 0.1 equaling 100%
+        synchronizingBlocksProgress: parseFloat(parsedData[3]) * 100,
+      };
+    },
+  ],
+  [
+    synchronizingBlockHeaders,
+    (parsedLine, state) => {
+      const parsedData = parsedLine[1].match(
+        synchronizingBlockHeadersRegExp,
+      ) as RegExpMatchArray;
+
+      return {
+        ...state,
+        synchronizingBlockHeadersProgress: parseFloat(parsedData[1]),
       };
     },
   ],

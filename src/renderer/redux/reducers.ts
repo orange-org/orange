@@ -27,15 +27,12 @@ type NullableState = DeepReadonly<
     uptime: number;
     peerInfo: PeerInfo;
     mempoolInfo: MempoolInfo;
+    synchronizingBlocksProgress: number;
+    synchronizingBlockHeadersProgress: number;
   }>
 >;
 
-type UnnullableState = DeepReadonly<{
-  processingBlocksOnDisk: {
-    active: boolean;
-    progress: number;
-  };
-}>;
+type UnnullableState = DeepReadonly<{}>;
 
 export type State = NullableState & UnnullableState;
 
@@ -53,10 +50,8 @@ const initialState: State = {
   uptime: undefined,
   peerInfo: undefined,
   mempoolInfo: undefined,
-  processingBlocksOnDisk: {
-    active: false,
-    progress: 0,
-  },
+  synchronizingBlocksProgress: undefined,
+  synchronizingBlockHeadersProgress: undefined,
 };
 
 export const orangeApp = createReducer(initialState)

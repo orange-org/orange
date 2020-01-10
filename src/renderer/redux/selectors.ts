@@ -65,6 +65,10 @@ export const showWarnings = (state: State) => {
   return warningsLength !== undefined && warningsLength > 0;
 };
 
-export const getProcessingBlocksOnDisk = (state: State) => {
-  return state.processingBlocksOnDisk;
+export const getSynchronizingBlocksProgress = (state: State) => {
+  return state.synchronizingBlocksProgress;
+};
+
+export const getSynchronizingBlockHeadersProgress = (state: State) => {
+  return state.synchronizingBlockHeadersProgress;
 };

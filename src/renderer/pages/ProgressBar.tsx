@@ -1,7 +1,7 @@
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
-import * as selectors from "_r/redux/selectors";
 import { useSelector } from "react-redux";
+import * as selectors from "_r/redux/selectors";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,26 +26,60 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const useProgressBarState = () => {
+  const synchronizingBlockHeadersProgress = useSelector(
+    selectors.getSynchronizingBlockHeadersProgress,
+  );
+  const synchronizingBlocksProgress = useSelector(
+    selectors.getSynchronizingBlocksProgress,
+  );
+  const connectionSummary = useSelector(selectors.getConnectionSummary);
+  const peerCount = connectionSummary?.total ?? 0;
+
+  if (
+    synchronizingBlockHeadersProgress &&
+    synchronizingBlockHeadersProgress < 100
+  ) {
+    return {
+      message: "Synchronizing block headers...",
+      progress: synchronizingBlockHeadersProgress,
+    };
+  }
+
+  if (synchronizingBlocksProgress && synchronizingBlocksProgress < 100) {
+    return {
+      message: "Synchronizing blocks...",
+      progress: synchronizingBlocksProgress,
+    };
+  }
+
+  if (peerCount < 1) {
+    return {
+      message: "Connecting to peers...",
+      progress: 0,
+    };
+  }
+
+  return {
+    message: "",
+    progress: 0,
+  };
+};
+
 export const ProgressBar: React.FC = () => {
   const c = useStyles();
-  const processingBlocksOnDisk = useSelector(
-    selectors.getProcessingBlocksOnDisk,
-  );
-
-  if (!processingBlocksOnDisk.active) {
-    return null;
-  }
+  const progressBarState = useProgressBarState();
 
   return (
     <div className={c.root}>
-      <Typography variant="body2">Doing stuff...</Typography>
+      <Typography variant="body2">{progressBarState.message}</Typography>
       <LinearProgress
         classes={{
           root: c.progressBarRoot,
           bar: c.progressBarBar,
         }}
         variant="determinate"
-        value={processingBlocksOnDisk.progress * 100}
+        value={progressBarState.progress}
       />
     </div>
   );

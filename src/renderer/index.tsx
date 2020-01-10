@@ -1,9 +1,9 @@
+import React from "react";
+import { useSelector } from "react-redux";
 import { ProgressBar } from "_r/pages/ProgressBar";
 import { RpcConsole } from "_r/pages/RpcConsole";
 import { SplashScreen } from "_r/pages/SplashScreen";
 import { Warnings } from "_r/pages/Warnings";
-import React from "react";
-import { useSelector } from "react-redux";
 import * as selectors from "_r/redux/selectors";
 
 const IndexFc: React.FC = () => {

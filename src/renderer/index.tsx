@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { ProgressBar } from "_r/pages/ProgressBar";
+import { ProgressBar } from "_r/pages/StatusBar";
 import { RpcConsole } from "_r/pages/RpcConsole";
 import { SplashScreen } from "_r/pages/SplashScreen";
 import { Warnings } from "_r/pages/Warnings";

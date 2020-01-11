@@ -13,5 +13,9 @@ export const GlobalCss = withStyles({
       flexDirection: "column",
       height: "100%",
     },
+
+    "*:focus": {
+      outline: "none",
+    },
   },
 })(() => null);

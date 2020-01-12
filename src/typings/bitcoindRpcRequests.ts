@@ -25,12 +25,17 @@ export type UptimeRpcRequest = {
 
 export type PeerInfoRpcRequest = {
   method: "getpeerinfo";
-  params?: [];
+  params?: undefined;
 };
 
 export type MempoolInfoRpcRequest = {
   method: "getmempoolinfo";
-  params?: [];
+  params?: undefined;
+};
+
+export type SetNetworkActiveRpcRequest = {
+  method: "setnetworkactive";
+  params: { state: boolean };
 };
 
 export type RpcRequest = { requestId: string } & (
@@ -41,6 +46,7 @@ export type RpcRequest = { requestId: string } & (
   | UptimeRpcRequest
   | PeerInfoRpcRequest
   | MempoolInfoRpcRequest
+  | SetNetworkActiveRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

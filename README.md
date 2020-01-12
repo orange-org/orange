@@ -90,3 +90,18 @@ One of the main goals of this project is to explore if using TypeScript and Elec
 - Format startup time correctly
 - Format mempool numbers correctly
 - Make progress bar glow like macOS
+- `bitcoind` responds with error messages sometimes. For example, when sending a JSON payload with
+  `setnetworkactive`, the response is something like:
+
+  ```json
+  {
+    "result": null,
+    "error": {
+      "code": -1,
+      "message": "JSON value is not a boolean as expected"
+    },
+    "id": "static for now"
+  }
+  ```
+
+  We need to handle this correctly.

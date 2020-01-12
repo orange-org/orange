@@ -72,3 +72,7 @@ export const getSynchronizingBlocksProgress = (state: State) => {
 export const getSynchronizingBlockHeadersProgress = (state: State) => {
   return state.synchronizingBlockHeadersProgress;
 };
+
+export const isNetworkActive = (state: State) => {
+  return state.networkInfo?.networkactive;
+};

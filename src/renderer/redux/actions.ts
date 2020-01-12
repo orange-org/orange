@@ -3,7 +3,10 @@ import { State } from "_r/redux/reducers";
 import { rpcClient } from "_r/redux/rpcClient";
 import * as selectors from "_r/redux/selectors";
 import { createAction, PayloadActionCreator } from "typesafe-actions";
-import { RpcRequest } from "typings/bitcoindRpcRequests";
+import {
+  RpcRequest,
+  SetNetworkActiveRpcRequest,
+} from "typings/bitcoindRpcRequests";
 import {
   Block,
   BlockchainInfo,
@@ -99,5 +102,19 @@ export const requestStartupTime = (nonce: NONCE) => {
     const startupTime = new Date(Date.now() - uptime * 1000).toString();
 
     dispatch(setStartupTime(startupTime));
+  };
+};
+
+export const requestSetNetworkActive = (
+  nonce: NONCE,
+  isNetworkActive: SetNetworkActiveRpcRequest["params"]["state"],
+) => {
+  return async (dispatch: Dispatch) => {
+    await rpcClient(nonce, {
+      method: "setnetworkactive",
+      params: { state: isNetworkActive },
+    });
+
+    await requestNetworkInfo(nonce)(dispatch);
   };
 };

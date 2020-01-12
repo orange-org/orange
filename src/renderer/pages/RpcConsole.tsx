@@ -79,6 +79,7 @@ export const RpcConsole: React.FC = () => {
   const mempoolInfo = useSelector(selectors.getMempoolInfo);
   const chainName = useSelector(selectors.getChainName);
   const showRpcConsole = useSelector(selectors.showRpcConsole);
+  const isNetworkActive = useSelector(selectors.isNetworkActive);
 
   if (showRpcConsole === false) {
     return null;
@@ -148,7 +149,9 @@ export const RpcConsole: React.FC = () => {
         {renderRow(
           "Number of connections",
           connectionSummary !== undefined
-            ? `${connectionSummary.total} (In: ${connectionSummary.in} / Out: ${connectionSummary.out})`
+            ? `${connectionSummary.total} (In: ${connectionSummary.in} / Out: ${
+                connectionSummary.out
+              }) ${isNetworkActive ? "" : "(Network is disabled)"}`
             : undefined,
         )}
       </div>

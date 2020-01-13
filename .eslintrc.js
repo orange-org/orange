@@ -49,6 +49,7 @@ module.exports = {
     "lines-between-class-members": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "react/jsx-wrap-multilines": "off", // Conflicts with Prettier
+    "react/destructuring-assignment": "off",
   },
   settings: {
     react: {

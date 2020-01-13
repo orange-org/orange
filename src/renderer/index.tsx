@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { StatusBar } from "_r/pages/StatusBar";
-import { RpcConsole } from "_r/pages/RpcConsole";
+import { StatusBar } from "_r/pages/StatusBar/StatusBar";
+import { RpcConsole } from "_r/pages/RpcConsole/RpcConsole";
 import { SplashScreen } from "_r/pages/SplashScreen";
 import { Warnings } from "_r/pages/Warnings";
 import * as selectors from "_r/redux/selectors";

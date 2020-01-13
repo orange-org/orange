@@ -1,18 +1,31 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 
+const reusableOptions = {
+  defaultBackground: "#ececec",
+  primary: {
+    main: "#000000",
+  },
+  secondary: {
+    main: "#ffffff",
+  },
+};
+
 export const theme: ThemeOptions = {
   spacing: 4,
   palette: {
     primary: {
-      main: "#ffffff",
+      main: reusableOptions.primary.main,
+    },
+    secondary: {
+      main: reusableOptions.secondary.main,
     },
     background: {
-      default: "#ececec",
+      default: reusableOptions.defaultBackground,
       paper: "#e3e3e3",
     },
     action: {
-      disabledBackground: "#ffffff",
-      hover: "#ffffff",
+      disabledBackground: reusableOptions.secondary.main,
+      hover: reusableOptions.primary.main,
     },
   },
   typography: {
@@ -46,10 +59,14 @@ export const theme: ThemeOptions = {
     MuiButton: {
       root: {
         textTransform: "inherit",
+        backgroundColor: reusableOptions.secondary.main,
+        border: "1px solid #d3d3d3",
+        borderTop: "1px solid #d6d6d6",
+        borderBottom: "1px solid #afafaf",
       },
       containedPrimary: {
         "&:hover": {
-          backgroundColor: "#ffffff",
+          backgroundColor: reusableOptions.secondary.main,
         },
       },
     },
@@ -60,7 +77,24 @@ export const theme: ThemeOptions = {
         borderTopColor: "#dadada",
       },
     },
+
+    MuiDialog: {
+      paper: {
+        backgroundColor: reusableOptions.defaultBackground,
+      },
+    },
+
+    MuiButtonGroup: {
+      groupedContainedPrimary: {
+        border: "none",
+
+        "&:not(:last-child)": {
+          border: "none",
+        },
+      },
+    },
   },
+
   props: {
     MuiPaper: {
       elevation: 0,

@@ -42,15 +42,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: "-40px",
   },
 
-  navigationButton: {
-    "&:active": {
-      backgroundImage: "linear-gradient(to bottom, #929297, #545459)",
-    },
-  },
-
   selectedNavigationButton: {
     backgroundImage: "linear-gradient(to bottom, #B0B0B5, #909095)",
-    color: "#ffffff",
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -115,20 +109,10 @@ export const RpcConsole: React.FC = () => {
         className={c.navigationButtonsContainingGrid}
       >
         <ButtonGroup variant="contained" color="primary">
-          <Button
-            className={clsx(c.navigationButton, c.selectedNavigationButton)}
-          >
-            Information
-          </Button>
-          <Button className={c.navigationButton} disabled>
-            Console
-          </Button>
-          <Button className={c.navigationButton} disabled>
-            Network Traffic
-          </Button>
-          <Button className={c.navigationButton} disabled>
-            Peers
-          </Button>
+          <Button className={c.selectedNavigationButton}>Information</Button>
+          <Button disabled>Console</Button>
+          <Button disabled>Network Traffic</Button>
+          <Button disabled>Peers</Button>
         </ButtonGroup>
       </Grid>
 

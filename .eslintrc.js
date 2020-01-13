@@ -48,6 +48,7 @@ module.exports = {
     "react/jsx-curly-newline": "off", // Conflicts with Prettier
     "lines-between-class-members": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "react/jsx-wrap-multilines": "off", // Conflicts with Prettier
   },
   settings: {
     react: {

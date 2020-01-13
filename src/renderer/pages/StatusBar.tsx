@@ -1,4 +1,15 @@
-import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
+import {
+  LinearProgress,
+  makeStyles,
+  Typography,
+  Tooltip,
+  Button,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@material-ui/core";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import connect0Png from "_a/connect0.png";
@@ -38,9 +49,6 @@ const useStyles = makeStyles(theme => ({
   },
   progressBarMessageContainer: {
     minWidth: "10%",
-  },
-  img: {
-    // height: "100%",
   },
   networkStateContainer: {
     display: "flex",
@@ -132,11 +140,7 @@ const useNetworkState = () => {
         }
         type="button"
       >
-        <img
-          className={c.img}
-          src={imgSrc}
-          alt={`${peerCount} peers connected`}
-        />
+        <img src={imgSrc} alt={`${peerCount} peers connected`} />
       </button>
     ),
   };
@@ -149,6 +153,25 @@ export const StatusBar: React.FC = () => {
 
   return (
     <div className={c.root}>
+      <Dialog
+        open
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <Typography>
+            Bitcoin Core is currently syncing. It will download headers and
+            blocks from peers and validate them until reaching the tip of the
+            block chain.
+          </Typography>
+        </DialogContent>
+
+        <DialogActions>
+          <Button color="primary">OK</Button>
+        </DialogActions>
+      </Dialog>
+
       <div className={c.progressBarContainer}>
         <Typography className={c.progressBarMessageContainer} variant="body2">
           {progressBarState.message}

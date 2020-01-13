@@ -87,7 +87,7 @@ export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
   return async (dispatch: Dispatch, getState: () => State) => {
     await requestBlockchainInfo(nonce)(dispatch);
 
-    const bestBlockHash = selectors.getBestBlockHash(getState());
+    const bestBlockHash = selectors.bestBlockHash(getState());
 
     if (bestBlockHash !== undefined) {
       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);

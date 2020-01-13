@@ -31,7 +31,7 @@ export const Warnings: React.FC = () => {
   }, []);
 
   const showWarnings = useSelector(selectors.showWarnings);
-  const warnings = useSelector(selectors.getWarnings);
+  const warnings = useSelector(selectors.warnings);
   const c = useStyles();
 
   if (showWarnings === false) {

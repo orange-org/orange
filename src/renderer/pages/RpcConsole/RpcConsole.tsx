@@ -23,17 +23,17 @@ export const RpcConsole: React.FC = () => {
     dispatch(actions.requestMempoolInfo(__NONCE__));
   }, 1000);
 
-  const networkInfo = useSelector(selectors.getNetworkInfo);
-  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersion);
-  const currentNumberOfBlocks = useSelector(selectors.getCurrentNumberOfBlocks);
-  const lastBlockTime = useSelector(selectors.getLastBlockTime);
-  const dataDir = useSelector(selectors.getDataDir);
-  const startupTime = useSelector(selectors.getStartupTime);
+  const networkInfo = useSelector(selectors.networkInfo);
+  const bitcoinCoreVersion = useSelector(selectors.bitcoinCoreVersion);
+  const currentNumberOfBlocks = useSelector(selectors.currentNumberOfBlocks);
+  const lastBlockTime = useSelector(selectors.lastBlockTime);
+  const dataDir = useSelector(selectors.dataDir);
+  const startupTime = useSelector(selectors.startupTime);
   const connectionSummary = useSelector(selectors.getConnectionSummary);
-  const mempoolInfo = useSelector(selectors.getMempoolInfo);
-  const chainName = useSelector(selectors.getChainName);
+  const mempoolInfo = useSelector(selectors.mempoolInfo);
+  const chainName = useSelector(selectors.chainName);
   const showRpcConsole = useSelector(selectors.showRpcConsole);
-  const isNetworkActive = useSelector(selectors.isNetworkActive);
+  const isNetworkActive = useSelector(selectors.networkActive);
 
   if (showRpcConsole === false) {
     return null;

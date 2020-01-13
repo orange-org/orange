@@ -14,7 +14,7 @@ export const useNetworkState = () => {
   const c = useStyles();
   const connectionSummary = useSelector(selectors.getConnectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
-  const isNetworkActive = useSelector(selectors.isNetworkActive);
+  const isNetworkActive = useSelector(selectors.networkActive);
   const dispatch = useDispatch();
 
   let imgSrc: string;
@@ -52,10 +52,10 @@ export const useNetworkState = () => {
 
 export const useProgressBarState = () => {
   const synchronizingBlockHeadersProgress = useSelector(
-    selectors.getSynchronizingBlockHeadersProgress,
+    selectors.synchronizingBlockHeadersProgress,
   );
   const synchronizingBlocksProgress = useSelector(
-    selectors.getSynchronizingBlocksProgress,
+    selectors.synchronizingBlocksProgress,
   );
   const connectionSummary = useSelector(selectors.getConnectionSummary);
   const peerCount = connectionSummary?.total ?? 0;

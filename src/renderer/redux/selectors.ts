@@ -8,38 +8,38 @@ export const showSplashScreen = (state: State) =>
 export const showRpcConsole = (state: State) =>
   state.lastInitMessage === "Done loading";
 
-export const getSystemPreferences = (state: State) => state.systemPreferences;
+export const systemPreferences = (state: State) => state.systemPreferences;
 
-export const getBitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
+export const bitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
 
-export const getBitcoinCoreVersionShort = createSelector(
-  getBitcoinCoreVersion,
+export const shortBitcoinCoreVersion = createSelector(
+  bitcoinCoreVersion,
   bitcoinCoreVersion => {
     return bitcoinCoreVersion?.split("-")[0];
   },
 );
 
-export const getInitMessage = (state: State) => state.lastInitMessage;
+export const initMessage = (state: State) => state.lastInitMessage;
 
-export const getNetworkInfo = (state: State) => state.networkInfo;
+export const networkInfo = (state: State) => state.networkInfo;
 
-export const getBestBlockHash = (state: State) =>
+export const bestBlockHash = (state: State) =>
   state.blockchainInfo?.bestblockhash;
 
-export const getCurrentNumberOfBlocks = (state: State) =>
+export const currentNumberOfBlocks = (state: State) =>
   state.blockchainInfo?.blocks;
 
-export const getLastBlockTime = (state: State) => state.bestBlock?.time;
+export const lastBlockTime = (state: State) => state.bestBlock?.time;
 
-export const getDataDir = (state: State) => state.dataDir;
+export const dataDir = (state: State) => state.dataDir;
 
-export const getBlockIndex = (state: State) => state.blockIndex;
+export const blockIndex = (state: State) => state.blockIndex;
 
-export const getStartupTime = (state: State) => state.startupTime;
+export const startupTime = (state: State) => state.startupTime;
 
-export const getPeerInfo = (state: State) => state.peerInfo;
+export const peerInfo = (state: State) => state.peerInfo;
 
-export const getConnectionSummary = createSelector(getPeerInfo, peerInfo => {
+export const getConnectionSummary = createSelector(peerInfo, peerInfo => {
   return peerInfo?.reduce(
     (connectionSummary, peer) => {
       connectionSummary.total += 1;
@@ -51,28 +51,28 @@ export const getConnectionSummary = createSelector(getPeerInfo, peerInfo => {
   );
 });
 
-export const getMempoolInfo = (state: State) => state.mempoolInfo;
+export const mempoolInfo = (state: State) => state.mempoolInfo;
 
-export const getChainName = (state: State) => state.blockchainInfo?.chain;
+export const chainName = (state: State) => state.blockchainInfo?.chain;
 
-export const getWarnings = (state: State) => {
+export const warnings = (state: State) => {
   return state.blockchainInfo?.warnings || state.networkInfo?.warnings;
 };
 
 export const showWarnings = (state: State) => {
-  const warningsLength = getWarnings(state)?.length;
+  const warningsLength = warnings(state)?.length;
 
   return warningsLength !== undefined && warningsLength > 0;
 };
 
-export const getSynchronizingBlocksProgress = (state: State) => {
+export const synchronizingBlocksProgress = (state: State) => {
   return state.synchronizingBlocksProgress;
 };
 
-export const getSynchronizingBlockHeadersProgress = (state: State) => {
+export const synchronizingBlockHeadersProgress = (state: State) => {
   return state.synchronizingBlockHeadersProgress;
 };
 
-export const isNetworkActive = (state: State) => {
+export const networkActive = (state: State) => {
   return state.networkInfo?.networkactive;
 };

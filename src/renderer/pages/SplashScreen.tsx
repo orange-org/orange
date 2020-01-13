@@ -56,8 +56,8 @@ const BottomAlignedContainerWithCenteredContent = styled.div`
 `;
 
 export const SplashScreen: React.FC = () => {
-  const bitcoinCoreVersion = useSelector(selectors.getBitcoinCoreVersionShort);
-  const initMessage = useSelector(selectors.getInitMessage);
+  const bitcoinCoreVersion = useSelector(selectors.shortBitcoinCoreVersion);
+  const initMessage = useSelector(selectors.initMessage);
 
   return (
     <Container>

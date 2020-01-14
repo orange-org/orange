@@ -1,5 +1,6 @@
+/* eslint-disable no-plusplus */
 import { useSelector, useDispatch } from "react-redux";
-import React from "react";
+import React, { useState } from "react";
 import connect0Png from "_a/connect0.png";
 import connect1Png from "_a/connect1.png";
 import connect2Png from "_a/connect2.png";
@@ -12,7 +13,7 @@ import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
   const c = useStyles();
-  const connectionSummary = useSelector(selectors.getConnectionSummary);
+  const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
   const isNetworkActive = useSelector(selectors.networkActive);
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ export const useProgressBarState = () => {
   const synchronizingBlocksProgress = useSelector(
     selectors.synchronizingBlocksProgress,
   );
-  const connectionSummary = useSelector(selectors.getConnectionSummary);
+  const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
 
   if (
@@ -70,7 +71,10 @@ export const useProgressBarState = () => {
     };
   }
 
-  if (synchronizingBlocksProgress && synchronizingBlocksProgress < 100) {
+  if (
+    synchronizingBlocksProgress &&
+    parseFloat(synchronizingBlocksProgress) < 100
+  ) {
     return {
       message: "Synchronizing blocks...",
       progress: synchronizingBlocksProgress,
@@ -87,5 +91,78 @@ export const useProgressBarState = () => {
   return {
     message: "",
     progress: 0,
+  };
+};
+
+const MAX_SAMPLE_SIZE = 5000;
+type BlockProcessTimeSample = [number, number][];
+const useProgressEstimates = () => {
+  const currentDate = Date.now();
+  const [blockProcessTimeSamples, setBlockProcessTimeSamples] = useState<
+    BlockProcessTimeSample
+  >([]);
+  const verificationProgress = useSelector(selectors.verificationProgress);
+
+  if (!verificationProgress) {
+    return undefined;
+  }
+
+  blockProcessTimeSamples.unshift([currentDate, verificationProgress]);
+
+  if (blockProcessTimeSamples.length >= 2) {
+    let progressPerHour = 0;
+    let remainingMilliseconds = 0;
+    let progressDelta = 0;
+    let timeDelta = 0;
+
+    const remainingProgress = 1.0 - verificationProgress;
+
+    for (let i = 1; i < blockProcessTimeSamples.length; i++) {
+      const sample = blockProcessTimeSamples[i];
+
+      if (
+        sample[0] < currentDate - 500 * 1000 ||
+        i === blockProcessTimeSamples.length - 1
+      ) {
+        progressDelta = blockProcessTimeSamples[0][1] - sample[1];
+        timeDelta = blockProcessTimeSamples[0][0] - sample[0];
+        progressPerHour = (progressDelta / timeDelta) * 1000 * 3600;
+        remainingMilliseconds =
+          progressDelta > 0
+            ? (remainingProgress / progressDelta) * timeDelta
+            : -1;
+        break;
+      }
+    }
+
+    if (blockProcessTimeSamples.length > MAX_SAMPLE_SIZE) {
+      blockProcessTimeSamples.splice(
+        MAX_SAMPLE_SIZE,
+        blockProcessTimeSamples.length - MAX_SAMPLE_SIZE,
+      );
+      setBlockProcessTimeSamples(blockProcessTimeSamples);
+    }
+
+    return {
+      progressPerHour,
+      remainingMilliseconds,
+    };
+  }
+
+  return undefined;
+};
+
+export const useDetailsDialogState = () => {
+  const bestHeaderHeight = useSelector(selectors.bestHeaderHeight);
+  const lastBlockTime = useSelector(selectors.lastBlockTime);
+  const progressEstimates = useProgressEstimates();
+
+  return {
+    numberOfBlocksLeft: bestHeaderHeight,
+    lastBlockTime,
+    progressPerHour: progressEstimates?.progressPerHour
+      ? `${(progressEstimates.progressPerHour * 100).toFixed(2)}%`
+      : undefined,
+    remainingMilliseconds: progressEstimates?.remainingMilliseconds,
   };
 };

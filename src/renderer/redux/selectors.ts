@@ -14,8 +14,8 @@ export const bitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
 
 export const shortBitcoinCoreVersion = createSelector(
   bitcoinCoreVersion,
-  bitcoinCoreVersion => {
-    return bitcoinCoreVersion?.split("-")[0];
+  bitcoinCoreVersion_ => {
+    return bitcoinCoreVersion_?.split("-")[0];
   },
 );
 
@@ -39,13 +39,13 @@ export const startupTime = (state: State) => state.startupTime;
 
 export const peerInfo = (state: State) => state.peerInfo;
 
-export const getConnectionSummary = createSelector(peerInfo, peerInfo => {
-  return peerInfo?.reduce(
-    (connectionSummary, peer) => {
-      connectionSummary.total += 1;
-      connectionSummary[peer.inbound ? "in" : "out"] += 1;
+export const connectionSummary = createSelector(peerInfo, peerInfo_ => {
+  return peerInfo_?.reduce(
+    (connectionSummary_, peer) => {
+      connectionSummary_.total += 1;
+      connectionSummary_[peer.inbound ? "in" : "out"] += 1;
 
-      return connectionSummary;
+      return connectionSummary_;
     },
     { total: 0, in: 0, out: 0 },
   );
@@ -65,9 +65,18 @@ export const showWarnings = (state: State) => {
   return warningsLength !== undefined && warningsLength > 0;
 };
 
-export const synchronizingBlocksProgress = (state: State) => {
-  return state.synchronizingBlocksProgress;
+export const verificationProgress = (state: State) => {
+  return state.blockchainInfo?.verificationprogress;
 };
+
+export const synchronizingBlocksProgress = createSelector(
+  verificationProgress,
+  verificationProgress_ => {
+    return verificationProgress_
+      ? (verificationProgress_ * 100).toFixed(2)
+      : undefined;
+  },
+);
 
 export const synchronizingBlockHeadersProgress = (state: State) => {
   return state.synchronizingBlockHeadersProgress;
@@ -75,4 +84,8 @@ export const synchronizingBlockHeadersProgress = (state: State) => {
 
 export const networkActive = (state: State) => {
   return state.networkInfo?.networkactive;
+};
+
+export const bestHeaderHeight = (state: State) => {
+  return state.blockchainInfo?.headers;
 };

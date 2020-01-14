@@ -29,7 +29,7 @@ export const RpcConsole: React.FC = () => {
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const dataDir = useSelector(selectors.dataDir);
   const startupTime = useSelector(selectors.startupTime);
-  const connectionSummary = useSelector(selectors.getConnectionSummary);
+  const connectionSummary = useSelector(selectors.connectionSummary);
   const mempoolInfo = useSelector(selectors.mempoolInfo);
   const chainName = useSelector(selectors.chainName);
   const showRpcConsole = useSelector(selectors.showRpcConsole);

@@ -45,5 +45,6 @@ export const useStyles = makeStyles(theme => ({
   },
   details: {
     marginTop: theme.spacing(10),
+    width: "100%",
   },
 }));

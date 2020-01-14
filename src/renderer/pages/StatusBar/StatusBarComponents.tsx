@@ -13,7 +13,10 @@ export const Details: React.FC = props => {
   );
 };
 
-export const Record: React.FC<{ name: string; value: string }> = props => {
+export const Record: React.FC<{
+  name: string;
+  value: string | number | undefined;
+}> = props => {
   const cs = useCommonStyles();
 
   return (
@@ -24,7 +27,7 @@ export const Record: React.FC<{ name: string; value: string }> = props => {
         </Typography>
       </div>
       <div className={cs.displayTableCell}>
-        <Typography>{props.value}</Typography>
+        <Typography>{props.value ?? "N/A"}</Typography>
       </div>
     </div>
   );

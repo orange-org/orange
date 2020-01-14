@@ -71,10 +71,7 @@ export const useProgressBarState = () => {
     };
   }
 
-  if (
-    synchronizingBlocksProgress &&
-    parseFloat(synchronizingBlocksProgress) < 100
-  ) {
+  if (synchronizingBlocksProgress && synchronizingBlocksProgress < 100) {
     return {
       message: "Synchronizing blocks...",
       progress: synchronizingBlocksProgress,
@@ -107,7 +104,16 @@ const useProgressEstimates = () => {
     return undefined;
   }
 
-  blockProcessTimeSamples.unshift([currentDate, verificationProgress]);
+  // Since we're polling bitcoind for verification progress, we receive
+  // multiple verification progress notifications even if there's no
+  // progress. The conditions below prevent adding a repeated response
+  // to the sample list
+  if (
+    blockProcessTimeSamples.length === 0 ||
+    blockProcessTimeSamples[0][0] !== verificationProgress
+  ) {
+    blockProcessTimeSamples.unshift([currentDate, verificationProgress]);
+  }
 
   if (blockProcessTimeSamples.length >= 2) {
     let progressPerHour = 0;
@@ -140,7 +146,12 @@ const useProgressEstimates = () => {
         MAX_SAMPLE_SIZE,
         blockProcessTimeSamples.length - MAX_SAMPLE_SIZE,
       );
+
       setBlockProcessTimeSamples(blockProcessTimeSamples);
+    }
+
+    if (progressPerHour < 0 || remainingMilliseconds < 0) {
+      return undefined;
     }
 
     return {
@@ -153,12 +164,23 @@ const useProgressEstimates = () => {
 };
 
 export const useDetailsDialogState = () => {
-  const bestHeaderHeight = useSelector(selectors.bestHeaderHeight);
   const lastBlockTime = useSelector(selectors.lastBlockTime);
+  const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
+  const bestBlockHeight = useSelector(selectors.bestHeaderHeight);
+  const isSynchronizingBlockHeaders = useSelector(
+    selectors.isSynchronizingBlockHeaders,
+  );
+  const synchronizingBlockHeadersProgress = useSelector(
+    selectors.synchronizingBlockHeadersProgress,
+  );
   const progressEstimates = useProgressEstimates();
 
   return {
-    numberOfBlocksLeft: bestHeaderHeight,
+    numberOfBlocksLeft: isSynchronizingBlockHeaders
+      ? `Unknown. Syncing Headers (${bestBlockHeight}, ${synchronizingBlockHeadersProgress!.toFixed(
+          2,
+        )})...`
+      : numberOfBlocksLeft,
     lastBlockTime,
     progressPerHour: progressEstimates?.progressPerHour
       ? `${(progressEstimates.progressPerHour * 100).toFixed(2)}%`

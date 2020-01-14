@@ -72,9 +72,7 @@ export const verificationProgress = (state: State) => {
 export const synchronizingBlocksProgress = createSelector(
   verificationProgress,
   verificationProgress_ => {
-    return verificationProgress_
-      ? (verificationProgress_ * 100).toFixed(2)
-      : undefined;
+    return verificationProgress_ ? verificationProgress_ * 100 : undefined;
   },
 );
 
@@ -89,3 +87,22 @@ export const networkActive = (state: State) => {
 export const bestHeaderHeight = (state: State) => {
   return state.blockchainInfo?.headers;
 };
+
+export const numberOfBlocksLeft = createSelector(
+  bestHeaderHeight,
+  currentNumberOfBlocks,
+  (bestHeaderHeight_, currentNumberOfBlocks_) => {
+    return bestHeaderHeight_ && currentNumberOfBlocks_
+      ? bestHeaderHeight_ - currentNumberOfBlocks_
+      : undefined;
+  },
+);
+
+export const isSynchronizingBlockHeaders = createSelector(
+  synchronizingBlockHeadersProgress,
+  synchronizingBlockHeadersProgress_ => {
+    return synchronizingBlockHeadersProgress_
+      ? synchronizingBlockHeadersProgress_ < 100
+      : false;
+  },
+);

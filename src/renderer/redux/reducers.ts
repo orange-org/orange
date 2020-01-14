@@ -19,7 +19,6 @@ type NullableState = DeepReadonly<
     bitcoinCoreVersion: string;
     dataDir: string;
     blockIndex: string;
-    startupTime: string;
     networkInfo: NetworkInfo;
     blockchainInfo: BlockchainInfo;
     lastRequestedBlock: Block;
@@ -42,7 +41,6 @@ const initialState: State = {
   bitcoinCoreVersion: undefined,
   blockIndex: undefined,
   dataDir: undefined,
-  startupTime: undefined,
   networkInfo: undefined,
   blockchainInfo: undefined,
   lastRequestedBlock: undefined,
@@ -85,10 +83,6 @@ export const orangeApp = createReducer(initialState)
   .handleAction(actions.setUptime, (state, action) => ({
     ...state,
     uptime: action.payload,
-  }))
-  .handleAction(actions.setStartupTime, (state, action) => ({
-    ...state,
-    startupTime: action.payload,
   }))
   .handleAction(actions.setPeerInfo, (state, action) => ({
     ...state,

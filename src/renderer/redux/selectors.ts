@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSelector } from "reselect";
 import { State } from "./reducers";
+import { formatDate } from "_r/smallUtils";
 
 export const showSplashScreen = (state: State) =>
   state.lastInitMessage !== "Done loading";
@@ -29,13 +30,18 @@ export const bestBlockHash = (state: State) =>
 export const currentNumberOfBlocks = (state: State) =>
   state.blockchainInfo?.blocks;
 
-export const lastBlockTime = (state: State) => state.bestBlock?.time;
+export const lastBlockTime = (state: State) =>
+  state.bestBlock?.time && state.bestBlock.time * 1000;
 
 export const dataDir = (state: State) => state.dataDir;
 
 export const blockIndex = (state: State) => state.blockIndex;
 
-export const startupTime = (state: State) => state.startupTime;
+export const uptime = (state: State) => state.uptime;
+
+export const startupTime = createSelector(uptime, uptime_ => {
+  return uptime_ && formatDate(Date.now() - uptime_ * 1000);
+});
 
 export const peerInfo = (state: State) => state.peerInfo;
 

@@ -7,6 +7,7 @@ import * as actions from "_r/redux/actions";
 import * as selectors from "_r/redux/selectors";
 import { Section } from "./RpcConsoleComponents";
 import { useStyles } from "./RpcConsoleStyles";
+import { formatDate } from "_r/smallUtils";
 
 export const RpcConsole: React.FC = () => {
   const s = useStyles();
@@ -14,7 +15,7 @@ export const RpcConsole: React.FC = () => {
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
-    dispatch(actions.requestStartupTime(__NONCE__));
+    dispatch(actions.requestUptime(__NONCE__));
   }, []);
 
   usePolling(() => {
@@ -88,8 +89,11 @@ export const RpcConsole: React.FC = () => {
       <Section
         title="Block chain"
         rows={[
-          ["Current number of blocks", currentNumberOfBlocks],
-          ["Last block time", lastBlockTime],
+          [
+            "Current number of blocks",
+            currentNumberOfBlocks && currentNumberOfBlocks.toLocaleString(),
+          ],
+          ["Last block time", lastBlockTime && formatDate(lastBlockTime)],
         ]}
       />
 

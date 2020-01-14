@@ -1,14 +1,16 @@
 /* eslint-disable no-plusplus */
-import { useSelector, useDispatch } from "react-redux";
+import { duration } from "moment";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import connect0Png from "_a/connect0.png";
 import connect1Png from "_a/connect1.png";
 import connect2Png from "_a/connect2.png";
 import connect3Png from "_a/connect3.png";
 import connect4Png from "_a/connect4.png";
 import networkDisabledPng from "_a/network_disabled.png";
-import * as selectors from "_r/redux/selectors";
 import * as actions from "_r/redux/actions";
+import * as selectors from "_r/redux/selectors";
+import { formatDate } from "_r/smallUtils";
 import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
@@ -177,14 +179,16 @@ export const useDetailsDialogState = () => {
 
   return {
     numberOfBlocksLeft: isSynchronizingBlockHeaders
-      ? `Unknown. Syncing Headers (${bestBlockHeight}, ${synchronizingBlockHeadersProgress!.toFixed(
+      ? `Unknown. Syncing Headers (${bestBlockHeight?.toLocaleString()}, ${synchronizingBlockHeadersProgress!.toFixed(
           2,
         )})...`
-      : numberOfBlocksLeft,
-    lastBlockTime,
-    progressPerHour: progressEstimates?.progressPerHour
-      ? `${(progressEstimates.progressPerHour * 100).toFixed(2)}%`
-      : undefined,
-    remainingMilliseconds: progressEstimates?.remainingMilliseconds,
+      : numberOfBlocksLeft?.toLocaleString(),
+    lastBlockTime: formatDate(lastBlockTime),
+    progressPerHour:
+      progressEstimates?.progressPerHour &&
+      `${Math.ceil(progressEstimates.progressPerHour * 100)}%`,
+    remainingMilliseconds:
+      progressEstimates?.remainingMilliseconds &&
+      duration(progressEstimates.remainingMilliseconds).humanize(),
   };
 };

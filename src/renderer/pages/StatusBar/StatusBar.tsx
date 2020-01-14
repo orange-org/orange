@@ -41,7 +41,10 @@ export const StatusBar: React.FC = () => {
               name="Last block time"
               value={detailsDialogState.lastBlockTime}
             />
-            <Record name="Progress" value={`${progressBarState.progress}%`} />
+            <Record
+              name="Progress"
+              value={`${progressBarState.progress.toFixed(2)}%`}
+            />
             <Record
               name="Progress increase per hour"
               value={detailsDialogState.progressPerHour || "Calculating..."}

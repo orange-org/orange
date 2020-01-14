@@ -50,6 +50,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "off",
     "react/jsx-wrap-multilines": "off", // Conflicts with Prettier
     "react/destructuring-assignment": "off",
+    "jsx-a11y/click-events-have-key-events": "off", // Just for the proof-of-concept. Will enable later
+    "jsx-a11y/no-static-element-interactions": "off", // Just for the proof-of-concept. Will enable later
   },
   settings: {
     react: {

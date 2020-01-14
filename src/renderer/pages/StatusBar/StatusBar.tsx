@@ -6,7 +6,7 @@ import {
   LinearProgress,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { useStyles } from "./StatusBarStyles";
 import * as statusBarHooks from "./StatusBarHooks";
 import { Details, Record } from "./StatusBarComponents";
@@ -16,15 +16,11 @@ export const StatusBar: React.FC = () => {
   const progressBarState = statusBarHooks.useProgressBarState();
   const networkState = statusBarHooks.useNetworkState();
   const detailsDialogState = statusBarHooks.useDetailsDialogState();
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
 
   return (
     <div className={c.root}>
-      <Dialog
-        open
-        // onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <Dialog open={isDetailsDialogOpen}>
         <DialogContent>
           <Typography>
             Orange is currently syncing. It will download headers and blocks
@@ -57,11 +53,16 @@ export const StatusBar: React.FC = () => {
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary">OK</Button>
+          <Button onClick={() => setIsDetailsDialogOpen(false)} color="primary">
+            OK
+          </Button>
         </DialogActions>
       </Dialog>
 
-      <div className={c.progressBarContainer}>
+      <div
+        className={c.progressBarContainer}
+        onClick={() => setIsDetailsDialogOpen(!isDetailsDialogOpen)}
+      >
         <Typography className={c.progressBarMessageContainer} variant="body2">
           {progressBarState.message}
         </Typography>
@@ -71,8 +72,8 @@ export const StatusBar: React.FC = () => {
             bar: c.progressBarBar,
           }}
           variant="determinate"
-          value={42}
-          // value={progressBarState.progress}
+          // value={42}
+          value={progressBarState.progress}
         />
       </div>
 

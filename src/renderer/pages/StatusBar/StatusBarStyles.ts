@@ -13,6 +13,7 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     flex: 1,
     alignItems: "center",
+    cursor: "pointer",
   },
   progressBarRoot: {
     marginLeft: theme.spacing(2),

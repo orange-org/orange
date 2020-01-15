@@ -1,9 +1,10 @@
-import { MessageToMain } from "typings/types";
+import { MessageToMain } from "_t/IpcMessages";
+import { OmitDistributed } from "_t/typeHelpers";
 
-export const callMain = <T>(payload: Omit<MessageToMain<T>, "source">) => {
-  const messageToMain: MessageToMain<any> = {
-    source: "@orange/renderer",
+export const callMain = (payload: OmitDistributed<MessageToMain, "source">) => {
+  const messageToMain: MessageToMain = {
     ...payload,
+    source: "@orange/renderer",
   };
 
   window.postMessage(messageToMain, "*");

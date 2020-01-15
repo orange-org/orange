@@ -1,8 +1,9 @@
-import { MessageToRenderer } from "typings/types";
+import { MessageToRenderer } from "typings/IpcMessages";
 import { BrowserWindow } from "electron";
+import { OmitDistributed as DistributedOmit } from "_t/typeHelpers";
 
-export function sendMessageToRenderer<MessageType>(
-  payload: Omit<MessageToRenderer<MessageType>, "source">,
+export function sendMessageToRenderer(
+  payload: DistributedOmit<MessageToRenderer, "source">,
   mainWindow: BrowserWindow,
 ) {
   if (!mainWindow.isDestroyed()) {

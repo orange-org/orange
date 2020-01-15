@@ -46,7 +46,7 @@ const createSimpleRpcRequest = <T>(
 ) => {
   return (nonce: NONCE, params?: RpcRequest["params"]) => {
     return async (dispatch: Dispatch) => {
-      const response = await rpcClient(nonce, { method, params });
+      const response = await rpcClient(nonce, { method, params } as RpcRequest);
       dispatch(action((response.payload.result as unknown) as T));
 
       return (response.payload.result as unknown) as T;

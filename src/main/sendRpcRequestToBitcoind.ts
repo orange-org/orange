@@ -5,7 +5,7 @@ import { ipcMain, BrowserWindow } from "electron";
 import { username, password } from "main/bitcoindCredentials";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse, RawRpcResponse } from "typings/bitcoindRpcResponses";
-import { MessageToMain } from "typings/types";
+import { MessageToMain, RpcRequestMtM } from "typings/IpcMessages";
 import { sendMessageToRenderer } from "main/sendMessageToRenderer";
 
 export const sendRpcRequestToBitcoind = (
@@ -61,19 +61,13 @@ export const sendRpcRequestToBitcoind = (
   });
 };
 
-function isRpcRequestMessage(
-  data: MessageToMain<any>,
-): data is MessageToMain<RpcRequest> {
-  return data.message.method !== undefined;
-}
-
 export const registerRpcRequestListener = (mainWindow: BrowserWindow) => {
-  ipcMain.on("message-to-main", async (_event, data: MessageToMain<any>) => {
-    if (isRpcRequestMessage(data)) {
+  ipcMain.on("message-to-main", async (_event, data: MessageToMain) => {
+    if (data.type === "rpc-request") {
       try {
         const response = await sendRpcRequestToBitcoind(data.message);
 
-        sendMessageToRenderer<RpcResponse>(
+        sendMessageToRenderer(
           {
             nonce: __NONCE__,
             type: "rpc-response",

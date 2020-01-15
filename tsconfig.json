@@ -36,7 +36,8 @@
     "paths": {
       "_r/*": ["renderer/*"],
       "_m/*": ["main/*"],
-      "_a/*": ["assets/*"]
+      "_a/*": ["assets/*"],
+      "_t/*": ["typings/*"]
     }
   },
   "include": ["src/**/*"]

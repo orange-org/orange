@@ -1,20 +1,12 @@
-import { MessageToRenderer } from "typings/types";
-import { setSystemPreference, receiveBitcoindLogLines } from "_r/redux/actions";
+import { receiveBitcoindLogLines } from "_r/redux/actions";
 import { store } from "_r/redux/store";
+import { BitcoindLogLinesMtR, MessageToRenderer } from "_t/IpcMessages";
 
-function isMessageToRenderer(data: any): data is MessageToRenderer<any> {
+function isMessageToRenderer(data: any): data is MessageToRenderer {
   return data.source === "@orange/main";
 }
 
-function isSystemPreference(
-  data: MessageToRenderer<any>,
-): data is MessageToRenderer<{ [name: string]: string }> {
-  return data.type === "system-preference";
-}
-
-function isBitcoindLine(
-  data: MessageToRenderer<any>,
-): data is MessageToRenderer<string[]> {
+function isBitcoindLine(data: MessageToRenderer): data is BitcoindLogLinesMtR {
   return data.type === "bitcoind-log-lines";
 }
 
@@ -27,9 +19,7 @@ export function registerBitcoindLogListener() {
         debugger;
       }
 
-      if (isSystemPreference(data)) {
-        store.dispatch(setSystemPreference(data.message));
-      } else if (isBitcoindLine(data)) {
+      if (isBitcoindLine(data)) {
         store.dispatch(receiveBitcoindLogLines(data.message));
       }
     }

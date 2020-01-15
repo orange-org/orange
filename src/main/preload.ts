@@ -1,14 +1,11 @@
 import { ipcRenderer } from "electron";
-import { MessageToRenderer, MessageToMain } from "typings/types";
+import { MessageToRenderer, MessageToMain } from "typings/IpcMessages";
 
-ipcRenderer.on(
-  "message-to-renderer",
-  (_event, data: MessageToRenderer<any>) => {
-    window.postMessage(data, "*");
-  },
-);
+ipcRenderer.on("message-to-renderer", (_event, data: MessageToRenderer) => {
+  window.postMessage(data, "*");
+});
 
-function isMessageFromRenderer(data: any): data is MessageToMain<any> {
+function isMessageFromRenderer(data: any): data is MessageToMain {
   return data.source === "@orange/renderer";
 }
 

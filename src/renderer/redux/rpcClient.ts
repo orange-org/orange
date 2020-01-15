@@ -2,12 +2,13 @@ import { callMain } from "_r/redux/callMain";
 import { generateUuid } from "renderer/generateUuid";
 import { RpcRequest } from "typings/bitcoindRpcRequests";
 import { RpcResponse } from "typings/bitcoindRpcResponses";
-import { MessageToRenderer } from "typings/types";
+import { MessageToRenderer, RpcResponseMtR } from "typings/IpcMessages";
+import { OmitDistributed } from "_t/typeHelpers";
 
 const isRpcResponse = (
   response: any,
   requestId: string,
-): response is MessageToRenderer<RpcResponse> => {
+): response is RpcResponseMtR => {
   return (
     response?.message?.requestId === requestId &&
     response?.source === "@orange/main"
@@ -16,7 +17,7 @@ const isRpcResponse = (
 
 export const rpcClient = (
   nonce: NONCE,
-  rpcRequest: Omit<RpcRequest, "requestId">,
+  rpcRequest: OmitDistributed<RpcRequest, "requestId">,
 ): Promise<RpcResponse> => {
   return new Promise((resolve, reject) => {
     const requestId = generateUuid();
@@ -35,10 +36,10 @@ export const rpcClient = (
     };
     window.addEventListener("message", windowMessageEventHandler);
 
-    callMain<RpcRequest>({
+    callMain({
       nonce,
       type: "rpc-request",
-      message: { ...(rpcRequest as RpcRequest), requestId },
+      message: { ...rpcRequest, requestId },
     });
   });
 };

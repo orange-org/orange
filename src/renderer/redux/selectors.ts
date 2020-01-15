@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSelector } from "reselect";
-import { State } from "./reducers";
+import { State } from "_r/redux/reducers";
 import { formatDate } from "_r/smallUtils";
 
 export const showSplashScreen = (state: State) =>

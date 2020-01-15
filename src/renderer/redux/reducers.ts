@@ -28,6 +28,7 @@ type NullableState = DeepReadonly<
     mempoolInfo: MempoolInfo;
     synchronizingBlocksProgress: number;
     synchronizingBlockHeadersProgress: number;
+    shutdownInProgress: boolean;
   }>
 >;
 
@@ -50,6 +51,7 @@ const initialState: State = {
   mempoolInfo: undefined,
   synchronizingBlocksProgress: undefined,
   synchronizingBlockHeadersProgress: undefined,
+  shutdownInProgress: undefined,
 };
 
 export const orangeApp = createReducer(initialState)

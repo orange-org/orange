@@ -112,3 +112,7 @@ export const isSynchronizingBlockHeaders = createSelector(
       : false;
   },
 );
+
+export const isShuttingDown = (state: State) => {
+  return state.shutdownInProgress === true;
+};

@@ -20,8 +20,6 @@ export const RpcConsole: React.FC = () => {
   }, []);
 
   usePolling(() => {
-    dispatch(actions.requestBlockchainInfoAndBestBlock(__NONCE__));
-    dispatch(actions.requestPeerInfo(__NONCE__));
     dispatch(actions.requestMempoolInfo(__NONCE__));
   }, 1000);
 

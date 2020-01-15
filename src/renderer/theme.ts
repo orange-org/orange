@@ -43,10 +43,10 @@ export const theme: ThemeOptions = {
       fontSize: "1.06rem",
     },
     h5: {
-      fontSize: "0.75rem",
+      fontSize: "1.03rem",
     },
     h6: {
-      fontSize: "0.62rem",
+      fontSize: "1rem",
     },
     body1: {
       fontSize: "0.9rem",

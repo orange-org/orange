@@ -6,6 +6,7 @@ const initMessage = "init message: ";
 const bitcoinCoreVersion = "Bitcoin Core version ";
 const usingDataDirectory = "Using data directory ";
 const openingLevelDbIn = "Opening LevelDB in ";
+const shutdown = "Shutdown: In progress";
 // const updateTip = "UpdateTip: ";
 const synchronizingBlockHeaders = "Synchronizing blockheaders, ";
 
@@ -18,11 +19,12 @@ function parseLine(line: string, prefix: string) {
 }
 
 type StateKeysFunction = (parsedLine: RegExpMatchArray, state: State) => State;
-const lineParsingDefinitions: [string, string | StateKeysFunction][] = [
+const lineParsingDefinitions: [string, keyof State | StateKeysFunction][] = [
   [initMessage, "lastInitMessage"],
   [bitcoinCoreVersion, "bitcoinCoreVersion"],
   [usingDataDirectory, "dataDir"],
   [openingLevelDbIn, "blockIndex"],
+  [shutdown, "shutdownInProgress"],
   // [
   //   updateTip,
   //   (parsedLine, state) => {
@@ -72,9 +74,15 @@ function processLine(state: State, line: string): State {
     if ((parsedLine = parseLine(line, definition[0]))) {
       const stateKeys = definition[1];
 
-      return typeof stateKeys === "function"
-        ? stateKeys(parsedLine, state)
-        : { ...state, [stateKeys]: parsedLine[1] };
+      if (typeof stateKeys === "function") {
+        return stateKeys(parsedLine, state);
+      }
+
+      if (stateKeys === "shutdownInProgress") {
+        return { ...state, [stateKeys]: true };
+      }
+
+      return { ...state, [stateKeys]: parsedLine[1] };
     }
   }
 

@@ -8,6 +8,9 @@ export const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     borderTop: "1px solid #bebebe",
     height: theme.spacing(7),
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
   },
   progressBarContainer: {
     display: "flex",

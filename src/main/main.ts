@@ -17,8 +17,6 @@ function createWindow() {
   }
 
   mainWindow = new BrowserWindow({
-    center: true,
-    title: "Orange",
     webPreferences: {
       // The below configurations are set to achieve the maximum
       // security possible in Electron
@@ -33,6 +31,11 @@ function createWindow() {
 
       preload: join(__dirname, "preload.js"),
     },
+
+    center: true,
+    title: "Orange",
+    minWidth: 800,
+    minHeight: 600,
   });
 
   preventNetworkAndResourceRequests(mainWindow);

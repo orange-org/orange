@@ -1,8 +1,8 @@
+import { generateUuid } from "_r/generateUuid";
 import { callMain } from "_r/redux/callMain";
-import { generateUuid } from "renderer/generateUuid";
-import { RpcRequest } from "typings/bitcoindRpcRequests";
-import { RpcResponse } from "typings/bitcoindRpcResponses";
-import { MessageToRenderer, RpcResponseMtR } from "typings/IpcMessages";
+import { RpcRequest } from "_t/bitcoindRpcRequests";
+import { RpcResponse } from "_t/bitcoindRpcResponses";
+import { RpcResponseMtR } from "_t/IpcMessages";
 import { OmitDistributed } from "_t/typeHelpers";
 
 const isRpcResponse = (

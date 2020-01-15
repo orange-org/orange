@@ -105,3 +105,6 @@ One of the main goals of this project is to explore if using TypeScript and Elec
   ```
 
   We need to handle this correctly.
+
+- Fix button styling, make them more like macOS
+- Get debug.log file location from bitcoin RPC instead of from the logs

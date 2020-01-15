@@ -1,6 +1,6 @@
 import { BrowserWindow, App } from "electron";
-import { bitcoindManager } from "main/bitcoindManager";
-import { registerRpcRequestListener } from "main/sendRpcRequestToBitcoind";
+import { bitcoindManager } from "_m/bitcoindManager";
+import { registerIpcListener } from "_m/registerIpcListener";
 
 export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
   let quitAttempted = false;
@@ -13,7 +13,7 @@ export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
     }
   });
 
-  registerRpcRequestListener(mainWindow);
+  registerIpcListener(mainWindow);
 
   app.on("before-quit", event => {
     quitAttempted = true;

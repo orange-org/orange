@@ -6,6 +6,8 @@ Orange is a Bitcoin full node client built using Electron, TypeScript, and React
 
 This project is not affiliated with Bitcoin Core.
 
+The only feature that's currently implemented is the information tab. No wallet or other operations are supported yet.
+
 [![See screenshots](./docs/orange-rpc-console.png)](./docs)
 
 ## Table of Contents
@@ -30,9 +32,9 @@ Orange uses many npm modules. Some of these npm modules could get compromised. T
 
 The communication channel between Orange and `bitcoind` is protected by a password that minimizes unauthorized use of this channel by npm modules. I say minimize and not fully prevent because some modules, such as `React`, `Redux`, or their related modules could still read this password.
 
-I don't think theoretical vulnerability poses a serious risk because to exploit it, the `React`, `Redux`, or related teams would have to publish code that specifically targets Orange, and then a new version of Orange would have to import this new malicious code and be released before anyone notices it. I don't think this can happen.
+I don't think this theoretical vulnerability poses a serious risk because, to exploit it, the `React`, `Redux`, or a related team would have to publish code that specifically targets Orange, and then a new version of Orange would have to import this malicious code and be released before anyone notices it. I don't think this can happen.
 
-### Details
+### Details on the architecture
 
 All Electron applications have 3 separate processes. The nature of these 3 processes is what enables the architecture described above.
 
@@ -51,11 +53,9 @@ The `renderer` process is where the UI code actually is.
 The `renderer` process has no access to Node.js APIs, the filesystem, or any operating system features. The `renderer` process is also prohibited from:
 
 - making network requests
-- loading remote content
+- loading remote content (at run time)
 - opening webpages
 - navigating
-
-`renderer` runs in a sandbox that has as much power over the system as a website you run in the Chrome browser, which is to say not much. The `renderer` process uses npm modules.
 
 <details><summary>Some implementation details</summary>
 
@@ -89,7 +89,7 @@ After the npm modules have been downloaded but before the Orange distributable i
 
 ## Install and contribute
 
-This will probably only work on macOS. Not sure it will run on other systems.
+At this time, Orange will only work on macOS. The included `bitcoind` was built on macOS.
 
 To run this locally and contribute:
 

@@ -97,9 +97,11 @@ To run this locally and contribute:
 1. `cd` into the repo
 1. Execute `npm install` to install the dependencies
 1. Execute `npm run wds` to start the build and server for the `renderer` bundle. This command will occupy the terminal window
-1. In a separate terminal window, execute `npm run electron` to start the build process of the `main` bundle. This command will also occupy the terminal window
+1. In a separate terminal window, but in the same folder, execute `npm run electron` to start the build process of the `main` bundle. This command will also occupy the terminal window
 
 Feel free to play around with the code, make modifications, or send a PR!
+
+**Note**: I haven't tested Orange with a fully synced blockchain. I usually test with only partially synced blockchains on testnet
 
 ## Questions and help
 

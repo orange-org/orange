@@ -75,7 +75,7 @@ We implement the [security recommendations](https://electronjs.org/docs/tutorial
 
 #### How does `renderer` get the data to display if it's sandboxed?
 
-This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It relays messages between the two, but only very specific kindsmessages.
+This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It relays messages between the two, but only very specific kinds of messages.
 
 #### How is the communication between `renderer` and `main` secured?
 

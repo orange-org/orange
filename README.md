@@ -1,22 +1,52 @@
 # Orange
 
-Orange is a UI for Bitcoin Core's `bitcoind` process. It's using Electron and TypeScript. It's not associated with the Bitcoin Core project.
+⚠️ **WARNING**: _do not use this on a computer where you care about your Bitcoin data. This software might delete your funds, wallets, and blockchain data. This software is just a proof-of-concept. It is not meant for actual use._
+
+Orange is a Bitcoin full node client built using Electron, TypeScript, and React. It uses Bitcoin Core's `bitcoind` under the hood.
+
+This project is not affiliated with Bitcoin Core.
+
+[![See screenshots](./docs/orange-rpc-console.png)](./docs)
+
+## Table of Contents
+
+- [Goal of the project](#goal-of-the-project)
+- [How it works](#how-it-works)
+- [Architecture and security](#architecture-and-security)
+- [Install and contribute](#install-and-contribute)
+- [Questions and help](#questions-and-help)
+
+## Goal of the project
+
+The goal of the project is to explore using Electron, React, and TypeScript to build a better Bitcoin client on top of Bitcoin Core while still providing strong security.
 
 ## How it works
 
-Orange is just a UI. The Bitcoin functionality all comes from [`bitcoind`](https://en.bitcoin.it/wiki/Bitcoind). When you start Orange, it starts `bitcoind` and it monitors the log messages from `bitcoind`. That's one way it knows what to display on the UI. It can also use RPC to communicate with `bitcoind`.
+Orange is just a UI. The Bitcoin functionality comes from [`bitcoind`](https://en.bitcoin.it/wiki/Bitcoind). When you start Orange, it starts `bitcoind` and communicates with it through RPC to power the UI.
 
 ## Architecture and security
 
-Because Orange is an Electron application, it has `main`, `renderer`, and `preload` Electron processes. Each one of these processes is granted a different level of access privilege over the system.
+Orange uses many npm modules. Some of these npm modules could get compromised. To prevent a compromised module from causing damage, Orange is sandboxed. Orange cannot make outbound connections and cannot receive inbound connections except to and from `bitcoind`.
 
-### The `main` process
+The communication channel between Orange and `bitcoind` is protected by a password that minimizes unauthorized use of this channel by npm modules. I say minimize and not fully prevent because some modules, such as `React`, `Redux`, or their related modules could still read this password.
 
-In Orange the `main` process handles the native environment. It uses Node.js to talk to the file system and it can talk to the operating system. **Because `main` has this much privilege, we don't use npm modules in it.**
+I don't think theoretical vulnerability poses a serious risk because to exploit it, the `React`, `Redux`, or related teams would have to publish code that specifically targets Orange, and then a new version of Orange would have to import this new malicious code and be released before anyone notices it. I don't think this can happen.
 
-### The `renderer` process
+### Details
 
-`main` starts the `renderer` process. The `renderer` process is where Orange UI code actually is.
+All Electron applications have 3 separate processes. The nature of these 3 processes is what enables the architecture described above.
+
+The 3 processes are called `main`, `renderer`, and `preload`. Each one of these processes is granted a different level of access privilege over the system, as described below.
+
+#### The `main` process
+
+In Orange the `main` has full access over the system. It uses Node.js to talk to the file system and it can talk to the operating system. **Because `main` has this much privilege, we don't use npm modules in it.**
+
+`main` talks to `bitcoind`.
+
+#### The `renderer` process
+
+The `renderer` process is where the UI code actually is.
 
 The `renderer` process has no access to Node.js APIs, the filesystem, or any operating system features. The `renderer` process is also prohibited from:
 
@@ -25,7 +55,7 @@ The `renderer` process has no access to Node.js APIs, the filesystem, or any ope
 - opening webpages
 - navigating
 
-`renderer` runs in a sandbox that has as much power over your system as a website you run in the Chrome browser, which is not much. The `renderer` process uses npm modules.
+`renderer` runs in a sandbox that has as much power over the system as a website you run in the Chrome browser, which is to say not much. The `renderer` process uses npm modules.
 
 <details><summary>Some implementation details</summary>
 
@@ -43,23 +73,13 @@ We implement the [security recommendations](https://electronjs.org/docs/tutorial
 
 </details>
 
-### How does `renderer` get the data to display if it's sandboxed?
+#### How does `renderer` get the data to display if it's sandboxed?
 
-This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It can relay messages between the two.
+This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It relays messages between the two, but only very specific kindsmessages.
 
-`main` starts `bitcoind` and monitors log messages. `main` forwards those log messages to `preload` which in turn forwards the log messages to `renderer`.
+#### How is the communication between `renderer` and `main` secured?
 
-When `renderer` wants to send an RPC message to `bitcoind`, it sends that message to `preload` which in turn forwards the message to `main` which in turn forwards the message to `bitcoind`.
-
-### npm modules pose a security risk
-
-While npm modules pose a security risk, we don't want to unnecessarily limit their use. The JavaScript ecosystem is rich. We want to benefit from it if we can do so safely.
-
-The goal of this architecture is to keep Orange secure even if a compromised npm module were to slip into the code unnoticed.
-
-### How is the communication between `renderer` and `main` secured?
-
-`main` and `renderer` use a nonce (i.e. password) to communicate with each other. This nonce is generated and agreed upon only after all the npm modules have been downloaded, so remote code has no way of knowing what it is.
+`main` and `renderer` use a nonce (i.e. password) to communicate with each other. This nonce is agreed upon between `main` and `renderer` only after all the npm modules have been downloaded, so remote code has no way of knowing what it is.
 
 <details><summary>Implementation details</summary>
 
@@ -67,44 +87,20 @@ After the npm modules have been downloaded but before the Orange distributable i
 
 </details>
 
-### npm modules outside of the `renderer` process
+## Install and contribute
 
-Currently, the build and development steps of Orange use npm modules such as `webpack` and related plugins to generate the Orange distributable code. This poses a security risk that should be evaluated and fixed.
+This will probably only work on macOS. Not sure it will run on other systems.
 
-## Decisions and rationale
+To run this locally and contribute:
 
-### Match Bitcoin Core Qt as closely as possible
+1. Clone this repo
+1. `cd` into the repo
+1. Execute `npm install` to install the dependencies
+1. Execute `npm run wds` to start the build and server for the `renderer` bundle. This command will occupy the terminal window
+1. In a separate terminal window, execute `npm run electron` to start the build process of the `main` bundle. This command will also occupy the terminal window
 
-One of the main goals of this project is to explore if using TypeScript and Electron for the UI can make it easier to build a better desktop client. This project is not meant to provide an alternative user experience. Also, I'm not a designer, but if a designer is interested in revamping the UI. I'd be interested in collaborating. However, Qt is a native framework. Electron is not. So Qt gives you a native looking UI and colors for free. With Electron, building the UI is more like building a website. We don't get the native controls and colors out of the box. So the UI in Orange, while it tries to match the UI of Electron, it is not native. It uses [Material Design](https://material.io/design/) by way of [React Material UI](https://material-ui.com/) library. Colors and other UI aspects are inspired by macOS.
+Feel free to play around with the code, make modifications, or send a PR!
 
-## Todos
+## Questions and help
 
-- Ban default exports
-- Organize imports
-- Write a cross-platform solution for copying `vendor/bitcoind` to `dist/`
-- Handle error when `bitcoind` is already running
-- Look into using HTTPS for RPC calls
-- DRY up Babel config in webpack config
-- Remove "View => Reload" from menu
-- Find a way to grab `blocks/` dir from Bitcoin Core and display it correctly in RPC Console
-- Format startup time correctly
-- Format mempool numbers correctly
-- Make progress bar glow like macOS
-- `bitcoind` responds with error messages sometimes. For example, when sending a JSON payload with
-  `setnetworkactive`, the response is something like:
-
-  ```json
-  {
-    "result": null,
-    "error": {
-      "code": -1,
-      "message": "JSON value is not a boolean as expected"
-    },
-    "id": "static for now"
-  }
-  ```
-
-  We need to handle this correctly.
-
-- Fix button styling, make them more like macOS
-- Get debug.log file location from bitcoin RPC instead of from the logs
+If you have a question or need help, [file an issue](https://github.com/orange-org/orange/issues/new) or [tweet me](https://twitter.com/msafi).

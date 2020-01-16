@@ -1,0 +1,7 @@
+{
+  "search.exclude": {
+    "dist": true
+  },
+  "cSpell.words": ["Mempool", "bitcoind", "clsx"],
+  "editor.formatOnSave": true
+}

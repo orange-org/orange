@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Main Process",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+      },
+      "program": "${workspaceRoot}/src/main/main.ts",
+      "outFiles": ["${workspaceRoot}/dist/main/main.js"],
+      "sourceMaps": true,
+      "args": ["."],
+      "outputCapture": "std",
+      "preLaunchTask": "build-main"
+    }
+  ]
+}

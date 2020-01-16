@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+
+    "strict": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    "module": "commonjs",
+    "target": "ES2017",
+    "sourceMap": true,
+
+    "skipLibCheck": true,
+
+    "allowJs": true,
+    "checkJs": true,
+    "maxNodeModuleJsDepth": 2,
+
+    "jsx": "preserve",
+
+    "pretty": true,
+    "baseUrl": "src",
+    "declaration": false, // emit declarations
+    "importHelpers": false, // importing helper functions from tslib
+    "noEmitHelpers": true, // disable emitting inline helper functions
+    "removeComments": true,
+    "stripInternal": true,
+    "resolveJsonModule": true,
+
+    "paths": {
+      "_r/*": ["renderer/*"],
+      "_m/*": ["main/*"],
+      "_a/*": ["assets/*"],
+      "_t/*": ["typings/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

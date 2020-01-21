@@ -1,20 +1,18 @@
 import { Dispatch } from "redux";
+import { createAction, PayloadActionCreator } from "typesafe-actions";
 import { State } from "_r/redux/reducers";
 import { rpcClient } from "_r/redux/rpcClient";
 import * as selectors from "_r/redux/selectors";
-import { createAction, PayloadActionCreator } from "typesafe-actions";
-import {
-  RpcRequest,
-  SetNetworkActiveRpcRequest,
-} from "typings/bitcoindRpcRequests";
+import { RpcRequest, SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
   Block,
   BlockchainInfo,
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
-} from "typings/bitcoindRpcResponses";
-import { Json } from "typings/types";
+  RpcError,
+} from "_t/bitcoindRpcResponses";
+import { Json } from "_t/types";
 
 export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
   Json
@@ -40,16 +38,29 @@ export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 
 export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
+export const setRpcError = createAction("SET_RPC_ERROR")<RpcError>();
+
 const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
-  action: PayloadActionCreator<string, T>,
+  action: PayloadActionCreator<string, T | undefined>,
 ) => {
   return (nonce: NONCE, params?: RpcRequest["params"]) => {
     return async (dispatch: Dispatch) => {
-      const response = await rpcClient(nonce, { method, params } as RpcRequest);
-      dispatch(action((response.payload.result as unknown) as T));
+      const response = await rpcClient(nonce, {
+        method,
+        params,
+      });
 
-      return (response.payload.result as unknown) as T;
+      const returnValue = (response.payload.result as unknown) as T;
+
+      if (response.method === "error") {
+        setRpcError(response.payload.result);
+        return undefined;
+      }
+
+      dispatch(action(returnValue));
+
+      return returnValue;
     };
   };
 };

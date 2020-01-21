@@ -36,7 +36,13 @@ export const sendRpcRequestToBitcoind = (
         response.on("end", () => {
           try {
             const payload = JSON.parse(data) as RawRpcResponse;
-            resolve({ method, payload, ok: true, requestId } as RpcResponse);
+
+            resolve({
+              method,
+              payload,
+              ok: !payload.error,
+              requestId,
+            } as RpcResponse);
           } catch (e) {
             console.error("RPC `end` response handler error", e);
             // throw new Error(e);

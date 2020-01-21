@@ -6,6 +6,7 @@ import {
   UptimeRpcRequest,
   PeerInfoRpcRequest,
   MempoolInfoRpcRequest,
+  RpcRequest,
 } from "typings/bitcoindRpcRequests";
 import { OrUndefined } from "./typeHelpers";
 
@@ -208,8 +209,14 @@ export type MempoolInfoRpcResponse = CreateRpcResponse<
   MempoolInfo
 >;
 
+export type RpcError = {
+  code: number;
+  message: string;
+};
+
+export type RpcErrorResponse = CreateRpcResponse<"error", RpcError>;
+
 export type RpcResponse = {
-  ok: boolean;
   requestId: string;
 } & (
   | NetworkInfoRpcResponse
@@ -218,6 +225,7 @@ export type RpcResponse = {
   | UptimeRpcResponse
   | PeerInfoRpcResponse
   | MempoolInfoRpcResponse
+  | RpcErrorResponse
 );
 
-export type RawRpcResponse = { result: any };
+export type RawRpcResponse = { result: any; error: RpcError | null };

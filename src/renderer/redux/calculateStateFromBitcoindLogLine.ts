@@ -20,7 +20,6 @@ function parseLine(line: string, prefix: string) {
 
 type StateKeysFunction = (parsedLine: RegExpMatchArray, state: State) => State;
 const lineParsingDefinitions: [string, keyof State | StateKeysFunction][] = [
-  [initMessage, "lastInitMessage"],
   [bitcoinCoreVersion, "bitcoinCoreVersion"],
   [usingDataDirectory, "dataDir"],
   [openingLevelDbIn, "blockIndex"],

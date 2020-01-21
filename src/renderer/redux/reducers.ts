@@ -7,6 +7,7 @@ import {
   Block,
   PeerInfo,
   MempoolInfo,
+  RpcError,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
 import * as actions from "_r/redux/actions";
@@ -29,6 +30,7 @@ type NullableState = DeepReadonly<
     synchronizingBlocksProgress: number;
     synchronizingBlockHeadersProgress: number;
     shutdownInProgress: boolean;
+    rpcError: RpcError;
   }>
 >;
 
@@ -52,6 +54,7 @@ const initialState: State = {
   synchronizingBlocksProgress: undefined,
   synchronizingBlockHeadersProgress: undefined,
   shutdownInProgress: undefined,
+  rpcError: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
@@ -62,10 +65,10 @@ export const orangeApp = createReducer(initialState)
       ...action.payload,
     },
   }))
-  .handleAction(actions.receiveBitcoindLogLines, (state, action) => ({
-    ...state,
-    ...calculateStateFromBitcoindLogLines(state, action.payload),
-  }))
+  // .handleAction(actions.receiveBitcoindLogLines, (state, action) => ({
+  //   ...state,
+  //   ...calculateStateFromBitcoindLogLines(state, action.payload),
+  // }))
   .handleAction(actions.setNetworkInfo, (state, action) => ({
     ...state,
     networkInfo: action.payload,
@@ -93,4 +96,8 @@ export const orangeApp = createReducer(initialState)
   .handleAction(actions.setMempoolInfo, (state, action) => ({
     ...state,
     mempoolInfo: action.payload,
+  }))
+  .handleAction(actions.setRpcError, (state, action) => ({
+    ...state,
+    rpcError: action.payload,
   }));

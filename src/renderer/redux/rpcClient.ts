@@ -3,7 +3,6 @@ import { callMain } from "_r/redux/callMain";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponse } from "_t/bitcoindRpcResponses";
 import { RpcResponseMtR } from "_t/IpcMessages";
-import { OmitDistributed } from "_t/typeHelpers";
 
 const isRpcResponse = (
   response: any,
@@ -15,11 +14,11 @@ const isRpcResponse = (
   );
 };
 
-export const rpcClient = (
+export const rpcClient = <TRpcRequest extends Omit<RpcRequest, "requestId">>(
   nonce: NONCE,
-  rpcRequest: OmitDistributed<RpcRequest, "requestId">,
-): Promise<RpcResponse> => {
-  return new Promise((resolve, reject) => {
+  rpcRequest: TRpcRequest,
+): Promise<Extract<RpcResponse, { method: TRpcRequest["method"] }>> => {
+  return new Promise(resolve => {
     const requestId = generateUuid();
     const windowMessageEventHandler = (event: MessageEvent) => {
       const { data: response } = event;
@@ -27,11 +26,12 @@ export const rpcClient = (
       if (isRpcResponse(response, requestId)) {
         window.removeEventListener("message", windowMessageEventHandler);
 
-        if (response.message.ok) {
-          resolve(response.message);
-        } else {
-          reject(response.message);
-        }
+        resolve(
+          response.message as Extract<
+            RpcResponse,
+            { method: TRpcRequest["method"] }
+          >,
+        );
       }
     };
     window.addEventListener("message", windowMessageEventHandler);
@@ -39,7 +39,7 @@ export const rpcClient = (
     callMain({
       nonce,
       type: "rpc-request",
-      message: { ...rpcRequest, requestId },
+      message: { ...rpcRequest, requestId } as RpcRequest,
     });
   });
 };

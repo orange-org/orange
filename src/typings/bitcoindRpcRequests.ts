@@ -38,6 +38,13 @@ export type SetNetworkActiveRpcRequest = {
   params: { state: boolean };
 };
 
+// There's no such thing as `error` RPC request.
+// This is here to satisfy TypeScript
+export type ErrorRpcRequest = {
+  method: "error";
+  params?: undefined;
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -47,6 +54,7 @@ export type RpcRequest = { requestId: string } & (
   | PeerInfoRpcRequest
   | MempoolInfoRpcRequest
   | SetNetworkActiveRpcRequest
+  | ErrorRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

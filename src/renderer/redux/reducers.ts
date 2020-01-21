@@ -1,17 +1,15 @@
 import { createReducer } from "typesafe-actions";
-import { DeepReadonly } from "utility-types";
-
 import {
-  NetworkInfo,
   BlockchainInfo,
   Block,
-  PeerInfo,
   MempoolInfo,
-  RpcError,
+  NetworkInfo,
+  PeerInfo,
+  Uptime,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
+import { DeepReadonly } from "utility-types";
 import * as actions from "_r/redux/actions";
-import { calculateStateFromBitcoindLogLines } from "_r/redux/calculateStateFromBitcoindLogLine";
 
 type NullableState = DeepReadonly<
   OrUndefined<{
@@ -24,13 +22,12 @@ type NullableState = DeepReadonly<
     blockchainInfo: BlockchainInfo;
     lastRequestedBlock: Block;
     bestBlock: Block;
-    uptime: number;
+    uptime: Uptime;
     peerInfo: PeerInfo;
     mempoolInfo: MempoolInfo;
     synchronizingBlocksProgress: number;
     synchronizingBlockHeadersProgress: number;
     shutdownInProgress: boolean;
-    rpcError: RpcError;
   }>
 >;
 
@@ -54,17 +51,16 @@ const initialState: State = {
   synchronizingBlocksProgress: undefined,
   synchronizingBlockHeadersProgress: undefined,
   shutdownInProgress: undefined,
-  rpcError: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
-  .handleAction(actions.setSystemPreference, (state, action) => ({
-    ...state,
-    systemPreferences: {
-      ...state.systemPreferences,
-      ...action.payload,
-    },
-  }))
+  // .handleAction(actions.setSystemPreference, (state, action) => ({
+  //   ...state,
+  //   systemPreferences: {
+  //     ...state.systemPreferences,
+  //     ...action.payload,
+  //   },
+  // }))
   // .handleAction(actions.receiveBitcoindLogLines, (state, action) => ({
   //   ...state,
   //   ...calculateStateFromBitcoindLogLines(state, action.payload),

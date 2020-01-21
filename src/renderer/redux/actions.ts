@@ -5,12 +5,13 @@ import { rpcClient } from "_r/redux/rpcClient";
 import * as selectors from "_r/redux/selectors";
 import { RpcRequest, SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
-  Block,
   BlockchainInfo,
+  Block,
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
   RpcError,
+  Uptime,
 } from "_t/bitcoindRpcResponses";
 import { Json } from "_t/types";
 
@@ -32,7 +33,7 @@ export const setBlock = createAction("SET_BLOCK")<Block>();
 
 export const setBestBlock = createAction("SET_BEST_BLOCK")<Block>();
 
-export const setUptime = createAction("SET_UPTIME")<number>();
+export const setUptime = createAction("SET_UPTIME")<Uptime>();
 
 export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 
@@ -42,7 +43,7 @@ export const setRpcError = createAction("SET_RPC_ERROR")<RpcError>();
 
 const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
-  action: PayloadActionCreator<string, T | undefined>,
+  action: PayloadActionCreator<string, T>,
 ) => {
   return (nonce: NONCE, params?: RpcRequest["params"]) => {
     return async (dispatch: Dispatch) => {
@@ -51,12 +52,11 @@ const createSimpleRpcRequest = <T>(
         params,
       });
 
-      const returnValue = (response.payload.result as unknown) as T;
-
-      if (response.method === "error") {
-        setRpcError(response.payload.result);
-        return undefined;
+      if (response.error) {
+        throw response.error;
       }
+
+      const returnValue = (response as unknown) as T;
 
       dispatch(action(returnValue));
 
@@ -75,7 +75,7 @@ export const requestBlockchainInfo = createSimpleRpcRequest<BlockchainInfo>(
   setBlockchainInfo,
 );
 
-export const requestUptime = createSimpleRpcRequest<number>(
+export const requestUptime = createSimpleRpcRequest<Uptime>(
   "uptime",
   setUptime,
 );

@@ -6,15 +6,18 @@ import {
   UptimeRpcRequest,
   PeerInfoRpcRequest,
   MempoolInfoRpcRequest,
-  RpcRequest,
-} from "typings/bitcoindRpcRequests";
+} from "_t/bitcoindRpcRequests";
 import { OrUndefined } from "./typeHelpers";
+
+export type RpcError = {
+  code: number;
+  message: string;
+};
 
 type CreateRpcResponse<Method, Result> = {
   method: Method;
-  payload: {
-    result: Result;
-  };
+  result: Result;
+  error: undefined | RpcError;
 };
 
 type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED" | "NETWORK";
@@ -96,7 +99,7 @@ export type BlockchainInfo = Partial<
   }>
 >;
 
-export type BestBlockHashRpcResponse = CreateRpcResponse<
+export type BlockchainInfoRpcResponse = CreateRpcResponse<
   BlockchainInfoRpcRequest["method"],
   BlockchainInfo
 >;
@@ -209,23 +212,14 @@ export type MempoolInfoRpcResponse = CreateRpcResponse<
   MempoolInfo
 >;
 
-export type RpcError = {
-  code: number;
-  message: string;
-};
-
-export type RpcErrorResponse = CreateRpcResponse<"error", RpcError>;
-
 export type RpcResponse = {
   requestId: string;
 } & (
   | NetworkInfoRpcResponse
-  | BestBlockHashRpcResponse
   | BlockRpcResponse
   | UptimeRpcResponse
   | PeerInfoRpcResponse
   | MempoolInfoRpcResponse
-  | RpcErrorResponse
 );
 
 export type RawRpcResponse = { result: any; error: RpcError | null };

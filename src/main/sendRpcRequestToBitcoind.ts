@@ -1,17 +1,13 @@
-/* eslint-disable prefer-destructuring */
 import http from "http";
-import { ipcMain, BrowserWindow } from "electron";
+import { password, username } from "_m/bitcoindCredentials";
+import { RpcRequest } from "_t/bitcoindRpcRequests";
+import { RawRpcResponse } from "_t/bitcoindRpcResponses";
+import { ExtractedRpcResponse } from "_t/typeHelpers";
 
-import { username, password } from "main/bitcoindCredentials";
-import { RpcRequest } from "typings/bitcoindRpcRequests";
-import { RpcResponse, RawRpcResponse } from "typings/bitcoindRpcResponses";
-import { MessageToMain, RpcRequestMtM } from "typings/IpcMessages";
-import { sendMessageToRenderer } from "main/sendMessageToRenderer";
-
-export const sendRpcRequestToBitcoind = (
-  rpcRequest: RpcRequest,
-): Promise<RpcResponse> => {
-  return new Promise<RpcResponse>((resolve, reject) => {
+export const sendRpcRequestToBitcoind = <TRpcRequest extends RpcRequest>(
+  rpcRequest: TRpcRequest,
+): Promise<ExtractedRpcResponse<TRpcRequest>> => {
+  return new Promise((resolve, reject) => {
     const { method, params = [], requestId } = rpcRequest;
     const url = "http://localhost:18332/";
 
@@ -39,10 +35,9 @@ export const sendRpcRequestToBitcoind = (
 
             resolve({
               method,
-              payload,
-              ok: !payload.error,
               requestId,
-            } as RpcResponse);
+              ...payload,
+            } as ExtractedRpcResponse<TRpcRequest>);
           } catch (e) {
             console.error("RPC `end` response handler error", e);
             // throw new Error(e);

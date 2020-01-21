@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-
-import * as styles from "renderer/styles";
 import bitcoinPng from "assets/bitcoin.png";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as styles from "renderer/styles";
+import styled from "styled-components";
+import { usePolling } from "_r/hooks";
 import * as selectors from "_r/redux/selectors";
+import * as actions from "_r/redux/actions";
 
 import { version } from "../../../package.json";
 
@@ -57,6 +58,18 @@ const BottomAlignedContainerWithCenteredContent = styled.div`
 
 export const SplashScreen: React.FC = () => {
   const bitcoinCoreVersion = useSelector(selectors.shortBitcoinCoreVersion);
+  const dispatch = useDispatch();
+
+  usePolling(async () => {
+    // Requesting uptime is a lightweight call to help us probe whether the
+    // RPC server is ready to receive calls.
+    try {
+      await dispatch(actions.requestUptime(__NONCE__));
+    } catch (e) {
+      console.log("e", e);
+    }
+  }, 500);
+
   const initMessage = useSelector(selectors.initMessage);
 
   return (

@@ -34,24 +34,6 @@ class BitcoindManager {
 
     this.isProcessRunning = true;
 
-    createInterface({ input: bitcoindProcess.stdout }).on("line", line => {
-      console.log(line);
-      lines.push(line);
-    });
-
-    setInterval(() => {
-      sendMessageToRenderer(
-        {
-          nonce: __NONCE__,
-          type: "bitcoind-log-lines",
-          message: lines,
-        },
-        mainWindow,
-      );
-
-      lines.length = 0;
-    }, 1000);
-
     bitcoindProcess.stderr.on("data", data => {
       throw new Error(`bitcoind error: ${data}`);
     });

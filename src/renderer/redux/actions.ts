@@ -52,11 +52,7 @@ const createSimpleRpcRequest = <T>(
         params,
       });
 
-      if (response.error) {
-        throw response.error;
-      }
-
-      const returnValue = (response as unknown) as T;
+      const returnValue = (response.result as unknown) as T;
 
       dispatch(action(returnValue));
 

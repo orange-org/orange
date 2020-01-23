@@ -35,10 +35,6 @@ export const RpcConsole: React.FC = () => {
   const showRpcConsole = useSelector(selectors.showRpcConsole);
   const isNetworkActive = useSelector(selectors.networkActive);
 
-  if (showRpcConsole === false) {
-    return null;
-  }
-
   return (
     <div className={s.root}>
       <Paper className={s.paper}>

@@ -10,9 +10,14 @@ type CreateMtR<T, M> = {
 
 export type BitcoindLogLinesMtR = CreateMtR<"bitcoind-log-lines", string[]>;
 
+export type RpcServerIsDownMtR = CreateMtR<"rpc-server-is-down", undefined>;
+
 export type RpcResponseMtR = CreateMtR<"rpc-response", RpcResponse>;
 
-export type MessageToRenderer = BitcoindLogLinesMtR | RpcResponseMtR;
+export type MessageToRenderer =
+  | BitcoindLogLinesMtR
+  | RpcResponseMtR
+  | RpcServerIsDownMtR;
 
 export type CreateMtM<T, M> = {
   nonce: NONCE;

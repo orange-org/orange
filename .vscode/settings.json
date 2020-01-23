@@ -3,5 +3,7 @@
     "dist": true
   },
   "cSpell.words": ["Mempool", "bitcoind", "clsx"],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.rulers": [80],
+  "rewrap.wrappingColumn": 80
 }

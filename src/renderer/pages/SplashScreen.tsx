@@ -1,4 +1,4 @@
-import bitcoinPng from "assets/bitcoin.png";
+import bitcoinPng from "_a/bitcoin.png";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as styles from "renderer/styles";
@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { usePolling } from "_r/hooks";
 import * as selectors from "_r/redux/selectors";
 import * as actions from "_r/redux/actions";
-
+import { RPC_SERVER_ERROR_CODES } from "_c/constants";
 import { version } from "../../../package.json";
 
 const Container = styled.div`
@@ -56,21 +56,9 @@ const BottomAlignedContainerWithCenteredContent = styled.div`
   margin-bottom: 5px;
 `;
 
-export const SplashScreen: React.FC = () => {
+export const SplashScreen: React.FC<{ initMessage: string }> = props => {
   const bitcoinCoreVersion = useSelector(selectors.shortBitcoinCoreVersion);
   const dispatch = useDispatch();
-
-  usePolling(async () => {
-    // Requesting uptime is a lightweight call to help us probe whether the
-    // RPC server is ready to receive calls.
-    try {
-      await dispatch(actions.requestUptime(__NONCE__));
-    } catch (e) {
-      console.log("e", e);
-    }
-  }, 500);
-
-  const initMessage = useSelector(selectors.initMessage);
 
   return (
     <Container>
@@ -78,13 +66,12 @@ export const SplashScreen: React.FC = () => {
         <RightAlignedContainerWithLeftJustifiedContent>
           <Title>Orange</Title>
           <Version>Version {version}</Version>
-          <Version>Bitcoin Core version {bitcoinCoreVersion}</Version>
         </RightAlignedContainerWithLeftJustifiedContent>
       </TopRow>
 
       <BottomRow>
         <BottomAlignedContainerWithCenteredContent>
-          {initMessage}
+          {props.initMessage}
         </BottomAlignedContainerWithCenteredContent>
       </BottomRow>
     </Container>

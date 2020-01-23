@@ -14,11 +14,17 @@ export type RpcError = {
   message: string;
 };
 
-type CreateRpcResponse<Method, Result> = {
-  method: Method;
-  result: Result;
-  error: undefined | RpcError;
-};
+type CreateRpcResponse<Method, Result> =
+  | {
+      method: Method;
+      result: Result;
+      error: undefined;
+    }
+  | {
+      method: Method;
+      result: undefined;
+      error: RpcError;
+    };
 
 type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED" | "NETWORK";
 

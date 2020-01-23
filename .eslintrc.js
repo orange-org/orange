@@ -24,8 +24,10 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "import"],
+  plugins: ["react", "@typescript-eslint", "import", "react-hooks"],
   rules: {
+    "react-hooks/rules-of-hooks": "error",
+    // "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
     "import/extensions": [

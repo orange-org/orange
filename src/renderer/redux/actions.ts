@@ -5,12 +5,12 @@ import { rpcClient } from "_r/redux/rpcClient";
 import * as selectors from "_r/redux/selectors";
 import { RpcRequest, SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
-  BlockchainInfo,
   Block,
+  BlockchainInfo,
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
-  RpcError,
+  RpcInfo,
   Uptime,
 } from "_t/bitcoindRpcResponses";
 import { Json } from "_t/types";
@@ -39,7 +39,7 @@ export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 
 export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
-export const setRpcError = createAction("SET_RPC_ERROR")<RpcError>();
+export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 
 const createSimpleRpcRequest = <T>(
   method: RpcRequest["method"],
@@ -86,6 +86,11 @@ export const requestPeerInfo = createSimpleRpcRequest<PeerInfo>(
 export const requestMempoolInfo = createSimpleRpcRequest<MempoolInfo>(
   "getmempoolinfo",
   setMempoolInfo,
+);
+
+export const requestRpcInfo = createSimpleRpcRequest<RpcInfo>(
+  "getrpcinfo",
+  setRpcInfo,
 );
 
 export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {

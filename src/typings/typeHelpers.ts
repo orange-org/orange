@@ -16,3 +16,7 @@ export type OmitDistributed<T, K extends AllKeys<T>> = T extends T
 export type ExtractedRpcResponse<
   T extends RpcRequest | Omit<RpcRequest, "requestId">
 > = Extract<RpcResponse, { method: T["method"] }>;
+
+export type WithoutProperty<T, K> = {
+  [L in Exclude<keyof T, K>]: T[L];
+};

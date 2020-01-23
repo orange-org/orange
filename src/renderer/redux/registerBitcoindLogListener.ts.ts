@@ -16,7 +16,7 @@ export function registerBitcoindLogListener() {
 
     if (isMessageToRenderer(data)) {
       if (data.nonce !== __NONCE__) {
-        debugger;
+        throw new Error("Nonce mismatch");
       }
 
       if (isBitcoindLine(data)) {

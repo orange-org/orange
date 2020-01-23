@@ -6,6 +6,7 @@ import {
   NetworkInfo,
   PeerInfo,
   Uptime,
+  RpcInfo,
 } from "typings/bitcoindRpcResponses";
 import { OrUndefined } from "typings/typeHelpers";
 import { DeepReadonly } from "utility-types";
@@ -14,10 +15,8 @@ import * as actions from "_r/redux/actions";
 type NullableState = DeepReadonly<
   OrUndefined<{
     systemPreferences: { [name: string]: string };
-    lastInitMessage: string;
     bitcoinCoreVersion: string;
     dataDir: string;
-    blockIndex: string;
     networkInfo: NetworkInfo;
     blockchainInfo: BlockchainInfo;
     lastRequestedBlock: Block;
@@ -27,7 +26,7 @@ type NullableState = DeepReadonly<
     mempoolInfo: MempoolInfo;
     synchronizingBlocksProgress: number;
     synchronizingBlockHeadersProgress: number;
-    shutdownInProgress: boolean;
+    rpcInfo: RpcInfo;
   }>
 >;
 
@@ -37,9 +36,7 @@ export type State = NullableState & UnnullableState;
 
 const initialState: State = {
   systemPreferences: undefined,
-  lastInitMessage: undefined,
   bitcoinCoreVersion: undefined,
-  blockIndex: undefined,
   dataDir: undefined,
   networkInfo: undefined,
   blockchainInfo: undefined,
@@ -50,21 +47,10 @@ const initialState: State = {
   mempoolInfo: undefined,
   synchronizingBlocksProgress: undefined,
   synchronizingBlockHeadersProgress: undefined,
-  shutdownInProgress: undefined,
+  rpcInfo: undefined,
 };
 
 export const orangeApp = createReducer(initialState)
-  // .handleAction(actions.setSystemPreference, (state, action) => ({
-  //   ...state,
-  //   systemPreferences: {
-  //     ...state.systemPreferences,
-  //     ...action.payload,
-  //   },
-  // }))
-  // .handleAction(actions.receiveBitcoindLogLines, (state, action) => ({
-  //   ...state,
-  //   ...calculateStateFromBitcoindLogLines(state, action.payload),
-  // }))
   .handleAction(actions.setNetworkInfo, (state, action) => ({
     ...state,
     networkInfo: action.payload,
@@ -89,11 +75,11 @@ export const orangeApp = createReducer(initialState)
     ...state,
     peerInfo: action.payload,
   }))
+  .handleAction(actions.setRpcInfo, (state, action) => ({
+    ...state,
+    rpcInfo: action.payload,
+  }))
   .handleAction(actions.setMempoolInfo, (state, action) => ({
     ...state,
     mempoolInfo: action.payload,
-  }))
-  .handleAction(actions.setRpcError, (state, action) => ({
-    ...state,
-    rpcError: action.payload,
   }));

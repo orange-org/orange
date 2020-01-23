@@ -1,26 +1,11 @@
-/* eslint-disable no-param-reassign */
+import { dirname } from "path";
 import { createSelector } from "reselect";
 import { State } from "_r/redux/reducers";
 import { formatDate } from "_r/smallUtils";
 
-export const showSplashScreen = (state: State) =>
-  state.lastInitMessage !== "Done loading";
-
-export const showRpcConsole = (state: State) =>
-  state.lastInitMessage === "Done loading";
-
 export const systemPreferences = (state: State) => state.systemPreferences;
 
-export const bitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
-
-export const shortBitcoinCoreVersion = createSelector(
-  bitcoinCoreVersion,
-  bitcoinCoreVersion_ => {
-    return bitcoinCoreVersion_?.split("-")[0];
-  },
-);
-
-export const initMessage = (state: State) => state.lastInitMessage;
+export const bitcoinCoreVersion = (state: State) => state.networkInfo?.version;
 
 export const networkInfo = (state: State) => state.networkInfo;
 
@@ -33,10 +18,6 @@ export const currentNumberOfBlocks = (state: State) =>
 export const lastBlockTime = (state: State) =>
   state.bestBlock?.time && state.bestBlock.time * 1000;
 
-export const dataDir = (state: State) => state.dataDir;
-
-export const blockIndex = (state: State) => state.blockIndex;
-
 export const uptime = (state: State) => state.uptime;
 
 export const startupTime = createSelector(uptime, uptime_ => {
@@ -48,8 +29,10 @@ export const peerInfo = (state: State) => state.peerInfo;
 export const connectionSummary = createSelector(peerInfo, peerInfo_ => {
   return peerInfo_?.reduce(
     (connectionSummary_, peer) => {
+      /* eslint-disable no-param-reassign */
       connectionSummary_.total += 1;
       connectionSummary_[peer.inbound ? "in" : "out"] += 1;
+      /* eslint-enable no-param-reassign */
 
       return connectionSummary_;
     },
@@ -113,6 +96,8 @@ export const isSynchronizingBlockHeaders = createSelector(
   },
 );
 
-export const isShuttingDown = (state: State) => {
-  return state.shutdownInProgress === true;
-};
+export const logPath = (state: State) => state.rpcInfo?.logpath;
+
+export const dataDir = createSelector(logPath, logPath_ =>
+  logPath_ ? dirname(logPath_) : undefined,
+);

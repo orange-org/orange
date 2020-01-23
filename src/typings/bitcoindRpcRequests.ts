@@ -38,6 +38,11 @@ export type SetNetworkActiveRpcRequest = {
   params: { state: boolean };
 };
 
+export type RpcInfoRpcRequest = {
+  method: "getrpcinfo";
+  params?: undefined;
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -47,6 +52,7 @@ export type RpcRequest = { requestId: string } & (
   | PeerInfoRpcRequest
   | MempoolInfoRpcRequest
   | SetNetworkActiveRpcRequest
+  | RpcInfoRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

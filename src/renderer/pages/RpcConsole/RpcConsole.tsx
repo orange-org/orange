@@ -17,6 +17,7 @@ export const RpcConsole: React.FC = () => {
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
     dispatch(actions.requestUptime(__NONCE__));
+    dispatch(actions.requestRpcInfo(__NONCE__));
   }, []);
 
   usePolling(() => {
@@ -32,7 +33,6 @@ export const RpcConsole: React.FC = () => {
   const connectionSummary = useSelector(selectors.connectionSummary);
   const mempoolInfo = useSelector(selectors.mempoolInfo);
   const chainName = useSelector(selectors.chainName);
-  const showRpcConsole = useSelector(selectors.showRpcConsole);
   const isNetworkActive = useSelector(selectors.networkActive);
 
   return (
@@ -58,7 +58,6 @@ export const RpcConsole: React.FC = () => {
             ["Client version", bitcoinCoreVersion],
             ["User agent", networkInfo?.subversion],
             ["Datadir", dataDir],
-            ["Blocksdir", `${dataDir}/blocks`],
             ["Startup time", startupTime],
           ]}
         />
@@ -110,7 +109,6 @@ export const RpcConsole: React.FC = () => {
           callMain({
             nonce: __NONCE__,
             type: "open-debug-file",
-            message: `${dataDir}/debug.log`,
           })
         }
       >

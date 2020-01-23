@@ -6,6 +6,7 @@ import {
   UptimeRpcRequest,
   PeerInfoRpcRequest,
   MempoolInfoRpcRequest,
+  RpcInfoRpcRequest,
 } from "_t/bitcoindRpcRequests";
 import { OrUndefined } from "./typeHelpers";
 
@@ -218,6 +219,19 @@ export type MempoolInfoRpcResponse = CreateRpcResponse<
   MempoolInfo
 >;
 
+export type RpcInfo = {
+  active_commands: {
+    method: string;
+    duration: number;
+  }[];
+  logpath: string;
+};
+
+export type RpcInfoRpcResponse = CreateRpcResponse<
+  RpcInfoRpcRequest["method"],
+  RpcInfo
+>;
+
 export type RpcResponse = {
   requestId: string;
 } & (
@@ -226,6 +240,7 @@ export type RpcResponse = {
   | UptimeRpcResponse
   | PeerInfoRpcResponse
   | MempoolInfoRpcResponse
+  | RpcInfoRpcResponse
 );
 
-export type RawRpcResponse = { result: any; error: RpcError | null };
+export type RawRpcResponse = { result: any; error: RpcError | undefined };

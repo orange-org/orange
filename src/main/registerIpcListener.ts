@@ -25,7 +25,7 @@ export const registerIpcListener = (mainWindow: BrowserWindow) => {
       // I would rather bitcoind had a command to open the debug file itself. Or at least
       // if it had a way to tell us where the debug.log file is so that we don't have to
       // pass an arbitrary string to be opened here.
-      shell.openItem(data.message);
+      // shell.openItem(data.message);
     }
   });
 };

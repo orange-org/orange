@@ -458,3 +458,17 @@ verifymessage "address" "signature" "message"
   }
 ]
 ```
+
+## `getrpcinfo` response
+
+```json
+{
+  "active_commands": [
+    {
+      "method": "getrpcinfo",
+      "duration": 58
+    }
+  ],
+  "logpath": "/Users/mk/Library/Application Support/Bitcoin/testnet3/debug.log"
+}
+```

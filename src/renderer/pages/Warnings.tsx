@@ -1,8 +1,7 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { WarningRounded } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch, useStore } from "react-redux";
-import * as selectors from "_r/redux/selectors";
+import { useDispatch, useStore } from "react-redux";
 import * as actions from "_r/redux/actions";
 
 const useStyles = makeStyles(theme => ({

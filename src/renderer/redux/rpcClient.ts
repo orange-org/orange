@@ -14,10 +14,14 @@ const isRpcResponse = (
   );
 };
 
+type RpcClientReturnType<T extends Omit<RpcRequest, "requestId">> = Extract<
+  ExtractedRpcResponse<T>,
+  { error: undefined }
+>;
 export const rpcClient = <TRpcRequest extends Omit<RpcRequest, "requestId">>(
   nonce: NONCE,
   rpcRequest: TRpcRequest,
-): Promise<ExtractedRpcResponse<TRpcRequest>> => {
+): Promise<RpcClientReturnType<TRpcRequest>> => {
   return new Promise((resolve, reject) => {
     const requestId = generateUuid();
     const windowMessageEventHandler = (event: MessageEvent) => {
@@ -29,7 +33,7 @@ export const rpcClient = <TRpcRequest extends Omit<RpcRequest, "requestId">>(
         if (response.message.error) {
           reject(response.message.error);
         } else {
-          resolve(response.message as ExtractedRpcResponse<TRpcRequest>);
+          resolve(response.message as RpcClientReturnType<TRpcRequest>);
         }
       }
     };

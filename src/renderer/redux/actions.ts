@@ -1,8 +1,8 @@
 import { Dispatch } from "redux";
-import { createAction, PayloadActionCreator } from "typesafe-actions";
+import { createAction } from "typesafe-actions";
 import { State } from "_r/redux/reducers/store";
 import { rpcClient } from "_r/redux/rpcClient";
-import { RpcRequest, SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
+import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
   Block,
   BlockchainInfo,
@@ -42,57 +42,58 @@ export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 
-const createSimpleRpcRequest = <T>(
-  method: RpcRequest["method"],
-  action: PayloadActionCreator<string, T>,
+export const requestNetworkInfo = (nonce: NONCE) => async (
+  dispatch: Dispatch,
 ) => {
-  return (nonce: NONCE, params?: RpcRequest["params"]) => {
-    return async (dispatch: Dispatch) => {
-      const response = await rpcClient(nonce, {
-        method,
-        params,
-      });
-
-      const returnValue = (response.result as unknown) as T;
-
-      dispatch(action(returnValue));
-
-      return returnValue;
-    };
-  };
+  const response = await rpcClient(nonce, { method: "getnetworkinfo" });
+  dispatch(setNetworkInfo(response.result));
+  return response.result;
 };
 
-export const requestNetworkInfo = createSimpleRpcRequest<NetworkInfo>(
-  "getnetworkinfo",
-  setNetworkInfo,
-);
+export const requestBlockchainInfo = (nonce: NONCE) => async (
+  dispatch: Dispatch,
+) => {
+  const response = await rpcClient(nonce, { method: "getblockchaininfo" });
+  dispatch(setBlockchainInfo(response.result));
+  return response.result;
+};
 
-export const requestBlockchainInfo = createSimpleRpcRequest<BlockchainInfo>(
-  "getblockchaininfo",
-  setBlockchainInfo,
-);
+export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
+  const response = await rpcClient(nonce, { method: "uptime" });
+  dispatch(setUptime(response.result));
+  return response.result;
+};
 
-export const requestUptime = createSimpleRpcRequest<Uptime>(
-  "uptime",
-  setUptime,
-);
+export const requestBlock = (nonce: NONCE, blockHash: string) => async (
+  dispatch: Dispatch,
+) => {
+  const response = await rpcClient(nonce, {
+    method: "getblock",
+    params: [blockHash],
+  });
+  dispatch(setBlock(response.result));
+  return response.result;
+};
 
-export const requestBlock = createSimpleRpcRequest<Block>("getblock", setBlock);
+export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
+  const response = await rpcClient(nonce, { method: "getpeerinfo" });
+  dispatch(setPeerInfo(response.result));
+  return response.result;
+};
 
-export const requestPeerInfo = createSimpleRpcRequest<PeerInfo>(
-  "getpeerinfo",
-  setPeerInfo,
-);
+export const requestMempoolInfo = (nonce: NONCE) => async (
+  dispatch: Dispatch,
+) => {
+  const response = await rpcClient(nonce, { method: "getmempoolinfo" });
+  dispatch(setMempoolInfo(response.result));
+  return response.result;
+};
 
-export const requestMempoolInfo = createSimpleRpcRequest<MempoolInfo>(
-  "getmempoolinfo",
-  setMempoolInfo,
-);
-
-export const requestRpcInfo = createSimpleRpcRequest<RpcInfo>(
-  "getrpcinfo",
-  setRpcInfo,
-);
+export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
+  const response = await rpcClient(nonce, { method: "getrpcinfo" });
+  dispatch(setRpcInfo(response.result));
+  return response.result;
+};
 
 export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
   return async (dispatch: Dispatch, getState: GetState) => {
@@ -101,7 +102,7 @@ export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
     const bestBlockHash = getState().rpcResponses.blockchainInfo?.bestblockhash;
 
     if (bestBlockHash !== undefined) {
-      const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);
+      const bestBlock = await requestBlock(nonce, bestBlockHash)(dispatch);
       dispatch(setBestBlock(bestBlock));
     }
   };
@@ -120,17 +121,3 @@ export const requestSetNetworkActive = (
     await requestNetworkInfo(nonce)(dispatch);
   };
 };
-
-// export const requestAndCalculateEssentialData = (nonce: NONCE) => {
-//   return async (dispatch: Dispatch, getState: GetState) => {
-//     const oldBlockchainInfo = getState();
-//     await requestBlockchainInfo(nonce)(dispatch);
-
-//     const bestBlockHash = selectors.bestBlockHash(getState());
-
-//     if (bestBlockHash !== undefined) {
-//       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);
-//       dispatch(setBestBlock(bestBlock));
-//     }
-//   };
-// };

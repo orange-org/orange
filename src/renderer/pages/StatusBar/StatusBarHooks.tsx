@@ -17,7 +17,7 @@ export const useNetworkState = () => {
   const c = useStyles();
   const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
-  const isNetworkActive = useSelector(selectors.networkActive);
+  const isNetworkActive = useSelector(s => s.networkInfo?.networkactive);
   const dispatch = useDispatch();
 
   let imgSrc: string;
@@ -55,7 +55,7 @@ export const useNetworkState = () => {
 
 export const useProgressBarState = () => {
   const synchronizingBlockHeadersProgress = useSelector(
-    selectors.synchronizingBlockHeadersProgress,
+    s => s.synchronizingBlockHeadersProgress,
   );
   const synchronizingBlocksProgress = useSelector(
     selectors.synchronizingBlocksProgress,
@@ -100,7 +100,9 @@ const useProgressEstimates = () => {
   const [blockProcessTimeSamples, setBlockProcessTimeSamples] = useState<
     BlockProcessTimeSample
   >([]);
-  const verificationProgress = useSelector(selectors.verificationProgress);
+  const verificationProgress = useSelector(
+    s => s.blockchainInfo?.verificationprogress,
+  );
 
   if (!verificationProgress) {
     return undefined;
@@ -168,12 +170,12 @@ const useProgressEstimates = () => {
 export const useDetailsDialogState = () => {
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
-  const bestBlockHeight = useSelector(selectors.bestHeaderHeight);
+  const bestBlockHeight = useSelector(s => s.blockchainInfo?.headers);
   const isSynchronizingBlockHeaders = useSelector(
     selectors.isSynchronizingBlockHeaders,
   );
   const synchronizingBlockHeadersProgress = useSelector(
-    selectors.synchronizingBlockHeadersProgress,
+    s => s.synchronizingBlockHeadersProgress,
   );
   const progressEstimates = useProgressEstimates();
 

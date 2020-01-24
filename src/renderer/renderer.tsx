@@ -5,13 +5,10 @@ import { Provider } from "react-redux";
 
 import { Index } from "_r/pages/Index";
 import { store } from "_r/redux/store";
-import { registerBitcoindLogListener } from "_r/redux/registerBitcoindLogListener.ts";
 import { GlobalCss } from "_r/globalCss";
 import { theme } from "_r/theme";
 
 import "typeface-roboto";
-
-registerBitcoindLogListener();
 
 ReactDOM.render(
   <Provider store={store}>

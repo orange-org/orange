@@ -15,6 +15,8 @@ import {
 } from "_t/bitcoindRpcResponses";
 import { Json } from "_t/types";
 
+export type GetState = () => State;
+
 export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
   Json
 >();
@@ -94,10 +96,10 @@ export const requestRpcInfo = createSimpleRpcRequest<RpcInfo>(
 );
 
 export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
-  return async (dispatch: Dispatch, getState: () => State) => {
+  return async (dispatch: Dispatch, getState: GetState) => {
     await requestBlockchainInfo(nonce)(dispatch);
 
-    const bestBlockHash = selectors.bestBlockHash(getState());
+    const bestBlockHash = getState().blockchainInfo?.bestblockhash;
 
     if (bestBlockHash !== undefined) {
       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);
@@ -119,3 +121,17 @@ export const requestSetNetworkActive = (
     await requestNetworkInfo(nonce)(dispatch);
   };
 };
+
+// export const requestAndCalculateEssentialData = (nonce: NONCE) => {
+//   return async (dispatch: Dispatch, getState: GetState) => {
+//     const oldBlockchainInfo = getState();
+//     await requestBlockchainInfo(nonce)(dispatch);
+
+//     const bestBlockHash = selectors.bestBlockHash(getState());
+
+//     if (bestBlockHash !== undefined) {
+//       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);
+//       dispatch(setBestBlock(bestBlock));
+//     }
+//   };
+// };

@@ -11,7 +11,7 @@ import { Section } from "./RpcConsoleComponents";
 import { useStyles } from "./RpcConsoleStyles";
 
 export const RpcConsole: React.FC = () => {
-  const s = useStyles();
+  const c = useStyles();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,28 +24,28 @@ export const RpcConsole: React.FC = () => {
     dispatch(actions.requestMempoolInfo(__NONCE__));
   }, 1000);
 
-  const networkInfo = useSelector(selectors.networkInfo);
-  const bitcoinCoreVersion = useSelector(selectors.bitcoinCoreVersion);
-  const currentNumberOfBlocks = useSelector(selectors.currentNumberOfBlocks);
+  const networkInfo = useSelector(s => s.networkInfo);
+  const bitcoinCoreVersion = useSelector(s => s.bitcoinCoreVersion);
+  const currentNumberOfBlocks = useSelector(s => s.blockchainInfo?.blocks);
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const dataDir = useSelector(selectors.dataDir);
   const startupTime = useSelector(selectors.startupTime);
   const connectionSummary = useSelector(selectors.connectionSummary);
-  const mempoolInfo = useSelector(selectors.mempoolInfo);
-  const chainName = useSelector(selectors.chainName);
-  const isNetworkActive = useSelector(selectors.networkActive);
+  const mempoolInfo = useSelector(s => s.mempoolInfo);
+  const chainName = useSelector(s => s.blockchainInfo?.chain);
+  const isNetworkActive = useSelector(s => s.networkInfo?.networkactive);
 
   return (
-    <div className={s.root}>
-      <Paper className={s.paper}>
+    <div className={c.root}>
+      <Paper className={c.paper}>
         <Grid
           container
           item
           justify="center"
-          className={s.navigationButtonsContainingGrid}
+          className={c.navigationButtonsContainingGrid}
         >
           <ButtonGroup variant="contained" color="primary">
-            <Button className={s.selectedNavigationButton}>Information</Button>
+            <Button className={c.selectedNavigationButton}>Information</Button>
             <Button disabled>Console</Button>
             <Button disabled>Network Traffic</Button>
             <Button disabled>Peers</Button>
@@ -104,7 +104,7 @@ export const RpcConsole: React.FC = () => {
       </Paper>
 
       <Button
-        className={s.debugLogButton}
+        className={c.debugLogButton}
         onClick={() =>
           callMain({
             nonce: __NONCE__,

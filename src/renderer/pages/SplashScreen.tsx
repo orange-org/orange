@@ -8,6 +8,7 @@ import * as selectors from "_r/redux/selectors";
 import * as actions from "_r/redux/actions";
 import { RPC_SERVER_ERROR_CODES } from "_c/constants";
 import { version } from "../../../package.json";
+import { State } from "_r/redux/reducers.js";
 
 const Container = styled.div`
   padding-top: 20px;
@@ -57,8 +58,6 @@ const BottomAlignedContainerWithCenteredContent = styled.div`
 `;
 
 export const SplashScreen: React.FC<{ initMessage: string }> = props => {
-  const bitcoinCoreVersion = useSelector(selectors.bitcoinCoreVersion);
-
   return (
     <Container>
       <TopRow>

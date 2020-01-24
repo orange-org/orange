@@ -30,8 +30,8 @@ export const Warnings: React.FC = () => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
-  const showWarnings = useSelector(selectors.showWarnings);
-  const warnings = useSelector(selectors.warnings);
+  const warnings = useSelector(s => s.blockchainInfo?.warnings);
+  const showWarnings = warnings?.length && warnings.length > 0;
   const c = useStyles();
 
   if (showWarnings === false) {

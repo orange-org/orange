@@ -1,7 +1,7 @@
 import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { WarningRounded } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, useStore } from "react-redux";
 import * as selectors from "_r/redux/selectors";
 import * as actions from "_r/redux/actions";
 
@@ -25,12 +25,13 @@ const useStyles = makeStyles(theme => ({
 
 export const Warnings: React.FC = () => {
   const dispatch = useDispatch();
+  const s = useStore().getState();
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
-  const warnings = useSelector(s => s.blockchainInfo?.warnings);
+  const warnings = s.blockchainInfo?.warnings;
   const showWarnings = warnings?.length && warnings.length > 0;
   const c = useStyles();
 

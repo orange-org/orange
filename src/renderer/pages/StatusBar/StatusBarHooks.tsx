@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 import { duration } from "moment";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import connect0Png from "_a/connect0.png";
 import connect1Png from "_a/connect1.png";
 import connect2Png from "_a/connect2.png";
@@ -15,9 +15,10 @@ import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
   const c = useStyles();
+  const s = useStore().getState();
   const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
-  const isNetworkActive = useSelector(s => s.networkInfo?.networkactive);
+  const isNetworkActive = s.networkInfo?.networkactive;
   const dispatch = useDispatch();
 
   let imgSrc: string;
@@ -168,20 +169,18 @@ const useProgressEstimates = () => {
 };
 
 export const useDetailsDialogState = () => {
+  const s = useStore().getState();
+
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
-  const bestBlockHeight = useSelector(s => s.blockchainInfo?.headers);
   const isSynchronizingBlockHeaders = useSelector(
     selectors.isSynchronizingBlockHeaders,
-  );
-  const synchronizingBlockHeadersProgress = useSelector(
-    s => s.synchronizingBlockHeadersProgress,
   );
   const progressEstimates = useProgressEstimates();
 
   return {
     numberOfBlocksLeft: isSynchronizingBlockHeaders
-      ? `Unknown. Syncing Headers (${bestBlockHeight?.toLocaleString()}, ${synchronizingBlockHeadersProgress!.toFixed(
+      ? `Unknown. Syncing Headers (${s.blockchainInfo?.headers?.toLocaleString()}, ${s.synchronizingBlockHeadersProgress!.toFixed(
           2,
         )})...`
       : numberOfBlocksLeft?.toLocaleString(),

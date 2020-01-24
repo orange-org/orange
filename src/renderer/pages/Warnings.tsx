@@ -25,13 +25,13 @@ const useStyles = makeStyles(theme => ({
 
 export const Warnings: React.FC = () => {
   const dispatch = useDispatch();
-  const s = useStore().getState();
+  const { rpcResponses } = useStore().getState();
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
-  const warnings = s.blockchainInfo?.warnings;
+  const warnings = rpcResponses.blockchainInfo?.warnings;
   const showWarnings = warnings?.length && warnings.length > 0;
   const c = useStyles();
 

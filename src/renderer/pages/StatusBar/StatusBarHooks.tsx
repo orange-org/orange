@@ -15,10 +15,10 @@ import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
   const c = useStyles();
-  const s = useStore().getState();
+  const { rpcResponses } = useStore().getState();
   const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
-  const isNetworkActive = s.networkInfo?.networkactive;
+  const isNetworkActive = rpcResponses.networkInfo?.networkactive;
   const dispatch = useDispatch();
 
   let imgSrc: string;
@@ -97,13 +97,13 @@ export const useProgressBarState = () => {
 const MAX_SAMPLE_SIZE = 5000;
 type BlockProcessTimeSample = [number, number][];
 const useProgressEstimates = () => {
+  const { rpcResponses } = useStore().getState();
   const currentDate = Date.now();
   const [blockProcessTimeSamples, setBlockProcessTimeSamples] = useState<
     BlockProcessTimeSample
   >([]);
-  const verificationProgress = useSelector(
-    s => s.blockchainInfo?.verificationprogress,
-  );
+  const verificationProgress =
+    rpcResponses.blockchainInfo?.verificationprogress;
 
   if (!verificationProgress) {
     return undefined;
@@ -169,7 +169,7 @@ const useProgressEstimates = () => {
 };
 
 export const useDetailsDialogState = () => {
-  const s = useStore().getState();
+  const { rpcResponses, ...s } = useStore().getState();
 
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
@@ -180,7 +180,7 @@ export const useDetailsDialogState = () => {
 
   return {
     numberOfBlocksLeft: isSynchronizingBlockHeaders
-      ? `Unknown. Syncing Headers (${s.blockchainInfo?.headers?.toLocaleString()}, ${s.synchronizingBlockHeadersProgress!.toFixed(
+      ? `Unknown. Syncing Headers (${rpcResponses.blockchainInfo?.headers?.toLocaleString()}, ${s.synchronizingBlockHeadersProgress!.toFixed(
           2,
         )})...`
       : numberOfBlocksLeft?.toLocaleString(),

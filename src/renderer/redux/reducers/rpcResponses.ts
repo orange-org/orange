@@ -1,56 +1,34 @@
 import { createReducer } from "typesafe-actions";
+import * as actions from "_r/redux/actions";
 import {
   BlockchainInfo,
-  Block,
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
-  Uptime,
   RpcInfo,
-} from "typings/bitcoindRpcResponses";
-import { OrUndefined } from "typings/typeHelpers";
-import { DeepReadonly } from "utility-types";
-import * as actions from "_r/redux/actions";
+  Uptime,
+} from "_t/bitcoindRpcResponses";
+import { StateConfig } from "_t/typeHelpers";
 
-type NullableState = DeepReadonly<
-  OrUndefined<{
-    systemPreferences: { [name: string]: string };
-    bitcoinCoreVersion: string;
-    dataDir: string;
-    networkInfo: NetworkInfo;
-    blockchainInfo: BlockchainInfo;
-    lastRequestedBlock: Block;
-    bestBlock: Block;
-    uptime: Uptime;
-    peerInfo: PeerInfo;
-    mempoolInfo: MempoolInfo;
-    synchronizingBlocksProgress: number;
-    synchronizingBlockHeadersProgress: number;
-    rpcInfo: RpcInfo;
-  }>
->;
+export type RpcResponsesState = StateConfig<{
+  networkInfo: NetworkInfo;
+  blockchainInfo: BlockchainInfo;
+  uptime: Uptime;
+  peerInfo: PeerInfo;
+  mempoolInfo: MempoolInfo;
+  rpcInfo: RpcInfo;
+}>;
 
-type UnnullableState = DeepReadonly<{}>;
-
-export type State = NullableState & UnnullableState;
-
-const initialState: State = {
-  systemPreferences: undefined,
-  bitcoinCoreVersion: undefined,
-  dataDir: undefined,
+export const initialState: RpcResponsesState = {
   networkInfo: undefined,
   blockchainInfo: undefined,
-  lastRequestedBlock: undefined,
-  bestBlock: undefined,
   uptime: undefined,
   peerInfo: undefined,
   mempoolInfo: undefined,
-  synchronizingBlocksProgress: undefined,
-  synchronizingBlockHeadersProgress: undefined,
   rpcInfo: undefined,
 };
 
-export const orangeApp = createReducer(initialState)
+export const rpcResponses = createReducer(initialState)
   .handleAction(actions.setNetworkInfo, (state, action) => ({
     ...state,
     networkInfo: action.payload,

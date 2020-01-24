@@ -1,6 +1,6 @@
 import { dirname } from "path";
 import { createSelector } from "reselect";
-import { State } from "_r/redux/reducers";
+import { State } from "_r/redux/reducers/store";
 import { formatDate } from "_r/smallUtils";
 
 export const lastBlockTime = createSelector(
@@ -9,14 +9,14 @@ export const lastBlockTime = createSelector(
 );
 
 export const startupTime = createSelector(
-  (s: State) => s.uptime,
+  (s: State) => s.rpcResponses.uptime,
   uptime_ => {
     return uptime_ && formatDate(Date.now() - uptime_ * 1000);
   },
 );
 
 export const connectionSummary = createSelector(
-  (s: State) => s.peerInfo,
+  (s: State) => s.rpcResponses.peerInfo,
   peerInfo_ => {
     return peerInfo_?.reduce(
       (connectionSummary_, peer) => {
@@ -33,15 +33,15 @@ export const connectionSummary = createSelector(
 );
 
 export const synchronizingBlocksProgress = createSelector(
-  (s: State) => s.blockchainInfo?.verificationprogress,
+  (s: State) => s.rpcResponses.blockchainInfo?.verificationprogress,
   verificationProgress_ => {
     return verificationProgress_ ? verificationProgress_ * 100 : undefined;
   },
 );
 
 export const numberOfBlocksLeft = createSelector(
-  (s: State) => s.blockchainInfo?.headers,
-  (s: State) => s.blockchainInfo?.blocks,
+  (s: State) => s.rpcResponses.blockchainInfo?.headers,
+  (s: State) => s.rpcResponses.blockchainInfo?.blocks,
   (bestHeaderHeight_, currentNumberOfBlocks_) => {
     return bestHeaderHeight_ && currentNumberOfBlocks_
       ? bestHeaderHeight_ - currentNumberOfBlocks_
@@ -59,6 +59,6 @@ export const isSynchronizingBlockHeaders = createSelector(
 );
 
 export const dataDir = createSelector(
-  (s: State) => s.rpcInfo?.logpath,
+  (s: State) => s.rpcResponses.rpcInfo?.logpath,
   logPath_ => (logPath_ ? dirname(logPath_) : undefined),
 );

@@ -1,3 +1,4 @@
+import { DeepReadonly } from "utility-types";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
 
@@ -20,3 +21,5 @@ export type ExtractedRpcResponse<
 export type WithoutProperty<T, K> = {
   [L in Exclude<keyof T, K>]: T[L];
 };
+
+export type StateConfig<T> = DeepReadonly<OrUndefined<T>>;

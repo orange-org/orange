@@ -9,7 +9,6 @@ import * as selectors from "_r/redux/selectors";
 import { formatDate } from "_r/smallUtils";
 import { Section } from "./RpcConsoleComponents";
 import { useStyles } from "./RpcConsoleStyles";
-import { State } from "_r/redux/reducers";
 
 export const RpcConsole: React.FC = () => {
   const c = useStyles();
@@ -25,7 +24,7 @@ export const RpcConsole: React.FC = () => {
     dispatch(actions.requestMempoolInfo(__NONCE__));
   }, 1000);
 
-  const s = useStore().getState();
+  const { rpcResponses } = useStore().getState();
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const dataDir = useSelector(selectors.dataDir);
   const startupTime = useSelector(selectors.startupTime);
@@ -51,8 +50,8 @@ export const RpcConsole: React.FC = () => {
         <Section
           title="General"
           rows={[
-            ["Client version", s.bitcoinCoreVersion],
-            ["User agent", s.networkInfo?.subversion],
+            ["Client version", rpcResponses.networkInfo?.version],
+            ["User agent", rpcResponses.networkInfo?.subversion],
             ["Datadir", dataDir],
             ["Startup time", startupTime],
           ]}
@@ -61,14 +60,16 @@ export const RpcConsole: React.FC = () => {
         <Section
           title="Network"
           rows={[
-            ["Name", s.blockchainInfo?.chain],
+            ["Name", rpcResponses.blockchainInfo?.chain],
             [
               "Number of connections",
               connectionSummary !== undefined
                 ? `${connectionSummary.total} (In: ${
                     connectionSummary.in
                   } / Out: ${connectionSummary.out}) ${
-                    s.networkInfo?.networkactive ? "" : "(Network is disabled)"
+                    rpcResponses.networkInfo?.networkactive
+                      ? ""
+                      : "(Network is disabled)"
                   }`
                 : undefined,
             ],
@@ -82,7 +83,7 @@ export const RpcConsole: React.FC = () => {
           rows={[
             [
               "Current number of blocks",
-              s.blockchainInfo?.blocks?.toLocaleString(),
+              rpcResponses.blockchainInfo?.blocks?.toLocaleString(),
             ],
             ["Last block time", lastBlockTime && formatDate(lastBlockTime)],
           ]}
@@ -93,8 +94,8 @@ export const RpcConsole: React.FC = () => {
         <Section
           title="Memory pool"
           rows={[
-            ["Current number of transactions", s.mempoolInfo?.size],
-            ["Memory usage", s.mempoolInfo?.usage],
+            ["Current number of transactions", rpcResponses.mempoolInfo?.size],
+            ["Memory usage", rpcResponses.mempoolInfo?.usage],
           ]}
         />
       </Paper>

@@ -1,14 +1,8 @@
-import bitcoinPng from "_a/bitcoin.png";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import * as styles from "renderer/styles";
 import styled from "styled-components";
-import { usePolling } from "_r/hooks";
-import * as selectors from "_r/redux/selectors";
-import * as actions from "_r/redux/actions";
-import { RPC_SERVER_ERROR_CODES } from "_c/constants";
+import bitcoinPng from "_a/bitcoin.png";
 import { version } from "../../../package.json";
-import { State } from "_r/redux/reducers.js";
 
 const Container = styled.div`
   padding-top: 20px;

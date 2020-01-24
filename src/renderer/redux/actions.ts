@@ -1,8 +1,7 @@
 import { Dispatch } from "redux";
 import { createAction, PayloadActionCreator } from "typesafe-actions";
-import { State } from "_r/redux/reducers";
+import { State } from "_r/redux/reducers/store";
 import { rpcClient } from "_r/redux/rpcClient";
-import * as selectors from "_r/redux/selectors";
 import { RpcRequest, SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
   Block,
@@ -99,7 +98,7 @@ export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
   return async (dispatch: Dispatch, getState: GetState) => {
     await requestBlockchainInfo(nonce)(dispatch);
 
-    const bestBlockHash = getState().blockchainInfo?.bestblockhash;
+    const bestBlockHash = getState().rpcResponses.blockchainInfo?.bestblockhash;
 
     if (bestBlockHash !== undefined) {
       const bestBlock = await requestBlock(nonce, [bestBlockHash])(dispatch);

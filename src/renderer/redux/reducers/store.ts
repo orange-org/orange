@@ -28,18 +28,7 @@ export const reducer = combineReducers({
   // Hopefully it won't cause much trouble until we figure out the problem.
 } as any);
 
-const logger = (store: any) => (next: any) => (action: any) => {
-  if (action.cacheOptions) {
-    // do caching and what not
-    // if we need to return the cache, do it,
-    // otherwise, pass the thunk next
-    return next(action.thunk);
-  }
-
-  return next(action);
-};
-
 export const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(logger, thunk)),
+  composeEnhancers(applyMiddleware(thunk)),
 );

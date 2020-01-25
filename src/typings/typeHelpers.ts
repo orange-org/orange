@@ -1,7 +1,7 @@
 import { DeepReadonly } from "utility-types";
+import { State } from "_r/redux/reducers/store";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
-import { State } from "_r/redux/reducers/store";
 
 export type OrUndefined<TypeWithKeys> = {
   [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | undefined;

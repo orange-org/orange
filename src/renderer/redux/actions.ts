@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params */
 import { Dispatch } from "redux";
 import { createAction } from "typesafe-actions";
 import { rpcClient } from "_r/redux/rpcClient";
@@ -70,14 +71,13 @@ export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
-export const requestMempoolInfo = (nonce: NONCE) => ({
-  thunk: async (dispatch: Dispatch) => {
-    const response = await rpcClient(nonce, { method: "getmempoolinfo" });
-    dispatch(setMempoolInfo(response.result));
-    return response.result;
-  },
-  cacheDuration: 1000,
-});
+export const requestMempoolInfo = (nonce: NONCE) => async (
+  dispatch: Dispatch,
+) => {
+  const response = await rpcClient(nonce, { method: "getmempoolinfo" }, 5000);
+  dispatch(setMempoolInfo(response.result));
+  return response.result;
+};
 
 export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "getrpcinfo" });

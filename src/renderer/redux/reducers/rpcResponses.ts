@@ -20,12 +20,12 @@ export type RpcResponsesState = StateConfig<{
 }>;
 
 export const initialState: RpcResponsesState = {
-  networkInfo: undefined,
-  blockchainInfo: undefined,
-  uptime: undefined,
-  peerInfo: undefined,
-  mempoolInfo: undefined,
-  rpcInfo: undefined,
+  networkInfo: null,
+  blockchainInfo: null,
+  uptime: null,
+  peerInfo: null,
+  mempoolInfo: null,
+  rpcInfo: null,
 };
 
 export const rpcResponses = createReducer(initialState)

@@ -17,7 +17,7 @@ const isRpcResponse = (
 
 type RpcClientReturnType<T extends Omit<RpcRequest, "requestId">> = Extract<
   ExtractedRpcResponse<T>,
-  { error: undefined }
+  { error: null }
 >;
 type UnsentRpcRequest = Omit<RpcRequest, "requestId">;
 class RpcClientCache {

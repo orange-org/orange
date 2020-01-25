@@ -8,7 +8,7 @@ export type MiscState = StateConfig<{
 }>;
 
 export const initialState: MiscState = {
-  bestBlock: undefined,
+  bestBlock: null,
 };
 
 export const misc = {

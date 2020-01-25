@@ -63,7 +63,7 @@ export const RpcConsole: React.FC = () => {
             ["Name", rpcResponses.blockchainInfo?.chain],
             [
               "Number of connections",
-              connectionSummary !== undefined
+              connectionSummary
                 ? `${connectionSummary.total} (In: ${
                     connectionSummary.in
                   } / Out: ${connectionSummary.out}) ${
@@ -71,7 +71,7 @@ export const RpcConsole: React.FC = () => {
                       ? ""
                       : "(Network is disabled)"
                   }`
-                : undefined,
+                : null,
             ],
           ]}
         />

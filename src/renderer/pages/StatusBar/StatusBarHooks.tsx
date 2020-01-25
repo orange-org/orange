@@ -106,7 +106,7 @@ const useProgressEstimates = () => {
     rpcResponses.blockchainInfo?.verificationprogress;
 
   if (!verificationProgress) {
-    return undefined;
+    return null;
   }
 
   // Since we're polling bitcoind for verification progress, we receive
@@ -156,7 +156,7 @@ const useProgressEstimates = () => {
     }
 
     if (progressPerHour < 0 || remainingMilliseconds < 0) {
-      return undefined;
+      return null;
     }
 
     return {
@@ -165,7 +165,7 @@ const useProgressEstimates = () => {
     };
   }
 
-  return undefined;
+  return null;
 };
 
 export const useDetailsDialogState = () => {
@@ -184,7 +184,7 @@ export const useDetailsDialogState = () => {
           2,
         )})...`
       : numberOfBlocksLeft?.toLocaleString(),
-    lastBlockTime: formatDate(lastBlockTime),
+    lastBlockTime: lastBlockTime ? formatDate(lastBlockTime) : "N/A",
     progressPerHour:
       progressEstimates?.progressPerHour &&
       `${Math.ceil(progressEstimates.progressPerHour * 100)}%`,

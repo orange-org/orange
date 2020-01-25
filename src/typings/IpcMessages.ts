@@ -9,23 +9,23 @@ type MessageWithMetaData<S, T, M> = {
   message: M;
 };
 
-type ExcludeMessageIfUndefined<M, T> = M extends undefined
+type ExcludeMessageIfNull<M, T> = M extends null
   ? WithoutProperty<T, "message">
   : T;
 
-type CreateMtR<T, M> = ExcludeMessageIfUndefined<
+type CreateMtR<T, M> = ExcludeMessageIfNull<
   M,
   MessageWithMetaData<"@orange/main", T, M>
 >;
 
-type CreateMtM<T, M> = ExcludeMessageIfUndefined<
+type CreateMtM<T, M> = ExcludeMessageIfNull<
   M,
   MessageWithMetaData<"@orange/renderer", T, M>
 >;
 
 export type BitcoindLogLinesMtR = CreateMtR<"bitcoind-log-lines", string[]>;
 
-export type RpcServerIsDownMtR = CreateMtR<"rpc-server-is-down", undefined>;
+export type RpcServerIsDownMtR = CreateMtR<"rpc-server-is-down", null>;
 
 export type RpcResponseMtR = CreateMtR<"rpc-response", RpcResponse>;
 
@@ -34,7 +34,7 @@ export type MessageToRenderer =
   | RpcResponseMtR
   | RpcServerIsDownMtR;
 
-export type OpenDebugFileMtM = CreateMtM<"open-debug-file", undefined>;
+export type OpenDebugFileMtM = CreateMtM<"open-debug-file", null>;
 
 export type RpcRequestMtM = CreateMtM<"rpc-request", RpcRequest>;
 

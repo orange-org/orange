@@ -1,16 +1,16 @@
 export type NetworkInfoRpcRequest = {
   method: "getnetworkinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type BestBlockHashRpcRequest = {
   method: "getbestblockhash";
-  params?: undefined;
+  params?: null;
 };
 
 export type BlockchainInfoRpcRequest = {
   method: "getblockchaininfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type BlockRpcRequest = {
@@ -25,12 +25,12 @@ export type UptimeRpcRequest = {
 
 export type PeerInfoRpcRequest = {
   method: "getpeerinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type MempoolInfoRpcRequest = {
   method: "getmempoolinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type SetNetworkActiveRpcRequest = {
@@ -40,7 +40,7 @@ export type SetNetworkActiveRpcRequest = {
 
 export type RpcInfoRpcRequest = {
   method: "getrpcinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type RpcRequest = { requestId: string } & (

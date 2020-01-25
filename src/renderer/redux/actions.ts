@@ -91,7 +91,7 @@ export const requestBlockchainInfoAndBestBlock = (nonce: NONCE) => {
 
     const bestBlockHash = getState().rpcResponses.blockchainInfo?.bestblockhash;
 
-    if (bestBlockHash !== undefined) {
+    if (bestBlockHash) {
       const bestBlock = await requestBlock(nonce, bestBlockHash)(dispatch);
       dispatch(setBestBlock(bestBlock));
     }

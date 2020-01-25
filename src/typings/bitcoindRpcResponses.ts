@@ -8,7 +8,7 @@ import {
   MempoolInfoRpcRequest,
   RpcInfoRpcRequest,
 } from "_t/bitcoindRpcRequests";
-import { OrUndefined } from "./typeHelpers";
+import { NullableKeys } from "./typeHelpers";
 
 export type RpcError = {
   code: number;
@@ -19,11 +19,11 @@ type CreateRpcResponse<Method, Result> =
   | {
       method: Method;
       result: Result;
-      error: undefined;
+      error: null;
     }
   | {
       method: Method;
-      result: undefined;
+      result: null;
       error: RpcError;
     };
 
@@ -240,4 +240,4 @@ export type RpcResponse = {
   | RpcInfoRpcResponse
 );
 
-export type RawRpcResponse = { result: any; error: RpcError | undefined };
+export type RawRpcResponse = { result: any; error: RpcError | null };

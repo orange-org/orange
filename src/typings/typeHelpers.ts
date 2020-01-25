@@ -3,8 +3,8 @@ import { State } from "_r/redux/reducers/store";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
 
-export type OrUndefined<TypeWithKeys> = {
-  [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | undefined;
+export type NullableKeys<TypeWithKeys> = {
+  [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | null;
 };
 
 export type ValuesOf<T extends any[]> = T[number];
@@ -23,8 +23,15 @@ export type WithoutProperty<T, K> = {
   [L in Exclude<keyof T, K>]: T[L];
 };
 
-export type StateConfig<T> = DeepReadonly<OrUndefined<T>>;
+export type StateConfig<T> = DeepReadonly<NullableKeys<T>>;
 
 export type Json = { [name: string]: string };
 
 export type GetState = () => State;
+
+/**
+ * Not available
+ *
+ * `undefined` or `null`
+ */
+export type Na = undefined | null;

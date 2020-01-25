@@ -5,7 +5,7 @@ import { formatDate } from "_r/smallUtils";
 
 export const lastBlockTime = createSelector(
   (s: State) => s.bestBlock?.time,
-  time_ => (time_ ? time_ * 1000 : undefined),
+  time_ => (time_ ? time_ * 1000 : null),
 );
 
 export const startupTime = createSelector(
@@ -35,7 +35,7 @@ export const connectionSummary = createSelector(
 export const synchronizingBlocksProgress = createSelector(
   (s: State) => s.rpcResponses.blockchainInfo?.verificationprogress,
   verificationProgress_ => {
-    return verificationProgress_ ? verificationProgress_ * 100 : undefined;
+    return verificationProgress_ ? verificationProgress_ * 100 : null;
   },
 );
 
@@ -45,7 +45,7 @@ export const numberOfBlocksLeft = createSelector(
   (bestHeaderHeight_, currentNumberOfBlocks_) => {
     return bestHeaderHeight_ && currentNumberOfBlocks_
       ? bestHeaderHeight_ - currentNumberOfBlocks_
-      : undefined;
+      : null;
   },
 );
 
@@ -60,5 +60,5 @@ export const isSynchronizingBlockHeaders = createSelector(
 
 export const dataDir = createSelector(
   (s: State) => s.rpcResponses.rpcInfo?.logpath,
-  logPath_ => (logPath_ ? dirname(logPath_) : undefined),
+  logPath_ => (logPath_ ? dirname(logPath_) : null),
 );

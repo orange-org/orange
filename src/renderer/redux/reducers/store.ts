@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { misc, MiscState } from "./misc";
@@ -23,9 +22,20 @@ export const reducer = combineReducers({
   rpcResponses,
   synchronizingBlockHeadersProgress,
   ...misc,
-});
+
+  // Between the `createReducer` function of `typesafe-actions` and here,
+  // TypeScript is getting confused. Doing `as any` here to bypass that.
+  // Hopefully it won't cause much trouble until we figure out the problem.
+} as any);
+
+const logger = (store: any) => (next: any) => (action: any) => {
+  console.log("dispatching", action.orangeCacheOptions);
+  const result = next(action);
+  // console.log("next state", store.getState());
+  return result;
+};
 
 export const store = createStore(
   reducer,
-  composeEnhancers(applyMiddleware(thunk)),
+  composeEnhancers(applyMiddleware(logger, thunk)),
 );

@@ -12,17 +12,8 @@ import {
   RpcInfo,
   Uptime,
 } from "_t/bitcoindRpcResponses";
-import { Json } from "_t/types";
 
 export type GetState = () => State;
-
-export const setSystemPreference = createAction("SET_SYSTEM_PREFERENCE")<
-  Json
->();
-
-export const receiveBitcoindLogLines = createAction(
-  "RECEIVE_BITCOIND_LOG_LINES",
-)<string[]>();
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -64,6 +55,13 @@ export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
+const cachableThunk = <T extends any>(thunk: T, options: any): T => {
+  // eslint-disable-next-line no-param-reassign
+  thunk.orangeCacheOptions = options;
+
+  return thunk;
+};
+
 export const requestBlock = (nonce: NONCE, blockHash: string) => async (
   dispatch: Dispatch,
 ) => {
@@ -81,13 +79,18 @@ export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
-export const requestMempoolInfo = (nonce: NONCE) => async (
-  dispatch: Dispatch,
-) => {
-  const response = await rpcClient(nonce, { method: "getmempoolinfo" });
-  dispatch(setMempoolInfo(response.result));
-  return response.result;
-};
+export const requestMempoolInfo = (nonce: NONCE) =>
+  cachableThunk(
+    async (dispatch: Dispatch) => {
+      const response = await rpcClient(nonce, { method: "getmempoolinfo" });
+      dispatch(setMempoolInfo(response.result));
+      return response.result;
+    },
+    {
+      name: "requestMempoolInfo",
+      cachDuration: 1000,
+    },
+  );
 
 export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "getrpcinfo" });

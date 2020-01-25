@@ -56,3 +56,4 @@ export type RpcRequest = { requestId: string } & (
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;
+export type UnsentRpcRequest = Omit<RpcRequest, "requestId">;

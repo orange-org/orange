@@ -1,7 +1,7 @@
 /* eslint-disable prefer-rest-params */
 import { Dispatch } from "redux";
 import { createAction } from "typesafe-actions";
-import { rpcClient } from "_r/redux/rpcClient";
+import { rpcClient } from "_r/redux/rpcClient/rpcClient";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
   Block,
@@ -35,7 +35,7 @@ export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 export const requestNetworkInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
 ) => {
-  const response = await rpcClient(nonce, { method: "getnetworkinfo" });
+  const response = await rpcClient(nonce, { method: "getnetworkinfo" }, 1000);
   dispatch(setNetworkInfo(response.result));
   return response.result;
 };
@@ -43,7 +43,11 @@ export const requestNetworkInfo = (nonce: NONCE) => async (
 export const requestBlockchainInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
 ) => {
-  const response = await rpcClient(nonce, { method: "getblockchaininfo" });
+  const response = await rpcClient(
+    nonce,
+    { method: "getblockchaininfo" },
+    1000,
+  );
   dispatch(setBlockchainInfo(response.result));
   return response.result;
 };
@@ -57,16 +61,20 @@ export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
 export const requestBlock = (nonce: NONCE, blockHash: string) => async (
   dispatch: Dispatch,
 ) => {
-  const response = await rpcClient(nonce, {
-    method: "getblock",
-    params: [blockHash],
-  });
+  const response = await rpcClient(
+    nonce,
+    {
+      method: "getblock",
+      params: [blockHash],
+    },
+    1000,
+  );
   dispatch(setBlock(response.result));
   return response.result;
 };
 
 export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
-  const response = await rpcClient(nonce, { method: "getpeerinfo" });
+  const response = await rpcClient(nonce, { method: "getpeerinfo" }, 1000);
   dispatch(setPeerInfo(response.result));
   return response.result;
 };
@@ -74,13 +82,13 @@ export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
 export const requestMempoolInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
 ) => {
-  const response = await rpcClient(nonce, { method: "getmempoolinfo" }, 5000);
+  const response = await rpcClient(nonce, { method: "getmempoolinfo" }, 1000);
   dispatch(setMempoolInfo(response.result));
   return response.result;
 };
 
 export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
-  const response = await rpcClient(nonce, { method: "getrpcinfo" });
+  const response = await rpcClient(nonce, { method: "getrpcinfo" }, 1000);
   dispatch(setRpcInfo(response.result));
   return response.result;
 };

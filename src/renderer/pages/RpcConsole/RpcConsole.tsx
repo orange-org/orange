@@ -1,8 +1,8 @@
 import { ButtonGroup, Divider, Grid, Paper } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import { usePolling } from "_r/hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { useRpcResponses } from "_r/hooks";
 import * as actions from "_r/redux/actions";
 import { callMain } from "_r/redux/callMain";
 import * as selectors from "_r/redux/selectors";
@@ -20,11 +20,11 @@ export const RpcConsole: React.FC = () => {
     dispatch(actions.requestRpcInfo(__NONCE__));
   }, []);
 
-  usePolling(() => {
-    dispatch(actions.requestMempoolInfo(__NONCE__));
-  }, 1000);
+  // usePolling(() => {
+  //   dispatch(actions.requestMempoolInfo(__NONCE__));
+  // }, 1000);
 
-  const { rpcResponses } = useStore().getState();
+  const rpcResponses = useRpcResponses();
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const dataDir = useSelector(selectors.dataDir);
   const startupTime = useSelector(selectors.startupTime);

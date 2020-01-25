@@ -1,13 +1,14 @@
 /* eslint-disable no-plusplus */
 import { duration } from "moment";
 import React, { useState } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import connect0Png from "_a/connect0.png";
 import connect1Png from "_a/connect1.png";
 import connect2Png from "_a/connect2.png";
 import connect3Png from "_a/connect3.png";
 import connect4Png from "_a/connect4.png";
 import networkDisabledPng from "_a/network_disabled.png";
+import { useRpcResponses } from "_r/hooks";
 import * as actions from "_r/redux/actions";
 import * as selectors from "_r/redux/selectors";
 import { formatDate } from "_r/smallUtils";
@@ -15,7 +16,7 @@ import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
   const c = useStyles();
-  const { rpcResponses } = useStore().getState();
+  const rpcResponses = useRpcResponses();
   const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
   const isNetworkActive = rpcResponses.networkInfo?.networkactive;
@@ -97,7 +98,7 @@ export const useProgressBarState = () => {
 const MAX_SAMPLE_SIZE = 5000;
 type BlockProcessTimeSample = [number, number][];
 const useProgressEstimates = () => {
-  const { rpcResponses } = useStore().getState();
+  const rpcResponses = useRpcResponses();
   const currentDate = Date.now();
   const [blockProcessTimeSamples, setBlockProcessTimeSamples] = useState<
     BlockProcessTimeSample
@@ -169,7 +170,10 @@ const useProgressEstimates = () => {
 };
 
 export const useDetailsDialogState = () => {
-  const { rpcResponses, ...s } = useStore().getState();
+  const rpcResponses = useRpcResponses();
+  const synchronizingBlockHeadersProgress = useSelector(
+    s => s.synchronizingBlockHeadersProgress,
+  );
 
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
@@ -180,7 +184,7 @@ export const useDetailsDialogState = () => {
 
   return {
     numberOfBlocksLeft: isSynchronizingBlockHeaders
-      ? `Unknown. Syncing Headers (${rpcResponses.blockchainInfo?.headers?.toLocaleString()}, ${s.synchronizingBlockHeadersProgress!.toFixed(
+      ? `Unknown. Syncing Headers (${rpcResponses.blockchainInfo?.headers?.toLocaleString()}, ${synchronizingBlockHeadersProgress!.toFixed(
           2,
         )})...`
       : numberOfBlocksLeft?.toLocaleString(),

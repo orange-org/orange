@@ -3,6 +3,7 @@ import { WarningRounded } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import * as actions from "_r/redux/actions";
+import { usePolling, useRpcResponses } from "_r/hooks";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,17 +25,16 @@ const useStyles = makeStyles(theme => ({
 
 export const Warnings: React.FC = () => {
   const dispatch = useDispatch();
-  const { rpcResponses } = useStore().getState();
 
   useEffect(() => {
     dispatch(actions.requestNetworkInfo(__NONCE__));
   }, []);
 
-  const warnings = rpcResponses.blockchainInfo?.warnings;
+  const warnings = useRpcResponses(r => r.networkInfo?.warnings);
   const showWarnings = warnings?.length && warnings.length > 0;
   const c = useStyles();
 
-  if (showWarnings === false) {
+  if (!showWarnings) {
     return null;
   }
 

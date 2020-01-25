@@ -1,6 +1,5 @@
 import { Dispatch } from "redux";
 import { createAction } from "typesafe-actions";
-import { State } from "_r/redux/reducers/store";
 import { rpcClient } from "_r/redux/rpcClient";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import {
@@ -12,8 +11,7 @@ import {
   RpcInfo,
   Uptime,
 } from "_t/bitcoindRpcResponses";
-
-export type GetState = () => State;
+import { GetState } from "_t/typeHelpers";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -55,13 +53,6 @@ export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
-const cachableThunk = <T extends any>(thunk: T, options: any): T => {
-  // eslint-disable-next-line no-param-reassign
-  thunk.orangeCacheOptions = options;
-
-  return thunk;
-};
-
 export const requestBlock = (nonce: NONCE, blockHash: string) => async (
   dispatch: Dispatch,
 ) => {
@@ -79,18 +70,14 @@ export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
-export const requestMempoolInfo = (nonce: NONCE) =>
-  cachableThunk(
-    async (dispatch: Dispatch) => {
-      const response = await rpcClient(nonce, { method: "getmempoolinfo" });
-      dispatch(setMempoolInfo(response.result));
-      return response.result;
-    },
-    {
-      name: "requestMempoolInfo",
-      cachDuration: 1000,
-    },
-  );
+export const requestMempoolInfo = (nonce: NONCE) => ({
+  thunk: async (dispatch: Dispatch) => {
+    const response = await rpcClient(nonce, { method: "getmempoolinfo" });
+    dispatch(setMempoolInfo(response.result));
+    return response.result;
+  },
+  cacheDuration: 1000,
+});
 
 export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "getrpcinfo" });

@@ -29,10 +29,14 @@ export const reducer = combineReducers({
 } as any);
 
 const logger = (store: any) => (next: any) => (action: any) => {
-  console.log("dispatching", action.orangeCacheOptions);
-  const result = next(action);
-  // console.log("next state", store.getState());
-  return result;
+  if (action.cacheOptions) {
+    // do caching and what not
+    // if we need to return the cache, do it,
+    // otherwise, pass the thunk next
+    return next(action.thunk);
+  }
+
+  return next(action);
 };
 
 export const store = createStore(

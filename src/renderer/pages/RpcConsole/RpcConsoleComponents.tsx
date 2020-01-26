@@ -6,7 +6,7 @@ import { Na } from "_t/typeHelpers";
 type Row = [string, string | number | Na];
 
 export const renderRow = (row: Row) => {
-  const [name, value = "N/A"] = row;
+  const [name, value] = row;
   const cs = useCommonStyles();
 
   return (
@@ -15,7 +15,7 @@ export const renderRow = (row: Row) => {
         <Typography>{name}</Typography>
       </div>
       <div className={cs.displayTableCell}>
-        <Typography>{value}</Typography>
+        <Typography>{value ?? "N/A"}</Typography>
       </div>
     </div>
   );

@@ -10,3 +10,10 @@ export const formatNumber = (
 ) => {
   return number.toLocaleString(undefined, options);
 };
+
+/**
+ * Type guard verifying that a value is non-nullable
+ */
+export const isNonNull = <T>(val: T): val is NonNullable<T> => {
+  return val !== null && val !== undefined;
+};

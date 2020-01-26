@@ -43,6 +43,16 @@ export type RpcInfoRpcRequest = {
   params?: null;
 };
 
+export type ChainTipsRpcRequest = {
+  method: "getchaintips";
+  params?: null;
+};
+
+export type BlockHeaderRpcRequest = {
+  method: "getblockheader";
+  params: [string];
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -53,6 +63,8 @@ export type RpcRequest = { requestId: string } & (
   | MempoolInfoRpcRequest
   | SetNetworkActiveRpcRequest
   | RpcInfoRpcRequest
+  | ChainTipsRpcRequest
+  | BlockHeaderRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

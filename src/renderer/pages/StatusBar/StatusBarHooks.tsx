@@ -11,7 +11,7 @@ import networkDisabledPng from "_a/network_disabled.png";
 import { useRpcResponses } from "_r/hooks";
 import * as actions from "_r/redux/actions";
 import * as selectors from "_r/redux/selectors";
-import { formatDate } from "_r/smallUtils";
+import { formatDate, isNonNull } from "_r/smallUtils";
 import { useStyles } from "./StatusBarStyles";
 
 export const useNetworkState = () => {
@@ -66,7 +66,7 @@ export const useProgressBarState = () => {
   const peerCount = connectionSummary?.total ?? 0;
 
   if (
-    synchronizingBlockHeadersProgress &&
+    isNonNull(synchronizingBlockHeadersProgress) &&
     synchronizingBlockHeadersProgress < 100
   ) {
     return {
@@ -75,7 +75,10 @@ export const useProgressBarState = () => {
     };
   }
 
-  if (synchronizingBlocksProgress && synchronizingBlocksProgress < 100) {
+  if (
+    isNonNull(synchronizingBlocksProgress) &&
+    synchronizingBlocksProgress < 100
+  ) {
     return {
       message: "Synchronizing blocks...",
       progress: synchronizingBlocksProgress,

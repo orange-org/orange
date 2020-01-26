@@ -2,10 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { misc, MiscState } from "./misc";
 import { rpcResponses, RpcResponsesState } from "./rpcResponses";
-import {
-  synchronizingBlockHeadersProgress,
-  SynchronizingBlockHeadersProgressState,
-} from "./synchronizingBlockHeadersProgress";
+import { isSyncingHeaders, IsSyncingHeadersState } from "./isSyncingHeaders";
 
 const composeEnhancers =
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -15,12 +12,12 @@ const composeEnhancers =
 
 export type State = {
   rpcResponses: RpcResponsesState;
-  synchronizingBlockHeadersProgress: SynchronizingBlockHeadersProgressState;
+  isSyncingHeaders: IsSyncingHeadersState;
 } & MiscState;
 
 export const reducer = combineReducers({
   rpcResponses,
-  synchronizingBlockHeadersProgress,
+  isSyncingHeaders,
   ...misc,
 
   // Between the `createReducer` function of `typesafe-actions` and here,

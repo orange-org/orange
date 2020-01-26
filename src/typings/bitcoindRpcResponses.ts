@@ -7,6 +7,8 @@ import {
   PeerInfoRpcRequest,
   MempoolInfoRpcRequest,
   RpcInfoRpcRequest,
+  ChainTipsRpcRequest,
+  BlockHeaderRpcRequest,
 } from "_t/bitcoindRpcRequests";
 import { NullableKeys } from "./typeHelpers";
 
@@ -228,6 +230,44 @@ export type RpcInfoRpcResponse = CreateRpcResponse<
   RpcInfo
 >;
 
+export type ChainTips = {
+  height: number;
+  hash: string;
+  branchlen: number;
+  status:
+    | "invalid"
+    | "headers-only"
+    | "valid-headers"
+    | "valid-fork"
+    | "active";
+}[];
+
+export type ChainTipsRpcResponse = CreateRpcResponse<
+  ChainTipsRpcRequest["method"],
+  ChainTips
+>;
+
+export type BlockHeader = {
+  hash: string;
+  confirmations: number;
+  height: number;
+  version: number;
+  versionHex: string;
+  merkleroot: string;
+  time: number;
+  mediantime: number;
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  chainwork: string;
+  nTx: number;
+};
+
+export type BlockHeaderRpcResponse = CreateRpcResponse<
+  BlockHeaderRpcRequest["method"],
+  BlockHeader
+>;
+
 export type RpcResponse = {
   requestId: string;
 } & (
@@ -238,6 +278,8 @@ export type RpcResponse = {
   | PeerInfoRpcResponse
   | MempoolInfoRpcResponse
   | RpcInfoRpcResponse
+  | ChainTipsRpcResponse
+  | BlockHeaderRpcResponse
 );
 
 export type RawRpcResponse = { result: any; error: RpcError | null };

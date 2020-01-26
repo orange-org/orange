@@ -9,6 +9,7 @@ export const useRpcServerStatus = () => {
   const [initMessage, setInitMessage] = useState("");
   const [isWarmingUp, setIsWarmingUp] = useState(true);
   const [isShuttingDown, setIsShuttingDown] = useState(false);
+  const [serverWasOnceReady, setServerWasOnceReady] = useState(false);
 
   usePolling(async () => {
     try {
@@ -18,23 +19,28 @@ export const useRpcServerStatus = () => {
        *
        * On start, we're interested in checking if the server is still warming
        * up. On shutdown, we're interested to see if the server has shutdown.
-       *
-       * Occasionally, on start, the server would not be ready and would
-       * respond with `econnrefused`. To handle this edge case, we set
-       * `isShuttingDown` to `false` when request uptime succeeds or when we
-       * receive error code `warmingUp`.
        */
       await dispatch(actions.requestUptime(__NONCE__));
 
       setIsWarmingUp(false);
-      setIsShuttingDown(false);
+      setServerWasOnceReady(true);
     } catch (error) {
       if (error.code === RPC_SERVER_ERROR_CODES.warmingUp) {
-        setIsShuttingDown(false);
         setIsWarmingUp(true);
         setInitMessage(error.message);
       } else if (error.code === ERROR_CODES.econnrefused) {
-        setIsShuttingDown(true);
+        /**
+         * Sometimes we receive `econnrefused` when we're starting. It seems
+         * that Electron might sometimes be ready to make calls to `bitcoind`
+         * before `bitcoind` has even started warming-up. In that case, we
+         * assume that `bitcoind` will start warming up soon and set
+         * `isWarmingUp` to `true`.
+         */
+        if (serverWasOnceReady) {
+          setIsShuttingDown(true);
+        } else {
+          setIsWarmingUp(true);
+        }
       } else {
         throw error;
       }

@@ -30,8 +30,8 @@ export type Json = { [name: string]: string };
 export type GetState = () => State;
 
 /**
- * Not available
+ * Nullable
  *
  * `undefined` or `null`
  */
-export type Na = undefined | null;
+export type Nullable = undefined | null;

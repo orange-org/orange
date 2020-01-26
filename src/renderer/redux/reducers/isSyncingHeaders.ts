@@ -5,8 +5,8 @@ export type IsSyncingHeadersState = boolean | null;
 
 export const isSyncingHeaders = createReducer<IsSyncingHeadersState>(
   null,
-).handleAction(actions.receiveHeaderSyncParameters, (state, action) => {
-  return !state || !action.payload.headerCount
-    ? null
-    : !!action.payload.headerCount;
+).handleAction(actions.receiveHeaderSyncParameters, (_state, action) => {
+  const { headerCount, previousHeaderCount } = action.payload;
+
+  return headerCount !== previousHeaderCount;
 });

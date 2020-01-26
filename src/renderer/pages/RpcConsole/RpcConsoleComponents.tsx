@@ -1,9 +1,9 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { useCommonStyles } from "_r/commonStyles";
-import { Nullable } from "_t/typeHelpers";
+import { Null } from "_t/typeHelpers";
 
-type Row = [string, string | number | Nullable];
+type Row = [string, string | number | Null];
 
 export const renderRow = (row: Row) => {
   const [name, value] = row;

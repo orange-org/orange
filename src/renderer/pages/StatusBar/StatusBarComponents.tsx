@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
 import { useCommonStyles } from "_r/commonStyles";
-import { Nullable } from "_t/typeHelpers";
+import { Null } from "_t/typeHelpers";
 import { useStyles } from "./StatusBarStyles";
 
 export const Details: React.FC = props => {
@@ -16,7 +16,7 @@ export const Details: React.FC = props => {
 
 export const Record: React.FC<{
   name: string;
-  value: string | number | Nullable;
+  value: string | number | Null;
 }> = props => {
   const cs = useCommonStyles();
 

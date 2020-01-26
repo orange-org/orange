@@ -11,6 +11,7 @@ import {
   setUptime,
 } from "./actions";
 import { rpcClient } from "./rpcClient/rpcClient";
+import { GetState } from "_t/typeHelpers";
 
 export const requestNetworkInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
@@ -95,12 +96,14 @@ export const requestSetNetworkActive = (
 
 export const requestHeaderSyncParameters = (nonce: NONCE) => async (
   dispatch: Dispatch,
+  getState: GetState,
 ) => {
   const blockchainInfoResponse = await rpcClient(nonce, {
     method: "getblockchaininfo",
   });
-  const { headers } = blockchainInfoResponse.result;
-  const payload = { headerCount: headers, currentTime: Date.now() };
+  const { headers: headerCount } = blockchainInfoResponse.result;
+  const previousHeaderCount = getState().rpcResponses.blockchainInfo?.headers;
+  const payload = { headerCount, previousHeaderCount };
 
   dispatch(receiveHeaderSyncParameters(payload));
 

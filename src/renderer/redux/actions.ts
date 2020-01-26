@@ -8,6 +8,7 @@ import {
   RpcInfo,
   Uptime,
 } from "_t/bitcoindRpcResponses";
+import { Null } from "_t/typeHelpers";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -30,6 +31,6 @@ export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 export const receiveHeaderSyncParameters = createAction(
   "RECEIVE_HEADER_SYNC_PARAMETERS",
 )<{
-  headerCount: BlockchainInfo["headers"];
-  currentTime: number;
+  headerCount: BlockchainInfo["headers"] | Null;
+  previousHeaderCount: BlockchainInfo["headers"] | Null;
 }>();

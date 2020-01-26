@@ -9,7 +9,7 @@ import connect3Png from "_a/connect3.png";
 import connect4Png from "_a/connect4.png";
 import networkDisabledPng from "_a/network_disabled.png";
 import { useRpcResponses } from "_r/hooks";
-import * as actions from "_r/redux/actions";
+import * as thunks from "_r/redux/thunks";
 import * as selectors from "_r/redux/selectors";
 import { formatDate, isNonNull } from "_r/smallUtils";
 import { useStyles } from "./StatusBarStyles";
@@ -45,7 +45,7 @@ export const useNetworkState = () => {
       <button
         className={c.iconButton}
         onClick={() =>
-          dispatch(actions.requestSetNetworkActive(__NONCE__, !isNetworkActive))
+          dispatch(thunks.requestSetNetworkActive(__NONCE__, !isNetworkActive))
         }
         type="button"
       >
@@ -56,22 +56,17 @@ export const useNetworkState = () => {
 };
 
 export const useProgressBarState = () => {
-  const synchronizingBlockHeadersProgress = useSelector(
-    s => s.synchronizingBlockHeadersProgress,
-  );
+  const isSyncingHeaders = useSelector(s => s.isSyncingHeaders);
   const synchronizingBlocksProgress = useSelector(
     selectors.synchronizingBlocksProgress,
   );
   const connectionSummary = useSelector(selectors.connectionSummary);
   const peerCount = connectionSummary?.total ?? 0;
 
-  if (
-    isNonNull(synchronizingBlockHeadersProgress) &&
-    synchronizingBlockHeadersProgress < 100
-  ) {
+  if (isSyncingHeaders) {
     return {
       message: "Synchronizing block headers...",
-      progress: synchronizingBlockHeadersProgress,
+      progress: 100,
     };
   }
 
@@ -174,22 +169,14 @@ const useProgressEstimates = () => {
 
 export const useDetailsDialogState = () => {
   const rpcResponses = useRpcResponses();
-  const synchronizingBlockHeadersProgress = useSelector(
-    s => s.synchronizingBlockHeadersProgress,
-  );
-
   const lastBlockTime = useSelector(selectors.lastBlockTime);
   const numberOfBlocksLeft = useSelector(selectors.numberOfBlocksLeft);
-  const isSynchronizingBlockHeaders = useSelector(
-    selectors.isSynchronizingBlockHeaders,
-  );
+  const isSyncingHeaders = useSelector(s => s.isSyncingHeaders);
   const progressEstimates = useProgressEstimates();
 
   return {
-    numberOfBlocksLeft: isSynchronizingBlockHeaders
-      ? `Unknown. Syncing Headers (${rpcResponses.blockchainInfo?.headers?.toLocaleString()}, ${synchronizingBlockHeadersProgress!.toFixed(
-          2,
-        )})...`
+    numberOfBlocksLeft: isSyncingHeaders
+      ? `Unknown. Syncing Headers (${rpcResponses.blockchainInfo?.headers?.toLocaleString()})...`
       : numberOfBlocksLeft?.toLocaleString(),
     lastBlockTime: lastBlockTime ? formatDate(lastBlockTime) : "N/A",
     progressPerHour:

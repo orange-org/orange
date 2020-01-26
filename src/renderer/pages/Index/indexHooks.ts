@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ERROR_CODES, RPC_SERVER_ERROR_CODES } from "_c/constants";
 import { usePolling } from "_r/hooks";
-import * as actions from "_r/redux/actions";
+import * as thunks from "_r/redux/thunks";
 import { useDispatch } from "react-redux";
 
 export const useRpcServerStatus = () => {
@@ -20,7 +20,7 @@ export const useRpcServerStatus = () => {
        * On start, we're interested in checking if the server is still warming
        * up. On shutdown, we're interested to see if the server has shutdown.
        */
-      await dispatch(actions.requestUptime(__NONCE__));
+      await dispatch(thunks.requestUptime(__NONCE__));
 
       setIsWarmingUp(false);
       setServerWasOnceReady(true);

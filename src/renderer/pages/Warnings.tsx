@@ -2,7 +2,7 @@ import { makeStyles, Paper, Typography } from "@material-ui/core";
 import { WarningRounded } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
-import * as actions from "_r/redux/actions";
+import * as thunks from "_r/redux/thunks";
 import { usePolling, useRpcResponses } from "_r/hooks";
 
 const useStyles = makeStyles(theme => ({
@@ -27,7 +27,7 @@ export const Warnings: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.requestNetworkInfo(__NONCE__));
+    dispatch(thunks.requestNetworkInfo(__NONCE__));
   }, []);
 
   const warnings = useRpcResponses(r => r.networkInfo?.warnings);

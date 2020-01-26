@@ -49,15 +49,6 @@ export const numberOfBlocksLeft = createSelector(
   },
 );
 
-export const isSynchronizingBlockHeaders = createSelector(
-  (s: State) => s.synchronizingBlockHeadersProgress,
-  synchronizingBlockHeadersProgress_ => {
-    return synchronizingBlockHeadersProgress_
-      ? synchronizingBlockHeadersProgress_ < 100
-      : false;
-  },
-);
-
 export const dataDir = createSelector(
   (s: State) => s.rpcResponses.rpcInfo?.logpath,
   logPath_ => (logPath_ ? dirname(logPath_) : null),

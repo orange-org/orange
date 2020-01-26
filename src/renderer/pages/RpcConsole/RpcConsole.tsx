@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usePolling, useRpcResponses } from "_r/hooks";
-import * as actions from "_r/redux/actions";
+import * as thunks from "_r/redux/thunks";
 import { callMain } from "_r/redux/callMain";
 import * as selectors from "_r/redux/selectors";
 import { formatDate } from "_r/smallUtils";
@@ -15,15 +15,15 @@ export const RpcConsole: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.requestNetworkInfo(__NONCE__));
-    dispatch(actions.requestUptime(__NONCE__));
-    dispatch(actions.requestRpcInfo(__NONCE__));
+    dispatch(thunks.requestNetworkInfo(__NONCE__));
+    dispatch(thunks.requestUptime(__NONCE__));
+    dispatch(thunks.requestRpcInfo(__NONCE__));
   }, []);
 
   usePolling(() => {
-    dispatch(actions.requestMempoolInfo(__NONCE__));
-    dispatch(actions.requestBlockchainInfo(__NONCE__));
-    dispatch(actions.requestPeerInfo(__NONCE__));
+    dispatch(thunks.requestMempoolInfo(__NONCE__));
+    dispatch(thunks.requestBlockchainInfo(__NONCE__));
+    dispatch(thunks.requestPeerInfo(__NONCE__));
   }, 1000);
 
   const rpcResponses = useRpcResponses();
@@ -96,7 +96,7 @@ export const RpcConsole: React.FC = () => {
         <Section
           title="Memory pool"
           rows={[
-            ["Current number of transactions", rpcResponses.mempoolInfo?.size],
+            ["Current number of transthunks", rpcResponses.mempoolInfo?.size],
             ["Memory usage", rpcResponses.mempoolInfo?.usage],
           ]}
         />

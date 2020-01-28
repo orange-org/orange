@@ -6,29 +6,34 @@ import { getAppRoot } from "_m/getAppRoot";
 import { join } from "path";
 import { createInterface } from "readline";
 import { sendMessageToRenderer } from "_m/sendMessageToRenderer";
+import fs from "fs";
 
 class BitcoindManager {
   isProcessRunning = false;
   bitcoindProcess: ChildProcess | null = null;
 
   startProcess = (mainWindow: BrowserWindow) => {
-    const lines: string[] = [];
-
     if (this.bitcoindProcess !== null) {
       throw new Error("bitcoind process is already running");
     }
 
-    const bitcoindProcess = spawn(join(getAppRoot(), "vendor", "bitcoind"), [
-      // "-reindex",
-      "-testnet",
-      "-server",
-      // "-maxuploadtarget=1",
-      // "-listen=0",
-      // "-maxconnections=1",
-      // "-blocksonly",
-      `-rpcuser=${username}`,
-      `-rpcpassword=${password}`,
-    ]);
+    const bitcoindProcess = spawn(
+      "/Users/mk/Code/github/bitcoin/bitcoin/src/bitcoind",
+      [
+        // "-reindex",
+        // "-testnet",
+        // "-server",
+        // "-maxuploadtarget=1",
+        // "-listen=0",
+        // "-maxconnections=1",
+        // "-blocksonly",
+        `-rpcuser=${username}`,
+        `-rpcpassword=${password}`,
+      ],
+      {
+        stdio: ["ignore", "ignore", "pipe"],
+      },
+    );
 
     // const process = spawn("ls");
 

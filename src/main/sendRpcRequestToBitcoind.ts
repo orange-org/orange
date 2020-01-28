@@ -39,7 +39,9 @@ export const sendRpcRequestToBitcoind = <TRpcRequest extends RpcRequest>(
             resolve({ method, requestId, error } as ExtractedResponse);
           }
         });
-        response.on("error", error => reject(error));
+        response.on("error", error => {
+          reject(error);
+        });
       },
     );
 

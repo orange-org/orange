@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
+import { GetState } from "_t/typeHelpers";
 import {
   receiveHeaderSyncParameters,
   setBlock,
@@ -11,7 +12,6 @@ import {
   setUptime,
 } from "./actions";
 import { rpcClient } from "./rpcClient/rpcClient";
-import { GetState } from "_t/typeHelpers";
 
 export const requestNetworkInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
@@ -101,10 +101,25 @@ export const requestHeaderSyncParameters = (nonce: NONCE) => async (
   const blockchainInfoResponse = await rpcClient(nonce, {
     method: "getblockchaininfo",
   });
-  const { headers: headerCount } = blockchainInfoResponse.result;
-  const previousHeaderCount = getState().rpcResponses.blockchainInfo?.headers;
-  const payload = { headerCount, previousHeaderCount };
+  const {
+    headers: headerCount,
+    blocks: blockCount,
+    initialblockdownload: isInitialBlockDownload,
+  } = blockchainInfoResponse.result;
+  const previousBlockchainInfo = getState().rpcResponses.blockchainInfo;
+  const previousState = {
+    headerCount: previousBlockchainInfo?.headers,
+    blockCount: previousBlockchainInfo?.blocks,
+    isSyncingHeaders: getState().isSyncingHeaders,
+  };
+  const payload = {
+    headerCount,
+    blockCount,
+    isInitialBlockDownload,
+    previousState,
+  };
 
+  dispatch(setBlockchainInfo(blockchainInfoResponse.result));
   dispatch(receiveHeaderSyncParameters(payload));
 
   return payload;

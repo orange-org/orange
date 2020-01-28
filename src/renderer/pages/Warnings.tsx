@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   warningIcon: {
-    color: "#e2a932",
+    // color: "#e2a932",
   },
 
   text: {

@@ -21,8 +21,8 @@ export const useStyles = makeStyles(theme => ({
   },
 
   selectedNavigationButton: {
-    backgroundImage: "linear-gradient(to bottom, #B0B0B5, #909095)",
-    color: theme.palette.secondary.main,
+    // backgroundImage: "linear-gradient(to bottom, #B0B0B5, #909095)",
+    // color: theme.palette.secondary.main,
   },
 
   debugLogButton: {

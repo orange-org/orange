@@ -9,6 +9,7 @@ import {
   Uptime,
 } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
+import { IsSyncingHeadersState } from "./reducers/isSyncingHeaders";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -32,5 +33,11 @@ export const receiveHeaderSyncParameters = createAction(
   "RECEIVE_HEADER_SYNC_PARAMETERS",
 )<{
   headerCount: BlockchainInfo["headers"] | Null;
-  previousHeaderCount: BlockchainInfo["headers"] | Null;
+  blockCount: BlockchainInfo["blocks"] | Null;
+  isInitialBlockDownload: BlockchainInfo["initialblockdownload"] | Null;
+  previousState: {
+    headerCount: BlockchainInfo["headers"] | Null;
+    blockCount: BlockchainInfo["blocks"] | Null;
+    isSyncingHeaders: IsSyncingHeadersState;
+  };
 }>();

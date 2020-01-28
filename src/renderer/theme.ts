@@ -1,32 +1,32 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 
 const reusableOptions = {
-  defaultBackground: "#ececec",
-  primary: {
-    main: "#000000",
-  },
-  secondary: {
-    main: "#ffffff",
-  },
+  // defaultBackground: "#ececec",
+  // primary: {
+  //   main: "#000000",
+  // },
+  // secondary: {
+  //   main: "#ffffff",
+  // },
 };
 
 export const theme: ThemeOptions = {
   spacing: 4,
   palette: {
-    primary: {
-      main: reusableOptions.primary.main,
-    },
-    secondary: {
-      main: reusableOptions.secondary.main,
-    },
-    background: {
-      default: reusableOptions.defaultBackground,
-      paper: "#e3e3e3",
-    },
-    action: {
-      disabledBackground: reusableOptions.secondary.main,
-      hover: reusableOptions.primary.main,
-    },
+    // primary: {
+    //   main: reusableOptions.primary.main,
+    // },
+    // secondary: {
+    //   main: reusableOptions.secondary.main,
+    // },
+    // background: {
+    //   default: reusableOptions.defaultBackground,
+    //   paper: "#e3e3e3",
+    // },
+    // action: {
+    //   disabledBackground: reusableOptions.secondary.main,
+    //   hover: reusableOptions.primary.main,
+    // },
   },
   typography: {
     h1: {
@@ -59,45 +59,45 @@ export const theme: ThemeOptions = {
     MuiButton: {
       root: {
         textTransform: "inherit",
-        backgroundColor: reusableOptions.secondary.main,
-        border: "1px solid #d3d3d3",
-        borderTop: "1px solid #d6d6d6",
-        borderBottom: "1px solid #afafaf",
+        // backgroundColor: reusableOptions.secondary.main,
+        // border: "1px solid #d3d3d3",
+        // borderTop: "1px solid #d6d6d6",
+        // borderBottom: "1px solid #afafaf",
       },
-      containedPrimary: {
-        "&:hover": {
-          backgroundColor: reusableOptions.secondary.main,
-        },
-      },
+      // containedPrimary: {
+      //   "&:hover": {
+      //     // backgroundColor: reusableOptions.secondary.main,
+      //   },
+      // },
     },
 
     MuiPaper: {
       root: {
-        border: "1px solid #dfdfdf",
-        borderTopColor: "#dadada",
+        // border: "1px solid #dfdfdf",
+        // borderTopColor: "#dadada",
       },
     },
 
-    MuiDialog: {
-      paper: {
-        backgroundColor: reusableOptions.defaultBackground,
-      },
-    },
+    // MuiDialog: {
+    //   paper: {
+    //     backgroundColor: reusableOptions.defaultBackground,
+    //   },
+    // },
 
-    MuiButtonGroup: {
-      groupedContainedPrimary: {
-        border: "none",
+    // MuiButtonGroup: {
+    //   groupedContainedPrimary: {
+    //     border: "none",
 
-        "&:not(:last-child)": {
-          border: "none",
-        },
-      },
-    },
+    //     "&:not(:last-child)": {
+    //       border: "none",
+    //     },
+    //   },
+    // },
   },
 
   props: {
     MuiPaper: {
-      elevation: 0,
+      // elevation: 0,
     },
     MuiButtonBase: {
       disableRipple: true,

@@ -11,11 +11,15 @@ export const GlobalCss = withStyles({
       // display: "flex",
       // flexDirection: "column",
       // height: "100%",
-      paddingBottom: "50px", // This is needed to make scrolling space for the position: fix status bar
+      // paddingBottom: "50px", // This is needed to make scrolling space for the position: fix status bar
     },
 
     "*:focus": {
       outline: "none",
+    },
+
+    "*": {
+      boxSizing: "border-box",
     },
 
     "h1, h2, h3, h4, h5, h6, p": {

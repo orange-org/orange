@@ -9,6 +9,7 @@ import {
   RpcInfoRpcRequest,
   ChainTipsRpcRequest,
   BlockHeaderRpcRequest,
+  BlockHashRpcRequest,
 } from "_t/bitcoindRpcRequests";
 import { NullableKeys } from "./typeHelpers";
 
@@ -268,6 +269,13 @@ export type BlockHeaderRpcResponse = CreateRpcResponse<
   BlockHeader
 >;
 
+export type BlockHash = string;
+
+export type BlockHashRpcResponse = CreateRpcResponse<
+  BlockHashRpcRequest["method"],
+  BlockHash
+>;
+
 export type RpcResponse = {
   requestId: string;
 } & (
@@ -280,6 +288,7 @@ export type RpcResponse = {
   | RpcInfoRpcResponse
   | ChainTipsRpcResponse
   | BlockHeaderRpcResponse
+  | BlockHashRpcResponse
 );
 
 export type RawRpcResponse = { result: any; error: RpcError | null };

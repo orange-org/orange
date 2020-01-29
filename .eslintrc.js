@@ -28,6 +28,7 @@ module.exports = {
   rules: {
     "react-hooks/rules-of-hooks": "error",
     // "react-hooks/exhaustive-deps": "warn",
+    "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
     "import/extensions": [

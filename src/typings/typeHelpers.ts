@@ -11,10 +11,6 @@ export type ValuesOf<T extends any[]> = T[number];
 
 export type AllKeys<T> = T extends T ? keyof T : never;
 
-export type OmitDistributed<T, K extends AllKeys<T>> = T extends T
-  ? Pick<T, Exclude<keyof T, K>>
-  : never;
-
 export type ExtractedRpcResponse<
   T extends RpcRequest | Omit<RpcRequest, "requestId">
 > = Extract<RpcResponse, { method: T["method"] }>;

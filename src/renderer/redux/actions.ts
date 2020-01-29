@@ -9,7 +9,6 @@ import {
   Uptime,
 } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
-import { IsSyncingHeadersState } from "./reducers/isSyncingHeaders";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -28,16 +27,3 @@ export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
-
-export const receiveHeaderSyncParameters = createAction(
-  "RECEIVE_HEADER_SYNC_PARAMETERS",
-)<{
-  headerCount: BlockchainInfo["headers"] | Null;
-  blockCount: BlockchainInfo["blocks"] | Null;
-  isInitialBlockDownload: BlockchainInfo["initialblockdownload"] | Null;
-  previousState: {
-    headerCount: BlockchainInfo["headers"] | Null;
-    blockCount: BlockchainInfo["blocks"] | Null;
-    isSyncingHeaders: IsSyncingHeadersState;
-  };
-}>();

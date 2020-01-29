@@ -1,4 +1,5 @@
 import { randomBytes } from "crypto";
+import { isDevelopment } from "./isDevelopment";
 
-export const username = randomBytes(16).toString("base64");
-export const password = randomBytes(16).toString("base64");
+export const username = isDevelopment ? 1 : randomBytes(16).toString("base64");
+export const password = isDevelopment ? 1 : randomBytes(16).toString("base64");

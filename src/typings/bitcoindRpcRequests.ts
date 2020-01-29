@@ -53,6 +53,11 @@ export type BlockHeaderRpcRequest = {
   params: [string];
 };
 
+export type BlockHashRpcRequest = {
+  method: "getblockhash";
+  params: [number];
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -65,6 +70,7 @@ export type RpcRequest = { requestId: string } & (
   | RpcInfoRpcRequest
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
+  | BlockHashRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

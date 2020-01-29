@@ -2,7 +2,6 @@ import { Dispatch } from "redux";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import { GetState } from "_t/typeHelpers";
 import {
-  receiveHeaderSyncParameters,
   setBlock,
   setBlockchainInfo,
   setMempoolInfo,
@@ -41,14 +40,16 @@ export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
   return response.result;
 };
 
-export const requestBlock = (nonce: NONCE, blockHash: string) => async (
-  dispatch: Dispatch,
-) => {
+export const requestBlock = (
+  nonce: NONCE,
+  blockHash: string,
+  verbosity: 0 | 1 | 2 = 1,
+) => async (dispatch: Dispatch) => {
   const response = await rpcClient(
     nonce,
     {
       method: "getblock",
-      params: [blockHash],
+      params: [blockHash, verbosity],
     },
     1000,
   );
@@ -94,33 +95,22 @@ export const requestSetNetworkActive = (
   };
 };
 
-export const requestHeaderSyncParameters = (nonce: NONCE) => async (
-  dispatch: Dispatch,
-  getState: GetState,
-) => {
-  const blockchainInfoResponse = await rpcClient(nonce, {
-    method: "getblockchaininfo",
+export const requestBlockByHeight = (
+  nonce: NONCE,
+  height: number,
+  verbosity: 0 | 1 | 2 = 1,
+) => async (dispatch: Dispatch) => {
+  console.log("height", height);
+  const blockHashResponse = await rpcClient(nonce, {
+    method: "getblockhash",
+    params: [height],
   });
-  const {
-    headers: headerCount,
-    blocks: blockCount,
-    initialblockdownload: isInitialBlockDownload,
-  } = blockchainInfoResponse.result;
-  const previousBlockchainInfo = getState().rpcResponses.blockchainInfo;
-  const previousState = {
-    headerCount: previousBlockchainInfo?.headers,
-    blockCount: previousBlockchainInfo?.blocks,
-    isSyncingHeaders: getState().isSyncingHeaders,
-  };
-  const payload = {
-    headerCount,
-    blockCount,
-    isInitialBlockDownload,
-    previousState,
-  };
+  const blockResponse = await rpcClient(nonce, {
+    method: "getblock",
+    params: [blockHashResponse.result, verbosity],
+  });
 
-  dispatch(setBlockchainInfo(blockchainInfoResponse.result));
-  dispatch(receiveHeaderSyncParameters(payload));
+  dispatch(setBlock(blockResponse.result));
 
-  return payload;
+  return blockResponse.result;
 };

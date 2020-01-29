@@ -10,20 +10,12 @@ import { useGlobalErrorHandling, useRpcServerStatus } from "./indexHooks";
 export const Index: React.FC = () => {
   useGlobalErrorHandling();
 
-  const { isShuttingDown, isWarmingUp, initMessage } = useRpcServerStatus();
+  // const { isShuttingDown, isWarmingUp, initMessage } = useRpcServerStatus();
 
   return (
     <>
-      {(isWarmingUp && <SplashScreen initMessage={initMessage} />) || (
-        <>
-          {/* <Warnings /> */}
-          {/* <RpcConsole /> */}
-          {/* <StatusBar /> */}
-          <Explorer />
-        </>
-      )}
-
-      <ShutdownDialog open={isShuttingDown} />
+      {/* <Curtain /> */}
+      <Explorer />
     </>
   );
 };

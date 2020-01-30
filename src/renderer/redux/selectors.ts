@@ -1,7 +1,7 @@
 import { dirname } from "path";
 import { createSelector } from "reselect";
 import { State } from "_r/redux/reducers/store";
-import { formatDate } from "_r/smallUtils";
+import { formatDate } from "_r/utils/smallUtils";
 
 export const lastBlockTime = createSelector(
   (s: State) => s.bestBlock?.time,

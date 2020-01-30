@@ -100,7 +100,6 @@ export const requestBlockByHeight = (
   height: number,
   verbosity: 0 | 1 | 2 = 1,
 ) => async (dispatch: Dispatch) => {
-  console.log("height", height);
   const blockHashResponse = await rpcClient(nonce, {
     method: "getblockhash",
     params: [height],

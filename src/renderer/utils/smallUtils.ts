@@ -1,8 +1,12 @@
-import moment from "moment";
+import moment, { duration } from "moment";
 import { Null } from "_t/typeHelpers";
 
 export const formatDate = (momentInput: moment.MomentInput) => {
   return moment(momentInput).format("llll");
+};
+
+export const fromNow = (momentInput: moment.MomentInput) => {
+  return moment(momentInput).fromNow();
 };
 
 export const formatNumber = (
@@ -21,4 +25,9 @@ export const isNonNull = <T>(val: T): val is NonNullable<T> => {
 
 export const isNull = (val: any) => {
   return !isNonNull(val);
+};
+
+const AVERAGE_GPU_HASHES_PER_SECOND = 500;
+export const convertDifficultyToGpuTime = (difficulty: number) => {
+  return duration(difficulty / AVERAGE_GPU_HASHES_PER_SECOND).humanize();
 };

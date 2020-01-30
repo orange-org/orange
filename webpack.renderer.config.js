@@ -106,7 +106,7 @@ module.exports = merge.smart(baseConfig, {
           ["script-src", "'none'"],
           ["script-src-attr", "'none'"],
           ["style-src", "'none'"],
-          ["style-src-attr", "'none'"],
+          ["style-src-attr", isDevelopment ? "'self'" : "'none'"],
           ["worker-src", "'none'"],
           ["base-uri", "'none'"],
           ["form-action", "'none'"],

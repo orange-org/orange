@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { blueGrey, grey } from "@material-ui/core/colors";
+import { blueGrey, grey, amber, lightBlue } from "@material-ui/core/colors";
 
 export const useStyles = makeStyles(theme => ({
   root: {
@@ -56,6 +56,14 @@ export const useStyles = makeStyles(theme => ({
 
   hash: {
     marginTop: theme.spacing(4),
+    color: grey[600],
+  },
+
+  hashText: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    width: "160px",
+    whiteSpace: "nowrap",
   },
 
   icon: {

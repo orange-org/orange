@@ -6,7 +6,7 @@ import { usePolling, useRpcResponses } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { callMain } from "_r/redux/callMain";
 import * as selectors from "_r/redux/selectors";
-import { formatDate } from "_r/smallUtils";
+import { formatDate } from "_r/utils/smallUtils";
 import { Section } from "./RpcConsoleComponents";
 import { useStyles } from "./RpcConsoleStyles";
 

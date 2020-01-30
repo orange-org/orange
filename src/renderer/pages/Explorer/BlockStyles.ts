@@ -7,7 +7,7 @@ export const useStyles = makeStyles(theme => ({
       width: "20px",
       marginBottom: "-4px", // This is to compensate for an added margin of unknown source
       marginLeft: "16px",
-      borderLeft: `3px dashed ${grey[300]}`,
+      borderLeft: `3px dashed ${grey[400]}`,
       height: theme.spacing(4),
       display: "inline-block",
       content: "''",
@@ -73,5 +73,14 @@ export const useStyles = makeStyles(theme => ({
 
   value: {
     marginLeft: theme.spacing(1),
+  },
+
+  activeCard: {
+    width: "291px",
+    borderRight: "none",
+    // background: "rgb(207,216,220)",
+    background:
+      "linear-gradient(90deg, rgba(207,216,220,1) 0%, rgba(250,250,250,1) 85%)",
+    backgroundClip: "padding-box",
   },
 }));

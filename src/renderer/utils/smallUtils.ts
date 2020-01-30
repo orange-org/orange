@@ -27,7 +27,8 @@ export const isNull = (val: any) => {
   return !isNonNull(val);
 };
 
-const AVERAGE_GPU_HASHES_PER_SECOND = 500;
-export const convertDifficultyToGpuTime = (difficulty: number) => {
-  return duration(difficulty / AVERAGE_GPU_HASHES_PER_SECOND).humanize();
-};
+// const AVERAGE_GPU_HASHES_PER_SECOND = 500;
+// const HUMAN_INSTANT_MILLISECONDS = 200;
+// export const convertDifficultyRequiredComputers = (difficulty: number) => {
+//   return duration(difficulty / AVERAGE_GPU_HASHES_PER_SECOND).humanize();
+// };

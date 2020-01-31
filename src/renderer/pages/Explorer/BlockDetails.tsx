@@ -1,23 +1,25 @@
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "@material-ui/core";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Typography } from "_r/components/Typography";
 import * as thunks from "_r/redux/thunks";
+import { humanFileSize } from "_r/utils/humanFileSize";
+import { formatDate, pluralize } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { useBlockDetailsStyles } from "./BlockDetailsStyles";
-import { pluralize, formatDate } from "_r/utils/smallUtils";
-import {
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Box,
-} from "@material-ui/core";
-import { humanFileSize } from "_r/utils/humanFileSize";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -35,6 +37,7 @@ const excludedBlockData: (keyof TBlock)[] = [
   "previousblockhash",
   "nextblockhash",
   "tx",
+  "hash",
 ];
 
 export const BlockDetails: React.FC = () => {
@@ -106,7 +109,7 @@ export const BlockDetails: React.FC = () => {
                     </Typography>
                   </div>
                   <div className={cn.detailsItemValue}>
-                    <Typography>
+                    <Typography component="div">
                       {blockDataDefinitions[key] ? (
                         blockDataDefinitions[key]!(blockData[key] as any)
                       ) : (
@@ -121,6 +124,35 @@ export const BlockDetails: React.FC = () => {
             },
           )}
         </Paper>
+      </div>
+
+      <div className={clsx(cn.section, cn.navigationButtons)}>
+        <ButtonGroup orientation="vertical">
+          {[
+            {
+              icon: <KeyboardArrowUp />,
+              text: "Next block",
+              hash: blockData.nextblockhash,
+            },
+            {
+              icon: <KeyboardArrowDown />,
+              text: "Previous block",
+              hash: blockData.previousblockhash,
+            },
+          ].map(definition => (
+            <Button
+              component={Link}
+              to={definition.hash || ""}
+              disabled={!definition.hash}
+              key={definition.text}
+            >
+              <span className={cn.buttonLabel}>
+                <span className={cn.buttonIcon}>{definition.icon}</span>
+                <span className={cn.buttonText}>{definition.text}</span>
+              </span>
+            </Button>
+          ))}
+        </ButtonGroup>
       </div>
     </div>
   );

@@ -49,4 +49,23 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
   },
 
   detailsItemKey: {},
+
+  navigationButtons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+
+  buttonLabel: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+  },
+
+  buttonIcon: {
+    display: "flex",
+  },
+
+  buttonText: {
+    flex: 1,
+  },
 }));

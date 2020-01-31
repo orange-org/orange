@@ -1,13 +1,17 @@
 import {
   Typography as MaterialUiTypography,
-  TypographyProps,
+  TypographyTypeMap,
 } from "@material-ui/core";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import Skeleton, { SkeletonProps } from "@material-ui/lab/Skeleton";
 import React from "react";
 
-export const Typography: React.FC<TypographyProps & {
-  isLoading?: { active: boolean } & SkeletonProps;
-}> = props_ => {
+export const Typography: OverridableComponent<TypographyTypeMap<
+  {
+    isLoading?: { active: boolean } & SkeletonProps;
+  },
+  "span"
+>> = (props_: any) => {
   const { children, isLoading, ...props } = props_;
 
   if (isLoading?.active) {

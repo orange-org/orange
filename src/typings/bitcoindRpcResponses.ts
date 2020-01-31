@@ -130,8 +130,8 @@ export type Block = {
   difficulty: number;
   chainwork: string;
   nTx: number;
-  previousblockhash: string;
-  nextblockhash: string;
+  previousblockhash?: string;
+  nextblockhash?: string;
 };
 
 export type BlockRpcResponse = CreateRpcResponse<

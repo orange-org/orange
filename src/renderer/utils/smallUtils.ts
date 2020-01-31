@@ -27,6 +27,14 @@ export const isNull = (val: any) => {
   return !isNonNull(val);
 };
 
+export const pluralize = (
+  quantity: number,
+  singular: string,
+  plural: string,
+) => {
+  return quantity === 1 ? singular : plural;
+};
+
 // const AVERAGE_GPU_HASHES_PER_SECOND = 500;
 // const HUMAN_INSTANT_MILLISECONDS = 200;
 // export const convertDifficultyRequiredComputers = (difficulty: number) => {

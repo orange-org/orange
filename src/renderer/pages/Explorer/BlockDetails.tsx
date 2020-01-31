@@ -27,13 +27,13 @@ export const BlockDetails: React.FC = () => {
   }
 
   return (
-    <div className={cn.root}>
-      <Typography variant="h1" className={cn.h3}>
-        op#{blockData.height.toLocaleString()}
+    <div className={cn.blockDetails}>
+      <Typography variant="h1" className={cn.title}>
+        #{blockData.height.toLocaleString()}
       </Typography>
 
-      <Typography variant="h4" className={cn.h3}>
-        Hash {blockData.hash}
+      <Typography variant="h4" className={cn.hash}>
+        {blockData.hash}
       </Typography>
       <pre>{JSON.stringify(blockData, null, 2)}</pre>
     </div>

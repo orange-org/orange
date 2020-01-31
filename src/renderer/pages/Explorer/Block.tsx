@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box, Card, CardProps, SvgIcon } from "@material-ui/core";
+import { Box, Card, CardProps, SvgIcon, makeStyles } from "@material-ui/core";
 import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { memo, ReactText, useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import {
 } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
-import { useStyles } from "./BlockStyles";
+import { useBlockStyles } from "./BlockStyles";
 
 export const Block: React.FC<CardProps & {
   blockHeight: number;
@@ -23,7 +23,7 @@ export const Block: React.FC<CardProps & {
   props_ => {
     const { blockHeight, ...props } = props_;
 
-    const cn = useStyles();
+    const cn = useBlockStyles();
     const dispatch = useDispatch();
     const [blockData, setBlockData] = useState<TBlock | null>(null);
     const match = useRouteMatch();
@@ -63,9 +63,6 @@ export const Block: React.FC<CardProps & {
           <Card
             {...props}
             className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
-            // className={clsx(cn.blockContainer)}
-            variant="outlined"
-            // variant={isActive ? "elevation" : "outlined"}
           >
             <div className={cn.topRow}>
               <div className={cn.height}>
@@ -83,7 +80,6 @@ export const Block: React.FC<CardProps & {
                 </Typography>
               </div>
             </div>
-
             <div className={cn.metaData}>
               {renderMetaDataItem(
                 QueryBuilder,
@@ -100,7 +96,6 @@ export const Block: React.FC<CardProps & {
               convertDifficultyToGpuTime(blockData.difficulty),
           )} */}
             </div>
-
             <div className={cn.hash}>
               <Typography
                 variant="body2"

@@ -1,16 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 
 export const useBlockDetailsStyles = makeStyles(theme => ({
-  root: {
-    borderLeft: `1px solid ${theme.palette.divider}`,
+  blockDetails: {
     padding: theme.spacing(6),
   },
 
-  h3: {
+  title: {
+    fontWeight: 500,
     fontStyle: "italic",
+  },
 
-    "& + &": {
-      marginTop: theme.spacing(2),
-    },
+  hash: {
+    fontStyle: "italic",
+    color: theme.palette.text.hint,
   },
 }));

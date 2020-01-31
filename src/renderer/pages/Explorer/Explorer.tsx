@@ -37,13 +37,15 @@ export const Explorer: React.FC = memo(() => {
   }
 
   return (
-    <div className={cn.root}>
-      <div className={clsx(cn.blocksContainer)}>
-        <div className={cn.blocksInnerContainer}>
+    <div className={cn.explorer}>
+      <div className={clsx(cn.scrollableBlocksContainer)}>
+        <div className={cn.blocksContainer}>
           {range.map(i => (
             <Block key={i} blockHeight={blockCount - i} />
           ))}
         </div>
+
+        <div className={cn.moat} />
       </div>
       <Switch>
         <Route path={`${match.path}/:blockSearchQuery`}>

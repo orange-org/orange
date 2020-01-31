@@ -1,12 +1,17 @@
 import { makeStyles } from "@material-ui/core";
 import { blueGrey, grey, amber, lightBlue } from "@material-ui/core/colors";
 
-export const useStyles = makeStyles(theme => ({
+const PADDING = 2;
+const BLOCK_COLOR = blueGrey[100];
+
+// export const FONT_COLOR = grey[800];
+
+export const useBlockStyles = makeStyles(theme => ({
   root: {
     "&::before": {
       width: "20px",
       marginBottom: "-4px", // This is to compensate for an added margin of unknown source
-      marginLeft: "16px",
+      marginLeft: theme.spacing(10),
       borderLeft: `3px dashed ${grey[400]}`,
       height: theme.spacing(4),
       display: "inline-block",
@@ -19,19 +24,21 @@ export const useStyles = makeStyles(theme => ({
   },
 
   blockContainer: {
-    padding: theme.spacing(2),
-    backgroundColor: blueGrey[100],
+    padding: theme.spacing(PADDING),
+    backgroundColor: BLOCK_COLOR,
     borderRadius: 0,
-    transition: "margin 400ms",
+    transition: "margin 200ms, box-shadow 400ms",
+    position: "relative",
+    overflow: "visible",
   },
 
   height: {
-    color: grey[600],
+    color: theme.palette.text.secondary,
   },
 
   date: {
     fontSize: "95%",
-    color: grey[600],
+    color: theme.palette.text.hint,
     marginLeft: theme.spacing(2),
   },
 
@@ -52,12 +59,11 @@ export const useStyles = makeStyles(theme => ({
     display: "flex",
     paddingTop: theme.spacing(2),
     alignItems: "center",
-    color: grey[800],
   },
 
   hash: {
     marginTop: theme.spacing(4),
-    color: grey[600],
+    color: theme.palette.text.hint,
   },
 
   hashText: {
@@ -69,7 +75,7 @@ export const useStyles = makeStyles(theme => ({
 
   icon: {
     lineHeight: 0,
-    color: grey[500],
+    color: theme.palette.text.hint,
   },
 
   value: {
@@ -77,7 +83,7 @@ export const useStyles = makeStyles(theme => ({
   },
 
   activeCard: {
-    marginLeft: theme.spacing(3),
-    marginRight: theme.spacing(-3),
+    marginLeft: theme.spacing(8),
+    marginRight: theme.spacing(-8),
   },
 }));

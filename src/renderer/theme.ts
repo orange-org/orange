@@ -1,112 +1,72 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 
-const reusableOptions = {
-  // defaultBackground: "#ececec",
-  // primary: {
-  //   main: "#000000",
-  // },
-  // secondary: {
-  //   main: "#ffffff",
-  // },
-};
-
 export const theme: ThemeOptions = {
   spacing: 4,
+
   palette: {
-    // primary: {
-    //   main: reusableOptions.primary.main,
-    // },
-    // secondary: {
-    //   main: reusableOptions.secondary.main,
-    // },
-    // background: {
-    //   default: reusableOptions.defaultBackground,
-    //   paper: "#e3e3e3",
-    // },
-    // action: {
-    //   disabledBackground: reusableOptions.secondary.main,
-    //   hover: reusableOptions.primary.main,
-    // },
+    text: {
+      primary: "rgba(0, 0, 0, 0.70)",
+    },
   },
+
   typography: {
     h1: {
-      fontSize: "1.25rem",
+      fontSize: "2rem",
     },
+
     h2: {
       fontSize: "1.3rem",
       fontWeight: 400,
     },
+
     h3: {
       fontSize: "1.1rem",
     },
+
     h4: {
       fontSize: "1.06rem",
     },
+
     h5: {
       fontSize: "1.03rem",
     },
+
     h6: {
       fontSize: "1rem",
     },
+
     body1: {
       fontSize: "0.9rem",
     },
+
     body2: {
       fontSize: "0.8rem",
     },
   },
+
   overrides: {
     MuiButton: {
       root: {
         textTransform: "inherit",
-        // backgroundColor: reusableOptions.secondary.main,
-        // border: "1px solid #d3d3d3",
-        // borderTop: "1px solid #d6d6d6",
-        // borderBottom: "1px solid #afafaf",
-      },
-      // containedPrimary: {
-      //   "&:hover": {
-      //     // backgroundColor: reusableOptions.secondary.main,
-      //   },
-      // },
-    },
-
-    MuiPaper: {
-      root: {
-        // border: "1px solid #dfdfdf",
-        // borderTopColor: "#dadada",
       },
     },
-
-    // MuiDialog: {
-    //   paper: {
-    //     backgroundColor: reusableOptions.defaultBackground,
-    //   },
-    // },
-
-    // MuiButtonGroup: {
-    //   groupedContainedPrimary: {
-    //     border: "none",
-
-    //     "&:not(:last-child)": {
-    //       border: "none",
-    //     },
-    //   },
-    // },
   },
 
   props: {
     MuiPaper: {
-      // elevation: 0,
+      variant: "outlined",
     },
+
     MuiButtonBase: {
       disableRipple: true,
       disableTouchRipple: true,
     },
+
     MuiButton: {
       disableFocusRipple: true,
     },
   },
+
   shadows: [
     "none",
     "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",

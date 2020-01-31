@@ -22,6 +22,7 @@ export const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     backgroundColor: blueGrey[100],
     borderRadius: 0,
+    transition: "margin 400ms",
   },
 
   height: {
@@ -76,11 +77,7 @@ export const useStyles = makeStyles(theme => ({
   },
 
   activeCard: {
-    width: "291px",
-    borderRight: "none",
-    // background: "rgb(207,216,220)",
-    background:
-      "linear-gradient(90deg, rgba(207,216,220,1) 0%, rgba(250,250,250,1) 95%)",
-    backgroundClip: "padding-box",
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(-3),
   },
 }));

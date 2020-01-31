@@ -19,10 +19,9 @@ import { useStyles } from "./BlockStyles";
 
 export const Block: React.FC<CardProps & {
   blockHeight: number;
-  setDisplayedBlock: React.Dispatch<React.SetStateAction<TBlock | null>>;
 }> = memo(
   props_ => {
-    const { blockHeight, setDisplayedBlock, ...props } = props_;
+    const { blockHeight, ...props } = props_;
 
     const cn = useStyles();
     const dispatch = useDispatch();
@@ -60,11 +59,13 @@ export const Block: React.FC<CardProps & {
 
     return (
       <Box className={cn.root}>
-        <Link to={toPath} onClick={() => setDisplayedBlock(blockData)}>
+        <Link to={toPath}>
           <Card
             {...props}
             className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
+            // className={clsx(cn.blockContainer)}
             variant="outlined"
+            // variant={isActive ? "elevation" : "outlined"}
           >
             <div className={cn.topRow}>
               <div className={cn.height}>

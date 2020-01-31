@@ -1,19 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Box, Card, CardProps, SvgIcon } from "@material-ui/core";
 import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
-import React, { ReactText, useEffect, useState, memo } from "react";
+import clsx from "clsx";
+import React, { memo, ReactText, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link, matchPath, useLocation, useRouteMatch } from "react-router-dom";
 import { Typography } from "_r/components/Typography";
 import * as thunks from "_r/redux/thunks";
 import { humanFileSize } from "_r/utils/humanFileSize";
-import {
-  Link,
-  useRouteMatch,
-  useParams,
-  NavLink,
-  matchPath,
-  useLocation,
-} from "react-router-dom";
 import {
   // convertDifficultyToGpuTime,
   formatDate,
@@ -22,7 +16,6 @@ import {
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
 import { useStyles } from "./BlockStyles";
-import clsx from "clsx";
 
 export const Block: React.FC<CardProps & {
   blockHeight: number;
@@ -71,7 +64,7 @@ export const Block: React.FC<CardProps & {
           <Card
             {...props}
             className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
-            variant={isActive ? "outlined" : "elevation"}
+            variant="outlined"
           >
             <div className={cn.topRow}>
               <div className={cn.height}>

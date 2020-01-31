@@ -80,7 +80,7 @@ export const useStyles = makeStyles(theme => ({
     borderRight: "none",
     // background: "rgb(207,216,220)",
     background:
-      "linear-gradient(90deg, rgba(207,216,220,1) 0%, rgba(250,250,250,1) 85%)",
+      "linear-gradient(90deg, rgba(207,216,220,1) 0%, rgba(250,250,250,1) 95%)",
     backgroundClip: "padding-box",
   },
 }));

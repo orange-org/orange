@@ -41,6 +41,7 @@ module.exports = merge.smart(baseConfig, {
             ["@babel/plugin-proposal-class-properties", { loose: true }],
             "@babel/plugin-proposal-optional-chaining",
             "@babel/plugin-proposal-nullish-coalescing-operator",
+            "react-hot-loader/babel",
           ],
         },
       },
@@ -80,7 +81,7 @@ module.exports = merge.smart(baseConfig, {
       template: join(__dirname, "src", "renderer", "index.html"),
       templateParameters: {
         contentSecurityPolicy: [
-          // This is needed for styled-components to be able to inline itself
+          // This is needed for Material UI to be able to inline itself
           // I looked into using a nonce or a hash but that didn't make sense.
           // See https://github.com/orange-org/orange/issues/1
           ["style-src-elem", "'unsafe-inline'"],
@@ -103,7 +104,9 @@ module.exports = merge.smart(baseConfig, {
           ["manifest-src", "'none'"],
           ["media-src", "'none'"],
           ["object-src", "'none'"],
-          ["script-src", "'none'"],
+
+          // Allow unsafe eval during development for hot module replacement
+          ["script-src", isDevelopment ? "'unsafe-eval'" : "'none'"],
           ["script-src-attr", "'none'"],
           ["style-src", "'none'"],
           ["style-src-attr", isDevelopment ? "'self'" : "'none'"],

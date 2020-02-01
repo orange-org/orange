@@ -7,6 +7,19 @@ export const theme: ThemeOptions = {
     text: {
       primary: "rgba(0, 0, 0, 0.70)",
     },
+
+    primary: {
+      light: "#ffffff",
+      main: "#ffffff",
+      dark: "#c7c7c7",
+      contrastText: "#000000",
+    },
+    secondary: {
+      light: "#ffa040",
+      main: "#ff6f00",
+      dark: "#c43e00",
+      contrastText: "#fafafa",
+    },
   },
 
   typography: {

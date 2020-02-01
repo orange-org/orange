@@ -3,6 +3,7 @@ import { blueGrey, grey, amber, lightBlue } from "@material-ui/core/colors";
 
 const PADDING = 2;
 const BLOCK_COLOR = blueGrey[100];
+// const BLOCK_COLOR = "#eff0f1";
 
 // export const FONT_COLOR = grey[800];
 
@@ -12,7 +13,8 @@ export const useBlockStyles = makeStyles(theme => ({
       width: "20px",
       marginBottom: "-4px", // This is to compensate for an added margin of unknown source
       marginLeft: theme.spacing(10),
-      borderLeft: `3px dashed ${grey[400]}`,
+      // borderLeft: `3px dashed ${grey[400]}`,
+      borderLeft: `3px dashed #ff6f00`,
       height: theme.spacing(4),
       display: "inline-block",
       content: "''",

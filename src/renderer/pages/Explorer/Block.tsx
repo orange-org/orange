@@ -62,6 +62,7 @@ export const Block: React.FC<CardProps & {
         <Link to={toPath}>
           <Card
             {...props}
+            variant="elevation"
             className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
           >
             <div className={cn.topRow}>

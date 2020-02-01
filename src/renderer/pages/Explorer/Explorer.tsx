@@ -8,11 +8,13 @@ import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Block } from "./Block";
 import { BlockDetails } from "./BlockDetails";
 import { useExplorerStyles } from "./ExplorerStyles";
+import { useCommonStyles } from "_r/commonStyles";
 
 const range = [...Array(25).keys()];
 
 export const Explorer: React.FC = memo(() => {
   const cn = useExplorerStyles();
+  const ccn = useCommonStyles();
   const rpcResponses = useRpcResponses();
   const dispatch = useDispatch();
   const match = useRouteMatch();
@@ -37,7 +39,7 @@ export const Explorer: React.FC = memo(() => {
   }
 
   return (
-    <div className={cn.explorer}>
+    <div className={clsx(cn.explorer, ccn.topLevelComponent)}>
       <div className={clsx(cn.scrollableBlocksContainer)}>
         <div className={cn.blocksContainer}>
           {range.map(i => (

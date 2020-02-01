@@ -4,7 +4,11 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
   blockDetails: {
     padding: theme.spacing(6),
     overflow: "scroll",
-    height: "100vh",
+    // height: "100%",
+  },
+
+  blockDetailsInnerContainer: {
+    marginBottom: theme.spacing(10),
   },
 
   title: {
@@ -67,5 +71,11 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
 
   buttonText: {
     flex: 1,
+  },
+
+  tableRow: {
+    "&:last-child th, &:last-child td": {
+      borderBottom: 0,
+    },
   },
 }));

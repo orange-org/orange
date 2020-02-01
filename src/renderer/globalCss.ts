@@ -2,16 +2,14 @@ import { withStyles } from "@material-ui/core";
 
 export const GlobalCss = withStyles({
   "@global": {
-    "html, body": {
-      // height: "100%",
-      // width: "100%",
+    body: {
+      height: "100vh",
+      overflow: "hidden",
     },
 
     "#app": {
-      // display: "flex",
-      // flexDirection: "column",
-      // height: "100%",
-      // paddingBottom: "50px", // This is needed to make scrolling space for the position: fix status bar
+      height: "100%",
+      overflow: "hidden",
     },
 
     "*:focus": {

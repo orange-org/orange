@@ -19,7 +19,6 @@ export const useExplorerStyles = makeStyles(theme => ({
   scrollableBlocksContainer: {
     display: "grid",
     gridTemplateColumns: `${theme.spacing(BLOCK_SCROLLABLE_CONTAINER)}px auto`,
-    height: "100vh",
     overflowY: "scroll",
     overflowX: "hidden",
 

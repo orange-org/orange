@@ -12,7 +12,7 @@ import { useCommonStyles } from "_r/commonStyles";
 
 const range = [...Array(25).keys()];
 
-export const Explorer: React.FC = memo(() => {
+export const Explorer_: React.FC = () => {
   const cn = useExplorerStyles();
   const ccn = useCommonStyles();
   const rpcResponses = useRpcResponses();
@@ -56,4 +56,6 @@ export const Explorer: React.FC = memo(() => {
       </Switch>
     </div>
   );
-});
+};
+
+export const Explorer = memo(Explorer_, () => false);

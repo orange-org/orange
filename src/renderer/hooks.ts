@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { RpcResponsesState } from "./redux/reducers/rpcResponses";
+import { RpcResponsesState } from "_r/redux/reducers/rpcResponses";
 
 /**
  * `usePolling` is a React Hook that uses `setInterval` to execute a

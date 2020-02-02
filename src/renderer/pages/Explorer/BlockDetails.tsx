@@ -8,18 +8,23 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  useTheme,
 } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { Typography } from "_r/components/Typography";
+// import { Typography } from "_r/components/Typography";
 import * as thunks from "_r/redux/thunks";
 import { humanFileSize } from "_r/utils/humanFileSize";
 import { formatDate, pluralize } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 import { useBlockDetailsStyles } from "./BlockDetailsStyles";
+import { getLoadingAwareTypography2 } from "_r/components/getLoadingAwareTypography";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -40,25 +45,70 @@ const excludedBlockData: (keyof TBlock)[] = [
   "hash",
 ];
 
-export const BlockDetails: React.FC = () => {
+const dummyBlockData: TBlock = {
+  bits: "1a0155de",
+  chainwork: "000000000000000000000000000000000000000000000140bf0116a01add88d5",
+  confirmations: 1,
+  difficulty: 12563071.03178775,
+  hash: "00000000000000e28bb262d7a2306c3efa3cda42c2fc27cf135a4154a02fb0cc",
+  height: 1664631,
+  mediantime: 1580599789,
+  merkleroot:
+    "52281b4d8b53c2cd52cc4ce547fcabd993064e0aa56ff66e534569cf1bc17068",
+  nTx: 58,
+  nonce: 3247988372,
+  previousblockhash:
+    "000000000000014da63868cd0618f76cd7b46aee4baec51e5f1b7b5c21a74540",
+  size: 17246,
+  strippedsize: 10550,
+  time: 1580602067,
+  tx: [
+    "5e97b31f2905baf0bf400fe94e7d8b42be9ff8e47ddf4c8c52dcdf0fc33dad5a",
+    "d00ba21708b82e51e54f7cd2e88a4d8deed59ce4c5a685dd45642cb84185f194",
+    "b756675416b56a6ffe5b3773fed0bf48315e060fdfff2807ed8196c7e3133c17",
+    "7c46362774e072a841387845f2eecb25e5557d0d1e0f56d850de22342b17d90c",
+    "bd739b5b65ee7c092dcabec0ce26e609eff53aa461f83103c990f0c29374ffe3",
+    "dcadb8076cb4c5dff331505106936ae8404c34f0e6fd972ab7e892b6d100893e",
+    "235811d0d8e07c68ee759e0000e98c505471681da5eac5cccab9efa6aa32e03c",
+    "4773cf0218e31a0cf344920aa70b509efb18a5affff53796496ff99ee839743f",
+    "57fe8cca77bbe99d0c0d4c752fabea22b1e4f779a4934bdd3ca51dd83c6c754a",
+  ],
+  version: 549453824,
+  versionHex: "20c00000",
+  weight: 48896,
+};
+
+const BlockDetails_ = () => {
   const cn = useBlockDetailsStyles();
   const { blockSearchQuery } = useParams();
-  const [blockData, setBlockData] = useState<TBlock | null>(null);
+  const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   useEffect(() => {
     const requestData = async () => {
-      setBlockData(
-        await dispatch(thunks.requestBlock(__NONCE__, blockSearchQuery!)),
+      setBlockData(dummyBlockData);
+      setDataLoaded(false);
+      const blockData_ = await dispatch(
+        thunks.requestBlock(__NONCE__, blockSearchQuery!),
       );
+
+      setTimeout(() => {
+        setBlockData(blockData_);
+        setDataLoaded(true);
+      }, 500);
     };
 
     requestData();
   }, [blockSearchQuery]);
 
-  if (!blockData) {
-    return null;
-  }
+  const Typography = getLoadingAwareTypography2({
+    isLoading: !dataLoaded,
+    className: cn.skeleton,
+    transitionClass: cn.transition,
+    none: cn.none,
+  });
 
   return (
     <div className={cn.blockDetails}>
@@ -73,26 +123,35 @@ export const BlockDetails: React.FC = () => {
 
         <div className={clsx(cn.section)}>
           <Typography variant="h2">
-            {blockData.nTx.toLocaleString()}{" "}
-            {pluralize(blockData.nTx, "transaction", "transactions")}
+            {blockData.nTx && (
+              <>
+                {blockData.nTx.toLocaleString()}{" "}
+                {pluralize(blockData.nTx, "transaction", "transactions")}
+              </>
+            )}
           </Typography>
 
-          <TableContainer component={Paper} className={cn.table}>
-            <Table size="small">
-              <TableBody>
-                {blockData.tx.map(txId => (
-                  <TableRow key={txId} className={cn.tableRow}>
-                    <TableCell component="td" scope="row">
-                      {txId}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Paper variant="outlined">
+            <AutoSizer disableHeight>
+              {({ width }) => (
+                <FixedSizeList
+                  key={blockData.hash}
+                  itemSize={30}
+                  height={theme.spacing(120)}
+                  itemCount={blockData.tx.length || 10}
+                  width={width}
+                  itemData={blockData.tx}
+                >
+                  {({ index, data, style }) => (
+                    <Typography style={style}>{data && data[index]}</Typography>
+                  )}
+                </FixedSizeList>
+              )}
+            </AutoSizer>
+          </Paper>
         </div>
 
-        <div className={cn.section}>
+        {/* <div className={cn.section}>
           <Typography variant="h2">Details</Typography>
 
           <Paper className={cn.detailsSection}>
@@ -125,9 +184,9 @@ export const BlockDetails: React.FC = () => {
               },
             )}
           </Paper>
-        </div>
+        </div> */}
 
-        <div className={clsx(cn.section, cn.navigationButtons)}>
+        {/* <div className={clsx(cn.section, cn.navigationButtons)}>
           <ButtonGroup orientation="vertical">
             {[
               {
@@ -154,8 +213,10 @@ export const BlockDetails: React.FC = () => {
               </Button>
             ))}
           </ButtonGroup>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
+
+export const BlockDetails = BlockDetails_;

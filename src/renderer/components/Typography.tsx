@@ -6,12 +6,9 @@ import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import Skeleton, { SkeletonProps } from "@material-ui/lab/Skeleton";
 import React from "react";
 
-export const Typography: OverridableComponent<TypographyTypeMap<
-  {
-    isLoading?: { active: boolean } & SkeletonProps;
-  },
-  "span"
->> = (props_: any) => {
+export const Typography: OverridableComponent<TypographyTypeMap<{}, "span">> = (
+  props_: any,
+) => {
   const { children, isLoading, ...props } = props_;
 
   if (isLoading?.active) {

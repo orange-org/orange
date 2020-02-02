@@ -29,7 +29,7 @@ export const useBlockStyles = makeStyles(theme => ({
     padding: theme.spacing(PADDING),
     backgroundColor: BLOCK_COLOR,
     borderRadius: 0,
-    transition: "margin 200ms, box-shadow 400ms",
+    // transition: "margin 20ms",
     position: "relative",
     overflow: "visible",
   },

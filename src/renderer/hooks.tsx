@@ -87,12 +87,16 @@ const useLoadingAwareTypographyStyles = makeStyles({
       bottom: 0,
       content: "''",
       background:
-        "linear-gradient(138deg, rgba(242,242,242,1) 28%, rgba(255,255,255,1) 46%, rgba(242,242,242,1) 57%)",
-      backgroundColor: "rgba(242,242,242,1)",
+        "linear-gradient(138deg, rgba(242,242,242,0.4) 28%, rgba(255,255,255,0.9) 46%, rgba(242,242,242,0.4) 57%)",
+      backgroundColor: "rgba(242,242,242,0.4)",
       backgroundRepeat: "no-repeat",
       backgroundSize: "200%",
       opacity: 1,
     },
+  },
+
+  transparent: {
+    color: "transparent !important",
   },
 });
 export const useLoadingAwareTypography = (
@@ -101,11 +105,15 @@ export const useLoadingAwareTypography = (
   const cn = useLoadingAwareTypographyStyles();
 
   return (props: any) => {
-    const { children, isStatic, ...propsWithoutChildren } = props;
+    const { children, isStatic, className, ...propsWithoutChildren } = props;
+    const shouldHide = isLoading && !isStatic;
 
     return (
-      <Typography {...propsWithoutChildren}>
-        <span className={clsx(isLoading && !isStatic ? cn.skeleton : null)}>
+      <Typography
+        {...propsWithoutChildren}
+        className={clsx(className, shouldHide ? cn.transparent : null)}
+      >
+        <span className={clsx(shouldHide ? cn.skeleton : null)}>
           {children}
         </span>
       </Typography>

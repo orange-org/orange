@@ -16,6 +16,7 @@ import {
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
 import { useBlockStyles } from "./BlockStyles";
+import { withDelay } from "_r/utils/withDelay";
 
 type BlockSummary = Pick<TBlock, "hash" | "height" | "nTx" | "size" | "time">;
 
@@ -44,8 +45,9 @@ const Block_: React.FC<CardProps & {
       setBlockData(dummyBlockData);
       setIsLoading(true);
 
-      const blockData_ = await dispatch(
-        thunks.requestBlockByHeight(__NONCE__, blockHeight),
+      const blockData_ = await withDelay(
+        dispatch(thunks.requestBlockByHeight(__NONCE__, blockHeight)),
+        100,
       );
 
       setBlockData(blockData_);

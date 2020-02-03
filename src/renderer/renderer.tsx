@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { Provider } from "react-redux";
 import { hot } from "react-hot-loader/root";
 
-import { Index } from "_r/pages/Index";
+import { Index } from "_r/Index";
 import { store } from "_r/redux/reducers/store";
 import { GlobalCss } from "_r/globalCss";
 import { theme } from "_r/theme";

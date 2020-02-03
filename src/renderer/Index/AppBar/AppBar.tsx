@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "_r/components/Typography";
+import { Typography } from "_r/Index/components/Typography";
 import {
   Toolbar,
   IconButton,

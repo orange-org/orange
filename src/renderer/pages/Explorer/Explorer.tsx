@@ -21,7 +21,8 @@ export const Explorer_: React.FC = () => {
   /**
    * Use interval here to increment the number of blocks to render because
    * if we try to render all the blocks in one go, the computer chokes and
-   * gives a poor experience.
+   * gives a poor experience. The interval below phases out the work over
+   * 25 * 200 milliseconds.
    */
   useInterval(intervalId => {
     if (blockIndexesToRender < 25) {

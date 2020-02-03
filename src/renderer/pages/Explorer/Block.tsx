@@ -2,7 +2,7 @@
 import { Box, Card, CardProps, SvgIcon } from "@material-ui/core";
 import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
 import clsx from "clsx";
-import React, { memo, ReactText, useEffect, useState } from "react";
+import React, { memo, ReactText, useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { Link, matchPath, useLocation, useRouteMatch } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
@@ -39,6 +39,7 @@ const Block_: React.FC<CardProps & {
   const match = useRouteMatch();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
+  const scrollIntoViewElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const requestData = async () => {
@@ -59,6 +60,15 @@ const Block_: React.FC<CardProps & {
 
   const toPath = `${match.url}/${blockData.hash}`;
   const isActive = matchPath(location.pathname, toPath);
+
+  useEffect(() => {
+    if (isActive) {
+      scrollIntoViewElement.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [isActive]);
 
   const Typography = useLoadingAwareTypography(isLoading);
 
@@ -81,6 +91,15 @@ const Block_: React.FC<CardProps & {
           variant="elevation"
           className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
         >
+          {/**
+           * CSS is used to give this element a size that extends slightly
+           * from the top and bottom of its parent. That way when it is
+           * scrolled into view it adds a little bit of padding, instead
+           * of having the scrolling be touching the border, which doesn't
+           * look good.
+           */}
+          <div ref={scrollIntoViewElement} className={cn.scrollIntoView} />
+
           <div className={cn.topRow}>
             <div className={cn.height}>
               <Typography variant="h3">

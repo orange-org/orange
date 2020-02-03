@@ -88,4 +88,12 @@ export const useBlockStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(8),
     marginRight: theme.spacing(-8),
   },
+
+  scrollIntoView: {
+    position: "absolute",
+    top: `-${theme.spacing(10)}px`,
+    bottom: `-${theme.spacing(10)}px`,
+    left: 0,
+    right: 0,
+  },
 }));

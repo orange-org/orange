@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ERROR_CODES, RPC_SERVER_ERROR_CODES } from "_c/constants";
-import { usePolling } from "_r/hooks";
+import { useInterval } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useDispatch } from "react-redux";
 
@@ -11,7 +11,7 @@ export const useRpcServerStatus = () => {
   const [isShuttingDown, setIsShuttingDown] = useState(false);
   const [serverWasOnceReady, setServerWasOnceReady] = useState(false);
 
-  usePolling(async () => {
+  useInterval(async () => {
     try {
       /**
        * Requesting uptime is a lightweight call to help us probe the current

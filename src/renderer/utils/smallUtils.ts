@@ -40,3 +40,5 @@ export const pluralize = (
 // export const convertDifficultyRequiredComputers = (difficulty: number) => {
 //   return duration(difficulty / AVERAGE_GPU_HASHES_PER_SECOND).humanize();
 // };
+
+export const range = (count: number) => [...Array(count).keys()];

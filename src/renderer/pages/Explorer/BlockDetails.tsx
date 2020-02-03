@@ -1,30 +1,19 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  useTheme,
-} from "@material-ui/core";
+import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import clsx from "clsx";
-import React, { memo, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList } from "react-window";
+import { useLoadingAwareTypography } from "_r/hooks";
 // import { Typography } from "_r/components/Typography";
 import * as thunks from "_r/redux/thunks";
 import { humanFileSize } from "_r/utils/humanFileSize";
 import { formatDate, pluralize } from "_r/utils/smallUtils";
+import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
-import { FixedSizeList } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
 import { useBlockDetailsStyles } from "./BlockDetailsStyles";
-import { getLoadingAwareTypography2 } from "_r/components/getLoadingAwareTypography";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -82,33 +71,28 @@ const BlockDetails_ = () => {
   const cn = useBlockDetailsStyles();
   const { blockSearchQuery } = useParams();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const theme = useTheme();
 
   useEffect(() => {
     const requestData = async () => {
       setBlockData(dummyBlockData);
-      setDataLoaded(false);
-      const blockData_ = await dispatch(
-        thunks.requestBlock(__NONCE__, blockSearchQuery!),
+      setIsLoading(true);
+
+      const blockData_ = await withDelay(
+        dispatch(thunks.requestBlock(__NONCE__, blockSearchQuery!)),
+        500,
       );
 
-      setTimeout(() => {
-        setBlockData(blockData_);
-        setDataLoaded(true);
-      }, 500);
+      setBlockData(blockData_);
+      setIsLoading(false);
     };
 
     requestData();
   }, [blockSearchQuery]);
 
-  const Typography = getLoadingAwareTypography2({
-    isLoading: !dataLoaded,
-    className: cn.skeleton,
-    transitionClass: cn.transition,
-    none: cn.none,
-  });
+  const Typography = useLoadingAwareTypography(isLoading);
 
   return (
     <div className={cn.blockDetails}>
@@ -131,7 +115,7 @@ const BlockDetails_ = () => {
             )}
           </Typography>
 
-          <Paper variant="outlined">
+          <Paper variant="outlined" className={cn.transactionsPage}>
             <AutoSizer disableHeight>
               {({ width }) => (
                 <FixedSizeList
@@ -151,8 +135,10 @@ const BlockDetails_ = () => {
           </Paper>
         </div>
 
-        {/* <div className={cn.section}>
-          <Typography variant="h2">Details</Typography>
+        <div className={cn.section}>
+          <Typography variant="h2" isStatic>
+            Details
+          </Typography>
 
           <Paper className={cn.detailsSection}>
             {(Object.keys(blockData) as (keyof TBlock)[]).map(
@@ -164,7 +150,7 @@ const BlockDetails_ = () => {
                 return (
                   <div key={key} className={cn.detailsItem}>
                     <div className={cn.detailsItemKey}>
-                      <Typography className={cn.detailsItemKeyText}>
+                      <Typography isStatic className={cn.detailsItemKeyText}>
                         {key}
                       </Typography>
                     </div>
@@ -184,9 +170,9 @@ const BlockDetails_ = () => {
               },
             )}
           </Paper>
-        </div> */}
+        </div>
 
-        {/* <div className={clsx(cn.section, cn.navigationButtons)}>
+        <div className={clsx(cn.section, cn.navigationButtons)}>
           <ButtonGroup orientation="vertical">
             {[
               {
@@ -203,7 +189,7 @@ const BlockDetails_ = () => {
               <Button
                 component={Link}
                 to={definition.hash || ""}
-                disabled={!definition.hash}
+                disabled={!definition.hash || isLoading}
                 key={definition.text}
               >
                 <span className={cn.buttonLabel}>
@@ -213,7 +199,7 @@ const BlockDetails_ = () => {
               </Button>
             ))}
           </ButtonGroup>
-        </div> */}
+        </div>
       </div>
     </div>
   );

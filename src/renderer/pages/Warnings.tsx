@@ -3,7 +3,7 @@ import { WarningRounded } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useStore } from "react-redux";
 import * as thunks from "_r/redux/thunks";
-import { usePolling, useRpcResponses } from "_r/hooks";
+import { useInterval, useRpcResponses } from "_r/hooks";
 
 const useStyles = makeStyles(theme => ({
   root: {

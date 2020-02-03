@@ -2,7 +2,7 @@ import { ButtonGroup, Divider, Grid, Paper } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { usePolling, useRpcResponses } from "_r/hooks";
+import { useInterval, useRpcResponses } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { callMain } from "_r/redux/callMain";
 import * as selectors from "_r/redux/selectors";
@@ -20,7 +20,7 @@ export const RpcConsole: React.FC = () => {
     dispatch(thunks.requestRpcInfo(__NONCE__));
   }, []);
 
-  usePolling(() => {
+  useInterval(() => {
     dispatch(thunks.requestMempoolInfo(__NONCE__));
     dispatch(thunks.requestBlockchainInfo(__NONCE__));
     dispatch(thunks.requestPeerInfo(__NONCE__));

@@ -1,30 +1,41 @@
 import clsx from "clsx";
 import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Route, Switch, useRouteMatch, useHistory } from "react-router-dom";
-import { useRpcResponses } from "_r/hooks";
+import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { useCommonStyles } from "_r/commonStyles";
+import { useRpcResponses, useInterval } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
-import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Block } from "./Block";
 import { BlockDetails } from "./BlockDetails";
 import { useExplorerStyles } from "./ExplorerStyles";
-import { useCommonStyles } from "_r/commonStyles";
-
-const range = [...Array(25).keys()];
+import { range } from "_r/utils/smallUtils";
 
 export const Explorer_: React.FC = () => {
   const cn = useExplorerStyles();
   const ccn = useCommonStyles();
-  const rpcResponses = useRpcResponses();
   const dispatch = useDispatch();
   const match = useRouteMatch();
   const history = useHistory();
+  const [blockIndexesToRender, setBlockIndexesToRender] = useState(0);
+
+  /**
+   * Use interval here to increment the number of blocks to render because
+   * if we try to render all the blocks in one go, the computer chokes and
+   * gives a poor experience.
+   */
+  useInterval(intervalId => {
+    if (blockIndexesToRender < 25) {
+      setBlockIndexesToRender(blockIndexesToRender + 1);
+    } else {
+      clearInterval(intervalId);
+    }
+  }, 100);
 
   useEffect(() => {
     dispatch(thunks.requestBlockchainInfo(__NONCE__));
   }, []);
 
-  const { blockchainInfo } = rpcResponses;
+  const { blockchainInfo } = useRpcResponses();
   const blockCount = blockchainInfo?.blocks;
   const bestBlockHash = blockchainInfo?.bestblockhash;
 
@@ -42,7 +53,7 @@ export const Explorer_: React.FC = () => {
     <div className={clsx(cn.explorer, ccn.topLevelComponent)}>
       <div className={clsx(cn.scrollableBlocksContainer)}>
         <div className={cn.blocksContainer}>
-          {range.map(i => (
+          {range(blockIndexesToRender).map(i => (
             <Block key={i} blockHeight={blockCount - i} />
           ))}
         </div>
@@ -58,4 +69,4 @@ export const Explorer_: React.FC = () => {
   );
 };
 
-export const Explorer = memo(Explorer_, () => false);
+export const Explorer = Explorer_;

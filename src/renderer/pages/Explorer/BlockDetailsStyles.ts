@@ -16,8 +16,14 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
   },
 
   hash: {
+    marginTop: theme.spacing(1),
     fontStyle: "italic",
     color: theme.palette.text.hint,
+  },
+
+  transactionsPage: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2),
   },
 
   section: {
@@ -75,48 +81,6 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
   tableRow: {
     "&:last-child th, &:last-child td": {
       borderBottom: 0,
-    },
-  },
-
-  "@keyframes shine": {
-    from: {
-      backgroundPosition: "100%",
-    },
-    to: {
-      backgroundPosition: "-100%",
-    },
-  },
-
-  skeleton: {
-    position: "relative",
-
-    "&::before": {
-      animation: "$shine 1s infinite",
-      position: "absolute",
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      content: "''",
-      background:
-        "linear-gradient(138deg, rgba(242,242,242,1) 28%, rgba(255,255,255,1) 46%, rgba(242,242,242,1) 57%)",
-      backgroundColor: "rgba(242,242,242,1)",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "200%",
-      opacity: 1,
-    },
-  },
-
-  transition: {
-    "&::before": {
-      transition: "opacity 1200ms",
-    },
-  },
-
-  none: {
-    "&::before": {
-      content: "''",
-      opacity: 0,
     },
   },
 }));

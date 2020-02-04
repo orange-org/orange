@@ -1,5 +1,10 @@
 import React from "react";
-import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  MemoryRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { Explorer } from "_r/Index/Explorer/Explorer";
 import { AppBar } from "./AppBar/AppBar";
 // import { StatusBar } from "_r/pages/StatusBar/StatusBar";
@@ -13,7 +18,10 @@ export const Index: React.FC = () => {
     <Router>
       <AppBar />
       <Switch>
-        <Route path="/">
+        <Route exact path="/">
+          <Redirect to="/explorer/top" />
+        </Route>
+        <Route path="/explorer/:blockHeight">
           <Explorer />
         </Route>
       </Switch>

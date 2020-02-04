@@ -4,7 +4,7 @@ import { State } from "_r/redux/reducers/store";
 import { formatDate } from "_r/utils/smallUtils";
 
 export const lastBlockTime = createSelector(
-  (s: State) => s.bestBlock?.time,
+  (s: State) => s.misc.bestBlock?.time,
   time_ => (time_ ? time_ * 1000 : null),
 );
 

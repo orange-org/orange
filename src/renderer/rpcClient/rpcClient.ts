@@ -1,9 +1,10 @@
 import { generateUuid } from "_r/generateUuid";
-import { callMain } from "_r/redux/callMain";
+import { callMain } from "_r/callMain";
 import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponseMtR } from "_t/IpcMessages";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { rpcClientCache } from "./rpcClientCache";
+import { RpcResponse, NetworkInfo } from "_t/bitcoindRpcResponses";
 
 const isRpcResponse = (
   response: any,
@@ -15,9 +16,14 @@ const isRpcResponse = (
   );
 };
 
+// type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
+//   ExtractedRpcResponse<T>,
+//   { error: null }
+// >;
+
 type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
-  ExtractedRpcResponse<T>,
-  { error: null }
+  RpcResponse["result"],
+  Extract<RpcResponse, { method: T["method"]; error: null }>["result"]
 >;
 
 export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
@@ -31,7 +37,7 @@ export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
       const cacheResult = rpcClientCache.get(rpcRequest);
 
       if (cacheResult) {
-        return resolve(cacheResult as RpcClientReturnType<TRpcRequest>);
+        return resolve(cacheResult.result as RpcClientReturnType<TRpcRequest>);
       }
     }
 
@@ -49,7 +55,7 @@ export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
             rpcClientCache.add(rpcRequest, response.message, cacheTtl);
           }
 
-          resolve(response.message as RpcClientReturnType<TRpcRequest>);
+          resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
         }
       }
     };

@@ -41,4 +41,6 @@ export const pluralize = (
 //   return duration(difficulty / AVERAGE_GPU_HASHES_PER_SECOND).humanize();
 // };
 
-export const range = (count: number) => [...Array(count).keys()];
+export const last = <T extends any[]>(arr: T): T[number] => {
+  return arr[arr.length - 1];
+};

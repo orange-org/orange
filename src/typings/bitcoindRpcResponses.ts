@@ -112,7 +112,7 @@ export type BlockchainInfoRpcResponse = CreateRpcResponse<
   BlockchainInfo
 >;
 
-export type Block = {
+export type Block = Readonly<{
   hash: string;
   confirmations: number;
   strippedsize: number;
@@ -132,7 +132,7 @@ export type Block = {
   nTx: number;
   previousblockhash?: string;
   nextblockhash?: string;
-};
+}>;
 
 export type BlockRpcResponse = CreateRpcResponse<
   BlockRpcRequest["method"],

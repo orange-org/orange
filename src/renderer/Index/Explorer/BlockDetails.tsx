@@ -2,8 +2,8 @@ import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams, useLocation } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
@@ -39,7 +39,7 @@ const dummyBlockData: TBlock = {
   chainwork: "000000000000000000000000000000000000000000000140bf0116a01add88d5",
   confirmations: 1,
   difficulty: 12563071.03178775,
-  hash: "00000000000000e28bb262d7a2306c3efa3cda42c2fc27cf135a4154a02fb0cc",
+  hash: "0000x000000000e28bb262d7a2306c3efa3cda42c2fc27cf135a4154a02fb0cc",
   height: 1664631,
   mediantime: 1580599789,
   merkleroot:
@@ -69,28 +69,28 @@ const dummyBlockData: TBlock = {
 
 const BlockDetails_ = () => {
   const cn = useBlockDetailsStyles();
-  const { blockSearchQuery } = useParams();
+  const { blockHash } = useParams();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const theme = useTheme();
+  const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
 
   useEffect(() => {
     const requestData = async () => {
       setBlockData(dummyBlockData);
       setIsLoading(true);
 
-      const blockData_ = await withDelay(
-        dispatch(thunks.requestBlock(__NONCE__, blockSearchQuery!)),
-        500,
-      );
+      const blockData_ = await withDelay(selectedExplorerBlock, 500);
 
-      setBlockData(blockData_);
-      setIsLoading(false);
+      if (blockData_) {
+        setBlockData(blockData_);
+        setIsLoading(false);
+      }
     };
 
     requestData();
-  }, [blockSearchQuery]);
+  }, [selectedExplorerBlock]);
 
   const Typography = useLoadingAwareTypography(isLoading);
 

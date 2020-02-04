@@ -11,11 +11,12 @@ const composeEnhancers =
 
 export type State = {
   rpcResponses: RpcResponsesState;
-} & MiscState;
+  misc: MiscState;
+};
 
 export const reducer = combineReducers({
   rpcResponses,
-  ...misc,
+  misc,
 
   // Between the `createReducer` function of `typesafe-actions` and here,
   // TypeScript is getting confused. Doing `as any` here to bypass that.

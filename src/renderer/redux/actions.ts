@@ -27,3 +27,11 @@ export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
+
+export const setSelectedExplorerBlock = createAction(
+  "SET_SELECTED_EXPLORER_BLOCK",
+)<Block>();
+
+export const setExplorerBlockList = createAction("SET_EXPLORER_BLOCK_LIST")<
+  Block[]
+>();

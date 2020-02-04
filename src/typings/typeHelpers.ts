@@ -1,4 +1,3 @@
-import { DeepReadonly } from "utility-types";
 import { State } from "_r/redux/reducers/store";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
@@ -19,7 +18,7 @@ export type WithoutProperty<T, K> = {
   [L in Exclude<keyof T, K>]: T[L];
 };
 
-export type StateConfig<T> = DeepReadonly<NullableKeys<T>>;
+export type StateConfig<T> = Readonly<NullableKeys<T>>;
 
 export type Json = { [name: string]: string };
 

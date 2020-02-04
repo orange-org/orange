@@ -1,23 +1,17 @@
 import { Dispatch } from "redux";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import { GetState } from "_t/typeHelpers";
-import {
-  setBlock,
-  setBlockchainInfo,
-  setMempoolInfo,
-  setNetworkInfo,
-  setPeerInfo,
-  setRpcInfo,
-  setUptime,
-} from "./actions";
-import { rpcClient } from "./rpcClient/rpcClient";
+import * as actions from "./actions";
+import { rpcClient } from "../rpcClient/rpcClient";
+import { Block } from "_t/bitcoindRpcResponses";
+import { last } from "_r/utils/smallUtils";
 
 export const requestNetworkInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
 ) => {
   const response = await rpcClient(nonce, { method: "getnetworkinfo" }, 1000);
-  dispatch(setNetworkInfo(response.result));
-  return response.result;
+  dispatch(actions.setNetworkInfo(response));
+  return response;
 };
 
 export const requestBlockchainInfo = (nonce: NONCE) => async (
@@ -29,15 +23,15 @@ export const requestBlockchainInfo = (nonce: NONCE) => async (
     1000,
   );
 
-  dispatch(setBlockchainInfo(response.result));
+  dispatch(actions.setBlockchainInfo(response));
 
-  return response.result;
+  return response;
 };
 
 export const requestUptime = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "uptime" });
-  dispatch(setUptime(response.result));
-  return response.result;
+  dispatch(actions.setUptime(response));
+  return response;
 };
 
 export const requestBlock = (
@@ -53,28 +47,28 @@ export const requestBlock = (
     },
     1000,
   );
-  dispatch(setBlock(response.result));
-  return response.result;
+  dispatch(actions.setBlock(response));
+  return response;
 };
 
 export const requestPeerInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "getpeerinfo" }, 1000);
-  dispatch(setPeerInfo(response.result));
-  return response.result;
+  dispatch(actions.setPeerInfo(response));
+  return response;
 };
 
 export const requestMempoolInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
 ) => {
   const response = await rpcClient(nonce, { method: "getmempoolinfo" }, 1000);
-  dispatch(setMempoolInfo(response.result));
-  return response.result;
+  dispatch(actions.setMempoolInfo(response));
+  return response;
 };
 
 export const requestRpcInfo = (nonce: NONCE) => async (dispatch: Dispatch) => {
   const response = await rpcClient(nonce, { method: "getrpcinfo" }, 1000);
-  dispatch(setRpcInfo(response.result));
-  return response.result;
+  dispatch(actions.setRpcInfo(response));
+  return response;
 };
 
 export const requestSetNetworkActive = (
@@ -89,9 +83,9 @@ export const requestSetNetworkActive = (
 
     const response = await rpcClient(nonce, { method: "getnetworkinfo" });
 
-    dispatch(setNetworkInfo(response.result));
+    dispatch(actions.setNetworkInfo(response));
 
-    return response.result;
+    return response;
   };
 };
 
@@ -106,10 +100,52 @@ export const requestBlockByHeight = (
   });
   const blockResponse = await rpcClient(nonce, {
     method: "getblock",
-    params: [blockHashResponse.result, verbosity],
+    params: [blockHashResponse, verbosity],
   });
 
-  dispatch(setBlock(blockResponse.result));
+  dispatch(actions.setBlock(blockResponse));
 
-  return blockResponse.result;
+  return blockResponse;
+};
+
+export const setSelectedExplorerBlock = (
+  nonce: NONCE,
+  blockHeight: number,
+) => async (dispatch: Dispatch) => {
+  const blockHash = await rpcClient(nonce, {
+    method: "getblockhash",
+    params: [blockHeight],
+  });
+  const block = await rpcClient(nonce, {
+    method: "getblock",
+    params: [blockHash, 1],
+  });
+
+  dispatch(actions.setSelectedExplorerBlock(block));
+
+  return block;
+};
+
+export const addBlockToExplorerBlockList = (
+  nonce: NONCE,
+  blockHeight: number,
+) => async (dispatch: Dispatch, getState: GetState) => {
+  const { explorerBlockList } = getState().misc;
+
+  const blockHash = await rpcClient(nonce, {
+    method: "getblockhash",
+    params: [blockHeight],
+  });
+  const block = await rpcClient(nonce, {
+    method: "getblock",
+    params: [blockHash, 1],
+  });
+
+  const newExplorerBlockList = explorerBlockList
+    ? [...explorerBlockList, block]
+    : [block];
+
+  dispatch(actions.setExplorerBlockList(newExplorerBlockList));
+
+  return newExplorerBlockList;
 };

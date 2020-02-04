@@ -15,14 +15,7 @@ export const Explorer_: React.FC = () => {
 
   return (
     <div className={clsx(cn.explorer, ccn.topLevelComponent)}>
-      <div className={clsx(cn.scrollableBlocksContainer)}>
-        <div className={cn.blocksContainer}>
-          <ListOfBlocks />
-        </div>
-
-        <div className={cn.moat} />
-      </div>
-
+      <ListOfBlocks />
       <BlockDetails />
     </div>
   );

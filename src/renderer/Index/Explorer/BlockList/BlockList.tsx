@@ -1,22 +1,24 @@
-import range from "lodash.range";
+import * as actions from "_r/redux/actions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useInterval, useRpcResponses } from "_r/hooks";
+import { useHistory, useParams } from "react-router-dom";
+import { useInterval } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
-import { Block } from "./Block";
-import { useParams, useHistory } from "react-router-dom";
-import { rpcClient } from "_r/rpcClient/rpcClient";
-import * as actions from "_r/redux/actions";
 import { last } from "_r/utils/smallUtils";
+import { Block } from "./Block";
+import { useBlockListStyles } from "./BlockListStyles";
 
 export const ListOfBlocks: React.FC = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(thunks.requestBlockchainInfo(__NONCE__));
+  }, []);
+
   const { blockHeight } = useParams();
-  const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
-  const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
   const maxHeight = useSelector(s => s.rpcResponses.blockchainInfo?.blocks);
   const history = useHistory();
-  const [allBlocksLoaded, setAllBlocksLoaded] = useState(false);
+  const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
 
   useEffect(() => {
     const request = async () => {
@@ -35,9 +37,7 @@ export const ListOfBlocks: React.FC = () => {
        * we simply grab that block and set it as selected.
        */
       if (blockHeight === "top") {
-        if (!maxHeight) {
-          dispatch(thunks.requestBlockchainInfo(__NONCE__));
-        } else {
+        if (maxHeight) {
           const highestBlock = await dispatch(
             thunks.requestBlockByHeight(__NONCE__, maxHeight),
           );
@@ -57,49 +57,42 @@ export const ListOfBlocks: React.FC = () => {
     request();
   }, [blockHeight, maxHeight]);
 
+  const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
+  const [allBlocksLoaded, setAllBlocksLoaded] = useState(false);
+
   /**
    * Use interval here to increment the number of blocks to render because
    * if we try to render all the blocks in one go, the computer chokes and
    * gives a poor experience. The interval below phases out the work.
    */
-  const minHeight = 0;
   useInterval(intervalId => {
-    if (selectedExplorerBlock && maxHeight) {
-      let newBlockHeight: number;
+    if (explorerBlockList && explorerBlockList.length >= 21) {
+      setAllBlocksLoaded(true);
+      clearInterval(intervalId);
+    } else if (selectedExplorerBlock) {
+      const nextBlockHeight = explorerBlockList
+        ? last(explorerBlockList).height - 1
+        : selectedExplorerBlock.height;
 
-      if (!explorerBlockList) {
-        const start = selectedExplorerBlock.height + 10;
-        const end = selectedExplorerBlock.height - 10;
-        const startExcess = Math.min(maxHeight - start, 0);
-        const endExcess = Math.min(minHeight + end, 0);
-
-        newBlockHeight = start + startExcess - endExcess;
-      } else {
-        newBlockHeight = last(explorerBlockList).height - 1;
-      }
-
-      dispatch(thunks.addBlockToExplorerBlockList(__NONCE__, newBlockHeight));
-
-      if (explorerBlockList && explorerBlockList.length >= 21) {
-        setAllBlocksLoaded(true);
-        clearInterval(intervalId);
-      }
+      dispatch(thunks.addBlockToExplorerBlockList(__NONCE__, nextBlockHeight));
     }
   }, 100);
 
-  useEffect(() => {
-    dispatch(thunks.requestBlockchainInfo(__NONCE__));
-  }, []);
+  const cn = useBlockListStyles();
 
   if (!explorerBlockList) {
     return null;
   }
 
   return (
-    <>
-      {explorerBlockList.map(i => {
-        return <Block isReady={allBlocksLoaded} key={i.hash} data={i} />;
-      })}
-    </>
+    <div className={cn.scrollableBlocksContainer}>
+      <div className={cn.blocksContainer}>
+        {explorerBlockList.map(i => {
+          return <Block isReady={allBlocksLoaded} key={i.hash} data={i} />;
+        })}
+      </div>
+
+      <div className={cn.moat} />
+    </div>
   );
 };

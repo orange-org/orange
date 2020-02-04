@@ -1,7 +1,7 @@
 import { makeStyles, Typography, TypographyTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import clsx from "clsx";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, DependencyList } from "react";
 import { useSelector } from "react-redux";
 import { RpcResponsesState } from "_r/redux/reducers/rpcResponses";
 
@@ -13,7 +13,11 @@ import { RpcResponsesState } from "_r/redux/reducers/rpcResponses";
  * https://overreacted.io/making-setinterval-declarative-with-react-hooks/
  */
 type Callback = (intervalId: NodeJS.Timeout) => unknown;
-export const useInterval = (callback: Callback, timeout: number) => {
+export const useInterval = (
+  callback: Callback,
+  timeout: number,
+  dependencyList: DependencyList = [],
+) => {
   const savedCallback = useRef<Callback>();
 
   useEffect(() => {
@@ -30,7 +34,7 @@ export const useInterval = (callback: Callback, timeout: number) => {
     tick();
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, dependencyList);
 };
 
 /**

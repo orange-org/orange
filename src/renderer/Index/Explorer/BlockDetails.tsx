@@ -178,18 +178,18 @@ const BlockDetails_ = () => {
               {
                 icon: <KeyboardArrowUp />,
                 text: "Next block",
-                hash: blockData.nextblockhash,
+                nextHeight: blockData.height + 1,
               },
               {
                 icon: <KeyboardArrowDown />,
                 text: "Previous block",
-                hash: blockData.previousblockhash,
+                nextHeight: blockData.height - 1,
               },
             ].map(definition => (
               <Button
                 component={Link}
-                to={definition.hash || ""}
-                disabled={!definition.hash || isLoading}
+                to={definition.nextHeight.toString() || ""}
+                disabled={isLoading}
                 key={definition.text}
               >
                 <span className={cn.buttonLabel}>

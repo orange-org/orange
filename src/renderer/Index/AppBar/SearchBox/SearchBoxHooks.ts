@@ -1,7 +1,9 @@
+/* eslint-disable no-empty */
 import * as thunks from "_r/redux/thunks";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Block } from "_t/bitcoindRpcResponses";
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -21,11 +23,23 @@ export const useSearchHandlers = () => {
     event: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => void = async event => {
     if (event.keyCode === 13) {
-      const block = await dispatch(
-        thunks.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
-      );
+      let block: Block | null = null;
 
-      history.push(`/explorer/${block.height}`);
+      try {
+        block = await dispatch(thunks.requestBlock(__NONCE__, searchValue));
+      } catch (e) {}
+
+      try {
+        if (!block) {
+          block = await dispatch(
+            thunks.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
+          );
+        }
+      } catch (e) {}
+
+      if (block) {
+        history.push(`/explorer/${block.height}`);
+      }
     }
   };
 

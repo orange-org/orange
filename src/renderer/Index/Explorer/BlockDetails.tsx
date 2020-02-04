@@ -69,10 +69,8 @@ const dummyBlockData: TBlock = {
 
 const BlockDetails_ = () => {
   const cn = useBlockDetailsStyles();
-  const { blockHash } = useParams();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useDispatch();
   const theme = useTheme();
   const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
 
@@ -120,14 +118,16 @@ const BlockDetails_ = () => {
               {({ width }) => (
                 <FixedSizeList
                   key={blockData.hash}
-                  itemSize={30}
+                  itemSize={42}
                   height={theme.spacing(120)}
                   itemCount={blockData.tx.length || 10}
-                  width={width}
+                  width={width - 1 /* -1 for the border */}
                   itemData={blockData.tx}
                 >
                   {({ index, data, style }) => (
-                    <Typography style={style}>{data && data[index]}</Typography>
+                    <Typography className={cn.transactionItem} style={style}>
+                      {data && data[index]}
+                    </Typography>
                   )}
                 </FixedSizeList>
               )}

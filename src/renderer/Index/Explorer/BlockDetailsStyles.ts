@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { fade, makeStyles } from "@material-ui/core";
 
 export const useBlockDetailsStyles = makeStyles(theme => ({
   blockDetails: {
@@ -19,11 +19,6 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     fontStyle: "italic",
     color: theme.palette.text.hint,
-  },
-
-  transactionsPage: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(2),
   },
 
   section: {
@@ -82,5 +77,15 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
     "&:last-child th, &:last-child td": {
       borderBottom: 0,
     },
+  },
+
+  transactionsPage: {
+    marginTop: theme.spacing(2),
+  },
+
+  transactionItem: {
+    padding: theme.spacing(3),
+    // borderBottom: `1px solid ${fade(theme.palette.divider, 1)}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
 }));

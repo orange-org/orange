@@ -74,14 +74,6 @@ const Block_: React.FC<CardProps & {
         setBlockData(data);
         setIsLoading(false);
       }, 100);
-
-      // const blockData_ = await withDelay(
-      //   dispatch(thunks.requestBlockByHeight(__NONCE__, blockHeight)),
-      //   100,
-      // );
-
-      // setBlockData(blockData_);
-      // setIsLoading(false);
     };
 
     requestData();
@@ -95,8 +87,6 @@ const Block_: React.FC<CardProps & {
         behavior: "smooth",
         block: "nearest",
       });
-
-      // dispatch(actions.setSelectedExplorerBlock(blockData));
     }
   }, [isReady]);
 

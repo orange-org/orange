@@ -1,10 +1,9 @@
-import { generateUuid } from "_r/generateUuid";
 import { callMain } from "_r/callMain";
+import { generateUuid } from "_r/generateUuid";
 import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
+import { RpcResponse } from "_t/bitcoindRpcResponses";
 import { RpcResponseMtR } from "_t/IpcMessages";
-import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { rpcClientCache } from "./rpcClientCache";
-import { RpcResponse, NetworkInfo } from "_t/bitcoindRpcResponses";
 
 const isRpcResponse = (
   response: any,
@@ -15,11 +14,6 @@ const isRpcResponse = (
     response?.source === "@orange/main"
   );
 };
-
-// type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
-//   ExtractedRpcResponse<T>,
-//   { error: null }
-// >;
 
 type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
   RpcResponse["result"],

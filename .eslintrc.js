@@ -24,8 +24,12 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "import"],
+  plugins: ["react", "@typescript-eslint", "import", "react-hooks"],
   rules: {
+    "react-hooks/rules-of-hooks": "error",
+    // "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
     "import/extensions": [
@@ -49,6 +53,7 @@ module.exports = {
     "lines-between-class-members": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "react/jsx-wrap-multilines": "off", // Conflicts with Prettier
+    "react/jsx-indent": "off", // Conflicts with Prettier
     "react/destructuring-assignment": "off",
     "jsx-a11y/click-events-have-key-events": "off", // Just for the proof-of-concept. Will enable later
     "jsx-a11y/no-static-element-interactions": "off", // Just for the proof-of-concept. Will enable later

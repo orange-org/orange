@@ -6,15 +6,29 @@ import {
   UptimeRpcRequest,
   PeerInfoRpcRequest,
   MempoolInfoRpcRequest,
-} from "typings/bitcoindRpcRequests";
-import { OrUndefined } from "./typeHelpers";
+  RpcInfoRpcRequest,
+  ChainTipsRpcRequest,
+  BlockHeaderRpcRequest,
+  BlockHashRpcRequest,
+} from "_t/bitcoindRpcRequests";
+import { NullableKeys } from "./typeHelpers";
 
-type CreateRpcResponse<Method, Result> = {
-  method: Method;
-  payload: {
-    result: Result;
-  };
+export type RpcError = {
+  code: number;
+  message: string;
 };
+
+type CreateRpcResponse<Method, Result> =
+  | {
+      method: Method;
+      result: Result;
+      error: null;
+    }
+  | {
+      method: Method;
+      result: null;
+      error: RpcError;
+    };
 
 type LocalServicesNames = "WITNESS" | "NETWORK_LIMITED" | "NETWORK";
 
@@ -48,81 +62,77 @@ export type NetworkInfoRpcResponse = CreateRpcResponse<
   NetworkInfo
 >;
 
-export type BlockchainInfo = Partial<
-  OrUndefined<{
-    chain: string;
-    blocks: number;
-    headers: number;
-    bestblockhash: string;
-    difficulty: number;
-    mediantime: number;
-    verificationprogress: number;
-    initialblockdownload: boolean;
-    chainwork: string;
-    size_on_disk: number;
-    pruned: boolean;
-    pruneheight: number;
-    automatic_pruning: boolean;
-    prune_target_size: number;
-    softforks: {
-      bip34: {
-        type: string;
-        active: boolean;
-        height: number;
-      };
-      bip66: {
-        type: string;
-        active: boolean;
-        height: number;
-      };
-      bip65: {
-        type: string;
-        active: boolean;
-        height: number;
-      };
-      csv: {
-        type: string;
-        active: boolean;
-        height: number;
-      };
-      segwit: {
-        type: string;
-        active: boolean;
-        height: number;
-      };
+export type BlockchainInfo = {
+  chain: string;
+  blocks: number;
+  headers: number;
+  bestblockhash: string;
+  difficulty: number;
+  mediantime: number;
+  verificationprogress: number;
+  initialblockdownload: boolean;
+  chainwork: string;
+  size_on_disk: number;
+  pruned: boolean;
+  pruneheight: number;
+  automatic_pruning: boolean;
+  prune_target_size: number;
+  softforks: {
+    bip34: {
+      type: string;
+      active: boolean;
+      height: number;
     };
-    warnings: string;
-  }>
->;
+    bip66: {
+      type: string;
+      active: boolean;
+      height: number;
+    };
+    bip65: {
+      type: string;
+      active: boolean;
+      height: number;
+    };
+    csv: {
+      type: string;
+      active: boolean;
+      height: number;
+    };
+    segwit: {
+      type: string;
+      active: boolean;
+      height: number;
+    };
+  };
+  warnings: string;
+};
 
-export type BestBlockHashRpcResponse = CreateRpcResponse<
+export type BlockchainInfoRpcResponse = CreateRpcResponse<
   BlockchainInfoRpcRequest["method"],
   BlockchainInfo
 >;
 
-export type Block = Partial<
-  OrUndefined<{
-    hash: string;
-    confirmations: number;
-    strippedsize: number;
-    size: number;
-    weight: number;
-    height: number;
-    version: number;
-    versionHex: string;
-    merkleroot: string;
-    tx: string[];
-    time: number;
-    mediantime: number;
-    nonce: number;
-    bits: string;
-    difficulty: number;
-    chainwork: string;
-    nTx: number;
-    previousblockhash: string;
-    nextblockhash: string;
-  }>
->;
+export type Block = Readonly<{
+  hash: string;
+  confirmations: number;
+  strippedsize: number;
+  size: number;
+  weight: number;
+  height: number;
+  version: number;
+  versionHex: string;
+  merkleroot: string;
+  tx: string[];
+  time: number;
+  mediantime: number;
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  chainwork: string;
+  nTx: number;
+  previousblockhash?: string;
+  nextblockhash?: string;
+}>;
 
 export type BlockRpcResponse = CreateRpcResponse<
   BlockRpcRequest["method"],
@@ -208,16 +218,77 @@ export type MempoolInfoRpcResponse = CreateRpcResponse<
   MempoolInfo
 >;
 
+export type RpcInfo = {
+  active_commands: {
+    method: string;
+    duration: number;
+  }[];
+  logpath: string;
+};
+
+export type RpcInfoRpcResponse = CreateRpcResponse<
+  RpcInfoRpcRequest["method"],
+  RpcInfo
+>;
+
+export type ChainTips = {
+  height: number;
+  hash: string;
+  branchlen: number;
+  status:
+    | "invalid"
+    | "headers-only"
+    | "valid-headers"
+    | "valid-fork"
+    | "active";
+}[];
+
+export type ChainTipsRpcResponse = CreateRpcResponse<
+  ChainTipsRpcRequest["method"],
+  ChainTips
+>;
+
+export type BlockHeader = {
+  hash: string;
+  confirmations: number;
+  height: number;
+  version: number;
+  versionHex: string;
+  merkleroot: string;
+  time: number;
+  mediantime: number;
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  chainwork: string;
+  nTx: number;
+};
+
+export type BlockHeaderRpcResponse = CreateRpcResponse<
+  BlockHeaderRpcRequest["method"],
+  BlockHeader
+>;
+
+export type BlockHash = string;
+
+export type BlockHashRpcResponse = CreateRpcResponse<
+  BlockHashRpcRequest["method"],
+  BlockHash
+>;
+
 export type RpcResponse = {
-  ok: boolean;
   requestId: string;
 } & (
   | NetworkInfoRpcResponse
-  | BestBlockHashRpcResponse
+  | BlockchainInfoRpcResponse
   | BlockRpcResponse
   | UptimeRpcResponse
   | PeerInfoRpcResponse
   | MempoolInfoRpcResponse
+  | RpcInfoRpcResponse
+  | ChainTipsRpcResponse
+  | BlockHeaderRpcResponse
+  | BlockHashRpcResponse
 );
 
-export type RawRpcResponse = { result: any };
+export type RawRpcResponse = { result: any; error: RpcError | null };

@@ -1,16 +1,16 @@
 export type NetworkInfoRpcRequest = {
   method: "getnetworkinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type BestBlockHashRpcRequest = {
   method: "getbestblockhash";
-  params?: undefined;
+  params?: null;
 };
 
 export type BlockchainInfoRpcRequest = {
   method: "getblockchaininfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type BlockRpcRequest = {
@@ -25,17 +25,37 @@ export type UptimeRpcRequest = {
 
 export type PeerInfoRpcRequest = {
   method: "getpeerinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type MempoolInfoRpcRequest = {
   method: "getmempoolinfo";
-  params?: undefined;
+  params?: null;
 };
 
 export type SetNetworkActiveRpcRequest = {
   method: "setnetworkactive";
   params: { state: boolean };
+};
+
+export type RpcInfoRpcRequest = {
+  method: "getrpcinfo";
+  params?: null;
+};
+
+export type ChainTipsRpcRequest = {
+  method: "getchaintips";
+  params?: null;
+};
+
+export type BlockHeaderRpcRequest = {
+  method: "getblockheader";
+  params: [string];
+};
+
+export type BlockHashRpcRequest = {
+  method: "getblockhash";
+  params: [number];
 };
 
 export type RpcRequest = { requestId: string } & (
@@ -47,6 +67,11 @@ export type RpcRequest = { requestId: string } & (
   | PeerInfoRpcRequest
   | MempoolInfoRpcRequest
   | SetNetworkActiveRpcRequest
+  | RpcInfoRpcRequest
+  | ChainTipsRpcRequest
+  | BlockHeaderRpcRequest
+  | BlockHashRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;
+export type UnsentRpcRequest = Omit<RpcRequest, "requestId">;

@@ -15,4 +15,8 @@ export const useCommonStyles = makeStyles(theme => ({
   fontWeight500: {
     fontWeight: 500,
   },
+  topLevelComponent: {
+    padding: "64px 0 0 0", // compensate for AppBar
+    height: "100%",
+  },
 }));

@@ -37,7 +37,8 @@
       "_r/*": ["renderer/*"],
       "_m/*": ["main/*"],
       "_a/*": ["assets/*"],
-      "_t/*": ["typings/*"]
+      "_t/*": ["typings/*"],
+      "_c/*": ["common/*"]
     }
   },
   "include": ["src/**/*"]

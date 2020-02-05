@@ -1,17 +1,18 @@
-/* eslint-disable prefer-destructuring */
 import http from "http";
-import { ipcMain, BrowserWindow } from "electron";
+import { RpcRequest } from "_t/bitcoindRpcRequests";
+import { RawRpcResponse } from "_t/bitcoindRpcResponses";
+import { ExtractedRpcResponse } from "_t/typeHelpers";
+import { ERROR_CODES } from "_c/constants";
+import { bitcoindManager } from "_m/bitcoindManager";
 
-import { username, password } from "main/bitcoindCredentials";
-import { RpcRequest } from "typings/bitcoindRpcRequests";
-import { RpcResponse, RawRpcResponse } from "typings/bitcoindRpcResponses";
-import { MessageToMain, RpcRequestMtM } from "typings/IpcMessages";
-import { sendMessageToRenderer } from "main/sendMessageToRenderer";
+export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
+  rpcRequest: TRpcRequest,
+): Promise<ExtractedRpcResponse<TRpcRequest>> => {
+  type ExtractedResponse = ExtractedRpcResponse<TRpcRequest>;
 
-export const sendRpcRequestToBitcoind = (
-  rpcRequest: RpcRequest,
-): Promise<RpcResponse> => {
-  return new Promise<RpcResponse>((resolve, reject) => {
+  const { username, password } = await bitcoindManager.getCredentials();
+
+  return new Promise((resolve, reject) => {
     const { method, params = [], requestId } = rpcRequest;
     const url = "http://localhost:18332/";
 
@@ -20,9 +21,7 @@ export const sendRpcRequestToBitcoind = (
       {
         method: "POST",
         auth: `${username}:${password}`,
-        headers: {
-          "content-type": "text/plain",
-        },
+        headers: { "content-type": "text/plain" },
       },
       response => {
         response.setEncoding("utf8");
@@ -36,17 +35,25 @@ export const sendRpcRequestToBitcoind = (
         response.on("end", () => {
           try {
             const payload = JSON.parse(data) as RawRpcResponse;
-            resolve({ method, payload, ok: true, requestId } as RpcResponse);
-          } catch (e) {
-            console.error("RPC `end` response handler error", e);
-            // throw new Error(e);
+
+            resolve({ method, requestId, ...payload } as ExtractedResponse);
+          } catch (error) {
+            resolve({ method, requestId, error } as ExtractedResponse);
           }
         });
-        response.on("error", error => reject(error));
+        response.on("error", error => {
+          reject(error);
+        });
       },
     );
 
-    request.on("error", error => reject(error));
+    request.on("error", (error: any) => {
+      if (error.code === ERROR_CODES.econnrefused) {
+        resolve({ method, requestId, error } as ExtractedResponse);
+      } else {
+        reject(error);
+      }
+    });
 
     request.write(
       JSON.stringify({

@@ -1,118 +1,55 @@
-/* eslint-disable no-param-reassign */
+import { dirname } from "path";
 import { createSelector } from "reselect";
-import { State } from "_r/redux/reducers";
-import { formatDate } from "_r/smallUtils";
+import { State } from "_r/redux/reducers/store";
+import { formatDate } from "_r/utils/smallUtils";
 
-export const showSplashScreen = (state: State) =>
-  state.lastInitMessage !== "Done loading";
+export const lastBlockTime = createSelector(
+  (s: State) => s.misc.bestBlock?.time,
+  time_ => (time_ ? time_ * 1000 : null),
+);
 
-export const showRpcConsole = (state: State) =>
-  state.lastInitMessage === "Done loading";
-
-export const systemPreferences = (state: State) => state.systemPreferences;
-
-export const bitcoinCoreVersion = (state: State) => state.bitcoinCoreVersion;
-
-export const shortBitcoinCoreVersion = createSelector(
-  bitcoinCoreVersion,
-  bitcoinCoreVersion_ => {
-    return bitcoinCoreVersion_?.split("-")[0];
+export const startupTime = createSelector(
+  (s: State) => s.rpcResponses.uptime,
+  uptime_ => {
+    return uptime_ && formatDate(Date.now() - uptime_ * 1000);
   },
 );
 
-export const initMessage = (state: State) => state.lastInitMessage;
+export const connectionSummary = createSelector(
+  (s: State) => s.rpcResponses.peerInfo,
+  peerInfo_ => {
+    return peerInfo_?.reduce(
+      (connectionSummary_, peer) => {
+        /* eslint-disable no-param-reassign */
+        connectionSummary_.total += 1;
+        connectionSummary_[peer.inbound ? "in" : "out"] += 1;
+        /* eslint-enable no-param-reassign */
 
-export const networkInfo = (state: State) => state.networkInfo;
-
-export const bestBlockHash = (state: State) =>
-  state.blockchainInfo?.bestblockhash;
-
-export const currentNumberOfBlocks = (state: State) =>
-  state.blockchainInfo?.blocks;
-
-export const lastBlockTime = (state: State) =>
-  state.bestBlock?.time && state.bestBlock.time * 1000;
-
-export const dataDir = (state: State) => state.dataDir;
-
-export const blockIndex = (state: State) => state.blockIndex;
-
-export const uptime = (state: State) => state.uptime;
-
-export const startupTime = createSelector(uptime, uptime_ => {
-  return uptime_ && formatDate(Date.now() - uptime_ * 1000);
-});
-
-export const peerInfo = (state: State) => state.peerInfo;
-
-export const connectionSummary = createSelector(peerInfo, peerInfo_ => {
-  return peerInfo_?.reduce(
-    (connectionSummary_, peer) => {
-      connectionSummary_.total += 1;
-      connectionSummary_[peer.inbound ? "in" : "out"] += 1;
-
-      return connectionSummary_;
-    },
-    { total: 0, in: 0, out: 0 },
-  );
-});
-
-export const mempoolInfo = (state: State) => state.mempoolInfo;
-
-export const chainName = (state: State) => state.blockchainInfo?.chain;
-
-export const warnings = (state: State) => {
-  return state.blockchainInfo?.warnings || state.networkInfo?.warnings;
-};
-
-export const showWarnings = (state: State) => {
-  const warningsLength = warnings(state)?.length;
-
-  return warningsLength !== undefined && warningsLength > 0;
-};
-
-export const verificationProgress = (state: State) => {
-  return state.blockchainInfo?.verificationprogress;
-};
+        return connectionSummary_;
+      },
+      { total: 0, in: 0, out: 0 },
+    );
+  },
+);
 
 export const synchronizingBlocksProgress = createSelector(
-  verificationProgress,
+  (s: State) => s.rpcResponses.blockchainInfo?.verificationprogress,
   verificationProgress_ => {
-    return verificationProgress_ ? verificationProgress_ * 100 : undefined;
+    return verificationProgress_ ? verificationProgress_ * 100 : null;
   },
 );
 
-export const synchronizingBlockHeadersProgress = (state: State) => {
-  return state.synchronizingBlockHeadersProgress;
-};
-
-export const networkActive = (state: State) => {
-  return state.networkInfo?.networkactive;
-};
-
-export const bestHeaderHeight = (state: State) => {
-  return state.blockchainInfo?.headers;
-};
-
 export const numberOfBlocksLeft = createSelector(
-  bestHeaderHeight,
-  currentNumberOfBlocks,
+  (s: State) => s.rpcResponses.blockchainInfo?.headers,
+  (s: State) => s.rpcResponses.blockchainInfo?.blocks,
   (bestHeaderHeight_, currentNumberOfBlocks_) => {
     return bestHeaderHeight_ && currentNumberOfBlocks_
       ? bestHeaderHeight_ - currentNumberOfBlocks_
-      : undefined;
+      : null;
   },
 );
 
-export const isSynchronizingBlockHeaders = createSelector(
-  synchronizingBlockHeadersProgress,
-  synchronizingBlockHeadersProgress_ => {
-    return synchronizingBlockHeadersProgress_
-      ? synchronizingBlockHeadersProgress_ < 100
-      : false;
-  },
+export const dataDir = createSelector(
+  (s: State) => s.rpcResponses.rpcInfo?.logpath,
+  logPath_ => (logPath_ ? dirname(logPath_) : null),
 );
-
-export const isShuttingDown = (state: State) => {
-  return state.shutdownInProgress === true;
-};

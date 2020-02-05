@@ -458,3 +458,56 @@ verifymessage "address" "signature" "message"
   }
 ]
 ```
+
+## `getrpcinfo` response
+
+```json
+{
+  "active_commands": [
+    {
+      "method": "getrpcinfo",
+      "duration": 58
+    }
+  ],
+  "logpath": "/Users/mk/Library/Application Support/Bitcoin/testnet3/debug.log"
+}
+```
+
+### `getchaintips` response
+
+```json
+[
+  {
+    "height": 1249998,
+    "hash": "000000000000294fd3111f63fd84633ef89f2d6d47c4eba499e4987e37f1f76c",
+    "branchlen": 1249998,
+    "status": "headers-only"
+  },
+  {
+    "height": 0,
+    "hash": "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943",
+    "branchlen": 0,
+    "status": "active"
+  }
+]
+```
+
+### `getblockheader` response
+
+```json
+{
+  "hash": "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943",
+  "confirmations": 1,
+  "height": 0,
+  "version": 1,
+  "versionHex": "00000001",
+  "merkleroot": "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b",
+  "time": 1296688602,
+  "mediantime": 1296688602,
+  "nonce": 414098458,
+  "bits": "1d00ffff",
+  "difficulty": 1,
+  "chainwork": "0000000000000000000000000000000000000000000000000000000100010001",
+  "nTx": 1
+}
+```

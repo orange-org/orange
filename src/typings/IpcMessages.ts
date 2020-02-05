@@ -1,28 +1,36 @@
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
 
-type CreateMtR<T, M> = {
+type Message<S, T, M> = {
   nonce: NONCE;
-  source: "@orange/main";
+  source: S;
   type: T;
   message: M;
 };
 
-export type BitcoindLogLinesMtR = CreateMtR<"bitcoind-log-lines", string[]>;
-
-export type RpcResponseMtR = CreateMtR<"rpc-response", RpcResponse>;
-
-export type MessageToRenderer = BitcoindLogLinesMtR | RpcResponseMtR;
-
-export type CreateMtM<T, M> = {
+type MessageNoPayload<S, T> = {
   nonce: NONCE;
-  source: "@orange/renderer";
+  source: S;
   type: T;
-  message: M;
+  message?: null;
 };
 
-export type OpenDebugFileMtM = CreateMtM<"open-debug-file", string>;
+type MtR = "@orange/main";
+type MtM = "@orange/renderer";
 
-export type RpcRequestMtM = CreateMtM<"rpc-request", RpcRequest>;
+export type BitcoindLogLinesMtR = Message<MtR, "bitcoind-log-lines", string[]>;
+
+export type RpcServerIsDownMtR = MessageNoPayload<MtR, "rpc-server-is-down">;
+
+export type RpcResponseMtR = Message<MtR, "rpc-response", RpcResponse>;
+
+export type MessageToRenderer =
+  | BitcoindLogLinesMtR
+  | RpcResponseMtR
+  | RpcServerIsDownMtR;
+
+export type OpenDebugFileMtM = MessageNoPayload<MtM, "open-debug-file">;
+
+export type RpcRequestMtM = Message<MtM, "rpc-request", RpcRequest>;
 
 export type MessageToMain = OpenDebugFileMtM | RpcRequestMtM;

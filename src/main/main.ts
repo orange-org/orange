@@ -36,6 +36,7 @@ function createWindow() {
     title: "Orange",
     minWidth: 800,
     minHeight: 600,
+    // frame: false,
   });
 
   preventNetworkAndResourceRequests(mainWindow);

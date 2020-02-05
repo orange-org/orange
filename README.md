@@ -87,13 +87,13 @@ After the npm modules have been downloaded but before the Orange distributable i
 
 ## Install and contribute
 
-Orange was tested on macOS only. It should work on other operating systems but I haven't tested it. Please go ahead and test it and report any issues.
+Orange was only tested on macOS. It should work on other operating systems but I haven't tested it. Please go ahead and test it and report any issues.
 
 To run this locally and contribute:
 
-1. Make sure you have Bitcoin Core running
-1. Make sure that you have `server=1` in your `bitcoin.conf` file (otherwise Orange won't be able to communicate with Bitcoin Core)
-1. Make sure Bitcoin Core `datadir` location is set to default (otherwise Orange won't be able to authenticate)
+1. Have Bitcoin Core running
+1. Have `server=1` in your `bitcoin.conf` file (otherwise Orange won't be able to communicate with Bitcoin Core)
+1. Have Bitcoin Core `datadir` location set to default (otherwise Orange won't be able to authenticate with Bitcoin Core)
 1. Clone this repo
 1. `cd` into the repo
 1. Execute `npm install` to install the dependencies

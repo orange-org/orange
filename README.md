@@ -6,7 +6,7 @@ Orange is a Bitcoin blockchain explorer for Bitcoin Core. It's built with Electr
 
 This project is not affiliated with Bitcoin Core.
 
-[![See screenshots](./docs/orange-rpc-console.png)](./docs)
+![Orange](./docs/orange.png)
 
 ## Table of Contents
 

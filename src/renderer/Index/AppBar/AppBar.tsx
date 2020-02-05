@@ -5,7 +5,7 @@ import { SearchBox } from "./SearchBox/SearchBox";
 
 const useAppBarStyles = makeStyles(theme => ({
   AppBar: {
-    borderTop: "2px solid #ff6f00",
+    borderTop: `2px solid ${theme.palette.secondary.main}`,
   },
 }));
 

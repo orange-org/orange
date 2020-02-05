@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 export const useRpcServerStatus = () => {
   const dispatch = useDispatch();
   const [initMessage, setInitMessage] = useState("");
-  const [isWarmingUp, setIsWarmingUp] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [isShuttingDown, setIsShuttingDown] = useState(false);
   const [serverWasOnceReady, setServerWasOnceReady] = useState(false);
 
@@ -22,11 +22,11 @@ export const useRpcServerStatus = () => {
        */
       await dispatch(thunks.requestUptime(__NONCE__));
 
-      setIsWarmingUp(false);
+      setIsReady(true);
       setServerWasOnceReady(true);
     } catch (error) {
       if (error.code === RPC_SERVER_ERROR_CODES.warmingUp) {
-        setIsWarmingUp(true);
+        setIsReady(false);
         setInitMessage(error.message);
       } else if (error.code === ERROR_CODES.econnrefused) {
         /**
@@ -39,7 +39,7 @@ export const useRpcServerStatus = () => {
         if (serverWasOnceReady) {
           setIsShuttingDown(true);
         } else {
-          setIsWarmingUp(true);
+          setIsReady(false);
         }
       } else {
         throw error;
@@ -48,7 +48,7 @@ export const useRpcServerStatus = () => {
   }, 500);
 
   return {
-    isWarmingUp,
+    isReady,
     isShuttingDown,
     initMessage,
   };

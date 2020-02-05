@@ -10,7 +10,7 @@ export const useBlockStyles = makeStyles(theme => ({
       width: "20px",
       marginBottom: "-4px", // This is to compensate for an added margin of unknown source
       marginLeft: theme.spacing(10),
-      borderLeft: `3px dashed #ff6f00`,
+      borderLeft: `3px dashed ${theme.palette.secondary.main}`,
       height: theme.spacing(4),
       display: "inline-block",
       content: "''",

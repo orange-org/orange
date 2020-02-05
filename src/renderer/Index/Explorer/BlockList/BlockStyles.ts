@@ -88,5 +88,14 @@ export const useBlockStyles = makeStyles(theme => ({
     bottom: `-${theme.spacing(10)}px`,
     left: 0,
     right: 0,
+    pointerEvents: "none",
+  },
+
+  link: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 }));

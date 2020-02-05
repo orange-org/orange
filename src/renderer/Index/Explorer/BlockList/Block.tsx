@@ -115,56 +115,54 @@ const Block_: React.FC<CardProps & {
 
   return (
     <Box className={cn.root}>
-      <Link to={blockData.height.toString()}>
-        <Card
-          {...props}
-          variant="elevation"
-          className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
-        >
-          {/**
-           * CSS is used to give this element a size that extends slightly
-           * from the top and bottom of its parent. That way when it is
-           * scrolled into view it adds a little bit of padding, instead
-           * of having the scrolling be touching the border, which doesn't
-           * look good.
-           */}
-          <div ref={scrollIntoViewElement} className={cn.scrollIntoView} />
-
-          <div className={cn.topRow}>
-            <div className={cn.height}>
-              <Typography variant="h3">
-                #{blockData.height.toLocaleString()}
-              </Typography>
-            </div>
-            <div>
-              <Typography variant="body2" className={cn.date}>
-                {blockData.time && formatDate(blockData.time * 1000)}
-              </Typography>
-            </div>
+      <Card
+        {...props}
+        variant="elevation"
+        className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
+      >
+        {/**
+         * CSS is used to give this element a size that extends slightly
+         * from the top and bottom of its parent. That way when it is
+         * scrolled into view it adds a little bit of padding, instead
+         * of having the scrolling be touching the border, which doesn't
+         * look good.
+         */}
+        <div ref={scrollIntoViewElement} className={cn.scrollIntoView} />
+        <Link to={blockData.height.toString()} className={cn.link} />
+        <div className={cn.topRow}>
+          <div className={cn.height}>
+            <Typography variant="h3">
+              #{blockData.height.toLocaleString()}
+            </Typography>
           </div>
-          <div className={cn.metaData}>
-            {renderMetaDataItem(
-              QueryBuilder,
-              blockData.time && fromNow(blockData.time * 1000),
-            )}
-            {renderMetaDataItem(
-              SaveOutlined,
-              blockData.size && humanFileSize(blockData.size),
-            )}
-            {renderMetaDataItem(Repeat, blockData.nTx.toLocaleString())}
-            {/* {renderMetaDataItem(
+          <div>
+            <Typography variant="body2" className={cn.date}>
+              {blockData.time && formatDate(blockData.time * 1000)}
+            </Typography>
+          </div>
+        </div>
+        <div className={cn.metaData}>
+          {renderMetaDataItem(
+            QueryBuilder,
+            blockData.time && fromNow(blockData.time * 1000),
+          )}
+          {renderMetaDataItem(
+            SaveOutlined,
+            blockData.size && humanFileSize(blockData.size),
+          )}
+          {renderMetaDataItem(Repeat, blockData.nTx.toLocaleString())}
+          {/* {renderMetaDataItem(
           EvStationOutlined,
           blockData.difficulty &&
             convertDifficultyToGpuTime(blockData.difficulty),
         )} */}
-          </div>
-          <div className={cn.hash}>
-            <Typography variant="body2" className={cn.hashText}>
-              {blockData.hash}
-            </Typography>
-          </div>
-        </Card>
-      </Link>
+        </div>
+        <div className={cn.hash}>
+          <Typography variant="body2" className={cn.hashText}>
+            {blockData.hash}
+          </Typography>
+        </div>
+      </Card>
     </Box>
   );
 };

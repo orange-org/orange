@@ -1,4 +1,5 @@
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
+import { grey } from "@material-ui/core/colors";
 
 export const theme: ThemeOptions = {
   spacing: 4,
@@ -6,6 +7,10 @@ export const theme: ThemeOptions = {
   palette: {
     text: {
       primary: "rgba(0, 0, 0, 0.70)",
+    },
+
+    background: {
+      default: grey[100],
     },
 
     primary: {

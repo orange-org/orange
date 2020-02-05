@@ -4,18 +4,19 @@ import { registerIpcListener } from "_m/registerIpcListener";
 
 // This must not be called more than once
 export function performFinishLoadSetup(mainWindow: BrowserWindow, app: App) {
-  const bitcoindProcess = bitcoindManager.startProcess(mainWindow);
+  // const bitcoindProcess = bitcoindManager.startProcess(mainWindow);
+  // bitcoindManager.getCookieCredentials();
 
-  bitcoindProcess.on("exit", () => {
-    app.quit();
-  });
+  // bitcoindProcess.on("exit", () => {
+  //   app.quit();
+  // });
 
   registerIpcListener(mainWindow);
 
-  app.on("before-quit", event => {
-    if (bitcoindManager.isProcessRunning) {
-      event.preventDefault();
-      bitcoindProcess.kill();
-    }
-  });
+  // app.on("before-quit", event => {
+  //   if (bitcoindManager.isProcessRunning) {
+  //     event.preventDefault();
+  //     bitcoindProcess.kill();
+  //   }
+  // });
 }

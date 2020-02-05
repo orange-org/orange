@@ -1,14 +1,16 @@
 import http from "http";
-import { password, username } from "_m/bitcoindCredentials";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RawRpcResponse } from "_t/bitcoindRpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { ERROR_CODES } from "_c/constants";
+import { bitcoindManager } from "_m/bitcoindManager";
 
-export const sendRpcRequestToBitcoind = <TRpcRequest extends RpcRequest>(
+export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   type ExtractedResponse = ExtractedRpcResponse<TRpcRequest>;
+
+  const { username, password } = await bitcoindManager.getCredentials();
 
   return new Promise((resolve, reject) => {
     const { method, params = [], requestId } = rpcRequest;

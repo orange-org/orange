@@ -1,5 +1,10 @@
 import React from "react";
-import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  MemoryRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import { Explorer } from "_r/Index/Explorer/Explorer";
 import { AppBar } from "./AppBar/AppBar";
 import { Curtain } from "./Curtain/Curtain";
@@ -11,22 +16,22 @@ import { RedirectBasedOnRpcStatus } from "./RedirectBasedOnRpcStatus/RedirectBas
 export const Index = () => {
   useGlobalErrorHandling();
 
-  const rpcServerStatus = useRpcServerStatus();
+  // const rpcServerStatus = useRpcServerStatus();
 
   return (
     <Router>
-      <RedirectBasedOnRpcStatus
+      {/* <RedirectBasedOnRpcStatus
         isReady={rpcServerStatus.isReady}
         isShuttingDown={rpcServerStatus.isShuttingDown}
-      />
+      /> */}
       <Switch>
         <Route exact path="/">
-          {/* <Redirect to="/explorer/top" /> */}
-          <Curtain
+          <Redirect to="/explorer/top" />
+          {/* <Curtain
             initMessage={rpcServerStatus.initMessage}
             isShuttingDown={rpcServerStatus.isShuttingDown}
             isReady={rpcServerStatus.isReady}
-          />
+          /> */}
         </Route>
         <Route path="/explorer/:blockHeight">
           <AppBar />

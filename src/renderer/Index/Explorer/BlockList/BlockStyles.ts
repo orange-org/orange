@@ -2,7 +2,6 @@ import { makeStyles } from "@material-ui/core";
 import { blueGrey } from "@material-ui/core/colors";
 
 const PADDING = 2;
-const BLOCK_COLOR = blueGrey[100];
 
 export const useBlockStyles = makeStyles(theme => ({
   root: {
@@ -23,9 +22,7 @@ export const useBlockStyles = makeStyles(theme => ({
 
   blockContainer: {
     padding: theme.spacing(PADDING),
-    backgroundColor: BLOCK_COLOR,
     borderRadius: 0,
-    // transition: "margin 20ms",
     position: "relative",
     overflow: "visible",
   },

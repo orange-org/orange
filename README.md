@@ -8,6 +8,15 @@ This project is not affiliated with Bitcoin Core.
 
 ![Orange](./docs/orange.png)
 
+The functionality of the explorer is currently extremely limited. **Missing** features:
+
+- Search by transaction ID
+- Viewing transaction details
+- Search by address
+- Viewing memory pool details
+
+We still need to implement these features.
+
 ## Table of Contents
 
 - [Goal of the project](#goal-of-the-project)

@@ -1,12 +1,10 @@
 # Orange
 
-⚠️ **WARNING**: _do not use this on a computer where you care about your Bitcoin data. This software might delete your funds, wallets, and blockchain data. This software is just a proof-of-concept. It is not meant for actual use._
+⚠️ **WARNING**: _do not use this on a computer where you care about your Bitcoin data. This software might delete your funds, wallets, and blockchain data. This software has not been broadly tested yet._
 
-Orange is a Bitcoin full node client built using Electron, TypeScript, and React. It uses Bitcoin Core's `bitcoind` under the hood.
+Orange is a Bitcoin blockchain explorer for Bitcoin Core. It's built with Electron, TypeScript and React.
 
 This project is not affiliated with Bitcoin Core.
-
-The only feature that's currently implemented is the information tab. No wallet or other operations are supported yet.
 
 [![See screenshots](./docs/orange-rpc-console.png)](./docs)
 
@@ -22,17 +20,17 @@ The only feature that's currently implemented is the information tab. No wallet 
 
 The goal of the project is to explore using Electron, React, and TypeScript to build a better Bitcoin client on top of Bitcoin Core while still providing strong security.
 
+The initial aim of Orange is to be a graphical blockchain explorer. Orange may gradually include more features, such as wallet.
+
 ## How it works
 
-Orange is just a UI. The Bitcoin functionality comes from [`bitcoind`](https://en.bitcoin.it/wiki/Bitcoind). When you start Orange, it starts `bitcoind` and communicates with it through RPC to power the UI.
+Orange is just a front-end. Bitcoin Core acts as the back-end. Orange needs Bitcoin Core to be already running on your computer.
 
 ## Architecture and security
 
-Orange uses many npm modules. Some of these npm modules could get compromised. To prevent a compromised module from causing damage, Orange is sandboxed. Orange cannot make outbound connections and cannot receive inbound connections except to and from `bitcoind`.
+Orange uses multiple processes. Some processes include npm modules while others don't. Orange is architected so that processes with npm modules are sandboxed and have very low access privileges. Processes with npm modules cannot make outbound or receive inbound connections except in a very tightly controlled manner.
 
-The communication channel between Orange and `bitcoind` is protected by a password that minimizes unauthorized use of this channel by npm modules. I say minimize and not fully prevent because some modules, such as `React`, `Redux`, or their related modules could still read this password.
-
-I don't think this theoretical vulnerability poses a serious risk because, to exploit it, the `React`, `Redux`, or a related team would have to publish code that specifically targets Orange, and then a new version of Orange would have to import this malicious code and be released before anyone notices it. I don't think this can happen.
+Only processes that don't use any 3rd party modules are allowed to communicate with Bitcoin Core.
 
 ### Details on the architecture
 
@@ -44,11 +42,11 @@ The 3 processes are called `main`, `renderer`, and `preload`. Each one of these 
 
 In Orange the `main` has full access over the system. It uses Node.js to talk to the file system and it can talk to the operating system. **Because `main` has this much privilege, we don't use npm modules in it.**
 
-`main` talks to `bitcoind`.
+`main` talks to Bitcoin Core.
 
 #### The `renderer` process
 
-The `renderer` process is where the UI code actually is.
+The `renderer` process is where the UI code is.
 
 The `renderer` process has no access to Node.js APIs, the filesystem, or any operating system features. The `renderer` process is also prohibited from:
 
@@ -75,7 +73,7 @@ We implement the [security recommendations](https://electronjs.org/docs/tutorial
 
 #### How does `renderer` get the data to display if it's sandboxed?
 
-This is where the `preload` process comes into play. `preload` is the middleman between `main` and `renderer`. It relays messages between the two, but only very specific kinds of messages.
+This is where the `preload` process comes in. `preload` is the middleman between `main` and `renderer`. It relays messages between the two, but only very specific kinds of messages.
 
 #### How is the communication between `renderer` and `main` secured?
 
@@ -89,19 +87,23 @@ After the npm modules have been downloaded but before the Orange distributable i
 
 ## Install and contribute
 
-At this time, Orange will only work on macOS. The included `bitcoind` was built on macOS.
+Orange was tested on macOS only. It should work on other operating systems but I haven't tested it. Please go ahead and test it and report any issues.
 
 To run this locally and contribute:
 
+1. Make sure you have Bitcoin Core running
+1. Make sure that you have `server=1` in your `bitcoin.conf` file (otherwise Orange won't be able to communicate with Bitcoin Core)
+1. Make sure Bitcoin Core `datadir` location is set to default (otherwise Orange won't be able to authenticate)
 1. Clone this repo
 1. `cd` into the repo
 1. Execute `npm install` to install the dependencies
 1. Execute `npm run wds` to start the build and server for the `renderer` bundle. This command will occupy the terminal window
 1. In a separate terminal window, but in the same folder, execute `npm run electron` to start the build process of the `main` bundle. This command will also occupy the terminal window
+1. Orange should be running now
 
 Feel free to play around with the code, make modifications, or send a PR!
 
-**Note**: I haven't tested Orange with a fully synced blockchain. I usually test with only partially synced blockchains on testnet
+**Note**: I haven't tested Orange on mainnet yet. I've been testing on testnet so far.
 
 ## Questions and help
 

@@ -1,8 +1,14 @@
 const { pathsToModuleNameMapper } = require("ts-jest/utils");
+const globalConstants = require("./webpack/globalConstants");
 const { compilerOptions } = require("./tsconfig");
 
 module.exports = {
   globals: {
+    ...Object.keys(globalConstants).reduce((acc, key) => {
+      acc[key] = globalConstants[key];
+
+      return acc;
+    }, {}),
     // "ts-jest": {
     //   tsConfig: "tsconfig.json",
     //   babelConfig: {
@@ -52,8 +58,8 @@ module.exports = {
   //   // "\\.(css|scss)$": "identity-obj-proxy",
   //   // "\\.html?$": "html-loader-jest",
   // },
-  globalSetup: "<rootDir>/jest/setup.js",
+  // globalSetup: "<rootDir>/jest/setup.js",
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   modulePaths: ["<rootDir>/src"],
-  preset: "ts-jest",
+  // preset: "ts-jest",
 };

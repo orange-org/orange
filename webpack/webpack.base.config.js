@@ -2,6 +2,7 @@ const { compact } = require("lodash");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const globalConstants = require("./globalConstants");
 // const crypto = require("crypto");
 
 exports.baseConfig = {
@@ -15,12 +16,7 @@ exports.baseConfig = {
     plugins: [new TsconfigPathsPlugin()],
   },
   devtool: "source-map",
-  plugins: [
-    new CleanWebpackPlugin(),
-    new DefinePlugin({
-      __NONCE__: JSON.stringify('crypto.randomBytes(16).toString("base64")'),
-    }),
-  ],
+  plugins: [new CleanWebpackPlugin(), new DefinePlugin(globalConstants)],
 };
 
 exports.getBabelRule = isRenderer => {

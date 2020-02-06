@@ -20,7 +20,6 @@ module.exports = merge.smart(baseConfig, {
   },
   module: {
     rules: [
-      getBabelRule(),
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",

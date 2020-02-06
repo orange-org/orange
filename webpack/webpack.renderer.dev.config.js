@@ -12,7 +12,7 @@ module.exports = merge.smart(baseRendererConfig, {
     writeToDisk: true,
     port: 2003,
     compress: true,
-    noInfo: true,
+    // noInfo: true,
     stats: "errors-only",
     inline: true,
     hot: true,

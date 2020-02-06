@@ -1,7 +1,6 @@
 const { DefinePlugin, NamedModulesPlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
 
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
@@ -16,7 +15,7 @@ const isDevelopment = getIsDevelopment();
 module.exports = merge.smart(baseConfig, {
   target: "web",
   entry: {
-    app: ["@babel/polyfill", join(root, "src", "renderer", "renderer.tsx")],
+    app: join(root, "src", "renderer", "renderer.tsx"),
   },
   output: {
     path: join(root, "dist", "renderer"),
@@ -24,7 +23,6 @@ module.exports = merge.smart(baseConfig, {
   },
   module: {
     rules: [
-      getBabelRule(true),
       {
         test: /\.(gif|png|jpe?g|svg)$/,
         use: [
@@ -54,7 +52,6 @@ module.exports = merge.smart(baseConfig, {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
     new NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       title: "Orange",

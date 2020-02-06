@@ -12,7 +12,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
 
-    "module": "commonjs",
+    "module": "esnext",
     "target": "ES2017",
     "sourceMap": true,
 

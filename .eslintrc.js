@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    "jest/globals": true,
     browser: true,
     es6: true,
     node: true,
@@ -24,7 +25,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "import", "react-hooks"],
+  plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
     "react-hooks/rules-of-hooks": "error",
     // "react-hooks/exhaustive-deps": "warn",

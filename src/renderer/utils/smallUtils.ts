@@ -1,5 +1,4 @@
-import moment, { duration } from "moment";
-import { Null } from "_t/typeHelpers";
+import moment from "moment";
 
 export const formatDate = (momentInput: moment.MomentInput) => {
   return moment(momentInput).format("llll");

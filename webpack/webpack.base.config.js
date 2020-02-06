@@ -45,6 +45,11 @@ exports.getBabelRule = isRenderer => {
         "@babel/preset-typescript",
         isRenderer ? "@babel/preset-react" : null,
       ]),
+      env: {
+        test: {
+          plugins: ["transform-es2015-modules-commonjs"],
+        },
+      },
       plugins: compact([
         ["@babel/plugin-proposal-class-properties", { loose: true }],
         "@babel/plugin-proposal-optional-chaining",

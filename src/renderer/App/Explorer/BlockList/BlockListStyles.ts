@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH } from "_r/Index/Explorer/ExplorerStyles";
+import { BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH } from "_r/App/Explorer/ExplorerStyles";
 
 const BLOCK_HORIZONTAL_MARGIN = 5;
 const BLOCK_SCROLLABLE_CONTAINER = BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH - 5;

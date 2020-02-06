@@ -9,12 +9,12 @@ import {
 } from "react-router-dom";
 import "typeface-roboto";
 import { GlobalCss } from "_r/globalCss";
-import { Explorer } from "_r/Index/Explorer/Explorer";
+import { Explorer } from "_r/App/Explorer/Explorer";
 import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 
-export const Index = () => {
+export const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>

@@ -26,9 +26,9 @@
 
     "pretty": true,
     "baseUrl": "src",
-    "declaration": false, // emit declarations
-    "importHelpers": false, // importing helper functions from tslib
-    "noEmitHelpers": true, // disable emitting inline helper functions
+    "declaration": false,
+    "importHelpers": false,
+    "noEmitHelpers": true,
     "removeComments": true,
     "stripInternal": true,
     "resolveJsonModule": true,

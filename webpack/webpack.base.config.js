@@ -39,7 +39,9 @@ exports.getBabelRule = isRenderer => {
               ? {
                   browsers: "last 2 versions",
                 }
-              : "maintained node versions",
+              : {
+                  node: "current",
+                },
           },
         ],
         "@babel/preset-typescript",

@@ -3,11 +3,15 @@ import thunk from "redux-thunk";
 import { misc, MiscState } from "./misc";
 import { rpcResponses, RpcResponsesState } from "./rpcResponses";
 
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    // RECEIVE_BITCOIND_LOG_LINES is too spammy. It floods the Redux Devtools UI
-    // actionsBlacklist: ["RECEIVE_BITCOIND_LOG_LINES"],
-  }) || compose;
+const reduxDevToolsCompose = (window as any)
+  .__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+const composeEnhancers = reduxDevToolsCompose
+  ? reduxDevToolsCompose({
+      // RECEIVE_BITCOIND_LOG_LINES is too spammy. It floods the Redux Devtools UI
+      // actionsBlacklist: ["RECEIVE_BITCOIND_LOG_LINES"],
+    })
+  : compose;
 
 export type State = {
   rpcResponses: RpcResponsesState;

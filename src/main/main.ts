@@ -7,6 +7,19 @@ import { preventNetworkAndResourceRequests } from "main/preventNetworkAndResourc
 import { preventNewWebViewsAndWindows } from "main/preventNewWebViewsAndWindows";
 import { getAppRoot } from "main/getAppRoot";
 
+console.log("process.version", process.version);
+console.log('process.versions["chrome"]', process.versions.chrome);
+
+const obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+
+const { a, ...rest } = obj;
+
+console.log("rest", rest);
+
 app.enableSandbox();
 
 let mainWindow: BrowserWindow;

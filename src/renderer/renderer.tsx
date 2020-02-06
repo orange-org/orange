@@ -4,21 +4,13 @@ import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core";
 import { Provider } from "react-redux";
 import { hot } from "react-hot-loader/root";
 
-import { Index } from "_r/Index";
+import { Index } from "_r/Index/Index";
 import { store } from "_r/redux/reducers/store";
 import { GlobalCss } from "_r/globalCss";
 import { theme } from "_r/theme";
 
 import "typeface-roboto";
 
-export const App = hot(() => (
-  <Provider store={store}>
-    <ThemeProvider theme={createMuiTheme(theme)}>
-      <CssBaseline />
-      <GlobalCss />
-      <Index />
-    </ThemeProvider>
-  </Provider>
-));
+export const HotApp = hot(App);
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<HotApp />, document.getElementById("app"));

@@ -3,7 +3,7 @@ const merge = require("webpack-merge");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
 
-const baseConfig = require("./webpack.base.config");
+const { baseConfig, getBabelRule } = require("./webpack.base.config");
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-main",
@@ -17,24 +17,7 @@ module.exports = merge.smart(baseConfig, {
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-        options: {
-          cacheDirectory: true,
-          babelrc: false,
-          presets: [
-            ["@babel/preset-env", { targets: "maintained node versions" }],
-            "@babel/preset-typescript",
-          ],
-          plugins: [
-            ["@babel/plugin-proposal-class-properties", { loose: true }],
-            "@babel/plugin-proposal-optional-chaining",
-            "@babel/plugin-proposal-nullish-coalescing-operator",
-          ],
-        },
-      },
+      getBabelRule(),
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",

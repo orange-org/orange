@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
 
-const baseConfig = require("./webpack.base.config");
+const { baseConfig, getBabelRule } = require("./webpack.base.config");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -22,29 +22,7 @@ module.exports = merge.smart(baseConfig, {
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        loader: "babel-loader",
-        options: {
-          cacheDirectory: true,
-          babelrc: false,
-          presets: [
-            [
-              "@babel/preset-env",
-              { targets: { browsers: "last 2 versions " } },
-            ],
-            "@babel/preset-typescript",
-            "@babel/preset-react",
-          ],
-          plugins: [
-            ["@babel/plugin-proposal-class-properties", { loose: true }],
-            "@babel/plugin-proposal-optional-chaining",
-            "@babel/plugin-proposal-nullish-coalescing-operator",
-            "react-hot-loader/babel",
-          ],
-        },
-      },
+      getBabelRule(true),
       {
         test: /\.(gif|png|jpe?g|svg)$/,
         use: [

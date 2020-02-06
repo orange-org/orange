@@ -141,11 +141,6 @@ const Block_: React.FC<CardProps & {
             blockData.size && humanFileSize(blockData.size),
           )}
           {renderMetaDataItem(Repeat, blockData.nTx.toLocaleString())}
-          {/* {renderMetaDataItem(
-          EvStationOutlined,
-          blockData.difficulty &&
-            convertDifficultyToGpuTime(blockData.difficulty),
-        )} */}
         </div>
         <div className={cn.hash}>
           <Typography variant="body2" className={cn.hashText}>

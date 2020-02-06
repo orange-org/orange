@@ -5,19 +5,21 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
 
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
+const getIsDevelopment = require("./getIsDevelopment");
+const getContentSecurityPolicy = require("./getContentSecurityPolicy");
+const getRootDir = require("./getRootDir");
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const root = getRootDir();
+
+const isDevelopment = getIsDevelopment();
 
 module.exports = merge.smart(baseConfig, {
   target: "web",
   entry: {
-    app: [
-      "@babel/polyfill",
-      join(__dirname, "src", "renderer", "renderer.tsx"),
-    ],
+    app: ["@babel/polyfill", join(root, "src", "renderer", "renderer.tsx")],
   },
   output: {
-    path: join(__dirname, "dist", "renderer"),
+    path: join(root, "dist", "renderer"),
     filename: "[name].js",
   },
   module: {
@@ -36,6 +38,10 @@ module.exports = merge.smart(baseConfig, {
         ],
       },
       {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
         use: ["file-loader?name=fonts/[name].[ext]"],
       },
@@ -52,47 +58,9 @@ module.exports = merge.smart(baseConfig, {
     new NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       title: "Orange",
-      template: join(__dirname, "src", "renderer", "index.html"),
+      template: join(root, "src", "renderer", "index.html"),
       templateParameters: {
-        contentSecurityPolicy: [
-          // This is needed for Material UI to be able to inline itself
-          // I looked into using a nonce or a hash but that didn't make sense.
-          // See https://github.com/orange-org/orange/issues/1
-          ["style-src-elem", "'unsafe-inline'"],
-          [
-            "connect-src",
-            isDevelopment
-              ? // These are needed for hot module replacement during development
-                "http: ws: file:"
-              : // For production, prohibit all outbound connections
-                "'none'",
-          ],
-          // Allow scripts and images loaded from the same location as index.html
-          ["script-src-elem", "'self'"],
-          ["img-src", "'self'"],
-          ["font-src", "'self'"],
-
-          // Completely disallow the following
-          ["child-src", "'none'"],
-          ["frame-src", "'none'"],
-          ["manifest-src", "'none'"],
-          ["media-src", "'none'"],
-          ["object-src", "'none'"],
-
-          // Allow unsafe eval during development for hot module replacement
-          ["script-src", isDevelopment ? "'unsafe-eval'" : "'none'"],
-          ["script-src-attr", "'none'"],
-          ["style-src", "'none'"],
-          ["style-src-attr", isDevelopment ? "'self'" : "'none'"],
-          ["worker-src", "'none'"],
-          ["base-uri", "'none'"],
-          ["form-action", "'none'"],
-          ["navigate-to", "'none'"],
-        ].reduce(
-          (previousValue, [directive, source]) =>
-            `${previousValue}${directive} ${source};`,
-          "",
-        ),
+        contentSecurityPolicy: getContentSecurityPolicy(),
       },
     }),
     new DefinePlugin({

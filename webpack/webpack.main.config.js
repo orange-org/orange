@@ -3,16 +3,19 @@ const merge = require("webpack-merge");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { join } = require("path");
 
+const getRootDir = require("./getRootDir");
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
+
+const root = getRootDir();
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-main",
   entry: {
-    main: join(__dirname, "src", "main", "main.ts"),
-    preload: join(__dirname, "src", "main", "preload.ts"),
+    main: join(root, "src", "main", "main.ts"),
+    preload: join(root, "src", "main", "preload.ts"),
   },
   output: {
-    path: join(__dirname, "dist", "main"),
+    path: join(root, "dist", "main"),
     filename: "[name].js",
   },
   module: {
@@ -28,7 +31,7 @@ module.exports = merge.smart(baseConfig, {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      reportFiles: ["src/main/**/*"],
+      reportFiles: join(root, "src", "main", "**", "*"),
     }),
     new DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(

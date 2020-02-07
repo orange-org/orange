@@ -1,14 +1,17 @@
 {
   "name": "orange",
   "version": "1.0.0",
-  "description": "Electron and TypeScript UI client for Bitcoin Core",
+  "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
   "scripts": {
-    "wds": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
-    "build-renderer": "webpack --config webpack/webpack.renderer.config.js",
-    "electron": "npm run build-main && electron ./dist/main/main.js",
-    "build-main": "webpack --config webpack/webpack.main.config.js",
-    "test": "jest"
+    "develop": "run-p -ln webpack-server typescript-check",
+    "app": "npm run build-main && electron ./dist/main/main.js",
+    "test": "jest",
+    "// SUPPORTING SCRIPTS (not meant to be run directly)": "#",
+    "////////////////////////////////////////////////////": "#",
+    "webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
+    "typescript-check": "tsc --noEmit -w",
+    "build-main": "webpack --config webpack/webpack.main.config.js"
   },
   "dependencies": {
     "@babel/core": "^7.8.3",
@@ -38,6 +41,7 @@
     "@types/react-router-dom": "^5.1.3",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@types/react-window": "^1.8.1",
+    "@types/testing-library__jest-dom": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "babel-jest": "^25.1.0",

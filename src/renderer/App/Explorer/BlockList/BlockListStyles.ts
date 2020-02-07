@@ -24,8 +24,4 @@ export const useBlockListStyles = makeStyles(theme => ({
       BLOCK_HORIZONTAL_MARGIN,
     )}px`,
   },
-
-  moat: {
-    borderLeft: `1px solid ${theme.palette.divider}`,
-  },
 }));

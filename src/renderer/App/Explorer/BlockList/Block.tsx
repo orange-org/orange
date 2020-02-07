@@ -104,7 +104,7 @@ const Block_: React.FC<CardProps & {
   );
 
   return (
-    <Box className={cn.root}>
+    <Box className={cn.root} data-testid="blocklist-block">
       <Card
         {...props}
         variant="elevation"

@@ -80,19 +80,17 @@ export const ListOfBlocks: React.FC = () => {
 
   const cn = useBlockListStyles();
 
-  if (!explorerBlockList) {
-    return null;
-  }
-
   return (
-    <div className={cn.scrollableBlocksContainer}>
+    <div
+      className={cn.scrollableBlocksContainer}
+      data-testid="scrollable-blocks-container"
+    >
       <div className={cn.blocksContainer}>
-        {explorerBlockList.map(i => {
+        {explorerBlockList?.map(i => {
           return <Block isReady={allBlocksLoaded} key={i.hash} data={i} />;
         })}
       </div>
-
-      <div className={cn.moat} />
+      <div />
     </div>
   );
 };

@@ -2,7 +2,7 @@
   "search.exclude": {
     "dist": true
   },
-  "cSpell.words": ["Mempool", "SCROLLABLE", "bitcoind", "clsx"],
+  "cSpell.words": ["Mempool", "SCROLLABLE", "bitcoind", "clsx", "testid"],
   "editor.formatOnSave": true,
   "editor.rulers": [80],
   "rewrap.wrappingColumn": 80

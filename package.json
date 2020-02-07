@@ -7,6 +7,7 @@
     "develop": "run-p -ln webpack-server typescript-check",
     "app": "npm run build-main && electron ./dist/main/main.js",
     "test": "jest",
+
     "// SUPPORTING SCRIPTS (not meant to be run directly)": "#",
     "////////////////////////////////////////////////////": "#",
     "webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",

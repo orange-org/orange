@@ -1,10 +1,7 @@
-import * as actions from "_r/redux/actions";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { useInterval } from "_r/hooks";
+import { useParams } from "react-router-dom";
 import * as thunks from "_r/redux/thunks";
-import { last } from "_r/utils/smallUtils";
 import { Block } from "./Block";
 import { useBlockListStyles } from "./BlockListStyles";
 

@@ -27,7 +27,7 @@ import { last, range } from "lodash";
  * described earlier.
  */
 export const generateList = (start: number, end: number) => {
-  return range(start, end);
+  return range(start, end - 1);
 };
 
 const WINDOW_SIZE = 20;
@@ -40,21 +40,20 @@ export const calculateExplorerBlockListHeights = (
       return currentlyDisplayedList;
     }
 
-    const lowestCurrentlyDisplayedHeight = last(currentlyDisplayedList)!;
-    const isLower = selectedHeight < lowestCurrentlyDisplayedHeight;
+    const lastHeight = last(currentlyDisplayedList)!;
+    const isWithinLowerRange =
+      selectedHeight < lastHeight && selectedHeight > lastHeight - WINDOW_SIZE;
 
-    if (isLower) {
-      const distanceFromBottom =
-        lowestCurrentlyDisplayedHeight - selectedHeight;
-
-      if (distanceFromBottom < WINDOW_SIZE) {
-        return generateList(selectedHeight + WINDOW_SIZE, selectedHeight);
-      }
+    if (isWithinLowerRange) {
+      const end = selectedHeight;
+      const start = end + WINDOW_SIZE - 1;
+      return generateList(start, end);
     }
   }
 
-  const beginningOfRange =
-    selectedHeight < WINDOW_SIZE ? WINDOW_SIZE : selectedHeight;
+  const lowerThanWindow = selectedHeight < 20;
+  const start = lowerThanWindow ? WINDOW_SIZE - 1 : selectedHeight;
+  const end = lowerThanWindow ? 0 : selectedHeight - WINDOW_SIZE + 1;
 
-  return generateList(beginningOfRange, beginningOfRange - WINDOW_SIZE);
+  return generateList(start, end);
 };

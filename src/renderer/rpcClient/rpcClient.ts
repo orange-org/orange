@@ -15,7 +15,7 @@ const isRpcResponse = (
   );
 };
 
-type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
+export type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
   RpcResponse["result"],
   Extract<RpcResponse, { method: T["method"]; error: null }>["result"]
 >;

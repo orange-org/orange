@@ -13,6 +13,7 @@ import { Explorer } from "_r/App/Explorer/Explorer";
 import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
+import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 
 export const App = () => {
   return (
@@ -23,7 +24,7 @@ export const App = () => {
         <Router>
           <Switch>
             <Route exact path="/">
-              <Redirect to="/explorer/top" />
+              <RedirectToHighestBlock />
             </Route>
             <Route path="/explorer/:blockHeight">
               <AppBar />

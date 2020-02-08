@@ -1,3 +1,4 @@
+import { map } from "bluebird";
 import { Dispatch } from "redux";
 import { SetNetworkActiveRpcRequest } from "_t/bitcoindRpcRequests";
 import { GetState } from "_t/typeHelpers";
@@ -5,6 +6,7 @@ import * as actions from "./actions";
 import { rpcClient } from "../rpcClient/rpcClient";
 import { Block } from "_t/bitcoindRpcResponses";
 import { last } from "_r/utils/smallUtils";
+import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
 
 export const requestNetworkInfo = (nonce: NONCE) => async (
   dispatch: Dispatch,
@@ -108,44 +110,44 @@ export const requestBlockByHeight = (
   return blockResponse;
 };
 
-export const setSelectedExplorerBlock = (
+export const populateBlockList = (
   nonce: NONCE,
-  blockHeight: number,
-) => async (dispatch: Dispatch) => {
-  const blockHash = await rpcClient(nonce, {
-    method: "getblockhash",
-    params: [blockHeight],
-  });
-  const block = await rpcClient(nonce, {
-    method: "getblock",
-    params: [blockHash, 1],
-  });
-
-  dispatch(actions.setSelectedExplorerBlock(block));
-
-  return block;
-};
-
-export const addBlockToExplorerBlockList = (
-  nonce: NONCE,
-  blockHeight: number,
+  selectedHeight: number,
 ) => async (dispatch: Dispatch, getState: GetState) => {
   const { explorerBlockList } = getState().misc;
+  const blockList = calculateExplorerBlockListHeights(
+    selectedHeight,
+    explorerBlockList ? explorerBlockList.map(block => block.height) : [],
+  );
+  const populatedBlockList = await map(
+    blockList,
+    async height => {
+      const block = explorerBlockList?.find(block_ => block_.height === height);
 
-  const blockHash = await rpcClient(nonce, {
-    method: "getblockhash",
-    params: [blockHeight],
-  });
-  const block = await rpcClient(nonce, {
-    method: "getblock",
-    params: [blockHash, 1],
-  });
+      if (block) {
+        return block;
+      }
 
-  const newExplorerBlockList = explorerBlockList
-    ? [...explorerBlockList, block]
-    : [block];
+      const blockHashResponse = await rpcClient(nonce, {
+        method: "getblockhash",
+        params: [height],
+      });
+      const blockResponse = await rpcClient(nonce, {
+        method: "getblock",
+        params: [blockHashResponse, 1],
+      });
 
-  dispatch(actions.setExplorerBlockList(newExplorerBlockList));
+      return blockResponse;
+    },
+    { concurrency: 1 },
+  );
 
-  return newExplorerBlockList;
+  dispatch(
+    actions.setSelectedExplorerBlock(
+      populatedBlockList.find(block => block.height === selectedHeight)!,
+    ),
+  );
+  dispatch(actions.setExplorerBlockList(populatedBlockList));
+
+  return populatedBlockList;
 };

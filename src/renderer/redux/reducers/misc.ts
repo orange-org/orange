@@ -24,7 +24,9 @@ export const misc = createReducer(initialState)
     ...state,
     explorerBlockList: action.payload,
   }))
-  .handleAction(actions.setSelectedExplorerBlock, (state, action) => ({
-    ...state,
-    selectedExplorerBlock: action.payload,
-  }));
+  .handleAction(actions.setSelectedExplorerBlock, (state, action) => {
+    return {
+      ...state,
+      selectedExplorerBlock: action.payload,
+    };
+  });

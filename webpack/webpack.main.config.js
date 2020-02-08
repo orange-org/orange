@@ -29,9 +29,6 @@ module.exports = merge.smart(baseConfig, {
     ],
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      reportFiles: join(root, "src", "main", "**", "*"),
-    }),
     new DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",

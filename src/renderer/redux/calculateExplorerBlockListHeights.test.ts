@@ -3,7 +3,11 @@ import {
   generateList,
 } from "./calculateExplorerBlockListHeights";
 
-describe("calculateBlockList", () => {
+describe("calculateExplorerBlockListHeights", () => {
+  it("returns 20 elements only", () => {
+    expect(calculateExplorerBlockListHeights(0, []).length).toBe(20);
+  });
+
   describe("empty currently displayed list", () => {
     it("works for beginning of the list", () => {
       expect(calculateExplorerBlockListHeights(100, [])).toEqual(

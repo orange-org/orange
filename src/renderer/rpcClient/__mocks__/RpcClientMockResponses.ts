@@ -34,7 +34,7 @@ class RpcClientMockResponses {
     return queuedResponse[0].response;
   };
 
-  close = () => {
+  verify = () => {
     if (this.queuedResponses.length > 0) {
       throw new Error(
         `Found unused queued responses: ${JSON.stringify(

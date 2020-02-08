@@ -1,4 +1,4 @@
-import { rangeRight, range, last } from "lodash";
+import { last, range } from "lodash";
 
 /**
  * The problem we are trying to solve here is the following:
@@ -20,7 +20,6 @@ import { rangeRight, range, last } from "lodash";
  *
  * So...
  *
- * * let HEIGHTS be the list [0..n] where n is any positive number
  * * let SELECTED_HEIGHT be any number from HEIGHTS
  * * let CURRENTLY_DISPLAYED_BLOCKS be a subset of HEIGHTS such as [i..i + 20] where i >= 0
  *
@@ -28,7 +27,7 @@ import { rangeRight, range, last } from "lodash";
  * described earlier.
  */
 export const generateList = (start: number, end: number) => {
-  return range(start, end - 1);
+  return range(start, end);
 };
 
 const WINDOW_SIZE = 20;

@@ -14,6 +14,7 @@ export const RedirectToHighestBlock: React.FC = () => {
       );
 
       history.push(`/explorer/${blockchainInfo.blocks.toString()}`);
+      // history.push(`/explorer/1665243`);
     };
 
     request();

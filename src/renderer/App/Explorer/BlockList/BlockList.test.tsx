@@ -4,51 +4,40 @@ import React from "react";
 import { App } from "_r/App/App";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
 import { blockchainInfoFixture1 } from "_r/rpcClient/__mocks__/blockchainInfoFixtures";
-import { blockFixture1 } from "_r/rpcClient/__mocks__/blockFixtures";
+import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
+import { range } from "lodash";
+import { Block } from "_t/bitcoindRpcResponses";
 
 jest.mock("_r/rpcClient/rpcClient");
 
 describe("loading block list", () => {
-  it("starts by loading 21 blocks to display", async () => {
+  afterEach(() => {
+    rpcClientMockResponses.verify();
+  });
+  it("starts by loading 20 blocks to display", async () => {
     rpcClientMockResponses
       .forRequest({ method: "getblockchaininfo" })
       .queueResponse(blockchainInfoFixture1);
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblockhash",
-        params: [blockchainInfoFixture1.blocks],
-      })
-      .queueResponse(blockFixture1.hash);
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        params: [blockFixture1.hash, 1],
-      })
-      .queueResponse(blockFixture1);
-    // rpcClientMockResponses
-    //   .forRequest({
-    //     method: "getblockhash",
-    //     params: [blockchainInfoFixture1.blocks],
-    //   })
-    //   .queueResponse(blockFixture1.hash);
-    // rpcClientMockResponses
-    //   .forRequest({
-    //     method: "getblock",
-    //     params: [blockFixture1.hash, 1],
-    //   })
-    //   .queueResponse(blockFixture1);
-    // rpcClientMockResponses
-    //   .forRequest({
-    //     method: "getblockhash",
-    //     params: [blockchainInfoFixture1.blocks],
-    //   })
-    //   .queueResponse(blockFixture1.hash);
-    // rpcClientMockResponses
-    //   .forRequest({
-    //     method: "getblock",
-    //     params: [blockFixture1.hash, 1],
-    //   })
-    //   .queueResponse(blockFixture1);
+
+    range(1, 21).forEach(fixtureNumber => {
+      // @ts-ignore
+      const blockFixture = blockFixtures[
+        `blockFixture${fixtureNumber}`
+      ] as Block;
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblockhash",
+          params: [blockFixture.height],
+        })
+        .queueResponse(blockFixture.hash);
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          params: [blockFixture.hash, 1],
+        })
+        .queueResponse(blockFixture);
+    });
 
     const { getAllByTestId } = render(<App />);
 
@@ -56,7 +45,6 @@ describe("loading block list", () => {
       getAllByTestId("blocklist-block"),
     );
 
-    // expect(blocks).toMatchSnapshot();
-    rpcClientMockResponses.close();
+    expect(blocks.length).toBe(20);
   });
 });

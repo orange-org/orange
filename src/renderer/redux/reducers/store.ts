@@ -1,7 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import { misc, MiscState } from "./misc";
-import { rpcResponses, RpcResponsesState } from "./rpcResponses";
 
 const reduxDevToolsCompose = (window as any)
   .__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -14,12 +13,10 @@ const composeEnhancers = reduxDevToolsCompose
   : compose;
 
 export type State = {
-  rpcResponses: RpcResponsesState;
   misc: MiscState;
 };
 
 export const reducer = combineReducers({
-  rpcResponses,
   misc,
 
   // Between the `createReducer` function of `typesafe-actions` and here,

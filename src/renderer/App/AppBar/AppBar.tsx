@@ -1,6 +1,10 @@
-import { AppBar as MuiAppBar, makeStyles, Toolbar } from "@material-ui/core";
+import {
+  AppBar as MuiAppBar,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
-import { Typography } from "_r/App/components/Typography";
 import { SearchBox } from "./SearchBox/SearchBox";
 
 const useAppBarStyles = makeStyles(theme => ({

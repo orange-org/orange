@@ -26,8 +26,8 @@ export const ListOfBlocks: React.FC = () => {
       data-testid="scrollable-blocks-container"
     >
       <div className={cn.blocksContainer}>
-        {explorerBlockList?.map(i => {
-          return <Block isReady={false} key={i.hash} data={i} />;
+        {explorerBlockList?.map(block => {
+          return <Block key={block.hash} data={block} />;
         })}
       </div>
       <div />

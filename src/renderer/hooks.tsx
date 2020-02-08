@@ -1,9 +1,7 @@
 import { makeStyles, Typography, TypographyTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
 import clsx from "clsx";
-import React, { useEffect, useRef, DependencyList } from "react";
-import { useSelector } from "react-redux";
-import { RpcResponsesState } from "_r/redux/reducers/rpcResponses";
+import React from "react";
 
 // /**
 //  * `useInterval` is a React Hook that uses `setInterval` to execute a

@@ -16,10 +16,6 @@ export const initialState: MiscState = {
 };
 
 export const misc = createReducer(initialState)
-  .handleAction(actions.setBestBlock, (state, action) => ({
-    ...state,
-    bestBlock: action.payload,
-  }))
   .handleAction(actions.setExplorerBlockList, (state, action) => ({
     ...state,
     explorerBlockList: action.payload,

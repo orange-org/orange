@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Block } from "_t/bitcoindRpcResponses";
+import { rpcService } from "_r/rpcClient/rpcService";
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -26,13 +27,14 @@ export const useSearchHandlers = () => {
       let block: Block | null = null;
 
       try {
-        block = await dispatch(thunks.requestBlock(__NONCE__, searchValue));
+        block = await rpcService.requestBlock(__NONCE__, searchValue);
       } catch (e) {}
 
       try {
         if (!block) {
-          block = await dispatch(
-            thunks.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
+          block = await rpcService.requestBlockByHeight(
+            __NONCE__,
+            parseInt(searchValue, 10),
           );
         }
       } catch (e) {}

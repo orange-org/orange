@@ -1,11 +1,10 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
-import { join } from "path";
 import { installExtensions } from "main/installExtensions";
 import { isDevelopment } from "main/isDevelopment";
-import { performFinishLoadSetup } from "main/performFinishLoadSetup";
 import { preventNetworkAndResourceRequests } from "main/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "main/preventNewWebViewsAndWindows";
-import { getAppRoot } from "main/getAppRoot";
+import { registerIpcListener } from "./registerIpcListener";
+import { processes } from "./processes";
 
 app.enableSandbox();
 
@@ -29,7 +28,7 @@ function createWindow() {
       allowRunningInsecureContent: false,
       sandbox: true,
 
-      preload: join(__dirname, "preload.js"),
+      preload: `${__dirname}/preload.js`,
     },
 
     center: true,
@@ -41,10 +40,10 @@ function createWindow() {
 
   preventNetworkAndResourceRequests(mainWindow);
 
-  mainWindow.loadFile(join(getAppRoot(), "renderer", "index.html"));
+  mainWindow.loadFile(processes.renderer);
 
   mainWindow.webContents.once("did-finish-load", () => {
-    performFinishLoadSetup(mainWindow, app);
+    registerIpcListener(mainWindow);
   });
 
   if (isDevelopment) {

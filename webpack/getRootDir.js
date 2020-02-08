@@ -1,3 +1,1 @@
-const { join } = require("path");
-
-module.exports = () => join(__dirname, "..");
+module.exports = () => `${__dirname}/..`;

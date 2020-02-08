@@ -2,7 +2,6 @@ const { compact } = require("lodash");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { join } = require("path");
 const globalConstants = require("./globalConstants");
 // const crypto = require("crypto");
 
@@ -26,7 +25,7 @@ exports.baseConfig = {
         loader: "babel-loader",
         options: {
           cacheDirectory: true,
-          configFile: join(root, "babel.config.js"),
+          configFile: `${root}/babel.config.js`,
         },
       },
     ],

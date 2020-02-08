@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { useCommonStyles } from "_r/commonStyles";
-import { useRpcResponses } from "_r/hooks";
+// import { useRpcResponses } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { BlockDetails } from "./BlockDetails";
 import { useExplorerStyles } from "./ExplorerStyles";

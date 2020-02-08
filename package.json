@@ -7,12 +7,17 @@
     "develop": "run-p -ln webpack-server typescript-check",
     "app": "npm run build-main && electron ./dist/main/main.js",
     "test": "jest",
-
-    "// SUPPORTING SCRIPTS (not meant to be run directly)": "#",
-    "////////////////////////////////////////////////////": "#",
+    "check-coverage": "run-s test-with-coverage open-coverage-results",
+    "//": "#",
+    "//": "#",
+    "///////////////////////////////////////////////////////": "#",
+    "// SUPPORTING SCRIPTS (not meant to be run directly) //": "#",
+    "///////////////////////////////////////////////////////": "#",
     "webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
     "typescript-check": "tsc --noEmit -w",
-    "build-main": "webpack --config webpack/webpack.main.config.js"
+    "build-main": "webpack --config webpack/webpack.main.config.js",
+    "test-with-coverage": "npm run test -- --coverage",
+    "open-coverage-results": "node_modules/.bin/open-cli coverage/lcov-report/index.html"
   },
   "dependencies": {
     "@babel/core": "^7.8.3",
@@ -76,6 +81,7 @@
     "lodash.range": "^3.2.0",
     "moment": "^2.24.0",
     "npm-run-all": "^4.1.5",
+    "open-cli": "^5.0.0",
     "pkg-dir": "^4.2.0",
     "prettier": "1.19.1",
     "react": "^16.12.0",

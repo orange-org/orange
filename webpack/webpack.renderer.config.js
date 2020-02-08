@@ -1,7 +1,6 @@
 const { DefinePlugin, NamedModulesPlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { join } = require("path");
 
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
 const getIsDevelopment = require("./getIsDevelopment");
@@ -15,10 +14,10 @@ const isDevelopment = getIsDevelopment();
 module.exports = merge.smart(baseConfig, {
   target: "web",
   entry: {
-    app: join(root, "src", "renderer", "renderer.tsx"),
+    app: `${root}/src/renderer/renderer.tsx`,
   },
   output: {
-    path: join(root, "dist", "renderer"),
+    path: `${root}/dist/renderer`,
     filename: "[name].js",
   },
   module: {
@@ -55,7 +54,7 @@ module.exports = merge.smart(baseConfig, {
     new NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       title: "Orange",
-      template: join(root, "src", "renderer", "index.html"),
+      template: `${root}/src/renderer/index.html`,
       templateParameters: {
         contentSecurityPolicy: getContentSecurityPolicy(),
       },

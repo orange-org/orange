@@ -1,13 +1,15 @@
 import { rpcClient } from "./rpcClient";
 
+type Verbosity = 0 | 1 | 2;
+
 class RpcService {
   requestBlockchainInfo = (nonce: NONCE) =>
     rpcClient(nonce, {
       method: "getblockchaininfo",
     });
 
-  requestBlock = (nonce: NONCE, blockHash: string) =>
-    rpcClient(nonce, { method: "getblock", params: [blockHash] });
+  requestBlock = (nonce: NONCE, blockHash: string, verbosity: Verbosity = 1) =>
+    rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
 
   requestBlockHash = (nonce: NONCE, blockHeight: number) =>
     rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
@@ -15,12 +17,13 @@ class RpcService {
   requestBlockByHeight = async (
     nonce: NONCE,
     blockHeight: number,
-    verbosity: 0 | 1 | 2 = 1,
+    verbosity: Verbosity = 1,
   ) =>
-    rpcClient(nonce, {
-      method: "getblock",
-      params: [await this.requestBlockHash(nonce, blockHeight), verbosity],
-    });
+    this.requestBlock(
+      nonce,
+      await this.requestBlockHash(nonce, blockHeight),
+      verbosity,
+    );
 }
 
 export const rpcService = new RpcService();

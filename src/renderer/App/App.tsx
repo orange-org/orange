@@ -1,15 +1,10 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import { Provider } from "react-redux";
-import {
-  MemoryRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
-import { GlobalCss } from "_r/globalCss";
 import { Explorer } from "_r/App/Explorer/Explorer";
+import { GlobalCss } from "_r/globalCss";
 import { createStore } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
@@ -23,12 +18,14 @@ export const getApp = (
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
+
         <Router>
           <Switch>
             <Route exact path="/">
               <RedirectToHighestBlock />
             </Route>
-            <Route path="/explorer/:blockHeight">
+
+            <Route path="/explorer/:blockHeightAsId">
               <AppBar />
               <Explorer />
             </Route>

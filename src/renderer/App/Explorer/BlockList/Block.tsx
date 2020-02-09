@@ -17,9 +17,9 @@ const Block_: React.FC<CardProps & {
 
   const cn = useBlockStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);
-  const { blockHeight } = useParams();
+  const { blockHeightAsId } = useParams();
 
-  const isActive = blockHeight === data.height.toString();
+  const isActive = blockHeightAsId === data.height.toString();
 
   useEffect(() => {
     if (isActive) {
@@ -28,7 +28,7 @@ const Block_: React.FC<CardProps & {
         block: "nearest",
       });
     }
-  }, [blockHeight]);
+  }, [blockHeightAsId]);
 
   const Typography = useLoadingAwareTypography(false);
 

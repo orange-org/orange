@@ -10,12 +10,14 @@ import {
 import "typeface-roboto";
 import { GlobalCss } from "_r/globalCss";
 import { Explorer } from "_r/App/Explorer/Explorer";
-import { store } from "_r/redux/reducers/store";
+import { createStore } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 
-export const App = () => {
+export const getApp = (
+  store: ReturnType<typeof createStore> = createStore(),
+) => () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>

@@ -10,7 +10,8 @@ module.exports = {
       return acc;
     }, {}),
   },
-  setupFilesAfterEnv: ["<rootDir>/jest/setupFilesAfterEnv.js"],
+  setupFiles: ["<rootDir>/jest/setupFile.js"],
+  setupFilesAfterEnv: ["<rootDir>/jest/setupFileAfterEnv.js"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   // collectCoverage: true,
   collectCoverageFrom: [

@@ -8,8 +8,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import "typeface-roboto";
-import { App } from "_r/App/App";
+import { getApp } from "_r/App/App";
 
-export const HotApp = hot(App);
+export const HotApp = hot(getApp());
 
 ReactDOM.render(<HotApp />, document.getElementById("app"));

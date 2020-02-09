@@ -17,6 +17,7 @@ module.exports = {
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!src/typings/**/*",
+    "!src/renderer/testUtils/**/*",
   ],
   modulePaths: ["<rootDir>/src"],
 };

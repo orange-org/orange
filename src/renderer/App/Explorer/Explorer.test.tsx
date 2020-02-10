@@ -57,7 +57,7 @@ describe("Explorer view", () => {
 
       expect(
         await screen.findByText(secondFromTopHeading, { selector: "h1" }),
-      ).toBeInTheDocument();
+      ).toBeVisible();
     });
   });
 });

@@ -1,17 +1,13 @@
-/* eslint-disable no-empty */
-import * as thunks from "_r/redux/thunks";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Block } from "_t/bitcoindRpcResponses";
 import { rpcService } from "_r/rpcClient/rpcService";
+import { Block } from "_t/bitcoindRpcResponses";
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
-  const dispatch = useDispatch();
 
   const onChange: (
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => void = event => {
     const { value } = event.target;
 
@@ -20,24 +16,32 @@ export const useSearchHandlers = () => {
 
   const history = useHistory();
 
-  const onKeyPress: (
-    event: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>,
+  const onKeyUp: (
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => void = async event => {
     if (event.keyCode === 13) {
       let block: Block | null = null;
+      const swallowRpcErrors = async (fn: Function) => {
+        try {
+          return await fn();
+        } catch (error) {
+          if (error.code !== -8) {
+            throw error;
+          }
 
-      try {
-        block = await rpcService.requestBlock(__NONCE__, searchValue);
-      } catch (e) {}
-
-      try {
-        if (!block) {
-          block = await rpcService.requestBlockByHeight(
-            __NONCE__,
-            parseInt(searchValue, 10),
-          );
+          return null;
         }
-      } catch (e) {}
+      };
+
+      block = await swallowRpcErrors(() =>
+        rpcService.requestBlock(__NONCE__, searchValue),
+      );
+
+      if (!block) {
+        block = await swallowRpcErrors(() =>
+          rpcService.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
+        );
+      }
 
       if (block) {
         history.push(`/explorer/${block.height}`);
@@ -45,5 +49,5 @@ export const useSearchHandlers = () => {
     }
   };
 
-  return { onChange, onKeyPress, found: true };
+  return { onChange, onKeyUp };
 };

@@ -6,7 +6,7 @@ import { useSearchHandlers } from "./SearchBoxHooks";
 
 export const SearchBox: React.FC = () => {
   const cn = useSearchBoxStyles();
-  const { onKeyPress, found, onChange } = useSearchHandlers();
+  const { onKeyUp, onChange } = useSearchHandlers();
 
   return (
     <div className={cn.search}>
@@ -15,7 +15,7 @@ export const SearchBox: React.FC = () => {
       </div>
       <InputBase
         onChange={onChange}
-        onKeyUp={onKeyPress}
+        onKeyUp={onKeyUp}
         type="search"
         placeholder="Search block height or block hash..."
         classes={{

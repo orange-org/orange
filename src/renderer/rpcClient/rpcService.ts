@@ -22,12 +22,12 @@ class RpcService {
     nonce: NONCE,
     blockHeight: number,
     verbosity: Verbosity = 1,
-  ) =>
-    this.requestBlock(
-      nonce,
-      await this.requestBlockHash(nonce, blockHeight),
-      verbosity,
-    );
+  ) => {
+    const blockHash = await this.requestBlockHash(nonce, blockHeight);
+    const block = await this.requestBlock(nonce, blockHash, verbosity);
+
+    return block;
+  };
 }
 
 export const rpcService = new RpcService();

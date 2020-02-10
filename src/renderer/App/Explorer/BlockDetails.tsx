@@ -72,19 +72,25 @@ const BlockDetails_ = () => {
   const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
 
   useEffect(() => {
+    let isMounted = true;
+
     const requestData = async () => {
       setBlockData(dummyBlockData);
       setIsLoading(true);
 
       const blockData_ = await withDelay(selectedExplorerBlock, 500);
 
-      if (blockData_) {
+      if (blockData_ && isMounted) {
         setBlockData(blockData_);
         setIsLoading(false);
       }
     };
 
     requestData();
+
+    return () => {
+      isMounted = false;
+    };
   }, [selectedExplorerBlock]);
 
   const Typography = useLoadingAwareTypography(isLoading);

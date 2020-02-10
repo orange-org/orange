@@ -115,9 +115,11 @@ export const useLoadingAwareTypography = (
         {...propsWithoutChildren}
         className={clsx(className, shouldHide ? cn.transparent : null)}
       >
-        <span className={clsx(shouldHide ? cn.skeleton : null)}>
-          {children}
-        </span>
+        {shouldHide ? (
+          <span className={cn.skeleton}>{children}</span>
+        ) : (
+          children
+        )}
       </Typography>
     );
   };

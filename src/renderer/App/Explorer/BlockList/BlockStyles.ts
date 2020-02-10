@@ -96,5 +96,6 @@ export const useBlockStyles = makeStyles(theme => ({
     bottom: 0,
     left: 0,
     right: 0,
+    color: "transparent",
   },
 }));

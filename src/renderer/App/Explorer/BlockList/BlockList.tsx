@@ -8,13 +8,13 @@ import { useBlockListStyles } from "./BlockListStyles";
 export const ListOfBlocks: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { blockHeight: selectedBlockHeight } = useParams();
+  const { blockHeightAsId } = useParams();
 
   useEffect(() => {
     dispatch(
-      thunks.populateBlockList(__NONCE__, parseInt(selectedBlockHeight!, 10)),
+      thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),
     );
-  }, [selectedBlockHeight]);
+  }, [blockHeightAsId]);
 
   const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
 

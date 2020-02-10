@@ -1,17 +1,20 @@
 import { isEqual } from "lodash";
 import { UnsentRpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponse } from "_t/bitcoindRpcResponses";
-import { RpcClientReturnType } from "../rpcClient";
+
+type SimplifiedRpcResponse =
+  | RpcResponse["result"]
+  | { error: { code: number; message: string } };
 
 class RpcClientMockResponses {
   queuedResponses: {
     request: UnsentRpcRequest;
-    response: RpcResponse["result"];
+    response: SimplifiedRpcResponse;
   }[] = [];
 
-  forRequest = <TRpcRequest extends UnsentRpcRequest>(request: TRpcRequest) => {
+  forRequest = (request: UnsentRpcRequest) => {
     return {
-      queueResponse: (response: RpcClientReturnType<TRpcRequest>) => {
+      queueResponse: (response: SimplifiedRpcResponse) => {
         this.queuedResponses.push({
           request,
           response,

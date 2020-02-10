@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { rpcService } from "_r/rpcClient/rpcService";
 import { Block } from "_t/bitcoindRpcResponses";
+import { RPC_SERVER_ERROR_CODES } from "_c/constants";
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -21,11 +22,15 @@ export const useSearchHandlers = () => {
   ) => void = async event => {
     if (event.keyCode === 13) {
       let block: Block | null = null;
-      const swallowRpcErrors = async (fn: Function) => {
+      const ignoreExpectedRpcErrors = async (fn: Function) => {
         try {
           return await fn();
         } catch (error) {
-          if (error.code !== -8) {
+          /* istanbul ignore if */
+          if (
+            error.code !== RPC_SERVER_ERROR_CODES.rpcInvalidParameter &&
+            error.code !== RPC_SERVER_ERROR_CODES.rpcMiscError
+          ) {
             throw error;
           }
 
@@ -33,12 +38,12 @@ export const useSearchHandlers = () => {
         }
       };
 
-      block = await swallowRpcErrors(() =>
+      block = await ignoreExpectedRpcErrors(() =>
         rpcService.requestBlock(__NONCE__, searchValue),
       );
 
       if (!block) {
-        block = await swallowRpcErrors(() =>
+        block = await ignoreExpectedRpcErrors(() =>
           rpcService.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
         );
       }

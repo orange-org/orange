@@ -15,8 +15,9 @@ class RpcService {
     verbosity: Verbosity = 1,
   ) => rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
 
-  requestBlockHash = (nonce: NONCE, blockHeight: number) =>
-    rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
+  requestBlockHash = (nonce: NONCE, blockHeight: number) => {
+    return rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
+  };
 
   requestBlockByHeight = async (
     nonce: NONCE,

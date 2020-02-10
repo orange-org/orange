@@ -9,5 +9,10 @@ export const rpcClient = (_nonce: any, request: any) => {
     );
   }
 
+  const error = response && (response as any).error;
+  if (error) {
+    return Promise.reject(error);
+  }
+
   return Promise.resolve(response);
 };

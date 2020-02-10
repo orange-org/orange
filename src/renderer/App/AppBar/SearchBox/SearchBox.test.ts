@@ -1,6 +1,5 @@
 import { screen } from "@testing-library/dom";
 import { cleanup, fireEvent } from "@testing-library/react";
-import { blockchainInfoFixture1 } from "_r/rpcClient/__mocks__/blockchainInfoFixtures";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
 import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitialLoad";

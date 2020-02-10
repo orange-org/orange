@@ -11,7 +11,6 @@ import {
   BlockHeaderRpcRequest,
   BlockHashRpcRequest,
 } from "_t/bitcoindRpcRequests";
-import { NullableKeys } from "./typeHelpers";
 
 export type RpcError = {
   code: number;

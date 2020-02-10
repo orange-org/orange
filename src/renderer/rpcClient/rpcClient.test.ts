@@ -1,5 +1,9 @@
 import { RpcResponseMtR } from "_t/IpcMessages";
-import { rpcClient } from "./rpcClient";
+import { rpcClient as rpcClient_ } from "./rpcClient";
+
+const { rpcClient } = jest.requireActual("./rpcClient") as {
+  rpcClient: typeof rpcClient_;
+};
 
 jest.useFakeTimers();
 

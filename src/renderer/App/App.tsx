@@ -11,6 +11,7 @@ import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 
 export const getApp = (
+  /* istanbul ignore next */
   store: ReturnType<typeof createStore> = createStore(),
 ) => () => {
   return (

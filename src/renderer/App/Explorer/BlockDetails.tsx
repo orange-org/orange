@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
-import { formatDate, pluralize, humanFileSize } from "_r/utils/smallUtils";
+import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { useBlockDetailsStyles } from "./BlockDetailsStyles";
@@ -78,7 +78,7 @@ const BlockDetails_ = () => {
       setBlockData(dummyBlockData);
       setIsLoading(true);
 
-      const blockData_ = await withDelay(selectedExplorerBlock, 500);
+      const blockData_ = await withDelay(selectedExplorerBlock);
 
       if (blockData_ && isMounted) {
         setBlockData(blockData_);
@@ -123,7 +123,7 @@ const BlockDetails_ = () => {
                   key={blockData.hash}
                   itemSize={42}
                   height={theme.spacing(120)}
-                  itemCount={blockData.tx.length || 10}
+                  itemCount={blockData.tx.length}
                   width={width - 1 /* -1 for the border */}
                   itemData={blockData.tx}
                 >
@@ -191,7 +191,7 @@ const BlockDetails_ = () => {
             ].map(definition => (
               <Button
                 component={Link}
-                to={definition.nextHeight.toString() || ""}
+                to={definition.nextHeight.toString()}
                 disabled={isLoading}
                 key={definition.text}
               >

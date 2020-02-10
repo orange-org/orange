@@ -8,3 +8,5 @@
 window.HTMLElement.prototype.scrollIntoView = () => null;
 
 require("@testing-library/jest-dom/extend-expect");
+
+jest.mock("_r/rpcClient/rpcClient");

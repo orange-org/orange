@@ -1,41 +1,10 @@
 import { screen } from "@testing-library/dom";
 import { cleanup, fireEvent } from "@testing-library/react";
-import { range } from "lodash";
 import { blockchainInfoFixture1 } from "_r/rpcClient/__mocks__/blockchainInfoFixtures";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
+import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitialLoad";
 import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
-import { Block } from "_t/bitcoindRpcResponses";
-
-jest.mock("_r/rpcClient/rpcClient");
-
-const prepareRpcClientInitialLoad = () => {
-  /**
-   * Prepare rpcClient to be able to load
-   * twenty blocks.
-   */
-  rpcClientMockResponses
-    .forRequest({ method: "getblockchaininfo" })
-    .queueResponse(blockchainInfoFixture1);
-
-  range(1, 21).forEach(fixtureNumber => {
-    // @ts-ignore
-    const blockFixture = blockFixtures[`blockFixture${fixtureNumber}`] as Block;
-
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblockhash",
-        params: [blockFixture.height],
-      })
-      .queueResponse(blockFixture.hash);
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        params: [blockFixture.hash, 1],
-      })
-      .queueResponse(blockFixture);
-  });
-};
 
 describe("Explorer view", () => {
   afterEach(() => {

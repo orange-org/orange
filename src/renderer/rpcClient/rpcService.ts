@@ -8,8 +8,12 @@ class RpcService {
       method: "getblockchaininfo",
     });
 
-  requestBlock = (nonce: NONCE, blockHash: string, verbosity: Verbosity = 1) =>
-    rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
+  requestBlock = (
+    nonce: NONCE,
+    blockHash: string,
+    /* istanbul ignore next */
+    verbosity: Verbosity = 1,
+  ) => rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
 
   requestBlockHash = (nonce: NONCE, blockHeight: number) =>
     rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });

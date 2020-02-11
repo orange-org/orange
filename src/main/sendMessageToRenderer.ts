@@ -1,4 +1,4 @@
-import { MessageToRenderer } from "typings/IpcMessages";
+import { MessageToRenderer } from "_t/IpcMessages";
 import { BrowserWindow } from "electron";
 
 export function sendMessageToRenderer(

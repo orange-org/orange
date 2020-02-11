@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron";
-import { MessageToRenderer, MessageToMain } from "typings/IpcMessages";
+import { MessageToRenderer, MessageToMain } from "_t/IpcMessages";
 
 ipcRenderer.on("message-to-renderer", (_event, data: MessageToRenderer) => {
   window.postMessage(data, "*");

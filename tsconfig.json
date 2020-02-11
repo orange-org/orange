@@ -24,7 +24,7 @@
     "jsx": "preserve",
 
     "pretty": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "declaration": false,
     "importHelpers": false,
     "noEmitHelpers": true,
@@ -33,11 +33,12 @@
     "resolveJsonModule": true,
 
     "paths": {
-      "_r/*": ["renderer/*"],
-      "_m/*": ["main/*"],
-      "_a/*": ["assets/*"],
-      "_t/*": ["typings/*"],
-      "_c/*": ["common/*"]
+      "_r/*": ["src/renderer/*"],
+      "_m/*": ["src/main/*"],
+      "_a/*": ["src/assets/*"],
+      "_t/*": ["src/typings/*"],
+      "_c/*": ["src/common/*"],
+      "__mocks__/*": ["__mocks__/*"]
     }
   },
   "include": ["src/**/*"]

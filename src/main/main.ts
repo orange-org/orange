@@ -6,7 +6,7 @@ import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
 import { registerIpcListener } from "./registerIpcListener";
 import { processes } from "./processes";
 
-export const startApp = () => {
+export const startMainProcess = () => {
   app.enableSandbox();
 
   let mainWindow: BrowserWindow;
@@ -60,4 +60,4 @@ export const startApp = () => {
   app.on("ready", createWindow);
 };
 
-startApp();
+startMainProcess();

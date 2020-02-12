@@ -27,6 +27,10 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
+    "import/no-extraneous-dependencies": [
+      "error",
+      { devDependencies: ["**/*.test.ts", "**/testHelpers/**/*"] },
+    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/jsx-props-no-spreading": "off",
@@ -45,7 +49,6 @@ module.exports = {
     ],
     "react/jsx-filename-extension": [1, { extensions: [".tsx"] }],
     "react/jsx-one-expression-per-line": "off",
-    // "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}]
 
     /**
      * The following rules conflict with TypeScript

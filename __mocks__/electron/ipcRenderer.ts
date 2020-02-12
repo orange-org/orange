@@ -1,5 +1,12 @@
+/* eslint-disable import/no-mutable-exports */
 import { EventEmitter } from "events";
 
 class IpcRenderer extends EventEmitter {}
 
-export const ipcRenderer = new IpcRenderer();
+let ipcRenderer = new IpcRenderer();
+
+export const resetIpcRenderer = () => {
+  ipcRenderer = new IpcRenderer();
+};
+
+export { ipcRenderer };

@@ -11,3 +11,5 @@ export const RPC_SERVER_ERROR_CODES = {
 export const ERROR_CODES = {
   econnrefused: "ECONNREFUSED",
 };
+
+export const RPC_SERVER_URL = "http://localhost:18332/";

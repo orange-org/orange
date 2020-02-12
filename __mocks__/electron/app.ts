@@ -1,3 +1,4 @@
+/* eslint-disable import/no-mutable-exports */
 import { EventEmitter } from "events";
 
 class App extends EventEmitter {
@@ -5,4 +6,10 @@ class App extends EventEmitter {
   enableSandbox = () => null;
 }
 
-export const app = new App();
+let app = new App();
+
+export const resetApp = () => {
+  app = new App();
+};
+
+export { app };

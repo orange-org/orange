@@ -16,13 +16,12 @@ describe("SearchBox", () => {
     cleanup();
   });
 
-  it("can search by height", async () => {
+  test("search flow", async () => {
+    /**
+     * The app loads with the search box visible
+     */
     const searchBox = await screen.findByLabelText("search");
     expect(searchBox).toBeVisible();
-
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture2.height },
-    });
 
     rpcClientMockResponses
       .forRequest({
@@ -50,23 +49,25 @@ describe("SearchBox", () => {
       })
       .queueResponse(blockFixtures.blockFixture2);
 
+    /**
+     * We will start by searching for a block by height
+     */
+    fireEvent.change(searchBox, {
+      target: { value: blockFixtures.blockFixture2.height },
+    });
+
     fireEvent.keyUp(searchBox, { keyCode: 13 });
 
+    /**
+     * `h1` is showing the block height of `blockFixture2` because we searched
+     * for it
+     */
     expect(
       await screen.findByText(
         `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
         { selector: "h1" },
       ),
     ).toBeVisible();
-  });
-
-  it("can search by hash", async () => {
-    const searchBox = await screen.findByLabelText("search");
-    expect(searchBox).toBeVisible();
-
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture3.hash },
-    });
 
     rpcClientMockResponses
       .forRequest({
@@ -76,6 +77,13 @@ describe("SearchBox", () => {
       })
       .queueResponse(blockFixtures.blockFixture3);
 
+    /**
+     * We can now try searching for blockFixture3 by hash
+     */
+    fireEvent.change(searchBox, {
+      target: { value: blockFixtures.blockFixture3.hash },
+    });
+
     fireEvent.keyUp(searchBox, { keyCode: 13 });
 
     expect(
@@ -84,16 +92,11 @@ describe("SearchBox", () => {
         { selector: "h1" },
       ),
     ).toBeVisible();
-  });
 
-  it("doesn't do anything when submit the search with non-Enter key", async () => {
-    const searchBox = await screen.findByLabelText("search");
-    expect(searchBox).toBeVisible();
-
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture2.hash },
-    });
-
+    /**
+     * It doesn't do anything if we modify the search field but try to submit
+     * with a key other than enter, like shift
+     */
     rpcClientMockResponses
       .forRequest({
         method: "getblock",
@@ -101,6 +104,10 @@ describe("SearchBox", () => {
         params: [blockFixtures.blockFixture2.hash, 1],
       })
       .queueResponse(blockFixtures.blockFixture2);
+
+    fireEvent.change(searchBox, {
+      target: { value: blockFixtures.blockFixture2.hash },
+    });
 
     fireEvent.keyUp(searchBox, { keyCode: 16 /* shift */ });
 
@@ -115,16 +122,10 @@ describe("SearchBox", () => {
         { selector: "h1" },
       ),
     ).toBeVisible();
-  });
 
-  it("doesn't do anything when the search string doesn't return a block", async () => {
-    const searchBox = await screen.findByLabelText("search");
-    expect(searchBox).toBeVisible();
-
-    fireEvent.change(searchBox, {
-      target: { value: "🕺" },
-    });
-
+    /**
+     * it doesn't do anything when the search string doesn't return a block
+     */
     rpcClientMockResponses
       .forRequest({
         method: "getblock",
@@ -147,6 +148,10 @@ describe("SearchBox", () => {
           message: "JSON value is not an integer as expected",
         },
       });
+
+    fireEvent.change(searchBox, {
+      target: { value: "🕺" },
+    });
 
     fireEvent.keyUp(searchBox, { keyCode: 13 });
 

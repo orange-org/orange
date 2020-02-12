@@ -23,5 +23,6 @@ module.exports = {
     "!src/typings/**/*",
     "!src/renderer/testUtils/**/*",
   ],
+  testRegex: "((\\.|/)(test|spec))\\.[jt]sx?$",
   modulePaths: ["<rootDir>/src"],
 };

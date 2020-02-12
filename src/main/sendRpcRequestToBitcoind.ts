@@ -2,7 +2,7 @@ import http from "http";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RawRpcResponse } from "_t/bitcoindRpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
-import { ERROR_CODES } from "_c/constants";
+import { ERROR_CODES, RPC_SERVER_URL } from "_c/constants";
 import { bitcoindManager } from "_m/bitcoindManager";
 
 export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
@@ -14,7 +14,7 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
 
   return new Promise((resolve, reject) => {
     const { method, params = [], requestId } = rpcRequest;
-    const url = "http://localhost:18332/";
+    const url = RPC_SERVER_URL;
 
     const request = http.request(
       url,

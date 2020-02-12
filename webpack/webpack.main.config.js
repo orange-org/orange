@@ -1,6 +1,6 @@
+/* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 const { DefinePlugin } = require("webpack");
 const merge = require("webpack-merge");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const getRootDir = require("./getRootDir");
 const { baseConfig, getBabelRule } = require("./webpack.base.config");

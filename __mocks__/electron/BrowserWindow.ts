@@ -6,9 +6,15 @@ export class BrowserWindow {
 
   webContents = new WebContents();
 
-  loadFile = () => null;
-
   constructor(options: BrowserWindowConstructorOptions) {
     BrowserWindow.instances.push({ name: options.title!, value: this });
   }
+
+  loadFile = () => null;
+
+  isDestroyed = () => false;
 }
+
+export const resetBrowserWindow = () => {
+  BrowserWindow.instances = [];
+};

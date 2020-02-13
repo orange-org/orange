@@ -1,3 +1,5 @@
+const { getStore } = require("_m/getStore");
+
 /**
  * `scrollIntoView` is not implemented in JS DOM (the environment where Jest
  * tests run) so calling it during tests breaks. The code below mocks the
@@ -11,3 +13,8 @@ require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
+jest.mock("_m/getStore");
+
+// Reset main process store between tests
+// Do I need to put this inside an `afterEach`? 🤔
+getStore.mockImplementation(() => ({}));

@@ -29,7 +29,7 @@ module.exports = {
   rules: {
     "import/no-extraneous-dependencies": [
       "error",
-      { devDependencies: ["**/*.test.ts", "**/testHelpers/**/*"] },
+      { devDependencies: ["**/*.test.ts", "**/testHelpers/**/*", "jest/**/*"] },
     ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",

@@ -12,9 +12,6 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
 
   const { username, password } = await getRpcCredentials();
 
-  console.log("username", username);
-  console.log("password", password);
-
   return new Promise((resolve, reject) => {
     const { method, params = [], requestId } = rpcRequest;
     const url = RPC_SERVER_URL;

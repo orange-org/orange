@@ -28,7 +28,7 @@ export const setupMockHttpAuthHeader = (cookieValue: string) => {
     .reply(200);
 };
 
-export const expectSuccessfulResponse = (
+export const checkSuccessfulResponse = (
   scope: nock.Scope,
   done: jest.DoneCallback,
   mainWindow: BrowserWindow,

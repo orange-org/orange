@@ -49,30 +49,33 @@ const readCookieCredentials = async () => {
       const section = /^\[([^=]+)]$/.exec(line);
       const property = !section && /^([^#=]+)(={0,1})(.*)$/.exec(line);
 
+      /* istanbul ignore else */
       if (property) {
         const key = property[1].trim();
         const value = property[3].trim();
 
+        /* istanbul ignore else */
         if (possibleChainNames.includes(key) && value === "1") {
           return key;
         }
       }
 
+      /* istanbul ignore next */
       return result;
     }
 
     return result;
   }, "");
 
-  const dataDir = `${dataDirRoot}${
+  const dataDir = `${dataDirRoot}/${
     chainName === "testnet"
-      ? "testnet3"
+      ? "testnet3/"
       : chainName === "regtest"
-      ? "regtest"
+      ? "regtest/"
       : ""
   }`;
 
-  const cookie = await fs.readFile(`${dataDir}/.cookie`, {
+  const cookie = await fs.readFile(`${dataDir}.cookie`, {
     encoding: "utf8",
   });
   const [username, password] = cookie.split(":");
@@ -86,7 +89,7 @@ export const getRpcCredentials = async (): Promise<{
 }> => {
   const store = getStore();
 
-  if (!store.username || !store.password) {
+  if (!store.username || /* istanbul ignore next */ !store.password) {
     const { username, password } = await readCookieCredentials();
 
     store.username = username;

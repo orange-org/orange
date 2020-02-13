@@ -1,4 +1,6 @@
+const { merge } = require("lodash");
 const { getStore } = require("_m/getStore");
+const { getGlobalProcess } = require("_m/getGlobalProcess");
 
 /**
  * `scrollIntoView` is not implemented in JS DOM (the environment where Jest
@@ -13,8 +15,30 @@ require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
-jest.mock("_m/getStore");
+jest.mock("_m/getStore", () => ({
+  getStore: jest.fn(),
+}));
+jest.mock("_m/getGlobalProcess", () => ({
+  getGlobalProcess: jest.fn(),
+}));
 
-// Reset main process store between tests
-// Do I need to put this inside an `afterEach`? 🤔
+/**
+ * Reset `store` of the `main` process between tests.
+ */
 getStore.mockImplementation(() => ({}));
+
+/**
+ * Set some consistent values for Node `process` variable
+ */
+getGlobalProcess.mockImplementation(() =>
+  merge(
+    { ...process },
+    {
+      env: {
+        APPDATA: "appData",
+        HOME: "home",
+      },
+      platform: "darwin",
+    },
+  ),
+);

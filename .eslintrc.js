@@ -27,10 +27,7 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
-    "import/no-extraneous-dependencies": [
-      "error",
-      { devDependencies: ["**/*.test.ts", "**/testHelpers/**/*", "jest/**/*"] },
-    ],
+    "import/no-extraneous-dependencies": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/jsx-props-no-spreading": "off",

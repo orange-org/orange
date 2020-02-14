@@ -1,47 +1,36 @@
-import { startMainProcess } from "_m/main";
-import { BrowserWindow, resetStateOfElectronMock } from "__mocks__/electron";
-import { initializeMockOrangeMainProcess } from "__mocks__/electron/initializeMockOrangeMainProcess";
 import mockFs from "mock-fs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
-import {
-  checkSuccessfulResponse,
-  sendAnyRequest,
-  setupMockHttpAuthHeader,
-  setupProcessVariables,
-} from "./testHelpers/getRpcCredentials.testHelpers";
-import { getStore } from "./getStore";
+import { merge } from "lodash";
+import { getRpcCredentials } from "./getRpcCredentials";
+import { getStore as getStore_ } from "./getStore";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
+const getStore = getStore_ as jest.Mock;
 
-describe("bitcoindManager", () => {
-  let mainWindow: BrowserWindow;
+export const setupProcessVariables = (processVariables: {
+  platform: string;
+  env: {
+    APPDATA?: string;
+    HOME?: string;
+  };
+}) => {
+  getGlobalProcess.mockImplementation(() =>
+    merge({ ...process }, processVariables),
+  );
+};
 
-  beforeEach(() => {
-    startMainProcess();
-
-    const mockProcess = initializeMockOrangeMainProcess();
-    mainWindow = mockProcess.requireWindowByTitle("Orange");
-  });
-
+describe("getRpcCredentials", () => {
   afterEach(() => {
-    resetStateOfElectronMock();
     mockFs.restore();
   });
 
-  afterAll(() => {
-    getGlobalProcess.mockRestore();
-  });
-
-  test("retrieving authentication cookie on Windows", done => {
-    setupProcessVariables(
-      {
-        platform: "win32",
-        env: {
-          APPDATA: "appData",
-        },
+  test("retrieving authentication cookie on Windows", async () => {
+    setupProcessVariables({
+      platform: "win32",
+      env: {
+        APPDATA: "appData",
       },
-      getGlobalProcess,
-    );
+    });
 
     mockFs({
       "appData/Bitcoin": {
@@ -50,21 +39,19 @@ describe("bitcoindManager", () => {
       },
     });
 
-    const scope = setupMockHttpAuthHeader("__cookie__:123123");
-    sendAnyRequest();
-    checkSuccessfulResponse(scope, done, mainWindow);
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "123123",
+    });
   });
 
-  test("retrieving authentication cookie on Mac", done => {
-    setupProcessVariables(
-      {
-        platform: "darwin",
-        env: {
-          HOME: "home",
-        },
+  test("retrieving authentication cookie on Mac", async () => {
+    setupProcessVariables({
+      platform: "darwin",
+      env: {
+        HOME: "home",
       },
-      getGlobalProcess,
-    );
+    });
 
     mockFs({
       "home/Library/Application Support/Bitcoin": {
@@ -73,22 +60,19 @@ describe("bitcoindManager", () => {
       },
     });
 
-    const scope = setupMockHttpAuthHeader("__cookie__:424242");
-
-    sendAnyRequest();
-    checkSuccessfulResponse(scope, done, mainWindow);
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "424242",
+    });
   });
 
-  test("retrieving authentication cookie on Linux", done => {
-    setupProcessVariables(
-      {
-        platform: "anything other than win32 or darwin",
-        env: {
-          HOME: "home",
-        },
+  test("retrieving authentication cookie on Linux", async () => {
+    setupProcessVariables({
+      platform: "anything other than win32 or darwin",
+      env: {
+        HOME: "home",
       },
-      getGlobalProcess,
-    );
+    });
 
     mockFs({
       "home/.bitcoin": {
@@ -97,27 +81,17 @@ describe("bitcoindManager", () => {
       },
     });
 
-    const scope = setupMockHttpAuthHeader("__cookie__:1337");
-
-    sendAnyRequest();
-    checkSuccessfulResponse(scope, done, mainWindow);
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "1337",
+    });
   });
 
   [
     ["testnet", "testnet3", "1234"],
     ["regtest", "regtest", "5678"],
   ].forEach(([networkName, dirName, password]) => {
-    test(`${networkName} configurations`, done => {
-      setupProcessVariables(
-        {
-          platform: "anything other than win32 or darwin",
-          env: {
-            HOME: "home",
-          },
-        },
-        getGlobalProcess,
-      );
-
+    test(`retrieving auth cookie for ${networkName} configurations`, async () => {
       mockFs({
         "home/.bitcoin": {
           "bitcoin.conf": `${networkName}=1`,
@@ -127,37 +101,34 @@ describe("bitcoindManager", () => {
         },
       });
 
-      const scope = setupMockHttpAuthHeader(`__cookie__:${password}`);
-
-      sendAnyRequest();
-      checkSuccessfulResponse(scope, done, mainWindow);
+      expect(await getRpcCredentials()).toEqual({
+        username: "__cookie__",
+        password,
+      });
     });
   });
 
-  test("caching credentials", done => {
+  test("caching credentials", async () => {
     /**
      * Here we manually add values to the memory cache.
      * `getRpcCredentials` will use these values instead
      * of retrieving the values in the file system.
-     *
-     * That's why `checkSuccessfulResponse` will succeed even though
-     * the values in the file system are wrong.
      */
-    // @ts-ignore
     getStore.mockImplementation(() => ({
       username: "__cookie__",
-      password: "1337",
+      password: "c4ch3",
     }));
 
     mockFs({
       "home/.bitcoin": {
         "bitcoin.conf": "",
-        ".cookie": "foo:bar",
+        ".cookie": "__cookie__:bar",
       },
     });
 
-    const scope = setupMockHttpAuthHeader("__cookie__:1337");
-    sendAnyRequest();
-    checkSuccessfulResponse(scope, done, mainWindow);
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "c4ch3",
+    });
   });
 });

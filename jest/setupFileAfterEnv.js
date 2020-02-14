@@ -22,23 +22,30 @@ jest.mock("_m/getGlobalProcess", () => ({
   getGlobalProcess: jest.fn(),
 }));
 
-/**
- * Reset `store` of the `main` process between tests.
- */
-getStore.mockImplementation(() => ({}));
+const setMockImplementations = () => {
+  /**
+   * Reset `store` of the `main` process between tests.
+   */
+  getStore.mockImplementation(() => ({}));
 
-/**
- * Set some consistent values for Node `process` variable
- */
-getGlobalProcess.mockImplementation(() =>
-  merge(
-    { ...process },
-    {
-      env: {
-        APPDATA: "appData",
-        HOME: "home",
+  /**
+   * Set some consistent values for Node `process` variable
+   */
+  getGlobalProcess.mockImplementation(() =>
+    merge(
+      { ...process },
+      {
+        env: {
+          APPDATA: "appData",
+          HOME: "home",
+        },
+        platform: "linux",
       },
-      platform: "darwin",
-    },
-  ),
-);
+    ),
+  );
+};
+
+setMockImplementations();
+// afterEach(() => {
+//   setMockImplementations();
+// });

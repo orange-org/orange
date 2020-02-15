@@ -13,6 +13,7 @@ window.HTMLElement.prototype.scrollIntoView = () => null;
 
 require("@testing-library/jest-dom/extend-expect");
 
+jest.mock("fs");
 jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
 jest.mock("_m/getStore", () => ({

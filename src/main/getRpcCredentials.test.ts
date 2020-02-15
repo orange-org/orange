@@ -1,4 +1,4 @@
-import mockFs from "mock-fs";
+import { vol } from "memfs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
 import { getRpcCredentials } from "./getRpcCredentials";
@@ -20,10 +20,6 @@ export const setupProcessVariables = (processVariables: {
 };
 
 describe("getRpcCredentials", () => {
-  afterEach(() => {
-    mockFs.restore();
-  });
-
   test("retrieving authentication cookie on Windows", async () => {
     setupProcessVariables({
       platform: "win32",
@@ -32,11 +28,9 @@ describe("getRpcCredentials", () => {
       },
     });
 
-    mockFs({
-      "appData/Bitcoin": {
-        "bitcoin.conf": "",
-        ".cookie": "__cookie__:123123",
-      },
+    vol.fromJSON({
+      "appData/Bitcoin/bitcoin.conf": "",
+      "appData/Bitcoin/.cookie": "__cookie__:123123",
     });
 
     expect(await getRpcCredentials()).toEqual({
@@ -53,11 +47,9 @@ describe("getRpcCredentials", () => {
       },
     });
 
-    mockFs({
-      "home/Library/Application Support/Bitcoin": {
-        "bitcoin.conf": "",
-        ".cookie": "__cookie__:424242",
-      },
+    vol.fromJSON({
+      "home/Library/Application Support/Bitcoin/bitcoin.conf": "",
+      "home/Library/Application Support/Bitcoin/.cookie": "__cookie__:424242",
     });
 
     expect(await getRpcCredentials()).toEqual({
@@ -74,11 +66,9 @@ describe("getRpcCredentials", () => {
       },
     });
 
-    mockFs({
-      "home/.bitcoin": {
-        "bitcoin.conf": "",
-        ".cookie": "__cookie__:1337",
-      },
+    vol.fromJSON({
+      "home/.bitcoin/bitcoin.conf": "",
+      "home/.bitcoin/.cookie": "__cookie__:1337",
     });
 
     expect(await getRpcCredentials()).toEqual({
@@ -92,13 +82,9 @@ describe("getRpcCredentials", () => {
     ["regtest", "regtest", "5678"],
   ].forEach(([networkName, dirName, password]) => {
     test(`retrieving auth cookie for ${networkName} configurations`, async () => {
-      mockFs({
-        "home/.bitcoin": {
-          "bitcoin.conf": `${networkName}=1`,
-          [dirName]: {
-            ".cookie": `__cookie__:${password}`,
-          },
-        },
+      vol.fromJSON({
+        "home/.bitcoin/bitcoin.conf": `${networkName}=1`,
+        [`home/.bitcoin/${dirName}/.cookie`]: `__cookie__:${password}`,
       });
 
       expect(await getRpcCredentials()).toEqual({
@@ -119,11 +105,9 @@ describe("getRpcCredentials", () => {
       password: "c4ch3",
     }));
 
-    mockFs({
-      "home/.bitcoin": {
-        "bitcoin.conf": "",
-        ".cookie": "__cookie__:bar",
-      },
+    vol.fromJSON({
+      "home/.bitcoin/bitcoin.conf": "",
+      "home/.bitcoin/.cookie": "__cookie__:bar",
     });
 
     expect(await getRpcCredentials()).toEqual({

@@ -1,3 +1,4 @@
+/* istanbul ignore file: this file is mocked during tests */
 const store: Partial<{
   username: string;
   password: string;

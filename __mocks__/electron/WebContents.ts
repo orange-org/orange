@@ -1,11 +1,15 @@
+/* eslint-disable max-classes-per-file */
 import { EventEmitter } from "events";
 import { ipcRenderer } from "./ipcRenderer";
 
+type Listener = (...args: any[]) => void;
+class WebRequest extends EventEmitter {
+  onBeforeRequest = (listener: Listener) => this.on("before-request", listener);
+}
+
 export class WebContents extends EventEmitter {
   session = {
-    webRequest: {
-      onBeforeRequest: (fn: Function) => null,
-    },
+    webRequest: new WebRequest(),
   };
 
   send = ipcRenderer.emit;

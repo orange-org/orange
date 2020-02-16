@@ -12,7 +12,6 @@ import { startPreloadProcess } from "./startPreloadProcess";
 
 const initializeMainProcess = () => {
   app.emit("ready");
-  // app.emit("web-contents-created", new Event("type"), new WebContents());
 
   const { value: mainWindow } = BrowserWindow.instances.find(
     instance => instance.name === "Orange",

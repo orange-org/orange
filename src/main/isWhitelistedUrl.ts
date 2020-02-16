@@ -1,12 +1,12 @@
 import { dirname } from "path";
-import { isDevelopment } from "./isDevelopment";
+import { getIsDevelopment } from "./getIsDevelopment";
 import { getAppRoot } from "./getAppRoot";
 
 export const isWhitelistedUrl = (url: string) => {
   const { protocol, hostname, pathname } = new URL(url);
 
   // During development
-  if (isDevelopment) {
+  if (getIsDevelopment()) {
     // Allow devtools
     if (protocol === "devtools:" && hostname === "devtools") {
       return true;

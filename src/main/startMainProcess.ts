@@ -1,6 +1,6 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
 import { installExtensions } from "_m/installExtensions";
-import { isDevelopment } from "_m/isDevelopment";
+import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
 import { registerIpcListener } from "./registerIpcListener";
@@ -13,7 +13,7 @@ export const startMainProcess = () => {
 
   function createWindow() {
     /* istanbul ignore if */
-    if (isDevelopment) {
+    if (getIsDevelopment()) {
       installExtensions();
     }
 
@@ -49,7 +49,7 @@ export const startMainProcess = () => {
     });
 
     /* istanbul ignore if */
-    if (isDevelopment) {
+    if (getIsDevelopment()) {
       mainWindow.maximize();
       mainWindow.webContents.openDevTools();
     } else {

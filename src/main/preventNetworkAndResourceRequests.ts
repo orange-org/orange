@@ -1,5 +1,5 @@
 import { BrowserWindow } from "electron";
-import { isWhitelistedUrl } from "main/isWhitelistedUrl";
+import { isWhitelistedUrl } from "_m/isWhitelistedUrl";
 
 export function preventNetworkAndResourceRequests(mainWindow: BrowserWindow) {
   // This prevents Electron from making any network requests to the outside

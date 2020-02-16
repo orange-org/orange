@@ -15,7 +15,20 @@
       "sourceMaps": true,
       "args": ["."],
       "outputCapture": "std",
-      "preLaunchTask": "build-main"
+      "preLaunchTask": "_build-main",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "--runInBand", "--watch", "--no-cache", "--coverage"],
+      "console": "externalTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229,
+      "disableOptimisticBPs": true
     }
   ]
 }

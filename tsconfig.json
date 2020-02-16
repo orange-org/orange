@@ -9,10 +9,10 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
-    "module": "commonjs",
+    "module": "esnext",
     "target": "ES2017",
     "sourceMap": true,
 
@@ -20,25 +20,25 @@
 
     "allowJs": true,
     "checkJs": true,
-    "maxNodeModuleJsDepth": 2,
 
     "jsx": "preserve",
 
     "pretty": true,
-    "baseUrl": "src",
-    "declaration": false, // emit declarations
-    "importHelpers": false, // importing helper functions from tslib
-    "noEmitHelpers": true, // disable emitting inline helper functions
+    "baseUrl": ".",
+    "declaration": false,
+    "importHelpers": false,
+    "noEmitHelpers": true,
     "removeComments": true,
     "stripInternal": true,
     "resolveJsonModule": true,
 
     "paths": {
-      "_r/*": ["renderer/*"],
-      "_m/*": ["main/*"],
-      "_a/*": ["assets/*"],
-      "_t/*": ["typings/*"],
-      "_c/*": ["common/*"]
+      "_r/*": ["src/renderer/*"],
+      "_m/*": ["src/main/*"],
+      "_a/*": ["src/assets/*"],
+      "_t/*": ["src/typings/*"],
+      "_c/*": ["src/common/*"],
+      "__mocks__/*": ["__mocks__/*"]
     }
   },
   "include": ["src/**/*"]

@@ -1,21 +1,27 @@
-import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore as createStore_,
+} from "redux";
 import thunk from "redux-thunk";
 import { misc, MiscState } from "./misc";
-import { rpcResponses, RpcResponsesState } from "./rpcResponses";
 
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    // RECEIVE_BITCOIND_LOG_LINES is too spammy. It floods the Redux Devtools UI
-    // actionsBlacklist: ["RECEIVE_BITCOIND_LOG_LINES"],
-  }) || compose;
+const reduxDevToolsCompose = (window as any)
+  .__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+const composeEnhancers = reduxDevToolsCompose
+  ? /* istanbul ignore next */ reduxDevToolsCompose({
+      // RECEIVE_BITCOIND_LOG_LINES is too spammy. It floods the Redux Devtools UI
+      // actionsBlacklist: ["RECEIVE_BITCOIND_LOG_LINES"],
+    })
+  : compose;
 
 export type State = {
-  rpcResponses: RpcResponsesState;
   misc: MiscState;
 };
 
-export const reducer = combineReducers({
-  rpcResponses,
+const reducer = combineReducers({
   misc,
 
   // Between the `createReducer` function of `typesafe-actions` and here,
@@ -23,7 +29,5 @@ export const reducer = combineReducers({
   // Hopefully it won't cause much trouble until we figure out the problem.
 } as any);
 
-export const store = createStore(
-  reducer,
-  composeEnhancers(applyMiddleware(thunk)),
-);
+export const createStore = () =>
+  createStore_(reducer, composeEnhancers(applyMiddleware(thunk)));

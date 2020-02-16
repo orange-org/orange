@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* istanbul ignore file */
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,

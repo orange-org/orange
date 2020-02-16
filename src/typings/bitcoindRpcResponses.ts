@@ -11,11 +11,11 @@ import {
   BlockHeaderRpcRequest,
   BlockHashRpcRequest,
 } from "_t/bitcoindRpcRequests";
-import { NullableKeys } from "./typeHelpers";
 
 export type RpcError = {
   code: number;
   message: string;
+  payload?: any;
 };
 
 type CreateRpcResponse<Method, Result> =
@@ -74,9 +74,9 @@ export type BlockchainInfo = {
   chainwork: string;
   size_on_disk: number;
   pruned: boolean;
-  pruneheight: number;
-  automatic_pruning: boolean;
-  prune_target_size: number;
+  pruneheight?: number;
+  automatic_pruning?: boolean;
+  prune_target_size?: number;
   softforks: {
     bip34: {
       type: string;

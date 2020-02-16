@@ -1,3 +1,4 @@
+import { delay } from "bluebird";
 /**
  * Since Orange works with a local back-end (bitcoind), data fetches are
  * responded to instantaneously. While this seems great at first, actually
@@ -9,10 +10,8 @@
  * actual data, which improves performance. The delay is intended to be less
  * than a second.
  */
-export const withDelay = <T>(val: T, delay: number = 500) => {
-  return new Promise<T>(resolve => {
-    setTimeout(() => {
-      resolve(val);
-    }, delay);
-  });
+export const withDelay = async <T>(val: T, ms: number = 500) => {
+  await delay(ms);
+
+  return val;
 };

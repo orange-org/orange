@@ -1,2 +1,4 @@
+.nonce
+coverage
 node_modules
 dist

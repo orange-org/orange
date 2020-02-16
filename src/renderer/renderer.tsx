@@ -1,24 +1,16 @@
+/* eslint-disable no-console */
+/**
+ * This file is only used to make the app hot-reloadable during development
+ * and then insert the app into the DOM. Given its function, there's no real
+ * need to include it in test coverage.
+ */
+/* istanbul ignore file */
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { CssBaseline, ThemeProvider, createMuiTheme } from "@material-ui/core";
-import { Provider } from "react-redux";
 import { hot } from "react-hot-loader/root";
-
-import { Index } from "_r/Index";
-import { store } from "_r/redux/reducers/store";
-import { GlobalCss } from "_r/globalCss";
-import { theme } from "_r/theme";
-
 import "typeface-roboto";
+import { getApp } from "_r/App/App";
 
-export const App = hot(() => (
-  <Provider store={store}>
-    <ThemeProvider theme={createMuiTheme(theme)}>
-      <CssBaseline />
-      <GlobalCss />
-      <Index />
-    </ThemeProvider>
-  </Provider>
-));
+export const HotApp = hot(getApp());
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<HotApp />, document.getElementById("app"));

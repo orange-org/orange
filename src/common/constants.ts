@@ -9,7 +9,9 @@ export const RPC_SERVER_ERROR_CODES = {
 };
 
 export const ERROR_CODES = {
-  econnrefused: "ECONNREFUSED",
+  general: 5001,
+  jsonParse: 5002,
+  rpcRequestError: 5003,
 };
 
 export const RPC_SERVER_URL = "http://localhost:18332/";

@@ -1,9 +1,9 @@
 import http from "http";
-import { RpcRequest } from "_t/bitcoindRpcRequests";
-import { RawRpcResponse } from "_t/bitcoindRpcResponses";
-import { ExtractedRpcResponse } from "_t/typeHelpers";
-import { ERROR_CODES, RPC_SERVER_URL } from "_c/constants";
+import { RPC_SERVER_URL, ERROR_CODES } from "_c/constants";
 import { getRpcCredentials } from "_m/getRpcCredentials";
+import { RpcRequest } from "_t/bitcoindRpcRequests";
+import { RawRpcResponse, RpcError } from "_t/bitcoindRpcResponses";
+import { ExtractedRpcResponse } from "_t/typeHelpers";
 
 export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
@@ -12,7 +12,7 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
 
   const { username, password } = await getRpcCredentials();
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     const { method, params = [], requestId } = rpcRequest;
     const url = RPC_SERVER_URL;
 
@@ -37,22 +37,28 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
             const payload = JSON.parse(data) as RawRpcResponse;
 
             resolve({ method, requestId, ...payload } as ExtractedResponse);
-          } catch (error) {
+          } catch (error_) {
+            const error: RpcError = {
+              code: ERROR_CODES.jsonParse,
+              message: "",
+            };
+
             resolve({ method, requestId, error } as ExtractedResponse);
           }
-        });
-        response.on("error", error => {
-          reject(error);
         });
       },
     );
 
     request.on("error", (error: any) => {
-      if (error.code === ERROR_CODES.econnrefused) {
-        resolve({ method, requestId, error } as ExtractedResponse);
-      } else {
-        reject(error);
-      }
+      resolve({
+        method,
+        requestId,
+        error: {
+          code: ERROR_CODES.rpcRequestError,
+          message: "",
+          payload: error,
+        },
+      } as ExtractedResponse);
     });
 
     request.write(

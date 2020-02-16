@@ -15,6 +15,7 @@ import {
 export type RpcError = {
   code: number;
   message: string;
+  payload?: any;
 };
 
 type CreateRpcResponse<Method, Result> =

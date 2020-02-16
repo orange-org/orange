@@ -20,9 +20,7 @@ describe("isWhitelistedUrl", () => {
 
     it("allows Chrome extensions", () => {
       expect(isWhitelistedUrl("chrome-extension://redux-devtools")).toBe(true);
-      expect(
-        isWhitelistedUrl("blob:chrome-extension://hniebljpgcogalllopnjokppmgb"),
-      ).toBe(true);
+      expect(isWhitelistedUrl("blob:chrome-extension://hniebl")).toBe(true);
     });
 
     it("allows localhost for something like Hot Module Replacement", () => {
@@ -41,6 +39,10 @@ describe("isWhitelistedUrl", () => {
   });
 
   describe("during production", () => {
+    beforeAll(() => {
+      getIsDevelopment.mockImplementation(() => true);
+    });
+
     it("allows files from the same app directory as Orange", () => {
       expect(isWhitelistedUrl(`file://${getAppRoot()}/okay.json`)).toBe(true);
     });

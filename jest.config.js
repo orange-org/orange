@@ -12,17 +12,22 @@ module.exports = {
   },
   setupFiles: ["<rootDir>/jest/setupFile.js"],
   setupFilesAfterEnv: ["<rootDir>/jest/setupFileAfterEnv.js"],
-  // moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/",
   }),
-  // collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!src/typings/**/*",
     "!src/renderer/testUtils/**/*",
   ],
+  coverageThreshold: {
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100,
+    },
+  },
   testRegex: "((\\.|/)(test|spec))\\.[jt]sx?$",
   modulePaths: ["<rootDir>/src"],
 };

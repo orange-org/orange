@@ -12,7 +12,7 @@ import { startPreloadProcess } from "./startPreloadProcess";
 
 const initializeMainProcess = () => {
   app.emit("ready");
-  app.emit("web-contents-created", new Event("type"), new WebContents());
+  // app.emit("web-contents-created", new Event("type"), new WebContents());
 
   const { value: mainWindow } = BrowserWindow.instances.find(
     instance => instance.name === "Orange",
@@ -45,7 +45,7 @@ describe("main", () => {
 
   describe("general integration", () => {
     test("IPC RPC requests between main and renderer through preload", done => {
-      const mainWindow = initializeMainProcess();
+      initializeMainProcess();
 
       window.postMessage(
         {
@@ -60,19 +60,25 @@ describe("main", () => {
         "*",
       );
 
-      mainWindow.webContents.once("message-to-renderer", event => {
-        expect(event).toEqual({
-          source: "@orange/main",
-          nonce: __NONCE__,
-          type: "rpc-response",
-          message: {
-            method: "getblock",
-            requestId: 123,
-          },
-        });
+      const eventListener = (event: MessageEvent) => {
+        const { data } = event;
 
-        done();
-      });
+        if (data && data.source === "@orange/main") {
+          expect(data).toEqual({
+            source: "@orange/main",
+            nonce: __NONCE__,
+            type: "rpc-response",
+            message: {
+              method: "getblock",
+              requestId: 123,
+            },
+          });
+
+          window.removeEventListener("message", eventListener);
+          done();
+        }
+      };
+      window.addEventListener("message", eventListener);
     });
 
     test("wiring of mainWindow.webContents.session.webRequest.onBeforeRequest", () => {

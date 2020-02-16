@@ -5,6 +5,7 @@ import { sendRpcRequestToBitcoind } from "./sendRpcRequestToBitcoind";
 
 export const registerIpcListener = (mainWindow: BrowserWindow) => {
   ipcMain.on("message-to-main", async (_event, data: MessageToMain) => {
+    /* istanbul ignore else */
     if (data.type === "rpc-request") {
       const response = await sendRpcRequestToBitcoind(data.message);
 

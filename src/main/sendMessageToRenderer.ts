@@ -5,6 +5,7 @@ export function sendMessageToRenderer(
   payload: Omit<MessageToRenderer, "source">,
   mainWindow: BrowserWindow,
 ) {
+  /* istanbul ignore else */
   if (!mainWindow.isDestroyed()) {
     mainWindow.webContents.send("message-to-renderer", {
       source: "@orange/main",

@@ -13,6 +13,7 @@ export const startPreloadProcess = () => {
   window.addEventListener("message", event => {
     const { data } = event;
 
+    /* istanbul ignore else */
     if (isMessageFromRenderer(data) && data.nonce === __NONCE__) {
       ipcRenderer.send("message-to-main", data);
     }

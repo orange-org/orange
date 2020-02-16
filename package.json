@@ -4,9 +4,10 @@
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
   "scripts": {
-    "develop": "run-p -ln _webpack-server typescript-check",
+    "develop": "run-p -ln _webpack-server _typescript-check",
     "app": "npm run _build-main && electron ./dist/main/main.js",
     "test": "jest",
+    "lint": "eslint '**/*.{ts,tsx,js}'",
     "check-coverage": "run-s _test-with-coverage _open-coverage-results",
     "_webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
     "_typescript-check": "tsc --noEmit -w",

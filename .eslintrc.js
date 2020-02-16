@@ -27,6 +27,7 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
+    "no-console": "error",
     "import/no-extraneous-dependencies": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",

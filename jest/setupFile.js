@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 require("@testing-library/react/dont-cleanup-after-each");
 
 // https://github.com/facebook/jest/issues/3251#issuecomment-299183885

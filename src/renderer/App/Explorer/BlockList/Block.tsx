@@ -28,7 +28,7 @@ const Block_: React.FC<CardProps & {
         block: "nearest",
       });
     }
-  }, [blockHeightAsId]);
+  }, [blockHeightAsId, isActive]);
 
   const Typography = useLoadingAwareTypography(false);
 

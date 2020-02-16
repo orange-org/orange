@@ -14,7 +14,7 @@ export const ListOfBlocks: React.FC = () => {
     dispatch(
       thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),
     );
-  }, [blockHeightAsId]);
+  }, [blockHeightAsId, dispatch]);
 
   const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
 

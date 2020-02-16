@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * This file is only used to make the app hot-reloadable during development
  * and then insert the app into the DOM. Given its function, there's no real

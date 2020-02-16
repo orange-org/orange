@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { prettyDOM } from "@testing-library/dom";
 
 export const printElement = (element: Element | HTMLDocument) =>

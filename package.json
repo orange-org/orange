@@ -4,19 +4,23 @@
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
   "scripts": {
-    "develop": "run-p -ln _webpack-server '_typescript-check -- -w'",
-    "app": "npm run _build-main && electron ./dist/main/main.js",
+    "develop": "NODE_ENV=development run-s _generate-nonce _develop",
+    "app": "run-s _build-main _electron",
     "test": "jest",
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:coverage": "npm run _test-with-coverage",
     "check:typescript": "npm run _typescript",
     "check": "run-p --aggregate-output -cln check:*",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
+    "_generate-nonce": "bash scripts/generate-nonce.sh",
     "_webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
     "_typescript": "tsc --noEmit",
-    "_build-main": "webpack --config webpack/webpack.main.config.js",
+    "_develop": "run-p -ln _webpack-server '_typescript -- -w'",
+    "_electron": "electron ./dist/main/main.js",
+    "_webpack-build-main": "webpack --config webpack/webpack.main.config.js",
+    "_build-main": "run-s _generate-nonce _webpack-build-main",
     "_test-with-coverage": "npm run test -- --coverage",
-    "_open-coverage-results": "node_modules/.bin/open-cli coverage/lcov-report/index.html"
+    "_open-coverage-results": "open-cli coverage/lcov-report/index.html"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",

@@ -4,6 +4,7 @@ import { getRpcCredentials } from "_m/getRpcCredentials";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RawRpcResponse, RpcError } from "_t/bitcoindRpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
+import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 
 export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
@@ -15,6 +16,16 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
   return new Promise(resolve => {
     const { method, params = [], requestId } = rpcRequest;
     const url = RPC_SERVER_URL;
+
+    if (!isRpcMethodAllowed(method)) {
+      resolve({
+        method,
+        requestId,
+        result: null,
+        error: { code: ERROR_CODES.rpcMethodNotAllowed },
+      } as ExtractedResponse);
+      return;
+    }
 
     const request = http.request(
       url,
@@ -36,7 +47,11 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
           try {
             const payload = JSON.parse(data) as RawRpcResponse;
 
-            resolve({ method, requestId, ...payload } as ExtractedResponse);
+            resolve({
+              method,
+              requestId,
+              ...payload,
+            } as ExtractedResponse);
           } catch (error_) {
             const error: RpcError = {
               code: ERROR_CODES.jsonParse,
@@ -64,7 +79,7 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
     request.write(
       JSON.stringify({
         jsonrpc: "1.0",
-        id: "static for now",
+        id: "N/A",
         method,
         params,
       }),

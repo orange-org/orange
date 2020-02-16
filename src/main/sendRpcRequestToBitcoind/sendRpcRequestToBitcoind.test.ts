@@ -1,5 +1,5 @@
 import nock from "nock";
-import { sendRpcRequestToBitcoind } from "_m/sendRpcRequestToBitcoind";
+import { sendRpcRequestToBitcoind } from "_m/sendRpcRequestToBitcoind/sendRpcRequestToBitcoind";
 import { RPC_SERVER_URL, ERROR_CODES } from "_c/constants";
 
 jest.mock("_m/getRpcCredentials", () => ({

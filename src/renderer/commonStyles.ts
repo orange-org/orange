@@ -1,7 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 
-export const useCommonStyles = makeStyles(theme => {
+export const BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH = 82;
+
+const useCommonStyles = makeStyles(theme => {
   const c = (name: string, val: number | string) => ({
     [name]: val,
   });
@@ -46,10 +48,18 @@ export const useCommonStyles = makeStyles(theme => {
       marginTop: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
+    marginY10: {
+      marginTop: theme.spacing(10),
+      marginBottom: theme.spacing(10),
+    },
 
     marginX4: {
       marginLeft: theme.spacing(4),
       marginRight: theme.spacing(4),
+    },
+    marginX5: {
+      marginLeft: theme.spacing(5),
+      marginRight: theme.spacing(5),
     },
 
     justifyContentFlexEnd: c("justifyContent", "flex-end"),
@@ -58,6 +68,8 @@ export const useCommonStyles = makeStyles(theme => {
     colorPrimary: c("color", theme.palette.text.primary),
 
     overflowScroll: c("overflow", "scroll"),
+    overflowYScroll: c("overflowY", "scroll"),
+    overflowXHidden: c("overflowX", "hidden"),
 
     padding2: c("padding", theme.spacing(2)),
     padding3: c("padding", theme.spacing(3)),
@@ -71,6 +83,10 @@ export const useCommonStyles = makeStyles(theme => {
 
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
+    },
+
+    scrollbarWidth0: {
+      "&::-webkit-scrollbar": c("width", 0),
     },
   };
 });

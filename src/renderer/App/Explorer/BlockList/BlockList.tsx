@@ -2,12 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as thunks from "_r/redux/thunks";
+import { useTheme } from "@material-ui/core";
+import { useCcn, BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH } from "_r/commonStyles";
 import { Block } from "./Block";
-import { useBlockListStyles } from "./BlockListStyles";
+
+const BLOCK_HORIZONTAL_MARGIN = 5;
+const BLOCK_SCROLLABLE_CONTAINER = BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH - 5;
+
+export const BLOCK_AVAILABLE_WIDTH =
+  BLOCK_SCROLLABLE_CONTAINER - BLOCK_HORIZONTAL_MARGIN * 2;
 
 export const ListOfBlocks: React.FC = () => {
   const dispatch = useDispatch();
-
+  const theme = useTheme();
+  const ccn = useCcn();
   const { blockHeightAsId } = useParams();
 
   useEffect(() => {
@@ -18,14 +26,22 @@ export const ListOfBlocks: React.FC = () => {
 
   const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
 
-  const cn = useBlockListStyles();
-
   return (
     <div
-      className={cn.scrollableBlocksContainer}
+      style={{
+        gridTemplateColumns: `${theme.spacing(
+          BLOCK_SCROLLABLE_CONTAINER,
+        )}px auto`,
+      }}
+      className={ccn(
+        "displayGrid",
+        "overflowYScroll",
+        "overflowXHidden",
+        "scrollbarWidth0",
+      )}
       data-testid="scrollable-blocks-container"
     >
-      <div className={cn.blocksContainer}>
+      <div className={ccn("marginY10", "marginX5")}>
         {explorerBlockList?.map(block => {
           return <Block key={block.hash} data={block} />;
         })}

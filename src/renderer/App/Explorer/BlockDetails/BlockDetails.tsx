@@ -2,14 +2,14 @@ import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, Route, Switch, useParams } from "react-router-dom";
+import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
+import { useAtomicCss } from "_r/useAtomicCss";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
-import { useAtomicCss } from "_r/useAtomicCss";
 import { TxDetails } from "./TxDetails/TxDetails";
 
 const blockDataDefinitions: {
@@ -67,7 +67,7 @@ const dummyBlockData: TBlock = {
 export const BLOCK_DETAILS_PADDING = "padding6";
 
 const BlockDetails_ = () => {
-  const { blockHeightAsId } = useParams();
+  const { url, path } = useRouteMatch();
   const a = useAtomicCss();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
@@ -143,7 +143,7 @@ const BlockDetails_ = () => {
                   {({ index, data, style }) => (
                     <Link
                       className={a("colorPrimary")}
-                      to={`/explorer/${blockHeightAsId}/${data[index]}`}
+                      to={`${url}/${data[index]}`}
                     >
                       <Typography
                         className={a(
@@ -165,7 +165,7 @@ const BlockDetails_ = () => {
           </Paper>
         </div>
         <Switch>
-          <Route path="/explorer/:blockHeightAsId/:txId">
+          <Route path={`${path}/:txId`}>
             <TxDetails
               isLoading={isLoading}
               marginTopOffset={transactionListHeight - theme.spacing(30)}

@@ -42,7 +42,7 @@ const useLoadingAwareTypographyStyles = makeStyles({
 export const useLoadingAwareTypography = (
   isLoading: boolean,
 ): OverridableComponent<TypographyTypeMap<{ isStatic?: boolean }, "span">> => {
-  const cn = useLoadingAwareTypographyStyles();
+  const classNames = useLoadingAwareTypographyStyles();
 
   return (props: any) => {
     const { children, isStatic, className, ...propsWithoutChildren } = props;
@@ -51,10 +51,10 @@ export const useLoadingAwareTypography = (
     return (
       <Typography
         {...propsWithoutChildren}
-        className={clsx(className, shouldHide ? cn.transparent : null)}
+        className={clsx(className, shouldHide ? classNames.transparent : null)}
       >
         {shouldHide ? (
-          <span className={cn.skeleton}>{children}</span>
+          <span className={classNames.skeleton}>{children}</span>
         ) : (
           children
         )}

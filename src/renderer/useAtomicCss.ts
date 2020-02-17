@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 export const BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH = 82;
 
-const useCommonStyles = makeStyles(theme => {
+const useAtomicStyles = makeStyles(theme => {
   const c = (name: string, val: number | string) => ({
     [name]: val,
   });
@@ -115,9 +115,9 @@ const useCommonStyles = makeStyles(theme => {
   };
 });
 
-export const useCcn = () => {
-  const commonStyles = useCommonStyles();
+export const useAtomicCss = () => {
+  const atomicStyles = useAtomicStyles();
 
-  return (...classNames: (keyof ReturnType<typeof useCommonStyles>)[]) =>
-    clsx(classNames.map(className => commonStyles[className]));
+  return (...classNames: (keyof ReturnType<typeof useAtomicStyles>)[]) =>
+    clsx(classNames.map(className => atomicStyles[className]));
 };

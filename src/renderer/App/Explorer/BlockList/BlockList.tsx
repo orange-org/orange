@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as thunks from "_r/redux/thunks";
 import { useTheme } from "@material-ui/core";
-import { useCcn, BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH } from "_r/commonStyles";
+import {
+  useAtomicCss,
+  BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
+} from "_r/useAtomicCss";
 import { Block } from "./Block";
 
 const BLOCK_HORIZONTAL_MARGIN = 5;
@@ -15,7 +18,7 @@ export const BLOCK_AVAILABLE_WIDTH =
 export const ListOfBlocks: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const ccn = useCcn();
+  const a = useAtomicCss();
   const { blockHeightAsId } = useParams();
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export const ListOfBlocks: React.FC = () => {
           BLOCK_SCROLLABLE_CONTAINER,
         )}px auto`,
       }}
-      className={ccn(
+      className={a(
         "displayGrid",
         "overflowYScroll",
         "overflowXHidden",
@@ -41,7 +44,7 @@ export const ListOfBlocks: React.FC = () => {
       )}
       data-testid="scrollable-blocks-container"
     >
-      <div className={ccn("marginY10", "marginX5")}>
+      <div className={a("marginY10", "marginX5")}>
         {explorerBlockList?.map(block => {
           return <Block key={block.hash} data={block} />;
         })}

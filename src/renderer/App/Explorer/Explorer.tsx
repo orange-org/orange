@@ -1,11 +1,14 @@
 import React from "react";
-import { useCcn, BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH } from "_r/commonStyles";
+import {
+  useAtomicCss,
+  BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
+} from "_r/useAtomicCss";
 import { useTheme } from "@material-ui/core";
 import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { ListOfBlocks } from "./BlockList/BlockList";
 
 export const Explorer_: React.FC = () => {
-  const ccn = useCcn();
+  const a = useAtomicCss();
   const theme = useTheme();
 
   return (
@@ -15,7 +18,7 @@ export const Explorer_: React.FC = () => {
           BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
         )}px auto`,
       }}
-      className={ccn("topLevelComponent", "displayGrid")}
+      className={a("topLevelComponent", "displayGrid")}
     >
       <ListOfBlocks />
       <BlockDetails />

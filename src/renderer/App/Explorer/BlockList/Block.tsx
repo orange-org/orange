@@ -15,7 +15,7 @@ const Block_: React.FC<CardProps & {
 }> = props_ => {
   const { data, ...props } = props_;
 
-  const cn = useBlockStyles();
+  const classNames = useBlockStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);
   const { blockHeightAsId } = useParams();
 
@@ -33,22 +33,24 @@ const Block_: React.FC<CardProps & {
   const Typography = useLoadingAwareTypography(false);
 
   const renderMetaDataItem = (Icon: typeof SvgIcon, text: ReactText | Null) => (
-    <div className={cn.metaDataItem}>
-      <div className={cn.icon}>
+    <div className={classNames.metaDataItem}>
+      <div className={classNames.icon}>
         <Icon fontSize="small" />
       </div>
-      <div className={cn.value}>
+      <div className={classNames.value}>
         <Typography>{text}</Typography>
       </div>
     </div>
   );
 
   return (
-    <Box className={cn.root} data-testid="blocklist-block">
+    <Box className={classNames.root} data-testid="blocklist-block">
       <Card
         {...props}
         variant="elevation"
-        className={clsx(cn.blockContainer, { [cn.activeCard]: isActive })}
+        className={clsx(classNames.blockContainer, {
+          [classNames.activeCard]: isActive,
+        })}
       >
         {/**
          * CSS is used to give this element a size that extends slightly
@@ -57,23 +59,29 @@ const Block_: React.FC<CardProps & {
          * of having the scrolling be touching the border, which doesn't
          * look good.
          */}
-        <div ref={scrollIntoViewElement} className={cn.scrollIntoView} />
-        <Link to={`/explorer/${data.height.toString()}`} className={cn.link}>
+        <div
+          ref={scrollIntoViewElement}
+          className={classNames.scrollIntoView}
+        />
+        <Link
+          to={`/explorer/${data.height.toString()}`}
+          className={classNames.link}
+        >
           Link to block {data.height.toString()}
         </Link>
-        <div className={cn.topRow}>
-          <div className={cn.height}>
+        <div className={classNames.topRow}>
+          <div className={classNames.height}>
             <Typography variant="h3">
               #{data.height.toLocaleString()}
             </Typography>
           </div>
           <div>
-            <Typography variant="body2" className={cn.date}>
+            <Typography variant="body2" className={classNames.date}>
               {data.time && formatDate(data.time * 1000)}
             </Typography>
           </div>
         </div>
-        <div className={cn.metaData}>
+        <div className={classNames.metaData}>
           {renderMetaDataItem(
             QueryBuilder,
             data.time && fromNow(data.time * 1000),
@@ -84,8 +92,8 @@ const Block_: React.FC<CardProps & {
           )}
           {renderMetaDataItem(Repeat, data.nTx.toLocaleString())}
         </div>
-        <div className={cn.hash}>
-          <Typography variant="body2" className={cn.hashText}>
+        <div className={classNames.hash}>
+          <Typography variant="body2" className={classNames.hashText}>
             {data.hash}
           </Typography>
         </div>

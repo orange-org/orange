@@ -14,10 +14,10 @@ const useAppBarStyles = makeStyles(theme => ({
 }));
 
 export const AppBar: React.FC = () => {
-  const cn = useAppBarStyles();
+  const classNames = useAppBarStyles();
 
   return (
-    <MuiAppBar variant="elevation" elevation={1} className={cn.AppBar}>
+    <MuiAppBar variant="elevation" elevation={1} className={classNames.AppBar}>
       <Toolbar>
         <Typography variant="h6" color="inherit">
           Orange

@@ -9,7 +9,7 @@ import { useLoadingAwareTypography } from "_r/hooks";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
-import { useCcn } from "_r/commonStyles";
+import { useAtomicCss } from "_r/useAtomicCss";
 import { TxDetails } from "./TxDetails/TxDetails";
 
 const blockDataDefinitions: {
@@ -68,7 +68,7 @@ export const BLOCK_DETAILS_PADDING = "padding6";
 
 const BlockDetails_ = () => {
   const { blockHeightAsId } = useParams();
-  const ccn = useCcn();
+  const a = useAtomicCss();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
@@ -105,21 +105,21 @@ const BlockDetails_ = () => {
       : transactionListMaxHeight;
 
   return (
-    <div className={ccn("overflowScroll", "padding6")}>
-      <div className={ccn("marginBottom10")}>
+    <div className={a("overflowScroll", "padding6")}>
+      <div className={a("marginBottom10")}>
         <Typography
           variant="h1"
-          className={ccn("fontWeight500", "fontStyleItalic")}
+          className={a("fontWeight500", "fontStyleItalic")}
         >
           #{blockData.height.toLocaleString()}
         </Typography>
         <Typography
           variant="h4"
-          className={ccn("marginTop1", "colorHint", "fontStyleItalic")}
+          className={a("marginTop1", "colorHint", "fontStyleItalic")}
         >
           {blockData.hash}
         </Typography>
-        <div className={ccn("marginTop5")}>
+        <div className={a("marginTop5")}>
           <Typography variant="h2">
             {blockData.nTx && (
               <>
@@ -129,7 +129,7 @@ const BlockDetails_ = () => {
             )}
           </Typography>
 
-          <Paper variant="outlined" className={ccn("marginTop2")}>
+          <Paper variant="outlined" className={a("marginTop2")}>
             <AutoSizer disableHeight>
               {({ width }) => (
                 <FixedSizeList
@@ -142,11 +142,11 @@ const BlockDetails_ = () => {
                 >
                   {({ index, data, style }) => (
                     <Link
-                      className={ccn("colorPrimary")}
+                      className={a("colorPrimary")}
                       to={`/explorer/${blockHeightAsId}/${data[index]}`}
                     >
                       <Typography
-                        className={ccn(
+                        className={a(
                           "padding3",
                           "borderBottomWidth1",
                           "borderBottomColorDivider",
@@ -172,13 +172,13 @@ const BlockDetails_ = () => {
             />
           </Route>
         </Switch>
-        <div className={ccn("marginTop5")}>
+        <div className={a("marginTop5")}>
           <Typography variant="h2" isStatic>
             Details
           </Typography>
 
           <Paper
-            className={ccn(
+            className={a(
               "marginTop2",
               "padding2",
               "displayFlex",
@@ -194,7 +194,7 @@ const BlockDetails_ = () => {
                 return (
                   <div
                     key={key}
-                    className={ccn(
+                    className={a(
                       "displayFlex",
                       "alignItemsCenter",
                       "flexShrink0",
@@ -203,11 +203,11 @@ const BlockDetails_ = () => {
                     )}
                   >
                     <div>
-                      <Typography isStatic className={ccn("fontWeight500")}>
+                      <Typography isStatic className={a("fontWeight500")}>
                         {key}
                       </Typography>
                     </div>
-                    <div className={ccn("marginLeft1")}>
+                    <div className={a("marginLeft1")}>
                       <Typography component="div">
                         {blockDataDefinitions[key] ? (
                           blockDataDefinitions[key]!(blockData[key] as any)
@@ -225,7 +225,7 @@ const BlockDetails_ = () => {
           </Paper>
         </div>
         <div
-          className={ccn("marginTop5", "displayFlex", "justifyContentFlexEnd")}
+          className={a("marginTop5", "displayFlex", "justifyContentFlexEnd")}
         >
           <ButtonGroup orientation="vertical">
             {[
@@ -249,14 +249,10 @@ const BlockDetails_ = () => {
                 key={definition.text}
               >
                 <span
-                  className={ccn(
-                    "alignItemsCenter",
-                    "displayFlex",
-                    "width100%",
-                  )}
+                  className={a("alignItemsCenter", "displayFlex", "width100%")}
                 >
-                  <span className={ccn("displayFlex")}>{definition.icon}</span>
-                  <span className={ccn("flex1")}>{definition.text}</span>
+                  <span className={a("displayFlex")}>{definition.icon}</span>
+                  <span className={a("flex1")}>{definition.text}</span>
                 </span>
               </Button>
             ))}

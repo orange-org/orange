@@ -1,16 +1,39 @@
 import { InputBase } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React from "react";
+import { useCcn } from "_r/commonStyles";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
 import { useSearchHandlers } from "./SearchBoxHooks";
 
 export const SearchBox: React.FC = () => {
   const cn = useSearchBoxStyles();
+  const ccn = useCcn();
   const { onKeyUp, onChange } = useSearchHandlers();
 
   return (
-    <div className={cn.search}>
-      <div className={cn.searchIcon}>
+    <div
+      className={ccn(
+        "positionRelative",
+        "borderRadiusShape",
+        "backgroundColorBlackFade01",
+        "hoverBackgroundColorBlackFade012",
+        "marginRight2",
+        "marginLeft10",
+        "widthAuto",
+      )}
+    >
+      <div
+        className={ccn(
+          "width11",
+          "colorHint",
+          "height100%",
+          "positionAbsolute",
+          "pointerEventsNone",
+          "displayFlex",
+          "alignItemsCenter",
+          "justifyContentCenter",
+        )}
+      >
         <Search />
       </div>
       <InputBase

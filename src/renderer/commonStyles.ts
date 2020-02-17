@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, fade } from "@material-ui/core";
 import clsx from "clsx";
 
 export const BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH = 82;
@@ -43,6 +43,7 @@ const useCommonStyles = makeStyles(theme => {
     marginBottom10: c("marginBottom", theme.spacing(10)),
 
     marginLeft1: c("marginLeft", theme.spacing(1)),
+    marginLeft10: c("marginLeft", theme.spacing(10)),
 
     marginY2: {
       marginTop: theme.spacing(2),
@@ -62,7 +63,10 @@ const useCommonStyles = makeStyles(theme => {
       marginRight: theme.spacing(5),
     },
 
+    marginRight2: c("marginRight", theme.spacing(2)),
+
     justifyContentFlexEnd: c("justifyContent", "flex-end"),
+    justifyContentCenter: c("justifyContent", "center"),
 
     colorHint: c("color", theme.palette.text.hint),
     colorPrimary: c("color", theme.palette.text.primary),
@@ -80,6 +84,10 @@ const useCommonStyles = makeStyles(theme => {
     borderBottomColorDivider: c("borderBottomColor", theme.palette.divider),
 
     "width100%": c("width", "100%"),
+    widthAuto: c("width", "auto"),
+    width11: c("width", theme.spacing(11)),
+
+    "height100%": c("height", "100%"),
 
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
@@ -87,6 +95,22 @@ const useCommonStyles = makeStyles(theme => {
 
     scrollbarWidth0: {
       "&::-webkit-scrollbar": c("width", 0),
+    },
+
+    positionRelative: c("position", "relative"),
+    positionAbsolute: c("position", "absolute"),
+
+    pointerEventsNone: c("pointerEvents", "none"),
+
+    borderRadiusShape: c("borderRadius", theme.shape.borderRadius),
+
+    backgroundColorBlackFade01: c(
+      "backgroundColor",
+      fade(theme.palette.common.black, 0.1),
+    ),
+
+    hoverBackgroundColorBlackFade012: {
+      "&:hover": c("backgroundColor", fade(theme.palette.common.black, 0.12)),
     },
   };
 });

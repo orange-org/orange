@@ -1,9 +1,8 @@
 import { makeStyles } from "@material-ui/core";
-import { BLOCK_DETAILS_PADDING } from "../BlockDetailsStyles";
 
 export const useTxDetailsStyles = makeStyles(theme => ({
   txDetails: {
-    margin: `-10px -${BLOCK_DETAILS_PADDING(theme) - theme.spacing(1)}px 0`,
+    margin: `-10px -${theme.spacing(6) - theme.spacing(1)}px 0`,
     position: "relative",
   },
 

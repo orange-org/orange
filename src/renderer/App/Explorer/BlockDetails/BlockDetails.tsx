@@ -1,6 +1,5 @@
 import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, Route, Switch, useParams } from "react-router-dom";
@@ -10,8 +9,8 @@ import { useLoadingAwareTypography } from "_r/hooks";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { useCcn } from "_r/commonStyles";
 import { TxDetails } from "./TxDetails/TxDetails";
-import { useBlockDetailsStyles } from "./BlockDetailsStyles";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -65,9 +64,11 @@ const dummyBlockData: TBlock = {
   weight: 48896,
 };
 
+export const BLOCK_DETAILS_PADDING = "padding6";
+
 const BlockDetails_ = () => {
   const { blockHeightAsId } = useParams();
-  const cn = useBlockDetailsStyles();
+  const ccn = useCcn();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
@@ -104,17 +105,21 @@ const BlockDetails_ = () => {
       : transactionListMaxHeight;
 
   return (
-    <div className={cn.blockDetails}>
-      <div className={cn.blockDetailsInnerContainer}>
-        <Typography variant="h1" className={cn.title}>
+    <div className={ccn("overflowScroll", "padding6")}>
+      <div className={ccn("marginBottom10")}>
+        <Typography
+          variant="h1"
+          className={ccn("fontWeight500", "fontStyleItalic")}
+        >
           #{blockData.height.toLocaleString()}
         </Typography>
-
-        <Typography variant="h4" className={cn.hash}>
+        <Typography
+          variant="h4"
+          className={ccn("marginTop1", "colorHint", "fontStyleItalic")}
+        >
           {blockData.hash}
         </Typography>
-
-        <div className={clsx(cn.section)}>
+        <div className={ccn("marginTop5")}>
           <Typography variant="h2">
             {blockData.nTx && (
               <>
@@ -124,7 +129,7 @@ const BlockDetails_ = () => {
             )}
           </Typography>
 
-          <Paper variant="outlined" className={cn.transactionsPage}>
+          <Paper variant="outlined" className={ccn("marginTop2")}>
             <AutoSizer disableHeight>
               {({ width }) => (
                 <FixedSizeList
@@ -137,10 +142,19 @@ const BlockDetails_ = () => {
                 >
                   {({ index, data, style }) => (
                     <Link
-                      className={cn.transactionItemLink}
+                      className={ccn("colorPrimary")}
                       to={`/explorer/${blockHeightAsId}/${data[index]}`}
                     >
-                      <Typography className={cn.transactionItem} style={style}>
+                      <Typography
+                        className={ccn(
+                          "padding3",
+                          "borderBottomWidth1",
+                          "borderBottomColorDivider",
+                          "borderBottomStyleSolid",
+                          "hoverBackgroundColor",
+                        )}
+                        style={style}
+                      >
                         {data && data[index]}
                       </Typography>
                     </Link>
@@ -150,7 +164,6 @@ const BlockDetails_ = () => {
             </AutoSizer>
           </Paper>
         </div>
-
         <Switch>
           <Route path="/explorer/:blockHeightAsId/:txId">
             <TxDetails
@@ -159,13 +172,19 @@ const BlockDetails_ = () => {
             />
           </Route>
         </Switch>
-
-        <div className={cn.section}>
+        <div className={ccn("marginTop5")}>
           <Typography variant="h2" isStatic>
             Details
           </Typography>
 
-          <Paper className={cn.detailsSection}>
+          <Paper
+            className={ccn(
+              "marginTop2",
+              "padding2",
+              "displayFlex",
+              "flexWrapWrap",
+            )}
+          >
             {(Object.keys(blockData) as (keyof TBlock)[]).map(
               (key: keyof TBlock) => {
                 if (excludedBlockData.includes(key)) {
@@ -173,13 +192,22 @@ const BlockDetails_ = () => {
                 }
 
                 return (
-                  <div key={key} className={cn.detailsItem}>
-                    <div className={cn.detailsItemKey}>
-                      <Typography isStatic className={cn.detailsItemKeyText}>
+                  <div
+                    key={key}
+                    className={ccn(
+                      "displayFlex",
+                      "alignItemsCenter",
+                      "flexShrink0",
+                      "marginY2",
+                      "marginX4",
+                    )}
+                  >
+                    <div>
+                      <Typography isStatic className={ccn("fontWeight500")}>
                         {key}
                       </Typography>
                     </div>
-                    <div className={cn.detailsItemValue}>
+                    <div className={ccn("marginLeft1")}>
                       <Typography component="div">
                         {blockDataDefinitions[key] ? (
                           blockDataDefinitions[key]!(blockData[key] as any)
@@ -196,8 +224,9 @@ const BlockDetails_ = () => {
             )}
           </Paper>
         </div>
-
-        <div className={clsx(cn.section, cn.navigationButtons)}>
+        <div
+          className={ccn("marginTop5", "displayFlex", "justifyContentFlexEnd")}
+        >
           <ButtonGroup orientation="vertical">
             {[
               {
@@ -219,9 +248,15 @@ const BlockDetails_ = () => {
                 disabled={isLoading || definition.cantMove}
                 key={definition.text}
               >
-                <span className={cn.buttonLabel}>
-                  <span className={cn.buttonIcon}>{definition.icon}</span>
-                  <span className={cn.buttonText}>{definition.text}</span>
+                <span
+                  className={ccn(
+                    "alignItemsCenter",
+                    "displayFlex",
+                    "width100%",
+                  )}
+                >
+                  <span className={ccn("displayFlex")}>{definition.icon}</span>
+                  <span className={ccn("flex1")}>{definition.text}</span>
                 </span>
               </Button>
             ))}

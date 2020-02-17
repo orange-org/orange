@@ -58,7 +58,7 @@ const Block_: React.FC<CardProps & {
          * look good.
          */}
         <div ref={scrollIntoViewElement} className={cn.scrollIntoView} />
-        <Link to={data.height.toString()} className={cn.link}>
+        <Link to={`/explorer/${data.height.toString()}`} className={cn.link}>
           Link to block {data.height.toString()}
         </Link>
         <div className={cn.topRow}>

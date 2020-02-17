@@ -19,4 +19,13 @@ export const useCommonStyles = makeStyles(theme => ({
     padding: "64px 0 0 0", // compensate for AppBar
     height: "100%",
   },
+  fontStyleItalic: {
+    fontStyle: "italic",
+  },
+  marginTop1: {
+    marginTop: theme.spacing(1),
+  },
+  colorHint: {
+    color: theme.palette.text.hint,
+  },
 }));

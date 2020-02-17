@@ -52,7 +52,7 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
               requestId,
               ...payload,
             } as ExtractedResponse);
-          } catch (error_) {
+          } catch (_error) {
             const error: RpcError = {
               code: ERROR_CODES.jsonParse,
               message: "",

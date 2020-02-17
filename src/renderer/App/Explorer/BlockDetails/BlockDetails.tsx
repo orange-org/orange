@@ -3,13 +3,14 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Route, Switch, useParams } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { TxDetails } from "./TxDetails/TxDetails";
 import { useBlockDetailsStyles } from "./BlockDetailsStyles";
 
 const blockDataDefinitions: {
@@ -65,6 +66,7 @@ const dummyBlockData: TBlock = {
 };
 
 const BlockDetails_ = () => {
+  const { blockHeightAsId } = useParams();
   const cn = useBlockDetailsStyles();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,6 +96,12 @@ const BlockDetails_ = () => {
   }, [selectedExplorerBlock]);
 
   const Typography = useLoadingAwareTypography(isLoading);
+  const transactionCellHeight = 42;
+  const transactionListMaxHeight = theme.spacing(80);
+  const transactionListHeight =
+    blockData.tx.length < transactionListMaxHeight / transactionCellHeight
+      ? blockData.tx.length * transactionCellHeight
+      : transactionListMaxHeight;
 
   return (
     <div className={cn.blockDetails}>
@@ -121,22 +129,36 @@ const BlockDetails_ = () => {
               {({ width }) => (
                 <FixedSizeList
                   key={blockData.hash}
-                  itemSize={42}
-                  height={theme.spacing(120)}
+                  itemSize={transactionCellHeight}
+                  height={transactionListHeight}
                   itemCount={blockData.tx.length}
                   width={width - 1 /* -1 for the border */}
                   itemData={blockData.tx}
                 >
                   {({ index, data, style }) => (
-                    <Typography className={cn.transactionItem} style={style}>
-                      {data && data[index]}
-                    </Typography>
+                    <Link
+                      className={cn.transactionItemLink}
+                      to={`/explorer/${blockHeightAsId}/${data[index]}`}
+                    >
+                      <Typography className={cn.transactionItem} style={style}>
+                        {data && data[index]}
+                      </Typography>
+                    </Link>
                   )}
                 </FixedSizeList>
               )}
             </AutoSizer>
           </Paper>
         </div>
+
+        <Switch>
+          <Route path="/explorer/:blockHeightAsId/:txId">
+            <TxDetails
+              isLoading={isLoading}
+              marginTopOffset={transactionListHeight - theme.spacing(30)}
+            />
+          </Route>
+        </Switch>
 
         <div className={cn.section}>
           <Typography variant="h2" isStatic>
@@ -182,17 +204,19 @@ const BlockDetails_ = () => {
                 icon: <KeyboardArrowUp />,
                 text: "Next block",
                 nextHeight: blockData.height + 1,
+                cantMove: !blockData.nextblockhash,
               },
               {
                 icon: <KeyboardArrowDown />,
                 text: "Previous block",
                 nextHeight: blockData.height - 1,
+                cantMove: !blockData.previousblockhash,
               },
             ].map(definition => (
               <Button
                 component={Link}
-                to={definition.nextHeight.toString()}
-                disabled={isLoading}
+                to={`/explorer/${definition.nextHeight.toString()}`}
+                disabled={isLoading || definition.cantMove}
                 key={definition.text}
               >
                 <span className={cn.buttonLabel}>

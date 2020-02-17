@@ -74,4 +74,21 @@ describe("sendRpcRequestToBitcoind", () => {
       payload: new Error("whatever the request error is"),
     });
   });
+
+  it("rejects non-whitelisted RPC methods", async () => {
+    const scope = nock(RPC_SERVER_URL)
+      .post("/")
+      .reply(200, { result: "okay" });
+
+    const response = await sendRpcRequestToBitcoind({
+      // @ts-ignore
+      method: "submitheader",
+      requestId: "123",
+    });
+
+    expect(response.error).toEqual({ code: ERROR_CODES.rpcMethodNotAllowed });
+    expect(scope.pendingMocks().length).toBe(1);
+
+    nock.cleanAll();
+  });
 });

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { useCommonStyles } from "_r/commonStyles";
-import { BlockDetails } from "./BlockDetails";
+import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { ListOfBlocks } from "./BlockList/BlockList";
 import { useExplorerStyles } from "./ExplorerStyles";
 

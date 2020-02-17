@@ -1,8 +1,10 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
+
+export const BLOCK_DETAILS_PADDING = (theme: Theme) => theme.spacing(6);
 
 export const useBlockDetailsStyles = makeStyles(theme => ({
   blockDetails: {
-    padding: theme.spacing(6),
+    padding: BLOCK_DETAILS_PADDING(theme),
     overflow: "scroll",
   },
 
@@ -85,7 +87,14 @@ export const useBlockDetailsStyles = makeStyles(theme => ({
 
   transactionItem: {
     padding: theme.spacing(3),
-    // borderBottom: `1px solid ${fade(theme.palette.divider, 1)}`,
     borderBottom: `1px solid ${theme.palette.divider}`,
+
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+
+  transactionItemLink: {
+    color: theme.palette.text.primary,
   },
 }));

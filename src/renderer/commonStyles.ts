@@ -23,6 +23,7 @@ export const useCommonStyles = makeStyles(theme => {
     displayTableRow: c("display", "table-row"),
     displayTableCell: c("display", "table-cell"),
     displayFlex: c("display", "flex"),
+    displayGrid: c("display", "grid"),
 
     flexWrapWrap: c("flexWrap", "wrap"),
     flexShrink0: c("flexShrink", 0),

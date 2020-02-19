@@ -10,7 +10,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
-import { TxDetails } from "./TransactionDetails/TransactionDetails";
+import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -64,7 +64,7 @@ const dummyBlockData: TBlock = {
   weight: 48896,
 };
 
-export const BLOCK_DETAILS_PADDING = "padding6";
+export const BLOCK_DETAILS_PADDING = 6;
 
 const BlockDetails_ = () => {
   const { url, path } = useRouteMatch();
@@ -105,7 +105,7 @@ const BlockDetails_ = () => {
       : transactionListMaxHeight;
 
   return (
-    <div className={a("overflowScroll", "padding6")}>
+    <div className={a("overflowScroll", `padding${BLOCK_DETAILS_PADDING}`)}>
       <div className={a("marginBottom10")}>
         <Typography
           variant="h1"
@@ -167,7 +167,7 @@ const BlockDetails_ = () => {
 
         <Switch>
           <Route path={`${path}/:transactionId`}>
-            <TxDetails
+            <TransactionDetails
               isLoading={isLoading}
               marginTopOffset={transactionListHeight - theme.spacing(30)}
             />

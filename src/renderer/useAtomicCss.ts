@@ -108,6 +108,10 @@ const useAtomicStyles = makeStyles(theme => {
       "backgroundColor",
       fade(theme.palette.common.black, 0.1),
     ),
+    backgroundColorDefault: c(
+      "backgroundColor",
+      theme.palette.background.default,
+    ),
 
     hoverBackgroundColorBlackFade012: {
       "&:hover": c("backgroundColor", fade(theme.palette.common.black, 0.12)),

@@ -10,7 +10,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
-import { TxDetails } from "./TxDetails/TxDetails";
+import { TxDetails } from "./TransactionDetails/TransactionDetails";
 
 const blockDataDefinitions: {
   [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
@@ -164,14 +164,16 @@ const BlockDetails_ = () => {
             </AutoSizer>
           </Paper>
         </div>
+
         <Switch>
-          <Route path={`${path}/:txId`}>
+          <Route path={`${path}/:transactionId`}>
             <TxDetails
               isLoading={isLoading}
               marginTopOffset={transactionListHeight - theme.spacing(30)}
             />
           </Route>
         </Switch>
+
         <div className={a("marginTop5")}>
           <Typography variant="h2" isStatic>
             Details

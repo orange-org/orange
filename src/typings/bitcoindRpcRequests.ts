@@ -58,6 +58,11 @@ export type BlockHashRpcRequest = {
   params: [number];
 };
 
+export type RawTransactionRpcRequest = {
+  method: "getrawtransaction";
+  params: [string, boolean?];
+};
+
 export type RpcRequest = { requestId: string } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -71,6 +76,7 @@ export type RpcRequest = { requestId: string } & (
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
   | BlockHashRpcRequest
+  | RawTransactionRpcRequest
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

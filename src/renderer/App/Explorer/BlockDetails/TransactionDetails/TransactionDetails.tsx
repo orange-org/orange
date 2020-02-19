@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { useParams } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { useTxDetailsStyles } from "./TxDetailsStyles";
+import { useDispatch, useSelector } from "react-redux";
+import * as thunks from "_r/redux/thunks";
+import { useTxDetailsStyles } from "./TransactionDetailsStyles";
 
 export const TxDetails: React.FC<{
   isLoading: boolean;
@@ -11,7 +13,15 @@ export const TxDetails: React.FC<{
   const a = useAtomicCss();
   const classNames = useTxDetailsStyles();
   const Typography = useLoadingAwareTypography(props.isLoading);
-  const { txId } = useParams();
+  const { transactionId } = useParams();
+  const dispatch = useDispatch();
+  const explorerDisplayedTransaction = useSelector(
+    s => s.misc.selectedExplorerTransaction,
+  );
+
+  useEffect(() => {
+    dispatch(thunks.requestRawTransaction(__NONCE__, transactionId!));
+  }, [dispatch, transactionId]);
 
   return (
     <div
@@ -24,8 +34,10 @@ export const TxDetails: React.FC<{
           Transaction
         </Typography>
         <Typography className={a("marginTop1", "fontStyleItalic", "colorHint")}>
-          {txId}
+          {transactionId}
         </Typography>
+
+        <pre>{JSON.stringify(explorerDisplayedTransaction, null, 2)}</pre>
       </div>
     </div>
   );

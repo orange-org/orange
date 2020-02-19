@@ -29,6 +29,17 @@ class RpcService {
 
     return block;
   };
+
+  requestRawTransaction = async (
+    nonce: NONCE,
+    transactionId: string,
+    verbose: boolean = true,
+  ) => {
+    return rpcClient(nonce, {
+      method: "getrawtransaction",
+      params: [transactionId, verbose],
+    });
+  };
 }
 
 export const rpcService = new RpcService();

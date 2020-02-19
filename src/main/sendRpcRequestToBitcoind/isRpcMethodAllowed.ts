@@ -5,6 +5,7 @@ export const isRpcMethodAllowed = (methodName: RpcRequest["method"]) => {
     "getblockchaininfo",
     "getblock",
     "getblockhash",
+    "getrawtransaction",
   ];
 
   return allowedMethods.includes(methodName);

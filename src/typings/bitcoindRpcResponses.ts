@@ -10,6 +10,7 @@ import {
   ChainTipsRpcRequest,
   BlockHeaderRpcRequest,
   BlockHashRpcRequest,
+  RawTransactionRpcRequest,
 } from "_t/bitcoindRpcRequests";
 
 export type RpcError = {
@@ -274,6 +275,49 @@ export type BlockHash = string;
 export type BlockHashRpcResponse = CreateRpcResponse<
   BlockHashRpcRequest["method"],
   BlockHash
+>;
+
+export type RawTransaction = {
+  in_active_chain: boolean; // Whether specified block is in the active chain or not (only present with explicit "blockhash" argument)
+  hex: string; // The serialized, hex-encoded data for 'txid'
+  txid: string; // The transaction id (same as provided)
+  hash: string; // The transaction hash (differs from txid for witness transactions)
+  size: number; // The serialized transaction size
+  vsize: number; // The virtual transaction size (differs from size for witness transactions)
+  weight: number; // The transaction's weight (between vsize*4-3 and vsize*4)
+  version: number; // The version
+  locktime: number; // The lock time
+  vin: {
+    txid: string; // The transaction id
+    vout: number;
+    scriptSig: {
+      // The script
+      asm: string; // asm
+      hex: string; // hex
+    };
+    sequence: number; // The script sequence number
+    txinwitness: string[]; // hex-encoded witness data (if any)
+  }[];
+  vout: {
+    value: number; // The value in BTC
+    n: number; // index
+    scriptPubKey: {
+      asm: string; // the asm
+      hex: string; // the hex
+      reqSigs: number; // The required sigs
+      type: string; // The type, eg 'pubkeyhash'
+      addresses: string[]; // bitcoin addresses
+    };
+  }[];
+  blockhash: string; // the block hash
+  confirmations: number; // The confirmations
+  blocktime: number; // The block time expressed in UNIX epoch time
+  time: number; // Same as "blocktime"
+};
+
+export type RawTransactionRpcResponse = CreateRpcResponse<
+  RawTransactionRpcRequest["method"],
+  RawTransaction
 >;
 
 export type RpcResponse = {

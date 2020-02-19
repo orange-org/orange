@@ -37,3 +37,13 @@ export const populateBlockList = (
 
   return populatedBlockList;
 };
+
+export const requestRawTransaction = (nonce: NONCE, txId: string) => async (
+  dispatch: Dispatch,
+) => {
+  const transaction = await rpcService.requestRawTransaction(nonce, txId);
+
+  dispatch(actions.setSelectedExplorerTransaction(transaction));
+
+  return transaction;
+};

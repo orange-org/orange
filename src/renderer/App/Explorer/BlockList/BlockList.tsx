@@ -44,7 +44,7 @@ export const ListOfBlocks: React.FC = () => {
       )}
       data-testid="scrollable-blocks-container"
     >
-      <div className={a("marginY10", "marginX5")}>
+      <div className={a("marginY10", "marginX05")}>
         {explorerBlockList?.map(block => {
           return <Block key={block.hash} data={block} />;
         })}

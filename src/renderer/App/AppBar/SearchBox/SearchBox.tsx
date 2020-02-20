@@ -17,7 +17,7 @@ export const SearchBox: React.FC = () => {
         "borderRadiusShape",
         "backgroundColorBlackFade01",
         "hoverBackgroundColorBlackFade012",
-        "marginRight2",
+        "marginRight02",
         "marginLeft10",
         "widthAuto",
       )}

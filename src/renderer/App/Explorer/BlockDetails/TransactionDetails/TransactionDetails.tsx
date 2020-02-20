@@ -5,7 +5,6 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { useDispatch, useSelector } from "react-redux";
 import * as thunks from "_r/redux/thunks";
 import { useTheme } from "@material-ui/core";
-import { useTransactionDetailsStyles } from "./TransactionDetailsStyles";
 import { BLOCK_DETAILS_PADDING } from "../BlockDetails";
 
 export const TransactionDetails: React.FC<{
@@ -13,7 +12,6 @@ export const TransactionDetails: React.FC<{
   marginTopOffset: number;
 }> = props => {
   const a = useAtomicCss();
-  const classNames = useTransactionDetailsStyles();
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();
@@ -33,7 +31,7 @@ export const TransactionDetails: React.FC<{
     <div
       className={a("positionRelative")}
       style={{
-        marginTop: `-${props.marginTopOffset}px`,
+        // marginTop: `-${props.marginTopOffset}px`,
         marginLeft: sidePadding,
         marginRight: sidePadding,
       }}

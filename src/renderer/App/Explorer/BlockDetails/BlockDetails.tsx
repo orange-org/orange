@@ -104,162 +104,179 @@ const BlockDetails_ = () => {
       ? blockData.tx.length * transactionCellHeight
       : transactionListMaxHeight;
 
-  return (
-    <div className={a("overflowScroll", `padding${BLOCK_DETAILS_PADDING}`)}>
-      <div className={a("marginBottom10")}>
-        <Typography
-          variant="h1"
-          className={a("fontWeight500", "fontStyleItalic")}
-        >
-          #{blockData.height.toLocaleString()}
-        </Typography>
-        <Typography
-          variant="h4"
-          className={a("marginTop1", "colorHint", "fontStyleItalic")}
-        >
-          {blockData.hash}
-        </Typography>
-        <div className={a("marginTop5")}>
-          <Typography variant="h2">
-            {blockData.nTx && (
-              <>
-                {blockData.nTx.toLocaleString()}{" "}
-                {pluralize(blockData.nTx, "transaction", "transactions")}
-              </>
-            )}
-          </Typography>
+  const heading = (
+    <>
+      <Typography
+        variant="h1"
+        className={a("fontWeight500", "fontStyleItalic")}
+      >
+        #{blockData.height.toLocaleString()}
+      </Typography>
+      <Typography
+        variant="h4"
+        className={a("marginTop1", "colorHint", "fontStyleItalic")}
+      >
+        {blockData.hash}
+      </Typography>
+    </>
+  );
 
-          <Paper variant="outlined" className={a("marginTop2")}>
-            <AutoSizer disableHeight>
-              {({ width }) => (
-                <FixedSizeList
-                  key={blockData.hash}
-                  itemSize={transactionCellHeight}
-                  height={transactionListHeight}
-                  itemCount={blockData.tx.length}
-                  width={width - 1 /* -1 for the border */}
-                  itemData={blockData.tx}
+  const transactionList = (
+    <div className={a("marginTop5")}>
+      <Typography variant="h2">
+        {blockData.nTx && (
+          <>
+            {blockData.nTx.toLocaleString()}{" "}
+            {pluralize(blockData.nTx, "transaction", "transactions")}
+          </>
+        )}
+      </Typography>
+
+      <Paper variant="outlined" className={a("marginTop2")}>
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <FixedSizeList
+              key={blockData.hash}
+              itemSize={transactionCellHeight}
+              height={transactionListHeight}
+              itemCount={blockData.tx.length}
+              width={width - 1 /* -1 for the border */}
+              itemData={blockData.tx}
+            >
+              {({ index, data, style }) => (
+                <Link
+                  className={a("colorPrimary")}
+                  to={`${url}/${data[index]}`}
                 >
-                  {({ index, data, style }) => (
-                    <Link
-                      className={a("colorPrimary")}
-                      to={`${url}/${data[index]}`}
-                    >
-                      <Typography
-                        className={a(
-                          "padding3",
-                          "borderBottomWidth1",
-                          "borderBottomColorDivider",
-                          "borderBottomStyleSolid",
-                          "hoverBackgroundColor",
-                        )}
-                        style={style}
-                      >
-                        {data && data[index]}
-                      </Typography>
-                    </Link>
-                  )}
-                </FixedSizeList>
+                  <Typography
+                    className={a(
+                      "padding3",
+                      "borderBottomWidth1",
+                      "borderBottomColorDivider",
+                      "borderBottomStyleSolid",
+                      "hoverBackgroundColor",
+                    )}
+                    style={style}
+                  >
+                    {data && data[index]}
+                  </Typography>
+                </Link>
               )}
-            </AutoSizer>
-          </Paper>
-        </div>
+            </FixedSizeList>
+          )}
+        </AutoSizer>
+      </Paper>
+    </div>
+  );
+
+  const blockDetails = (
+    <div className={a("marginTop5")}>
+      <Typography variant="h2" isStatic>
+        Details
+      </Typography>
+
+      <Paper
+        className={a("marginTop2", "padding2", "displayFlex", "flexWrapWrap")}
+      >
+        {(Object.keys(blockData) as (keyof TBlock)[]).map(
+          (key: keyof TBlock) => {
+            if (excludedBlockData.includes(key)) {
+              return null;
+            }
+
+            return (
+              <div
+                key={key}
+                className={a(
+                  "displayFlex",
+                  "alignItemsCenter",
+                  "flexShrink0",
+                  "marginY2",
+                  "marginX4",
+                )}
+              >
+                <div>
+                  <Typography isStatic className={a("fontWeight500")}>
+                    {key}
+                  </Typography>
+                </div>
+                <div className={a("marginLeft1")}>
+                  <Typography component="div">
+                    {blockDataDefinitions[key] ? (
+                      blockDataDefinitions[key]!(blockData[key] as any)
+                    ) : (
+                      <Box fontFamily="Monospace" fontSize="h6.fontSize">
+                        {blockData[key]}
+                      </Box>
+                    )}
+                  </Typography>
+                </div>
+              </div>
+            );
+          },
+        )}
+      </Paper>
+    </div>
+  );
+
+  const navigationButtons = (
+    <div className={a("marginTop5", "displayFlex", "justifyContentFlexEnd")}>
+      <ButtonGroup orientation="vertical">
+        {[
+          {
+            icon: <KeyboardArrowUp />,
+            text: "Next block",
+            nextHeight: blockData.height + 1,
+            cantMove: !blockData.nextblockhash,
+          },
+          {
+            icon: <KeyboardArrowDown />,
+            text: "Previous block",
+            nextHeight: blockData.height - 1,
+            cantMove: !blockData.previousblockhash,
+          },
+        ].map(definition => (
+          <Button
+            component={Link}
+            to={`/explorer/${definition.nextHeight.toString()}`}
+            disabled={isLoading || definition.cantMove}
+            key={definition.text}
+          >
+            <span className={a("alignItemsCenter", "displayFlex", "width100%")}>
+              <span className={a("displayFlex")}>{definition.icon}</span>
+              <span className={a("flex1")}>{definition.text}</span>
+            </span>
+          </Button>
+        ))}
+      </ButtonGroup>
+    </div>
+  );
+
+  const transactionDetails = (
+    <TransactionDetails
+      isLoading={isLoading}
+      marginTopOffset={transactionListHeight - theme.spacing(30)}
+    />
+  );
+
+  return (
+    <div
+      className={a(
+        "overflowScroll",
+        `padding${BLOCK_DETAILS_PADDING}` as "padding6",
+      )}
+    >
+      <div className={a("marginBottom10")}>
+        {heading}
 
         <Switch>
-          <Route path={`${path}/:transactionId`}>
-            <TransactionDetails
-              isLoading={isLoading}
-              marginTopOffset={transactionListHeight - theme.spacing(30)}
-            />
+          <Route path={path} exact>
+            {transactionList}
+            {blockDetails}
+            {navigationButtons}
           </Route>
+          <Route path={`${path}/:transactionId`}>{transactionDetails}</Route>
         </Switch>
-
-        <div className={a("marginTop5")}>
-          <Typography variant="h2" isStatic>
-            Details
-          </Typography>
-
-          <Paper
-            className={a(
-              "marginTop2",
-              "padding2",
-              "displayFlex",
-              "flexWrapWrap",
-            )}
-          >
-            {(Object.keys(blockData) as (keyof TBlock)[]).map(
-              (key: keyof TBlock) => {
-                if (excludedBlockData.includes(key)) {
-                  return null;
-                }
-
-                return (
-                  <div
-                    key={key}
-                    className={a(
-                      "displayFlex",
-                      "alignItemsCenter",
-                      "flexShrink0",
-                      "marginY2",
-                      "marginX4",
-                    )}
-                  >
-                    <div>
-                      <Typography isStatic className={a("fontWeight500")}>
-                        {key}
-                      </Typography>
-                    </div>
-                    <div className={a("marginLeft1")}>
-                      <Typography component="div">
-                        {blockDataDefinitions[key] ? (
-                          blockDataDefinitions[key]!(blockData[key] as any)
-                        ) : (
-                          <Box fontFamily="Monospace" fontSize="h6.fontSize">
-                            {blockData[key]}
-                          </Box>
-                        )}
-                      </Typography>
-                    </div>
-                  </div>
-                );
-              },
-            )}
-          </Paper>
-        </div>
-        <div
-          className={a("marginTop5", "displayFlex", "justifyContentFlexEnd")}
-        >
-          <ButtonGroup orientation="vertical">
-            {[
-              {
-                icon: <KeyboardArrowUp />,
-                text: "Next block",
-                nextHeight: blockData.height + 1,
-                cantMove: !blockData.nextblockhash,
-              },
-              {
-                icon: <KeyboardArrowDown />,
-                text: "Previous block",
-                nextHeight: blockData.height - 1,
-                cantMove: !blockData.previousblockhash,
-              },
-            ].map(definition => (
-              <Button
-                component={Link}
-                to={`/explorer/${definition.nextHeight.toString()}`}
-                disabled={isLoading || definition.cantMove}
-                key={definition.text}
-              >
-                <span
-                  className={a("alignItemsCenter", "displayFlex", "width100%")}
-                >
-                  <span className={a("displayFlex")}>{definition.icon}</span>
-                  <span className={a("flex1")}>{definition.text}</span>
-                </span>
-              </Button>
-            ))}
-          </ButtonGroup>
-        </div>
       </div>
     </div>
   );

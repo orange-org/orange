@@ -41,6 +41,7 @@ const useAtomicStyles = makeStyles(theme => {
     borderWidth2: c("borderWidth", 2),
     borderWidth4: c("borderWidth", 4),
 
+    colorActionActive: c("color", theme.palette.action.active),
     colorHint: c("color", theme.palette.text.hint),
     colorPrimary: c("color", theme.palette.text.primary),
 

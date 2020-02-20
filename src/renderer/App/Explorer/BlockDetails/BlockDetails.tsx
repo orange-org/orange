@@ -1,5 +1,9 @@
 import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
+import {
+  KeyboardArrowDown,
+  KeyboardArrowUp,
+  ExpandLess,
+} from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
@@ -114,7 +118,7 @@ const BlockDetails_ = () => {
       </Typography>
       <Typography
         variant="h4"
-        className={a("marginTop1", "colorHint", "fontStyleItalic")}
+        className={a("marginTop01", "colorHint", "fontStyleItalic")}
       >
         {blockData.hash}
       </Typography>
@@ -122,7 +126,7 @@ const BlockDetails_ = () => {
   );
 
   const transactionList = (
-    <div className={a("marginTop5")}>
+    <div className={a("marginTop05")}>
       <Typography variant="h2">
         {blockData.nTx && (
           <>
@@ -132,7 +136,7 @@ const BlockDetails_ = () => {
         )}
       </Typography>
 
-      <Paper variant="outlined" className={a("marginTop2")}>
+      <Paper variant="outlined" className={a("marginTop02")}>
         <AutoSizer disableHeight>
           {({ width }) => (
             <FixedSizeList
@@ -170,13 +174,13 @@ const BlockDetails_ = () => {
   );
 
   const blockDetails = (
-    <div className={a("marginTop5")}>
+    <div className={a("marginTop05")}>
       <Typography variant="h2" isStatic>
         Details
       </Typography>
 
       <Paper
-        className={a("marginTop2", "padding2", "displayFlex", "flexWrapWrap")}
+        className={a("marginTop02", "padding2", "displayFlex", "flexWrapWrap")}
       >
         {(Object.keys(blockData) as (keyof TBlock)[]).map(
           (key: keyof TBlock) => {
@@ -191,8 +195,8 @@ const BlockDetails_ = () => {
                   "displayFlex",
                   "alignItemsCenter",
                   "flexShrink0",
-                  "marginY2",
-                  "marginX4",
+                  "marginY02",
+                  "marginX04",
                 )}
               >
                 <div>
@@ -200,7 +204,7 @@ const BlockDetails_ = () => {
                     {key}
                   </Typography>
                 </div>
-                <div className={a("marginLeft1")}>
+                <div className={a("marginLeft01")}>
                   <Typography component="div">
                     {blockDataDefinitions[key] ? (
                       blockDataDefinitions[key]!(blockData[key] as any)
@@ -220,7 +224,7 @@ const BlockDetails_ = () => {
   );
 
   const navigationButtons = (
-    <div className={a("marginTop5", "displayFlex", "justifyContentFlexEnd")}>
+    <div className={a("marginTop05", "displayFlex", "justifyContentFlexEnd")}>
       <ButtonGroup orientation="vertical">
         {[
           {
@@ -264,6 +268,7 @@ const BlockDetails_ = () => {
       className={a(
         "overflowScroll",
         `padding${BLOCK_DETAILS_PADDING}` as "padding6",
+        "paddingLeft2",
       )}
     >
       <div className={a("marginBottom10")}>
@@ -275,7 +280,40 @@ const BlockDetails_ = () => {
             {blockDetails}
             {navigationButtons}
           </Route>
-          <Route path={`${path}/:transactionId`}>{transactionDetails}</Route>
+          <Route path={`${path}/:transactionId`}>
+            <div
+              className={a(
+                "borderWidth4",
+                "borderColorDividerFade06",
+                "borderLeftStyleSolid",
+                "marginTop02",
+                "marginLeft02",
+                "positionRelative",
+              )}
+            >
+              <span
+                className={a(
+                  "backgroundColorDefault",
+                  "positionAbsolute",
+                  "paddingTop2",
+                )}
+                style={{ marginLeft: -theme.spacing(5) }}
+              >
+                <Button
+                  className={a("padding0", "minWidthUnset")}
+                  component={Link}
+                  to={url}
+                >
+                  <ExpandLess
+                    fontSize="large"
+                    className={a("colorActionActive")}
+                  />
+                </Button>
+              </span>
+
+              {transactionDetails}
+            </div>
+          </Route>
         </Switch>
       </div>
     </div>

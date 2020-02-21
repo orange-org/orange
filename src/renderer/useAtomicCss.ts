@@ -145,10 +145,14 @@ const useAtomicStyles = makeStyles(theme => {
       "&::-webkit-scrollbar": c("width", 0),
     },
 
+    textOverflowEllipsis: c("textOverflow", "ellipsis"),
+
     topLevelComponent: {
       height: "100%",
       padding: "64px 0 0 0", // compensate for AppBar
     },
+
+    whiteSpaceNoWrap: c("whiteSpace", "nowrap"),
 
     "width100%": c("width", "100%"),
     width11: c("width", theme.spacing(11)),

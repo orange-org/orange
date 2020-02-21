@@ -1,4 +1,4 @@
-import { Paper } from "@material-ui/core";
+import { Paper, useTheme } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -11,6 +11,7 @@ export const TransactionDetails: React.FC<{
   marginTopOffset: number;
 }> = props => {
   const a = useAtomicCss();
+  const theme = useTheme();
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();
@@ -41,12 +42,44 @@ export const TransactionDetails: React.FC<{
     </div>
   );
 
-  type DivComponent = React.FC<JSX.IntrinsicElements["div"]>;
-  const Column: DivComponent = columnProps => (
+  const triangle = (
     <div
-      className={a("overflowXHidden", "displayFlex", "flexDirectionColumn")}
-      {...columnProps}
-    />
+      style={{
+        position: "absolute",
+        right: 1,
+        top: "calc(50% - 20px)",
+        zIndex: 2,
+      }}
+    >
+      <div
+        style={{
+          width: 0,
+          height: 0,
+          borderStyle: "solid",
+          borderWidth: "20px 0 20px 20px",
+          borderColor: `transparent transparent transparent ${theme.palette.divider}`,
+          position: "absolute",
+          left: 1,
+        }}
+      />
+
+      <div
+        style={{
+          width: 0,
+          height: 0,
+          borderStyle: "solid",
+          borderWidth: "20px 0 20px 20px",
+          borderColor: `transparent transparent transparent ${theme.palette.common.white}`,
+          position: "absolute",
+        }}
+      />
+    </div>
+  );
+  type DivComponent = React.FC<
+    JSX.IntrinsicElements["div"] & { triangle?: boolean }
+  >;
+  const Column: DivComponent = columnProps => (
+    <div className={a("displayFlex", "flexDirectionColumn")} {...columnProps} />
   );
   const Cell: DivComponent = ({ children: cellChildren, ...cellProps }) => (
     <div
@@ -59,26 +92,32 @@ export const TransactionDetails: React.FC<{
         "paddingX4",
         "borderColorDivider",
         "borderWidth1",
+        "positionRelative",
       )} ${cellProps.className}`}
-      style={{
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
-        ...cellProps?.style,
-      }}
     >
-      <Typography variant="h5" className={a("fontFamilyMonospace")}>
+      <Typography
+        variant="h5"
+        className={a(
+          "fontFamilyMonospace",
+          "overflowXHidden",
+          "whiteSpaceNoWrap",
+          "textOverflowEllipsis",
+        )}
+      >
         {cellChildren}
       </Typography>
+      {cellProps.triangle && triangle}
     </div>
   );
   const breakdown = (
     <Paper
       className={a("displayGrid", "marginTop02")}
-      style={{ gridTemplateColumns: "50% 50%" }}
+      style={{ gridTemplateColumns: "calc(50% - 20px) auto" }}
     >
       <Column>
         {displayedTransaction?.vin.map((input, index) => (
           <Cell
+            triangle
             key={input.txid}
             className={a(
               index < displayedTransaction.vin.length - 1
@@ -114,8 +153,12 @@ export const TransactionDetails: React.FC<{
 
       {breakdown}
 
-      <pre>{JSON.stringify(displayedTransaction, null, 2)}</pre>
-      <pre>{JSON.stringify(displayedTransactionInputValues, null, 2)}</pre>
+      <pre style={{ fontSize: "1rem" }}>
+        {JSON.stringify(displayedTransaction, null, 2)}
+      </pre>
+      <pre style={{ fontSize: "1rem" }}>
+        {JSON.stringify(displayedTransactionInputValues, null, 2)}
+      </pre>
     </div>
   );
 };

@@ -304,9 +304,9 @@ export type RawTransaction = {
     scriptPubKey: {
       asm: string; // the asm
       hex: string; // the hex
-      reqSigs: number; // The required sigs
+      reqSigs?: number; // The required sigs
       type: string; // The type, eg 'pubkeyhash'
-      addresses: string[]; // bitcoin addresses
+      addresses?: string[]; // bitcoin addresses
     };
   }[];
   blockhash: string; // the block hash
@@ -333,6 +333,7 @@ export type RpcResponse = {
   | ChainTipsRpcResponse
   | BlockHeaderRpcResponse
   | BlockHashRpcResponse
+  | RawTransactionRpcResponse
 );
 
 export type RawRpcResponse = { result: any; error: RpcError | null };

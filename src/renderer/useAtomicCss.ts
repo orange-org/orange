@@ -29,6 +29,7 @@ const useAtomicStyles = makeStyles(theme => {
     borderBottomStyleSolid: c("borderBottomStyle", "solid"),
     borderBottomWidth1: c("borderBottomWidth", 1),
 
+    borderColorDivider: c("borderColor", theme.palette.divider),
     borderColorDividerFade06: c(
       "borderColor",
       fade(theme.palette.divider, 0.06),
@@ -38,6 +39,11 @@ const useAtomicStyles = makeStyles(theme => {
 
     borderRadiusShape: c("borderRadius", theme.shape.borderRadius),
 
+    borderRightStyleSolid: c("borderRightStyle", "solid"),
+
+    borderStyleSolid: c("borderStyle", "solid"),
+
+    borderWidth1: c("borderWidth", 1),
     borderWidth2: c("borderWidth", 2),
     borderWidth4: c("borderWidth", 4),
 
@@ -56,8 +62,11 @@ const useAtomicStyles = makeStyles(theme => {
     displayTableRow: c("display", "table-row"),
 
     flex1: c("flex", 1),
+    flexDirectionColumn: c("flexDirection", "column"),
     flexShrink0: c("flexShrink", 0),
     flexWrapWrap: c("flexWrap", "wrap"),
+
+    fontFamilyMonospace: c("fontFamily", "monospace"),
 
     fontStyleItalic: c("fontStyle", "italic"),
 
@@ -122,6 +131,11 @@ const useAtomicStyles = makeStyles(theme => {
     paddingTop1: c("paddingTop", theme.spacing(1)),
     paddingTop2: c("paddingTop", theme.spacing(2)),
 
+    paddingX4: {
+      paddingBottom: theme.spacing(4),
+      paddingTop: theme.spacing(4),
+    },
+
     pointerEventsNone: c("pointerEvents", "none"),
 
     positionAbsolute: c("position", "absolute"),
@@ -146,6 +160,21 @@ const useAtomicStyles = makeStyles(theme => {
 export const useAtomicCss = () => {
   const atomicStyles = useAtomicStyles();
 
-  return (...classNames: (keyof ReturnType<typeof useAtomicStyles>)[]) =>
-    clsx(classNames.map(className => atomicStyles[className]));
+  type AtomicCssKeys = keyof ReturnType<typeof useAtomicStyles>;
+  type AtomicCssKeysArray = (AtomicCssKeys | AtomicCssKeys[] | null)[];
+
+  return (...classNames: AtomicCssKeysArray) =>
+    clsx(
+      classNames.map(className => {
+        if (className === null) {
+          return null;
+        }
+
+        if (Array.isArray(className)) {
+          return className.map(className_ => atomicStyles[className_]);
+        }
+
+        return atomicStyles[className];
+      }),
+    );
 };

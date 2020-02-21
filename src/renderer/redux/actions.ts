@@ -39,3 +39,7 @@ export const setExplorerBlockList = createAction("SET_EXPLORER_BLOCK_LIST")<
 export const setSelectedExplorerTransaction = createAction(
   "SET_SELECTED_EXPLORER_TRANSACTION",
 )<RawTransaction>();
+
+export const setSelectedExplorerTransactionInputValues = createAction(
+  "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
+)<RawTransaction["vout"][number]["value"][]>();

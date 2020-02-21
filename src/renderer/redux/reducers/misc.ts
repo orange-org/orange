@@ -8,6 +8,7 @@ export type MiscState = StateConfig<{
   selectedExplorerBlock: Block;
   explorerBlockList: Block[];
   selectedExplorerTransaction: RawTransaction;
+  selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
 }>;
 
 export const initialState: MiscState = {
@@ -15,6 +16,7 @@ export const initialState: MiscState = {
   selectedExplorerBlock: null,
   explorerBlockList: null,
   selectedExplorerTransaction: null,
+  selectedExplorerTransactionInputValues: null,
 };
 
 export const misc = createReducer(initialState)
@@ -33,4 +35,13 @@ export const misc = createReducer(initialState)
       ...state,
       selectedExplorerTransaction: action.payload,
     };
-  });
+  })
+  .handleAction(
+    actions.setSelectedExplorerTransactionInputValues,
+    (state, action) => {
+      return {
+        ...state,
+        selectedExplorerTransactionInputValues: action.payload,
+      };
+    },
+  );

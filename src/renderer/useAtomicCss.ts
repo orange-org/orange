@@ -24,6 +24,7 @@ const useAtomicStyles = makeStyles(theme => {
       "backgroundColor",
       theme.palette.background.default,
     ),
+    backgroundColorWhite: c("backgroundColor", theme.palette.common.white),
 
     borderBottomColorDivider: c("borderBottomColor", theme.palette.divider),
     borderBottomStyleSolid: c("borderBottomStyle", "solid"),
@@ -48,6 +49,7 @@ const useAtomicStyles = makeStyles(theme => {
     borderWidth4: c("borderWidth", 4),
 
     colorActionActive: c("color", theme.palette.action.active),
+    colorDivider: c("color", theme.palette.divider),
     colorHint: c("color", theme.palette.text.hint),
     colorPrimary: c("color", theme.palette.text.primary),
 
@@ -83,6 +85,8 @@ const useAtomicStyles = makeStyles(theme => {
 
     justifyContentCenter: c("justifyContent", "center"),
     justifyContentFlexEnd: c("justifyContent", "flex-end"),
+
+    lineHeight0: c("lineHeight", 0),
 
     marginBottom10: c("marginBottom", theme.spacing(10)),
 
@@ -157,6 +161,8 @@ const useAtomicStyles = makeStyles(theme => {
     "width100%": c("width", "100%"),
     width11: c("width", theme.spacing(11)),
     widthAuto: c("width", "auto"),
+
+    zIndex2: c("zIndex", 2),
   };
   /* eslint-disable sort-keys */
 });

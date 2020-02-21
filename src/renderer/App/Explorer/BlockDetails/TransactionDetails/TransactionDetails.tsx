@@ -5,6 +5,13 @@ import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
+import {
+  ArrowRightAlt,
+  ArrowForward,
+  ArrowForwardIos,
+} from "@material-ui/icons";
+
+const SVG_ICON_WIDTH = 24;
 
 export const TransactionDetails: React.FC<{
   isLoading: boolean;
@@ -43,6 +50,19 @@ export const TransactionDetails: React.FC<{
   );
 
   const triangle = (
+    <div
+      className={a(
+        "positionAbsolute",
+        "lineHeight0",
+        "backgroundColorWhite",
+        "zIndex2",
+      )}
+      style={{ position: "absolute", right: -SVG_ICON_WIDTH / 2 }}
+    >
+      <ArrowForwardIos className={a("colorDivider")} />
+    </div>
+  );
+  const triangle_ = (
     <div
       style={{
         position: "absolute",
@@ -112,7 +132,7 @@ export const TransactionDetails: React.FC<{
   const breakdown = (
     <Paper
       className={a("displayGrid", "marginTop02")}
-      style={{ gridTemplateColumns: "calc(50% - 20px) auto" }}
+      style={{ gridTemplateColumns: "50% 50%" }}
     >
       <Column>
         {displayedTransaction?.vin.map((input, index) => (

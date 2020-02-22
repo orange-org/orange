@@ -58,6 +58,7 @@ module.exports = {
     "react/prop-types": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "no-unused-vars": "off",
+    "no-prototype-builtins": "off",
 
     /**
      * The following rules conflict with Prettier

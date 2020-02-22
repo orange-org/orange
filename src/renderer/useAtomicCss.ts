@@ -92,6 +92,7 @@ const useAtomicStyles = makeStyles(theme => {
 
     marginLeft01: c("marginLeft", theme.spacing(1)),
     marginLeft02: c("marginLeft", theme.spacing(2)),
+    marginLeft04: c("marginLeft", theme.spacing(4)),
     marginLeft10: c("marginLeft", theme.spacing(10)),
 
     marginRight02: c("marginRight", theme.spacing(2)),

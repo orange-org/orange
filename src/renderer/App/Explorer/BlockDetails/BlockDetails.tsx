@@ -1,8 +1,20 @@
-import { Box, Button, ButtonGroup, Paper, useTheme } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Paper,
+  useTheme,
+  Tooltip,
+} from "@material-ui/core";
 import {
   KeyboardArrowDown,
   KeyboardArrowUp,
   ExpandLess,
+  Today,
+  Save,
+  ThumbUp,
+  ThumbUpOutlined,
+  SaveOutlined,
 } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -16,9 +28,7 @@ import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 
-const blockDataDefinitions: {
-  [P in keyof TBlock]?: typeof formatDate | typeof humanFileSize;
-} = {
+const blockDataFormatters = {
   mediantime: formatDate,
   size: humanFileSize,
   strippedsize: humanFileSize,
@@ -33,6 +43,9 @@ const excludedBlockData: (keyof TBlock)[] = [
   "nextblockhash",
   "tx",
   "hash",
+  "confirmations",
+  "time",
+  "size",
 ];
 
 const dummyBlockData: TBlock = {
@@ -125,6 +138,30 @@ const BlockDetails_ = () => {
     </>
   );
 
+  const subHeading = (
+    <div className={a("displayFlex", "marginTop05")}>
+      {([
+        [ThumbUpOutlined, blockData.confirmations, "Confirmations"],
+        [Today, blockDataFormatters.time(blockData.time), "Time"],
+        [SaveOutlined, blockDataFormatters.size(blockData.size), "Size"],
+      ] as const).map(([Icon, value, tooltipTitle], index) => (
+        <div
+          key={tooltipTitle}
+          className={a(index > 0 ? "marginLeft10" : null)}
+        >
+          <Tooltip title={tooltipTitle}>
+            <span className={a("displayFlex")}>
+              <Icon fontSize="small" />{" "}
+              <Typography className={a("fontWeight500", "marginLeft02")}>
+                {value}
+              </Typography>
+            </span>
+          </Tooltip>
+        </div>
+      ))}
+    </div>
+  );
+
   const transactionList = (
     <div className={a("marginTop05")}>
       <Typography variant="h2">
@@ -176,7 +213,7 @@ const BlockDetails_ = () => {
   const blockDetails = (
     <div className={a("marginTop05")}>
       <Typography variant="h2" isStatic>
-        Details
+        Other details
       </Typography>
 
       <Paper
@@ -206,8 +243,9 @@ const BlockDetails_ = () => {
                 </div>
                 <div className={a("marginLeft01")}>
                   <Typography component="div">
-                    {blockDataDefinitions[key] ? (
-                      blockDataDefinitions[key]!(blockData[key] as any)
+                    {blockDataFormatters.hasOwnProperty(key) ? (
+                      // @ts-ignore
+                      blockDataFormatters[key](blockData[key])
                     ) : (
                       <Box fontFamily="Monospace" fontSize="h6.fontSize">
                         {blockData[key]}
@@ -256,11 +294,39 @@ const BlockDetails_ = () => {
     </div>
   );
 
-  const transactionDetails = (
-    <TransactionDetails
-      isLoading={isLoading}
-      marginTopOffset={transactionListHeight - theme.spacing(30)}
-    />
+  const transactionDetailsContainer = (
+    <div
+      className={a(
+        "borderWidth4",
+        "borderColorDividerFade06",
+        "borderLeftStyleSolid",
+        "marginTop02",
+        "marginLeft02",
+        "positionRelative",
+      )}
+    >
+      <span
+        className={a(
+          "backgroundColorDefault",
+          "positionAbsolute",
+          "paddingTop2",
+        )}
+        style={{ marginLeft: -theme.spacing(5) }}
+      >
+        <Button
+          className={a("padding0", "minWidthUnset")}
+          component={Link}
+          to={url}
+        >
+          <ExpandLess fontSize="large" className={a("colorActionActive")} />
+        </Button>
+      </span>
+
+      <TransactionDetails
+        isLoading={isLoading}
+        marginTopOffset={transactionListHeight - theme.spacing(30)}
+      />
+    </div>
   );
 
   return (
@@ -273,6 +339,7 @@ const BlockDetails_ = () => {
     >
       <div className={a("marginBottom10")}>
         {heading}
+        {subHeading}
 
         <Switch>
           <Route path={path} exact>
@@ -281,38 +348,7 @@ const BlockDetails_ = () => {
             {navigationButtons}
           </Route>
           <Route path={`${path}/:transactionId`}>
-            <div
-              className={a(
-                "borderWidth4",
-                "borderColorDividerFade06",
-                "borderLeftStyleSolid",
-                "marginTop02",
-                "marginLeft02",
-                "positionRelative",
-              )}
-            >
-              <span
-                className={a(
-                  "backgroundColorDefault",
-                  "positionAbsolute",
-                  "paddingTop2",
-                )}
-                style={{ marginLeft: -theme.spacing(5) }}
-              >
-                <Button
-                  className={a("padding0", "minWidthUnset")}
-                  component={Link}
-                  to={url}
-                >
-                  <ExpandLess
-                    fontSize="large"
-                    className={a("colorActionActive")}
-                  />
-                </Button>
-              </span>
-
-              {transactionDetails}
-            </div>
+            {transactionDetailsContainer}
           </Route>
         </Switch>
       </div>

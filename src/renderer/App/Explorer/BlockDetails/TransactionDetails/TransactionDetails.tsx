@@ -1,17 +1,43 @@
-import { Paper, useTheme } from "@material-ui/core";
-import React, { useEffect } from "react";
+import {
+  Box,
+  FormControlLabel,
+  Paper,
+  Switch,
+  useTheme,
+  makeStyles,
+} from "@material-ui/core";
+import { ArrowForwardIos } from "@material-ui/icons";
+import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import {
-  ArrowRightAlt,
-  ArrowForward,
-  ArrowForwardIos,
-} from "@material-ui/icons";
+import { formatDate, humanFileSize } from "_r/utils/smallUtils";
+import { RawTransaction } from "_t/bitcoindRpcResponses";
+import clsx from "clsx";
+import { OtherDetails } from "../OtherDetails";
 
 const SVG_ICON_WIDTH = 24;
+
+const transactionDataFormatters = {
+  locktime: formatDate,
+  size: humanFileSize,
+  vsize: humanFileSize,
+  weight: humanFileSize,
+};
+
+const excludedTransactionData = [
+  "hex",
+  "txid",
+  "hash",
+  "vin",
+  "vout",
+  "blockhash",
+  "confirmations",
+  "blocktime",
+  "time",
+];
 
 export const TransactionDetails: React.FC<{
   isLoading: boolean;
@@ -22,10 +48,8 @@ export const TransactionDetails: React.FC<{
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();
-  const displayedTransaction = useSelector(
-    s => s.misc.selectedExplorerTransaction,
-  );
-  const displayedTransactionInputValues = useSelector(
+  const transaction = useSelector(s => s.misc.selectedExplorerTransaction);
+  const transactionInputValues = useSelector(
     s => s.misc.selectedExplorerTransactionInputValues,
   );
 
@@ -33,7 +57,7 @@ export const TransactionDetails: React.FC<{
     dispatch(thunks.requestRawTransactionToDisplay(__NONCE__, transactionId!));
   }, [dispatch, transactionId]);
 
-  if (!displayedTransaction) {
+  if (!transaction || !transactionInputValues) {
     return null;
   }
 
@@ -49,7 +73,7 @@ export const TransactionDetails: React.FC<{
     </div>
   );
 
-  const triangle = (
+  const arrow = (
     <div
       className={a(
         "positionAbsolute",
@@ -57,128 +81,157 @@ export const TransactionDetails: React.FC<{
         "backgroundColorWhite",
         "zIndex2",
       )}
-      style={{ position: "absolute", right: -SVG_ICON_WIDTH / 2 }}
+      style={{
+        position: "absolute",
+        right: -SVG_ICON_WIDTH / 2,
+        top: `calc(50% - ${SVG_ICON_WIDTH / 2}px)`,
+      }}
     >
       <ArrowForwardIos className={a("colorDivider")} />
     </div>
   );
-  const triangle_ = (
-    <div
-      style={{
-        position: "absolute",
-        right: 1,
-        top: "calc(50% - 20px)",
-        zIndex: 2,
-      }}
-    >
-      <div
-        style={{
-          width: 0,
-          height: 0,
-          borderStyle: "solid",
-          borderWidth: "20px 0 20px 20px",
-          borderColor: `transparent transparent transparent ${theme.palette.divider}`,
-          position: "absolute",
-          left: 1,
-        }}
-      />
 
-      <div
-        style={{
-          width: 0,
-          height: 0,
-          borderStyle: "solid",
-          borderWidth: "20px 0 20px 20px",
-          borderColor: `transparent transparent transparent ${theme.palette.common.white}`,
-          position: "absolute",
-        }}
-      />
-    </div>
-  );
-  type DivComponent = React.FC<
-    JSX.IntrinsicElements["div"] & { triangle?: boolean }
-  >;
-  const Column: DivComponent = columnProps => (
+  const Column: React.FC<JSX.IntrinsicElements["div"]> = columnProps => (
     <div className={a("displayFlex", "flexDirectionColumn")} {...columnProps} />
   );
-  const Cell: DivComponent = ({ children: cellChildren, ...cellProps }) => (
+
+  const Cell: React.FC<JSX.IntrinsicElements["div"] & {
+    inputCell?: boolean;
+    value: number;
+    details: RawTransaction["vin"][number] | RawTransaction["vout"][number];
+  }> = ({
+    children: cellChildren,
+    inputCell,
+    value,
+    details,
+    ...cellProps
+  }) => (
     <div
       {...cellProps}
-      className={`${a(
-        "flex1",
-        "displayFlex",
-        "alignItemsCenter",
-        "padding2",
-        "paddingX4",
-        "borderColorDivider",
-        "borderWidth1",
-        "positionRelative",
-      )} ${cellProps.className}`}
+      className={clsx(
+        a(
+          "alignItemsCenter",
+          "borderColorDivider",
+          "borderWidth1",
+          "displayFlex",
+          "flex1",
+          "padding2",
+          "paddingX4",
+          "positionRelative",
+        ),
+        cellProps.className,
+      )}
     >
-      <Typography
-        variant="h5"
+      <div
         className={a(
-          "fontFamilyMonospace",
-          "overflowXHidden",
-          "whiteSpaceNoWrap",
-          "textOverflowEllipsis",
+          "displayFlex",
+          "minWidth100%",
+          inputCell ? "flexDirectionRowReverse" : null,
         )}
       >
-        {cellChildren}
-      </Typography>
-      {cellProps.triangle && triangle}
+        <Typography className={a("whiteSpaceNoWrap", "marginX04")}>
+          {value} BTC
+        </Typography>
+
+        <Typography
+          variant="h5"
+          className={a(
+            "fontFamilyMonospace",
+            "overflowXHidden",
+            "whiteSpaceNoWrap",
+            "textOverflowEllipsis",
+          )}
+        >
+          {cellChildren}
+        </Typography>
+      </div>
+      {inputCell && arrow}
     </div>
   );
+
   const breakdown = (
-    <Paper
-      className={a("displayGrid", "marginTop02")}
-      style={{ gridTemplateColumns: "50% 50%" }}
-    >
-      <Column>
-        {displayedTransaction?.vin.map((input, index) => (
-          <Cell
-            triangle
-            key={input.txid}
-            className={a(
-              index < displayedTransaction.vin.length - 1
-                ? "borderBottomStyleSolid"
-                : null,
-              "borderRightStyleSolid",
-            )}
-          >
-            {input.txid}
-          </Cell>
-        ))}
-      </Column>
-      <Column>
-        {displayedTransaction?.vout.map((output, index) => (
-          <Cell
-            key={output.scriptPubKey.hex}
-            className={a(
-              index < displayedTransaction.vout.length - 1
-                ? "borderBottomStyleSolid"
-                : null,
-            )}
-          >
-            {output.scriptPubKey.addresses || output.scriptPubKey.asm}
-          </Cell>
-        ))}
-      </Column>
-    </Paper>
+    <>
+      <Paper
+        className={a("displayGrid", "marginTop02")}
+        style={{ gridTemplateColumns: "50% 50%" }}
+      >
+        <Column>
+          {transaction?.vin.map((input, index) => (
+            <Cell
+              value={transactionInputValues[index]}
+              details={input}
+              inputCell
+              key={input.txid}
+              className={a(
+                index < transaction.vin.length - 1
+                  ? "borderBottomStyleSolid"
+                  : null,
+                "borderRightStyleSolid",
+              )}
+            >
+              {input.txid}
+            </Cell>
+          ))}
+        </Column>
+        <Column>
+          {transaction?.vout.map((output, index) => (
+            <Cell
+              value={output.value}
+              details={output}
+              key={output.scriptPubKey.hex}
+              className={a(
+                index < transaction.vout.length - 1
+                  ? "borderBottomStyleSolid"
+                  : null,
+              )}
+            >
+              {output.scriptPubKey.addresses || output.scriptPubKey.asm}
+            </Cell>
+          ))}
+        </Column>
+      </Paper>
+      <Typography className={a("marginTop02", "textAlignCenter")}>
+        Total:{" "}
+        {transaction.vout.reduce((total, output) => {
+          return output.value + total;
+        }, 0)}{" "}
+        BTC
+      </Typography>
+    </>
+  );
+
+  const otherDetails = (
+    <OtherDetails
+      data={Object.keys(transaction).reduce((data, key) => {
+        if (excludedTransactionData.includes(key)) {
+          return data;
+        }
+
+        data.push([
+          key,
+          transactionDataFormatters.hasOwnProperty(key) ? (
+            // @ts-ignore
+            transactionDataFormatters[key](transaction[key])
+          ) : (
+            <Box fontFamily="Monospace" fontSize="h6.fontSize">
+              {
+                // @ts-ignore
+                transaction[key]
+              }
+            </Box>
+          ),
+        ]);
+
+        return data;
+      }, [] as [string, ReactElement][])}
+    />
   );
 
   return (
     <div className={a("padding2", "overflowXHidden")}>
       {heading}
-
       {breakdown}
-
-      <pre style={{ fontSize: "1rem" }}>
-        {JSON.stringify(displayedTransaction, null, 2)}
-      </pre>
-      <pre style={{ fontSize: "1rem" }}>
-        {JSON.stringify(displayedTransactionInputValues, null, 2)}
-      </pre>
+      {otherDetails}
     </div>
   );
 };

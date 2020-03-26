@@ -16,7 +16,7 @@ import {
   ThumbUpOutlined,
   SaveOutlined,
 } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -27,6 +27,7 @@ import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
+import { OtherDetails } from "./OtherDetails";
 
 const blockDataFormatters = {
   mediantime: formatDate,
@@ -36,7 +37,7 @@ const blockDataFormatters = {
   weight: humanFileSize,
 };
 
-const excludedBlockData: (keyof TBlock)[] = [
+const excludedBlockData = [
   "height",
   "nTx",
   "previousblockhash",
@@ -152,9 +153,7 @@ const BlockDetails_ = () => {
           <Tooltip title={tooltipTitle}>
             <span className={a("displayFlex")}>
               <Icon fontSize="small" />{" "}
-              <Typography className={a("fontWeight500", "marginLeft02")}>
-                {value}
-              </Typography>
+              <Typography className={a("marginLeft02")}>{value}</Typography>
             </span>
           </Tooltip>
         </div>
@@ -196,7 +195,11 @@ const BlockDetails_ = () => {
                       "borderBottomColorDivider",
                       "borderBottomStyleSolid",
                       "hoverBackgroundColor",
+                      "fontFamilyMonospace",
+                      "fontSize130%",
+                      "letterSpacing2px",
                     )}
+                    variant="body2"
                     style={style}
                   >
                     {data && data[index]}
@@ -210,55 +213,32 @@ const BlockDetails_ = () => {
     </div>
   );
 
-  const blockDetails = (
-    <div className={a("marginTop05")}>
-      <Typography variant="h2" isStatic>
-        Other details
-      </Typography>
+  const otherDetails = (
+    <OtherDetails
+      isLoading={isLoading}
+      data={Object.keys(blockData).reduce((data, key) => {
+        if (excludedBlockData.includes(key)) {
+          return data;
+        }
 
-      <Paper
-        className={a("marginTop02", "padding2", "displayFlex", "flexWrapWrap")}
-      >
-        {(Object.keys(blockData) as (keyof TBlock)[]).map(
-          (key: keyof TBlock) => {
-            if (excludedBlockData.includes(key)) {
-              return null;
-            }
+        data.push([
+          key,
+          blockDataFormatters.hasOwnProperty(key) ? (
+            // @ts-ignore
+            blockDataFormatters[key](blockData[key])
+          ) : (
+            <Box fontFamily="Monospace" fontSize="h6.fontSize">
+              {
+                // @ts-ignore
+                blockData[key]
+              }
+            </Box>
+          ),
+        ]);
 
-            return (
-              <div
-                key={key}
-                className={a(
-                  "displayFlex",
-                  "alignItemsCenter",
-                  "flexShrink0",
-                  "marginY02",
-                  "marginX04",
-                )}
-              >
-                <div>
-                  <Typography isStatic className={a("fontWeight500")}>
-                    {key}
-                  </Typography>
-                </div>
-                <div className={a("marginLeft01")}>
-                  <Typography component="div">
-                    {blockDataFormatters.hasOwnProperty(key) ? (
-                      // @ts-ignore
-                      blockDataFormatters[key](blockData[key])
-                    ) : (
-                      <Box fontFamily="Monospace" fontSize="h6.fontSize">
-                        {blockData[key]}
-                      </Box>
-                    )}
-                  </Typography>
-                </div>
-              </div>
-            );
-          },
-        )}
-      </Paper>
-    </div>
+        return data;
+      }, [] as [string, ReactElement][])}
+    />
   );
 
   const navigationButtons = (
@@ -344,7 +324,7 @@ const BlockDetails_ = () => {
         <Switch>
           <Route path={path} exact>
             {transactionList}
-            {blockDetails}
+            {otherDetails}
             {navigationButtons}
           </Route>
           <Route path={`${path}/:transactionId`}>

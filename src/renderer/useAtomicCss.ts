@@ -65,10 +65,13 @@ const useAtomicStyles = makeStyles(theme => {
 
     flex1: c("flex", 1),
     flexDirectionColumn: c("flexDirection", "column"),
+    flexDirectionRowReverse: c("flexDirection", "row-reverse"),
     flexShrink0: c("flexShrink", 0),
     flexWrapWrap: c("flexWrap", "wrap"),
 
     fontFamilyMonospace: c("fontFamily", "monospace"),
+
+    "fontSize130%": c("fontSize", "130%"),
 
     fontStyleItalic: c("fontStyle", "italic"),
 
@@ -85,6 +88,8 @@ const useAtomicStyles = makeStyles(theme => {
 
     justifyContentCenter: c("justifyContent", "center"),
     justifyContentFlexEnd: c("justifyContent", "flex-end"),
+
+    letterSpacing2px: c("letterSpacing", "2px"),
 
     lineHeight0: c("lineHeight", 0),
 
@@ -119,6 +124,7 @@ const useAtomicStyles = makeStyles(theme => {
       marginTop: theme.spacing(10),
     },
 
+    "minWidth100%": c("minWidth", "100%"),
     minWidthUnset: c("minWidth", "unset"),
 
     overflowScroll: c("overflow", "scroll"),
@@ -150,6 +156,8 @@ const useAtomicStyles = makeStyles(theme => {
       "&::-webkit-scrollbar": c("width", 0),
     },
 
+    textAlignCenter: c("textAlign", "center"),
+
     textOverflowEllipsis: c("textOverflow", "ellipsis"),
 
     topLevelComponent: {
@@ -164,6 +172,7 @@ const useAtomicStyles = makeStyles(theme => {
     widthAuto: c("width", "auto"),
 
     zIndex2: c("zIndex", 2),
+    zIndex3: c("zIndex", 3),
   };
   /* eslint-disable sort-keys */
 });

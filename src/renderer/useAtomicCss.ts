@@ -190,6 +190,7 @@ export const useAtomicCss = () => {
           return null;
         }
 
+        /* istanbul ignore next: no use-case for this yet */
         if (Array.isArray(className)) {
           return className.map(className_ => atomicStyles[className_]);
         }

@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/dom";
 import { cleanup, fireEvent } from "@testing-library/react";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
+import * as transactionFixtures from "_r/rpcClient/__mocks__/transactionFixtures";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
 import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitialLoad";
 import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
@@ -103,6 +104,74 @@ describe("SearchBox", () => {
           `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
           { selector: "h1" },
         ),
+      ).toBeVisible();
+    });
+
+    test("searching by transaction", async () => {
+      const searchBox = await screen.findByLabelText("search");
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture3.hash, 1],
+        })
+        .queueResponse(blockFixtures.blockFixture3);
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture3.tx[2], 1],
+        })
+        .queueResponse({
+          error: {
+            code: -5,
+            message: "Block not found",
+          },
+        });
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getrawtransaction",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture3.tx[2], true],
+        })
+        .queueResponse(transactionFixtures.rawTransactionFixture1);
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getrawtransaction",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture3.tx[2], true],
+        })
+        .queueResponse(transactionFixtures.rawTransactionFixture1);
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getrawtransaction",
+          // @ts-ignore
+          params: [
+            transactionFixtures.rawTransactionFixture1.vin[0].txid,
+            true,
+          ],
+        })
+        .queueResponse(transactionFixtures.rawTransactionFixture2);
+
+      fireEvent.change(searchBox, {
+        target: { value: blockFixtures.blockFixture3.tx[2] },
+      });
+
+      fireEvent.keyUp(searchBox, { keyCode: 13 });
+
+      expect(
+        await screen.findByText("Transaction", { selector: "h2" }),
+      ).toBeVisible();
+
+      expect(
+        await screen.findByText(blockFixtures.blockFixture3.tx[2], {
+          selector: "p",
+        }),
       ).toBeVisible();
     });
 

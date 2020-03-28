@@ -278,7 +278,7 @@ export type BlockHashRpcResponse = CreateRpcResponse<
 >;
 
 export type RawTransaction = {
-  in_active_chain: boolean; // Whether specified block is in the active chain or not (only present with explicit "blockhash" argument)
+  in_active_chain?: boolean; // Whether specified block is in the active chain or not (only present with explicit "blockhash" argument)
   hex: string; // The serialized, hex-encoded data for 'txid'
   txid: string; // The transaction id (same as provided)
   hash: string; // The transaction hash (differs from txid for witness transactions)

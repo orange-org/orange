@@ -6,12 +6,15 @@ jest.mock("_m/getRpcCredentials", () => ({
   getRpcCredentials: () => ({
     username: "__cookie__",
     password: "123",
+    port: 8332,
   }),
 }));
 
+const RPC_SERVER_URL = "http://localhost:8332/";
+
 describe("sendRpcRequestToBitcoind", () => {
   it("relays the response from `bitcoind`", async () => {
-    nock("http://localhost")
+    nock(RPC_SERVER_URL)
       .post("/")
       .reply(200, {
         result: "whatever bitcoind responds",
@@ -27,7 +30,7 @@ describe("sendRpcRequestToBitcoind", () => {
   });
 
   it("relays the error from `bitcoind`", async () => {
-    nock("http://localhost")
+    nock(RPC_SERVER_URL)
       .post("/")
       .reply(200, {
         error: "whatever bitcoind puts in error key",
@@ -43,7 +46,7 @@ describe("sendRpcRequestToBitcoind", () => {
   });
 
   it("reports problems with parsing JSON response", async () => {
-    nock("http://localhost")
+    nock(RPC_SERVER_URL)
       .post("/")
       .reply(200, "{json?");
 
@@ -59,7 +62,7 @@ describe("sendRpcRequestToBitcoind", () => {
   });
 
   it("reports problems with making the request", async () => {
-    nock("http://localhost")
+    nock(RPC_SERVER_URL)
       .post("/")
       .replyWithError("whatever the request error is");
 
@@ -76,7 +79,7 @@ describe("sendRpcRequestToBitcoind", () => {
   });
 
   it("rejects non-whitelisted RPC methods", async () => {
-    const scope = nock("http://localhost")
+    const scope = nock(RPC_SERVER_URL)
       .post("/")
       .reply(200, { result: "okay" });
 

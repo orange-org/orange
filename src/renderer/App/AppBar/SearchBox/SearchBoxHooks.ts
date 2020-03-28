@@ -31,7 +31,6 @@ export const useSearchHandlers = () => {
         try {
           return await fn();
         } catch (error) {
-          console.log("error", error);
           /* istanbul ignore if */
           if (
             error.code !== RPC_SERVER_ERROR_CODES.rpcInvalidParameter &&

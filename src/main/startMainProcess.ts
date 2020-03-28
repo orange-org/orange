@@ -5,11 +5,16 @@ import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceR
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
 import { registerIpcListener } from "./registerIpcListener";
 import { processes } from "./processes";
+import { getStore } from "./getStore";
+import { parseCommandLineArgs } from "./parseCommandLineArgs";
 
 export const startMainProcess = () => {
   app.enableSandbox();
 
   let mainWindow: BrowserWindow;
+
+  const store = getStore();
+  store.args = parseCommandLineArgs();
 
   function createWindow() {
     /* istanbul ignore if */

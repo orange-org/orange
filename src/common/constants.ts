@@ -15,5 +15,3 @@ export const ERROR_CODES = {
   rpcRequestError: 5003,
   rpcMethodNotAllowed: 5004,
 };
-
-export const RPC_SERVER_URL = "http://localhost:18332/";

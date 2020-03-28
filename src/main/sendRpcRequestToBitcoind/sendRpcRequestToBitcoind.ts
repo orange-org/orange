@@ -1,5 +1,5 @@
 import http from "http";
-import { RPC_SERVER_URL, ERROR_CODES } from "_c/constants";
+import { ERROR_CODES } from "_c/constants";
 import { getRpcCredentials } from "_m/getRpcCredentials";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RawRpcResponse, RpcError } from "_t/bitcoindRpcResponses";
@@ -11,11 +11,11 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   type ExtractedResponse = ExtractedRpcResponse<TRpcRequest>;
 
-  const { username, password } = await getRpcCredentials();
+  const { username, password, port } = await getRpcCredentials();
 
   return new Promise(resolve => {
     const { method, params = [], requestId } = rpcRequest;
-    const url = RPC_SERVER_URL;
+    const url = `http://localhost:${port}`;
 
     if (!isRpcMethodAllowed(method)) {
       resolve({

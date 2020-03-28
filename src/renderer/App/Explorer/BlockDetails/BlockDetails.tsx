@@ -11,8 +11,6 @@ import {
   KeyboardArrowUp,
   ExpandLess,
   Today,
-  Save,
-  ThumbUp,
   ThumbUpOutlined,
   SaveOutlined,
 } from "@material-ui/icons";

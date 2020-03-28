@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { rpcService } from "_r/rpcClient/rpcService";
-import { Block } from "_t/bitcoindRpcResponses";
 import { RPC_SERVER_ERROR_CODES } from "_c/constants";
 
 const hashRegex = /[0-9a-fA-F]{64}/;

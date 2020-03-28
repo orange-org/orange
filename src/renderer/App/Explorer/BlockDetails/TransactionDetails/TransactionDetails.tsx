@@ -1,11 +1,4 @@
-import {
-  Box,
-  FormControlLabel,
-  Paper,
-  Switch,
-  useTheme,
-  makeStyles,
-} from "@material-ui/core";
+import { Box, Paper } from "@material-ui/core";
 import { ArrowForwardIos } from "@material-ui/icons";
 import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +37,6 @@ export const TransactionDetails: React.FC<{
   marginTopOffset: number;
 }> = props => {
   const a = useAtomicCss();
-  const theme = useTheme();
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();

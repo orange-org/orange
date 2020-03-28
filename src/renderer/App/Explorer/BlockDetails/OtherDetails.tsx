@@ -9,7 +9,7 @@ export const OtherDetails: React.FC<{
 }> = props => {
   const { data, isLoading } = props;
   const a = useAtomicCss();
-  const Typography = useLoadingAwareTypography(isLoading);
+  const Typography = useLoadingAwareTypography(!!isLoading);
 
   return (
     <div className={a("marginTop05")}>

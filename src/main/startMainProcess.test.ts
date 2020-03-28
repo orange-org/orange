@@ -1,6 +1,5 @@
 import { vol } from "memfs";
 import nock from "nock";
-import { RPC_SERVER_URL } from "_c/constants";
 import {
   app,
   BrowserWindow,
@@ -24,7 +23,7 @@ const initializeMainProcess = () => {
     "home/.bitcoin/.cookie": "__cookie__:1337",
   });
 
-  nock(RPC_SERVER_URL)
+  nock("http://localhost")
     .post("/")
     .reply(200, {});
 

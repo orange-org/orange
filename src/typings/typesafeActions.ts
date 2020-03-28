@@ -3,7 +3,6 @@ import {
   ActionType,
   TypeConstant,
   ActionCreatorBuilder,
-  ActionBuilder,
 } from "typesafe-actions";
 
 export type RootAction = ActionType<typeof import("../renderer/redux/actions")>;

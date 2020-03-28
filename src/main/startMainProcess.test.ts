@@ -23,7 +23,7 @@ const initializeMainProcess = () => {
     "home/.bitcoin/.cookie": "__cookie__:1337",
   });
 
-  nock("http://localhost")
+  nock("http://localhost:8332")
     .post("/")
     .reply(200, {});
 

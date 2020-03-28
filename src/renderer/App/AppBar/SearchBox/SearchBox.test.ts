@@ -6,163 +6,187 @@ import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitia
 import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
 
 describe("SearchBox", () => {
-  beforeAll(() => {
-    prepareRpcClientInitialLoad();
-    renderAppWithStore();
-  });
+  /**
+   * WARNING: the test cases in this block depend on each other and must
+   * run sequentially
+   */
+  describe("Search flow", () => {
+    beforeAll(() => {
+      prepareRpcClientInitialLoad();
+      renderAppWithStore();
+    });
 
-  afterAll(() => {
-    rpcClientMockResponses.verify();
-    cleanup();
-  });
+    afterAll(() => {
+      rpcClientMockResponses.verify();
+      cleanup();
+    });
 
-  test("search flow", async () => {
-    /**
-     * The app loads with the search box visible
-     */
-    const searchBox = await screen.findByLabelText("search");
-    expect(searchBox).toBeVisible();
+    test("app loads with the search box visible", async () => {
+      /**
+       * The app loads with the search box visible
+       */
+      const searchBox = await screen.findByLabelText("search");
+      expect(searchBox).toBeVisible();
+    });
 
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        // @ts-ignore
-        params: [blockFixtures.blockFixture2.height.toString(), 1],
-      })
-      .queueResponse({
-        error: {
-          code: -8,
-          message: "blockhash must be of length 64",
-        },
+    test("search for a block by height", async () => {
+      const searchBox = await screen.findByLabelText("search");
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture2.height.toString(), 1],
+        })
+        .queueResponse({
+          error: {
+            code: -8,
+            message: "blockhash must be of length 64",
+          },
+        });
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblockhash",
+          params: [blockFixtures.blockFixture2.height],
+        })
+        .queueResponse(blockFixtures.blockFixture2.hash);
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          params: [blockFixtures.blockFixture2.hash, 1],
+        })
+        .queueResponse(blockFixtures.blockFixture2);
+
+      /**
+       * We will start by searching for a block by height
+       */
+      fireEvent.change(searchBox, {
+        target: { value: blockFixtures.blockFixture2.height },
       });
 
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblockhash",
-        params: [blockFixtures.blockFixture2.height],
-      })
-      .queueResponse(blockFixtures.blockFixture2.hash);
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        params: [blockFixtures.blockFixture2.hash, 1],
-      })
-      .queueResponse(blockFixtures.blockFixture2);
+      fireEvent.keyUp(searchBox, { keyCode: 13 });
 
-    /**
-     * We will start by searching for a block by height
-     */
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture2.height },
+      /**
+       * `h1` is showing the block height of `blockFixture2` because we searched
+       * for it
+       */
+      expect(
+        await screen.findByText(
+          `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
+          { selector: "h1" },
+        ),
+      ).toBeVisible();
     });
 
-    fireEvent.keyUp(searchBox, { keyCode: 13 });
+    test("searching by hash", async () => {
+      const searchBox = await screen.findByLabelText("search");
 
-    /**
-     * `h1` is showing the block height of `blockFixture2` because we searched
-     * for it
-     */
-    expect(
-      await screen.findByText(
-        `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
-        { selector: "h1" },
-      ),
-    ).toBeVisible();
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture3.hash, 1],
+        })
+        .queueResponse(blockFixtures.blockFixture3);
 
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        // @ts-ignore
-        params: [blockFixtures.blockFixture3.hash, 1],
-      })
-      .queueResponse(blockFixtures.blockFixture3);
-
-    /**
-     * We can now try searching for blockFixture3 by hash
-     */
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture3.hash },
-    });
-
-    fireEvent.keyUp(searchBox, { keyCode: 13 });
-
-    expect(
-      await screen.findByText(
-        `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-        { selector: "h1" },
-      ),
-    ).toBeVisible();
-
-    /**
-     * It doesn't do anything if we modify the search field but try to submit
-     * with a key other than enter, like shift
-     */
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        // @ts-ignore
-        params: [blockFixtures.blockFixture2.hash, 1],
-      })
-      .queueResponse(blockFixtures.blockFixture2);
-
-    fireEvent.change(searchBox, {
-      target: { value: blockFixtures.blockFixture2.hash },
-    });
-
-    fireEvent.keyUp(searchBox, { keyCode: 16 /* shift */ });
-
-    /**
-     * Although we searched for blockFixture2, blockFixture3 from
-     * the previous test is still showing. Pressing shift didn't
-     * trigger the search.
-     */
-    expect(
-      await screen.findByText(
-        `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-        { selector: "h1" },
-      ),
-    ).toBeVisible();
-
-    /**
-     * it doesn't do anything when the search string doesn't return a block
-     */
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblock",
-        // @ts-ignore
-        params: ["🕺", 1],
-      })
-      .queueResponse({
-        error: { code: -8, message: "blockhash must be of length 64" },
+      /**
+       * We can now try searching for blockFixture3 by hash
+       */
+      fireEvent.change(searchBox, {
+        target: { value: blockFixtures.blockFixture3.hash },
       });
 
-    rpcClientMockResponses
-      .forRequest({
-        method: "getblockhash",
-        // @ts-ignore
-        params: [NaN],
-      })
-      .queueResponse({
-        error: {
-          code: -1,
-          message: "JSON value is not an integer as expected",
-        },
-      });
+      fireEvent.keyUp(searchBox, { keyCode: 13 });
 
-    fireEvent.change(searchBox, {
-      target: { value: "🕺" },
+      expect(
+        await screen.findByText(
+          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          { selector: "h1" },
+        ),
+      ).toBeVisible();
     });
 
-    fireEvent.keyUp(searchBox, { keyCode: 13 });
+    test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
+      const searchBox = await screen.findByLabelText("search");
 
-    /**
-     * Same block is still displayed. Search didn't cause a change.
-     */
-    expect(
-      await screen.findByText(
-        `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-        { selector: "h1" },
-      ),
-    ).toBeVisible();
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: [blockFixtures.blockFixture2.hash, 1],
+        })
+        .queueResponse(blockFixtures.blockFixture2);
+
+      fireEvent.change(searchBox, {
+        target: { value: blockFixtures.blockFixture2.hash },
+      });
+
+      fireEvent.keyUp(searchBox, { keyCode: 16 /* shift */ });
+
+      /**
+       * Although we searched for blockFixture2, blockFixture3 from
+       * the previous test is still showing. Pressing shift didn't
+       * trigger the search.
+       */
+      expect(
+        await screen.findByText(
+          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          { selector: "h1" },
+        ),
+      ).toBeVisible();
+    });
+
+    test("it does not do anything when the search string does not return a block", async () => {
+      const searchBox = await screen.findByLabelText("search");
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblock",
+          // @ts-ignore
+          params: ["🕺", 1],
+        })
+        .queueResponse({
+          error: { code: -8, message: "blockhash must be of length 64" },
+        });
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getrawtransaction",
+          // @ts-ignore
+          params: ["🕺", true],
+        })
+        .queueResponse({
+          error: { code: -8, message: "parameter 1 must be of length 64" },
+        });
+
+      rpcClientMockResponses
+        .forRequest({
+          method: "getblockhash",
+          // @ts-ignore
+          params: [NaN],
+        })
+        .queueResponse({
+          error: {
+            code: -1,
+            message: "JSON value is not an integer as expected",
+          },
+        });
+
+      fireEvent.change(searchBox, {
+        target: { value: "🕺" },
+      });
+
+      fireEvent.keyUp(searchBox, { keyCode: 13 });
+
+      /**
+       * Same block is still displayed. Search didn't cause a change.
+       */
+      expect(
+        await screen.findByText(
+          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          { selector: "h1" },
+        ),
+      ).toBeVisible();
+    });
   });
 });

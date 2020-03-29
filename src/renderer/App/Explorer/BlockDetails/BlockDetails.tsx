@@ -117,7 +117,7 @@ const BlockDetails_ = () => {
   const transactionListMaxHeight = theme.spacing(80);
   const transactionListHeight =
     blockData.tx.length < transactionListMaxHeight / transactionCellHeight
-      ? blockData.tx.length * transactionCellHeight
+      ? /* istanbul ignore next */ blockData.tx.length * transactionCellHeight
       : transactionListMaxHeight;
 
   const heading = (

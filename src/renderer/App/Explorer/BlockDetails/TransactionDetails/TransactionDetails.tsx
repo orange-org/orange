@@ -156,7 +156,7 @@ export const TransactionDetails: React.FC<{
               key={input.txid}
               className={a(
                 index < transaction.vin.length - 1
-                  ? "borderBottomStyleSolid"
+                  ? /* istanbul ignore next */ "borderBottomStyleSolid"
                   : null,
                 "borderRightStyleSolid",
               )}
@@ -177,7 +177,8 @@ export const TransactionDetails: React.FC<{
                   : null,
               )}
             >
-              {output.scriptPubKey.addresses || output.scriptPubKey.asm}
+              {output.scriptPubKey.addresses ||
+                /* istanbul ignore next */ output.scriptPubKey.asm}
             </Cell>
           ))}
         </Column>

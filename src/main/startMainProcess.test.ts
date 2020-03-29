@@ -6,8 +6,17 @@ import {
   resetStateOfElectronMock,
   WebContents,
 } from "__mocks__/electron";
+import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
+import { merge } from "lodash";
 import { startMainProcess } from "./startMainProcess";
 import { startPreloadProcess } from "./startPreloadProcess";
+
+const getGlobalProcess = getGlobalProcess_ as jest.Mock;
+const currentGlobalProcess = getGlobalProcess_();
+
+getGlobalProcess.mockImplementation(() =>
+  merge(currentGlobalProcess, { argv: ["--datadir=some/data/dir/"] }),
+);
 
 const initializeMainProcess = () => {
   app.emit("ready");

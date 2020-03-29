@@ -20,6 +20,11 @@ export const setupProcessVariables = (processVariables: {
 };
 
 describe("getRpcCredentials", () => {
+  afterEach(() => {
+    getStore.mockImplementation(() => ({}));
+    vol.reset();
+  });
+
   test("retrieving authentication cookie on Windows", async () => {
     setupProcessVariables({
       platform: "win32",
@@ -118,6 +123,23 @@ describe("getRpcCredentials", () => {
     expect(await getRpcCredentials()).toEqual({
       username: "__cookie__",
       password: "c4ch3",
+      port: 8332,
+    });
+  });
+
+  test("retrieving cookie from a custom datadir", async () => {
+    getStore.mockImplementation(() => ({
+      args: { datadir: "some/rand/dir/" },
+    }));
+
+    vol.fromJSON({
+      "some/rand/dir/bitcoin.conf": "",
+      "some/rand/dir/.cookie": "__cookie__:bar",
+    });
+
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "bar",
       port: 8332,
     });
   });

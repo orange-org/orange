@@ -1,16 +1,25 @@
-import clsx from "clsx";
 import React from "react";
-import { useCommonStyles } from "_r/commonStyles";
-import { BlockDetails } from "./BlockDetails";
+import {
+  useAtomicCss,
+  BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
+} from "_r/useAtomicCss";
+import { useTheme } from "@material-ui/core";
+import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { ListOfBlocks } from "./BlockList/BlockList";
-import { useExplorerStyles } from "./ExplorerStyles";
 
 export const Explorer_: React.FC = () => {
-  const cn = useExplorerStyles();
-  const ccn = useCommonStyles();
+  const a = useAtomicCss();
+  const theme = useTheme();
 
   return (
-    <div className={clsx(cn.explorer, ccn.topLevelComponent)}>
+    <div
+      style={{
+        gridTemplateColumns: `${theme.spacing(
+          BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
+        )}px auto`,
+      }}
+      className={a("topLevelComponent", "displayGrid")}
+    >
       <ListOfBlocks />
       <BlockDetails />
     </div>

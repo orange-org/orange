@@ -1,13 +1,16 @@
 import nock from "nock";
-import { sendRpcRequestToBitcoind } from "_m/sendRpcRequestToBitcoind";
-import { RPC_SERVER_URL, ERROR_CODES } from "_c/constants";
+import { sendRpcRequestToBitcoind } from "_m/sendRpcRequestToBitcoind/sendRpcRequestToBitcoind";
+import { ERROR_CODES } from "_c/constants";
 
 jest.mock("_m/getRpcCredentials", () => ({
   getRpcCredentials: () => ({
     username: "__cookie__",
     password: "123",
+    port: 8332,
   }),
 }));
+
+const RPC_SERVER_URL = "http://localhost:8332/";
 
 describe("sendRpcRequestToBitcoind", () => {
   it("relays the response from `bitcoind`", async () => {
@@ -73,5 +76,22 @@ describe("sendRpcRequestToBitcoind", () => {
       message: "",
       payload: new Error("whatever the request error is"),
     });
+  });
+
+  it("rejects non-whitelisted RPC methods", async () => {
+    const scope = nock(RPC_SERVER_URL)
+      .post("/")
+      .reply(200, { result: "okay" });
+
+    const response = await sendRpcRequestToBitcoind({
+      // @ts-ignore
+      method: "submitheader",
+      requestId: "123",
+    });
+
+    expect(response.error).toEqual({ code: ERROR_CODES.rpcMethodNotAllowed });
+    expect(scope.pendingMocks().length).toBe(1);
+
+    nock.cleanAll();
   });
 });

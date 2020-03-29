@@ -20,6 +20,11 @@ export const setupProcessVariables = (processVariables: {
 };
 
 describe("getRpcCredentials", () => {
+  afterEach(() => {
+    getStore.mockImplementation(() => ({}));
+    vol.reset();
+  });
+
   test("retrieving authentication cookie on Windows", async () => {
     setupProcessVariables({
       platform: "win32",
@@ -36,6 +41,7 @@ describe("getRpcCredentials", () => {
     expect(await getRpcCredentials()).toEqual({
       username: "__cookie__",
       password: "123123",
+      port: 8332,
     });
   });
 
@@ -55,6 +61,7 @@ describe("getRpcCredentials", () => {
     expect(await getRpcCredentials()).toEqual({
       username: "__cookie__",
       password: "424242",
+      port: 8332,
     });
   });
 
@@ -74,13 +81,14 @@ describe("getRpcCredentials", () => {
     expect(await getRpcCredentials()).toEqual({
       username: "__cookie__",
       password: "1337",
+      port: 8332,
     });
   });
 
   [
-    ["testnet", "testnet3", "1234"],
-    ["regtest", "regtest", "5678"],
-  ].forEach(([networkName, dirName, password]) => {
+    ["testnet", "testnet3", "1234", 18332],
+    ["regtest", "regtest", "5678", 18443],
+  ].forEach(([networkName, dirName, password, port]) => {
     test(`retrieving auth cookie for ${networkName} configurations`, async () => {
       vol.fromJSON({
         "home/.bitcoin/bitcoin.conf": `${networkName}=1`,
@@ -90,6 +98,7 @@ describe("getRpcCredentials", () => {
       expect(await getRpcCredentials()).toEqual({
         username: "__cookie__",
         password,
+        port,
       });
     });
   });
@@ -103,6 +112,7 @@ describe("getRpcCredentials", () => {
     getStore.mockImplementation(() => ({
       username: "__cookie__",
       password: "c4ch3",
+      port: 8332,
     }));
 
     vol.fromJSON({
@@ -113,6 +123,24 @@ describe("getRpcCredentials", () => {
     expect(await getRpcCredentials()).toEqual({
       username: "__cookie__",
       password: "c4ch3",
+      port: 8332,
+    });
+  });
+
+  test("retrieving cookie from a custom datadir", async () => {
+    getStore.mockImplementation(() => ({
+      args: { datadir: "some/rand/dir/" },
+    }));
+
+    vol.fromJSON({
+      "some/rand/dir/bitcoin.conf": "",
+      "some/rand/dir/.cookie": "__cookie__:bar",
+    });
+
+    expect(await getRpcCredentials()).toEqual({
+      username: "__cookie__",
+      password: "bar",
+      port: 8332,
     });
   });
 });

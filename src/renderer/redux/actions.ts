@@ -7,6 +7,7 @@ import {
   PeerInfo,
   RpcInfo,
   Uptime,
+  RawTransaction,
 } from "_t/bitcoindRpcResponses";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
@@ -34,3 +35,11 @@ export const setSelectedExplorerBlock = createAction(
 export const setExplorerBlockList = createAction("SET_EXPLORER_BLOCK_LIST")<
   Block[]
 >();
+
+export const setSelectedExplorerTransaction = createAction(
+  "SET_SELECTED_EXPLORER_TRANSACTION",
+)<RawTransaction>();
+
+export const setSelectedExplorerTransactionInputValues = createAction(
+  "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
+)<RawTransaction["vout"][number]["value"][]>();

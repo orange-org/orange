@@ -27,6 +27,7 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
+    "react/destructuring-assignment": "off", // to allow `props.whateverProp`
     "no-console": "error",
     "import/no-extraneous-dependencies": "off",
     "react-hooks/rules-of-hooks": "error",
@@ -57,6 +58,7 @@ module.exports = {
     "react/prop-types": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "no-unused-vars": "off",
+    "no-prototype-builtins": "off",
 
     /**
      * The following rules conflict with Prettier

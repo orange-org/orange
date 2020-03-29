@@ -25,7 +25,7 @@ export const populateBlockList = (
 
       return rpcService.requestBlockByHeight(nonce, height);
     },
-    { concurrency: 1 },
+    { concurrency: 2 },
   );
 
   dispatch(
@@ -36,4 +36,34 @@ export const populateBlockList = (
   dispatch(actions.setExplorerBlockList(populatedBlockList));
 
   return populatedBlockList;
+};
+
+export const requestRawTransactionToDisplay = (
+  nonce: NONCE,
+  transactionId: string,
+) => async (dispatch: Dispatch) => {
+  const transaction = await rpcService.requestRawTransaction(
+    nonce,
+    transactionId,
+  );
+
+  dispatch(actions.setSelectedExplorerTransaction(transaction));
+
+  const inputValues = await map(
+    transaction.vin,
+    async input => {
+      const inputSourceTransaction = await rpcService.requestRawTransaction(
+        nonce,
+        input.txid,
+      );
+      const inputValue = inputSourceTransaction.vout[input.vout].value;
+
+      return inputValue;
+    },
+    { concurrency: 2 },
+  );
+
+  dispatch(actions.setSelectedExplorerTransactionInputValues(inputValues));
+
+  return transaction;
 };

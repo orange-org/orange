@@ -21,9 +21,12 @@ const readCookieCredentials = async () => {
    * in this page: https://en.bitcoinwiki.org/wiki/Data_directory
    */
   const globalProcess = getGlobalProcess();
+  const store = getStore();
 
   let dataDirRoot;
-  if (globalProcess.platform === "win32") {
+  if (store?.args?.datadir) {
+    dataDirRoot = store.args.datadir;
+  } else if (globalProcess.platform === "win32") {
     dataDirRoot = `${globalProcess.env.APPDATA}/Bitcoin`;
   } else if (globalProcess.platform === "darwin") {
     dataDirRoot = `${globalProcess.env.HOME}/Library/Application Support/Bitcoin`;
@@ -67,37 +70,50 @@ const readCookieCredentials = async () => {
     return result;
   }, "");
 
-  const dataDir = `${dataDirRoot}/${
-    chainName === "testnet"
-      ? "testnet3/"
-      : chainName === "regtest"
-      ? "regtest/"
-      : ""
-  }`;
+  let dataDir: string;
+  let port: number;
+
+  if (chainName === "testnet") {
+    dataDir = `${dataDirRoot}/testnet3/`;
+    port = 18332;
+  } else if (chainName === "regtest") {
+    dataDir = `${dataDirRoot}/regtest/`;
+    port = 18443;
+  } else {
+    dataDir = `${dataDirRoot}/`;
+    port = 8332;
+  }
 
   const cookie = await fs.readFile(`${dataDir}.cookie`, {
     encoding: "utf8",
   });
   const [username, password] = cookie.split(":");
 
-  return { username, password };
+  return { username, password, port };
 };
 
 export const getRpcCredentials = async (): Promise<{
   username: string;
   password: string;
+  port: number;
 }> => {
   const store = getStore();
 
-  if (!store.username || /* istanbul ignore next */ !store.password) {
-    const { username, password } = await readCookieCredentials();
+  if (
+    !store.username ||
+    /* istanbul ignore next */ !store.password ||
+    /* istanbul ignore next */ !store.port
+  ) {
+    const { username, password, port } = await readCookieCredentials();
 
     store.username = username;
     store.password = password;
+    store.port = port;
   }
 
   return {
     username: store.username,
     password: store.password,
+    port: store.port,
   };
 };

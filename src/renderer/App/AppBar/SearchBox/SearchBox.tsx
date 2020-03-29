@@ -1,16 +1,39 @@
 import { InputBase } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React from "react";
+import { useAtomicCss } from "_r/useAtomicCss";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
 import { useSearchHandlers } from "./SearchBoxHooks";
 
 export const SearchBox: React.FC = () => {
-  const cn = useSearchBoxStyles();
+  const classNames = useSearchBoxStyles();
+  const a = useAtomicCss();
   const { onKeyUp, onChange } = useSearchHandlers();
 
   return (
-    <div className={cn.search}>
-      <div className={cn.searchIcon}>
+    <div
+      className={a(
+        "positionRelative",
+        "borderRadiusShape",
+        "backgroundColorBlackFade01",
+        "hoverBackgroundColorBlackFade012",
+        "marginRight02",
+        "marginLeft10",
+        "widthAuto",
+      )}
+    >
+      <div
+        className={a(
+          "width11",
+          "colorHint",
+          "height100%",
+          "positionAbsolute",
+          "pointerEventsNone",
+          "displayFlex",
+          "alignItemsCenter",
+          "justifyContentCenter",
+        )}
+      >
         <Search />
       </div>
       <InputBase
@@ -19,8 +42,8 @@ export const SearchBox: React.FC = () => {
         type="search"
         placeholder="Search block height or block hash..."
         classes={{
-          root: cn.inputRoot,
-          input: cn.inputInput,
+          root: classNames.inputRoot,
+          input: classNames.inputInput,
         }}
         inputProps={{ "aria-label": "search" }}
       />

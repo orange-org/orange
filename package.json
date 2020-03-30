@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
+  "engines": {
+    "node": "13.12.0",
+    "npm": "6.14.4"
+  },
   "scripts": {
     "develop": "NODE_ENV=development run-s _generate-nonce _develop",
     "app": "run-s _build-main _electron",
@@ -10,6 +14,7 @@
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:coverage": "npm run _test-with-coverage",
     "check:typescript": "npm run _typescript",
+    "check:vulnerabilities": "npm audit",
     "check": "run-p --aggregate-output -cln check:*",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
     "_generate-nonce": "bash scripts/generate-nonce.sh",

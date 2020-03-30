@@ -1,3 +1,7 @@
+os: linux
+
+dist: xenial
+
 language: node_js
 
 node_js:
@@ -5,5 +9,17 @@ node_js:
 
 cache: npm
 
+install: skip
+
 notifications:
   email: false
+
+jobs:
+  include:
+    - stage: "Install dependencies"
+      script: npm ci
+    - stage: Check
+      script: npm run check:lint
+      name: "Lint"
+    - script: npm run check:typescript
+      name: "TypeScript"

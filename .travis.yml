@@ -15,7 +15,7 @@ notifications:
 jobs:
   include:
     - stage: "Check"
-    - script: npm run check:lint
+      script: npm run check:lint
       name: "Lint"
     - script: npm run check:typescript
       name: "TypeScript"

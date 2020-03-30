@@ -8,8 +8,8 @@
     "npm": "6.14.4"
   },
   "scripts": {
-    "develop": "NODE_ENV=development run-s _generate-nonce _develop",
-    "app": "run-s _build-main _electron",
+    "develop": "NODE_ENV=development run-s _develop",
+    "app": "run-s _webpack-build-main _electron",
     "test": "jest",
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:coverage": "npm run _test-with-coverage",
@@ -17,13 +17,11 @@
     "check:vulnerabilities": "npm audit",
     "check": "run-p --aggregate-output -cln check:*",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
-    "_generate-nonce": "bash scripts/generate-nonce.sh",
     "_webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",
     "_typescript": "tsc --noEmit",
     "_develop": "run-p -ln _webpack-server '_typescript -- -w'",
     "_electron": "electron ./dist/main/main.js",
     "_webpack-build-main": "webpack --config webpack/webpack.main.config.js",
-    "_build-main": "run-s _generate-nonce _webpack-build-main",
     "_test-with-coverage": "npm run test -- --coverage",
     "_open-coverage-results": "open-cli coverage/lcov-report/index.html"
   },

@@ -1,0 +1,25 @@
+os: linux
+
+dist: xenial
+
+language: node_js
+
+node_js:
+  - 13.12.0
+
+cache: npm
+
+notifications:
+  email: false
+
+jobs:
+  include:
+    - stage: "Check"
+      script: npm run check:lint
+      name: "Lint"
+    - script: npm run check:typescript
+      name: "TypeScript"
+    - script: npm run check:coverage
+      name: "Test with coverage"
+    - script: npm run check:npm-audit
+      name: "npm audit"

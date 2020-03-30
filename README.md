@@ -1,4 +1,4 @@
-# Orange
+# Orange [![Build Status](https://travis-ci.org/orange-org/orange.svg?branch=master)](https://travis-ci.org/orange-org/orange)
 
 ⚠️ **WARNING**: _do not use this on a computer where you care about your Bitcoin data. This software might delete your funds, wallets, and blockchain data. This software has not been broadly tested yet._
 

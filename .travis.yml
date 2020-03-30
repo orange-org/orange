@@ -19,3 +19,7 @@ jobs:
       name: "Lint"
     - script: npm run check:typescript
       name: "TypeScript"
+    - script: npm run check:coverage
+      name: "Test with coverage"
+    - script: npm run check:vulnerabilities
+      name: "npm audit"

@@ -14,7 +14,7 @@
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:coverage": "npm run _test-with-coverage",
     "check:typescript": "npm run _typescript",
-    "check:vulnerabilities": "npm audit",
+    "check:npm-audit": "npm audit",
     "check": "run-p --aggregate-output -cln check:*",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
     "_webpack-server": "webpack-dev-server --config webpack/webpack.renderer.dev.config.js",

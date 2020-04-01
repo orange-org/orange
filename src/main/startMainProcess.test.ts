@@ -7,7 +7,7 @@ import {
   WebContents,
 } from "__mocks__/electron";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 import { startMainProcess } from "./startMainProcess";
 import { startPreloadProcess } from "./startPreloadProcess";
 

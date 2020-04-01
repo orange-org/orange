@@ -1,4 +1,4 @@
-import { isEqual } from "lodash";
+import { isEqual } from "lodash-es";
 import { UnsentRpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponse } from "_t/bitcoindRpcResponses";
 

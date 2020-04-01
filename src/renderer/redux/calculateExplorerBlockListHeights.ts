@@ -1,4 +1,4 @@
-import { last, range } from "lodash";
+import { last, range } from "lodash-es";
 
 /**
  * The problem we are trying to solve here is the following:

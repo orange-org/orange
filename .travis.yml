@@ -12,6 +12,10 @@ cache: npm
 notifications:
   email: false
 
+branches:
+  only:
+    - master
+
 jobs:
   include:
     - stage: "Check"
@@ -20,6 +24,6 @@ jobs:
     - script: npm run check:typescript
       name: "TypeScript"
     - script: npm run check:coverage
-      name: "Test with coverage"
+      name: "Test and coverage"
     - script: npm run check:npm-audit
       name: "npm audit"

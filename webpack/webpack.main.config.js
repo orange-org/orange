@@ -1,11 +1,14 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-const { DefinePlugin } = require("webpack");
+const { compact } = require("lodash-es");
+const { DefinePlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
 
 const getRootDir = require("./getRootDir");
+const getIsDevelopment = require("./getIsDevelopment");
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
 
 const root = getRootDir();
+const isDevelopment = getIsDevelopment();
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-main",
@@ -27,11 +30,12 @@ module.exports = merge.smart(baseConfig, {
       },
     ],
   },
-  plugins: [
+  plugins: compact([
     new DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),
     }),
-  ],
+    isDevelopment ? null : new IgnorePlugin(/electron-devtools-installer/),
+  ]),
 });

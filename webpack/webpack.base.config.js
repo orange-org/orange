@@ -1,14 +1,15 @@
-const { compact } = require("lodash");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const globalConstants = require("./globalConstants");
-// const crypto = require("crypto");
+const getIsDevelopment = require("./getIsDevelopment");
 
 const root = require("./getRootDir")();
 
+const isDevelopment = getIsDevelopment();
+
 exports.baseConfig = {
-  mode: "development",
+  mode: isDevelopment ? "development" : "production",
   node: {
     __dirname: false,
     __filename: false,

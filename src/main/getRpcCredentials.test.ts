@@ -1,6 +1,6 @@
 import { vol } from "memfs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
-import { merge } from "lodash";
+import { merge } from "lodash-es";
 import { getRpcCredentials } from "./getRpcCredentials";
 import { getStore as getStore_ } from "./getStore";
 

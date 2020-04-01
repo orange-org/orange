@@ -1,4 +1,4 @@
-import { range } from "lodash";
+import { range } from "lodash-es";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
 import { blockchainInfoFixture1 } from "_r/rpcClient/__mocks__/blockchainInfoFixtures";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";

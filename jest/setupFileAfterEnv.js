@@ -1,4 +1,4 @@
-const { merge } = require("lodash-es");
+const { merge } = require("lodash");
 const { getStore } = require("_m/getStore");
 const { getGlobalProcess } = require("_m/getGlobalProcess");
 

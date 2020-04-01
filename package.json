@@ -90,6 +90,7 @@
     "open-cli": "^5.0.0",
     "prettier": "1.19.1",
     "react-hot-loader": "^4.12.19",
+    "shelljs": "^0.8.3",
     "source-map-explorer": "^2.4.2",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.1.3",

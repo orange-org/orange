@@ -15,7 +15,7 @@
       "sourceMaps": true,
       "args": ["."],
       "outputCapture": "std",
-      "preLaunchTask": "_build-main",
+      "preLaunchTask": "_webpack-build-main",
       "env": {
         "NODE_ENV": "development"
       }

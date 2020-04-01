@@ -32,5 +32,13 @@ exports.baseConfig = {
     ],
   },
   devtool: "source-map",
-  plugins: [new CleanWebpackPlugin(), new DefinePlugin(globalConstants)],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new DefinePlugin({
+      ...globalConstants,
+      "process.env.NODE_ENV": JSON.stringify(
+        process.env.NODE_ENV || "development",
+      ),
+    }),
+  ],
 };

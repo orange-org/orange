@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
+  "main": "main/main.js",
   "engines": {
     "node": "13.12.0",
     "npm": "6.14.4"
@@ -11,6 +12,7 @@
     "app": "run-s _webpack-build-main _electron",
     "build:prod:main": "NODE_ENV=production npm run _webpack-build-main",
     "build:prod:renderer": "NODE_ENV=production npm run _webpack-build-renderer",
+    "build": "run-p --aggregate-output -cln build:*:*",
     "develop": "NODE_ENV=development run-s _develop",
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:coverage": "npm run _test-with-coverage",

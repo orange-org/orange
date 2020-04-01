@@ -1,5 +1,5 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-const { compact } = require("lodash-es");
+const { compact } = require("lodash");
 const { DefinePlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
 
@@ -31,11 +31,6 @@ module.exports = merge.smart(baseConfig, {
     ],
   },
   plugins: compact([
-    new DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify(
-        process.env.NODE_ENV || "development",
-      ),
-    }),
     isDevelopment ? null : new IgnorePlugin(/electron-devtools-installer/),
   ]),
 });

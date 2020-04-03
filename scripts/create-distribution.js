@@ -6,12 +6,13 @@ const axios = require("axios");
 const shelljs = require("shelljs");
 const { resolve } = require("path");
 const Listr = require("listr");
+const plist = require("plist");
 const rendererWebpackConfig = require("../webpack/webpack.renderer.config");
 const mainWebpackConfig = require("../webpack/webpack.main.config");
 
 const distDir = resolve(__dirname, "..", "dist");
 const osxDir = resolve(distDir, "osx");
-const electronZipPath = `${osxDir}/electron.zip`;
+const electronZipPath = resolve(osxDir, "electron.zip");
 const appDir = resolve(osxDir, "Electron.app/Contents/Resources/app/");
 const orangeAppDir = appDir.replace("Electron", "Orange");
 
@@ -78,66 +79,123 @@ const createDistribution = async () => {
         new Listr([
           {
             title: "Renaming Electron.app to Orange.app",
-            task: () =>
-              fs.rename(
+            task: async () => {
+              await fs.rename(
                 resolve(osxDir, "Electron.app"),
                 resolve(osxDir, "Orange.app"),
-              ),
-          },
-
-          {
-            title: "Renaming Electron Helpers to Orange Helpers",
-            task: async () => {
-              const helpersDir = resolve(
-                osxDir,
-                "Orange.app/Contents/Frameworks",
               );
-              const helperFiles = [
-                "Electron Helper.app",
-                "Electron Helper (Plugin).app",
-                "Electron Helper (GPU).app",
-                "Electron Helper (Renderer).app",
-              ];
 
-              await Promise.all(
-                helperFiles.map(helperFile => {
-                  return fs.rename(
-                    resolve(helpersDir, helperFile),
-                    resolve(
-                      helpersDir,
-                      helperFile.replace("Electron", "Orange"),
-                    ),
-                  );
-                }),
+              await fs.rename(
+                resolve(osxDir, "Orange.app/Contents/MacOS/Electron"),
+                resolve(osxDir, "Orange.app/Contents/MacOS/Orange"),
               );
             },
           },
 
-          {
-            title: "Updating plist files",
-            task: () => {
-              const plistFiles = [
-                resolve(osxDir, "Orange.app/Contents/Info.plist"),
-                resolve(
-                  osxDir,
-                  "Orange.app/Contents/Frameworks/Orange Helper.app/Contents/Info.plist",
-                ),
-              ];
+          // {
+          //   title: "Renaming Electron Helpers to Orange Helpers",
+          //   task: async () => {
+          //     const helpersDir = resolve(
+          //       osxDir,
+          //       "Orange.app/Contents/Frameworks",
+          //     );
+          //     const helperFiles = [
+          //       "Electron Helper.app",
+          //       "Electron Helper (Plugin).app",
+          //       "Electron Helper (GPU).app",
+          //       "Electron Helper (Renderer).app",
+          //     ];
 
-              return bluebird.map(plistFiles, async plistFile => {
-                const content = await fs.readFile(plistFile, {
-                  encoding: "utf8",
-                });
-                await fs.writeFile(
-                  plistFile,
-                  content
-                    .replace(/Electron/g, "Orange")
-                    .replace(/electron/g, "orange"),
-                  { encoding: "utf8" },
-                );
-              });
-            },
-          },
+          //     await bluebird.each(helperFiles, async helperFile => {
+          //       await fs.rename(
+          //         resolve(helpersDir, helperFile),
+          //         resolve(helpersDir, helperFile.replace("Electron", "Orange")),
+          //       );
+          //     });
+
+          //     await fs.rename(
+          //       resolve(
+          //         helpersDir,
+          //         "Orange Helper.app/Contents/MacOS/Electron Helper",
+          //       ),
+          //       resolve(
+          //         helpersDir,
+          //         "Orange Helper.app/Contents/MacOS/Orange Helper",
+          //       ),
+          //     );
+          //   },
+          // },
+
+          // {
+          //   title: "Updating plist files",
+          //   task: async () => {
+          //     const plistFiles = [
+          //       resolve(osxDir, "Orange.app/Contents/Info.plist"),
+          //       resolve(
+          //         osxDir,
+          //         "Orange.app/Contents/Frameworks/Orange Helper.app/Contents/Info.plist",
+          //       ),
+          //     ];
+
+          //     return bluebird.each(plistFiles, async plistFile => {
+          //       const content = await fs.readFile(plistFile, {
+          //         encoding: "utf8",
+          //       });
+
+          //       await fs.writeFile(
+          //         plistFile,
+          //         content
+          //           .replace(/Electron/g, "Orange")
+          //           .replace(/electron/g, "orange"),
+          //         { encoding: "utf8" },
+          //       );
+          //     });
+          //   },
+          //   // task: () => {
+          //   //   const replacementDefinitions = {
+          //   //     [resolve(osxDir, "Orange.app/Contents/Info.plist")]: {
+          //   //       CFBundleDisplayName: "Orange",
+          //   //       CFBundleIdentifier: "Orange",
+          //   //       CFBundleName: "Orange",
+          //   //       CFBundleIconFile: "orange.icns",
+          //   //     },
+
+          //   //     [resolve(
+          //   //       osxDir,
+          //   //       "Orange.app/Contents/Frameworks/Orange Helper.app/Contents/Info.plist",
+          //   //     )]: {
+          //   //       CFBundleIdentifier: "Orange",
+          //   //       CFBundleName: "Orange",
+          //   //     },
+          //   //   };
+
+          //   //   return bluebird.map(
+          //   //     Object.keys(replacementDefinitions),
+          //   //     async plistFilename => {
+          //   //       const plistJsonContent = plist.parse(
+          //   //         await fs.readFile(plistFilename, {
+          //   //           encoding: "utf8",
+          //   //         }),
+          //   //       );
+
+          //   //       Object.keys(replacementDefinitions[plistFilename]).forEach(
+          //   //         key => {
+          //   //           plistJsonContent[key] =
+          //   //             replacementDefinitions[plistFilename][key];
+          //   //         },
+          //   //       );
+
+          //   //       await fs.writeFile(
+          //   //         plistFilename,
+          //   //         plist.build(plistJsonContent),
+          //   //         {
+          //   //           encoding: "utf8",
+          //   //         },
+          //   //       );
+          //   //     },
+          //   //   );
+          //   // },
+          // },
         ]),
     },
   ]);
@@ -167,16 +225,16 @@ const createDistribution = async () => {
       },
 
       {
-        title: "Preparing Electron binaries and building the app",
+        title: "Preparing Electron OS X binary and building source code",
         task: () =>
           new Listr(
             [
               {
-                title: "Preparing Electron binaries",
+                title: "Preparing binary",
                 task: () => preparingElectronBinariesTasks,
               },
               {
-                title: "Building",
+                title: "Building source code",
                 task: () => buildingTasks,
               },
             ],
@@ -185,7 +243,7 @@ const createDistribution = async () => {
       },
 
       {
-        title: `Moving files to ${orangeAppDir}`,
+        title: `Moving source code to ${orangeAppDir}`,
         task: async () => {
           await Promise.all([
             fs.copy(
@@ -197,6 +255,10 @@ const createDistribution = async () => {
               resolve(distDir, "..", "package.json"),
               resolve(orangeAppDir, "package.json"),
             ),
+            fs.copy(
+              resolve(distDir, "..", "src/assets/orange.icns"),
+              resolve(orangeAppDir, "..", "orange.icns"),
+            ),
           ]);
         },
       },
@@ -204,7 +266,7 @@ const createDistribution = async () => {
     { collapse: false },
   );
 
-  tasks.run();
+  return tasks.run();
 };
 
 // eslint-disable-next-line no-console

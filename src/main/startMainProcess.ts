@@ -42,7 +42,8 @@ export const startMainProcess = () => {
       title: "Orange",
       minWidth: 800,
       minHeight: 600,
-      // frame: false,
+      width: 1000,
+      height: 800,
     });
 
     preventNetworkAndResourceRequests(mainWindow);

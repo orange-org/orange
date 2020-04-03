@@ -15,6 +15,9 @@ module.exports = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/",
   }),
+  testPathIgnorePatterns: [
+    "<rootDir>[/\\\\](artifacts|node_modules|scripts)[/\\\\]",
+  ],
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",

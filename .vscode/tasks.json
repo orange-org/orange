@@ -4,9 +4,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "_build-main",
+      "label": "_webpack-build-main",
       "type": "npm",
-      "script": "_build-main",
+      "script": "_webpack-build-main",
+      "options": {
+        "env": {
+          "NODE_ENV": "development"
+        }
+      },
       "group": {
         "kind": "build",
         "isDefault": true

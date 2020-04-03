@@ -1,14 +1,15 @@
-const { compact } = require("lodash");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const { DefinePlugin } = require("webpack");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { resolve } = require("path");
 const globalConstants = require("./globalConstants");
-// const crypto = require("crypto");
+const getIsDevelopment = require("./getIsDevelopment");
 
-const root = require("./getRootDir")();
+const root = resolve(__dirname, "..");
+
+const isDevelopment = getIsDevelopment();
 
 exports.baseConfig = {
-  mode: "development",
+  mode: isDevelopment ? "development" : "production",
   node: {
     __dirname: false,
     __filename: false,
@@ -31,5 +32,12 @@ exports.baseConfig = {
     ],
   },
   devtool: "source-map",
-  plugins: [new CleanWebpackPlugin(), new DefinePlugin(globalConstants)],
+  plugins: [
+    new DefinePlugin({
+      ...globalConstants,
+      "process.env.NODE_ENV": JSON.stringify(
+        process.env.NODE_ENV || "development",
+      ),
+    }),
+  ],
 };

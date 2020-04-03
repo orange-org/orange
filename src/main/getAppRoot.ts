@@ -1,7 +1,7 @@
-import { app } from "electron";
 import { resolve } from "path";
 
 export function getAppRoot() {
-  // Jump out of `main/` to be in `dist/`
-  return resolve(app.getAppPath(), "..");
+  // Jump out of `main/` to be adjacent to `renderer/` where `package.json`
+  // should be.
+  return resolve(__dirname, "..");
 }

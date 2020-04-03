@@ -1,0 +1,11 @@
+{
+  "ignores": [
+    "@hot-loader/react-dom",
+    "@types/jest",
+    "@types/testing-library__jest-dom",
+    "prettier",
+    "webpack-cli",
+    "eslint-import-resolver-typescript"
+  ],
+  "skip-missing": true
+}

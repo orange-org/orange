@@ -1,5 +1,4 @@
 import { app, BrowserWindow, globalShortcut } from "electron";
-import { installExtensions } from "_m/installExtensions";
 import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
@@ -19,7 +18,8 @@ export const startMainProcess = () => {
   function createWindow() {
     /* istanbul ignore if */
     if (getIsDevelopment()) {
-      installExtensions();
+      // eslint-disable-next-line global-require
+      require("_m/installExtensions");
     }
 
     mainWindow = new BrowserWindow({
@@ -42,7 +42,8 @@ export const startMainProcess = () => {
       title: "Orange",
       minWidth: 800,
       minHeight: 600,
-      // frame: false,
+      width: 1000,
+      height: 800,
     });
 
     preventNetworkAndResourceRequests(mainWindow);

@@ -11,11 +11,11 @@
         "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
       },
       "program": "${workspaceRoot}/src/main/main.ts",
-      "outFiles": ["${workspaceRoot}/dist/main/main.js"],
+      "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
       "sourceMaps": true,
       "args": ["."],
       "outputCapture": "std",
-      "preLaunchTask": "_build-main",
+      "preLaunchTask": "_webpack-build-main",
       "env": {
         "NODE_ENV": "development"
       }

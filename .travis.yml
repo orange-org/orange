@@ -27,3 +27,5 @@ jobs:
       name: "Test and coverage"
     - script: npm run check:npm-audit
       name: "npm audit"
+    - script: npm run check:depcheck
+      name: "npm run check:depcheck"

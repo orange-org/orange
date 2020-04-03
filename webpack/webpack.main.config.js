@@ -18,7 +18,7 @@ module.exports = merge.smart(baseConfig, {
     preload: `${root}/src/main/preload.ts`,
   },
   output: {
-    path: `${root}/ar/main`,
+    path: `${root}/artifacts/webpack/main`,
     filename: "[name].js",
   },
   module: {

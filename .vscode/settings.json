@@ -1,6 +1,6 @@
 {
   "search.exclude": {
-    "dist": true,
+    "artifacts": true,
     "coverage": true
   },
   "cSpell.words": ["Mempool", "SCROLLABLE", "bitcoind", "clsx", "testid"],

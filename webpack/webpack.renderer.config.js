@@ -1,13 +1,13 @@
 const { DefinePlugin, NamedModulesPlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { resolve } = require("path");
 
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
 const getIsDevelopment = require("./getIsDevelopment");
 const getContentSecurityPolicy = require("./getContentSecurityPolicy");
-const getRootDir = require("./getRootDir");
 
-const root = getRootDir();
+const root = resolve(__dirname, "..");
 
 const isDevelopment = getIsDevelopment();
 
@@ -20,7 +20,7 @@ module.exports = merge.smart(baseConfig, {
     app: `${root}/src/renderer/renderer.tsx`,
   },
   output: {
-    path: `${root}/dist/renderer`,
+    path: `${root}/artifacts/webpack/renderer`,
     filename: "[name].js",
   },
   module: {

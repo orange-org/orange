@@ -2,12 +2,13 @@
 const { compact } = require("lodash");
 const { DefinePlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
+const CopyPlugin = require("copy-webpack-plugin");
+const { resolve } = require("path");
 
-const getRootDir = require("./getRootDir");
 const getIsDevelopment = require("./getIsDevelopment");
 const { baseConfig, getBabelRule } = require("./webpack.base.config");
 
-const root = getRootDir();
+const root = resolve(__dirname, "..");
 const isDevelopment = getIsDevelopment();
 
 module.exports = merge.smart(baseConfig, {
@@ -17,7 +18,7 @@ module.exports = merge.smart(baseConfig, {
     preload: `${root}/src/main/preload.ts`,
   },
   output: {
-    path: `${root}/dist/main`,
+    path: `${root}/ar/main`,
     filename: "[name].js",
   },
   module: {
@@ -32,5 +33,11 @@ module.exports = merge.smart(baseConfig, {
   },
   plugins: compact([
     isDevelopment ? null : new IgnorePlugin(/electron-devtools-installer/),
+    new CopyPlugin([
+      {
+        from: `${root}/package.json`,
+        to: `${root}/artifacts/webpack/package.json`,
+      },
+    ]),
   ]),
 });

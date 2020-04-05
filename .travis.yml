@@ -44,7 +44,7 @@ jobs:
       deploy:
         provider: releases
         token:
-          secure: ZOqhKocLT7s4Zv3mqnuMo+wJHPVXmRC5ZX4ksEPVP1En8oUpTIyGhqJ2obedpLa0GW15644ENJcBuCFoSeSrhrMvUsNF8m7nBc3YBYgg3Q36WT+dMAMcFleuTAGVXavxinAJidMaVi/Lsy+kMZ8upx/UqTaAkDdQGWmxUxbcZIhbGNUs94gEERNoVUjEy+hCv9iiTOZMqo1g8btBoobb2YXeqU0Z6ekTxFXVU6HmbCSI2eE1uXlxjjTXtdQoX/k833Vxq0brPoOaG3xN1VENE/IfYIYddPDH6DUaeJwLK6rFakB35OozZz38jZACGNWgSyFqxZoKh0sdDzGkc99yvFJSb6MqF5FVCMFaB/C1rdyWH2NXrPt7nIEPwRwi3oYe4k3Qjg0HEjilgXrDHsXfelZNNYCokKBtev9vVXAOQj0mzRuMmj46k2PjpdUS+RuRX+QvQ6wkcNH1bpnbwto4M9qb+f18LpCHJVKzJ3detmMcQWiHrZkwkFqlhj/pSQBzqHDiWV6o7v5Ava2H8sn4FGYoRN77QzoPF80XwLJ8qEWM5GtQzM1YnBaPMpO7R6VBeWB/MZfAn1mfBYZweH3QJe0RkWS5ZtHf1/uY9V4JgT6BYj3KdXqtcGm9lzHiBvbFl9esXCTeb/miheB6kroLg7HwRMu8LxVI/tkRcBFu1lg=
+          secure: GFahoZ3jxPd4DN+gqf5gMxGDuxC3PeOKzf2eUTc96jEA+crnhImA2f8p8yL/6hacJsFnzu/1ElMyFN+U2JLLXPlFWJzHyvtepIH4uMD8qNVRF3C4ozgREhoFri9NfShqnCgIEu7Ryj7np/FioYof+k5twuD7fVZ8pdPRi6Q2QRZf5jqv0JG3iS3I5XZXbnUImJHInHMKcTgXOGnQQcAL4acrmO6zU0Eckdgw224swizl86CZFadjYwQPX2v6F22JPZo40cYt+GdqBewp7l7j412qcLN4BkN3XaLNDeoihPuTjtGqwL3CrX3X1chPkhyxLGcDXudJgvUG3AN9xsuhG/XAHSkEEkiBqLK4NUsmuPIntJKQ0oQ0qU2+KAE6DF5xlOUPCD/8ab470jbdB4z0WS9/zKT3HbqvC9hY0GM8kS4A0haX1zoQN5KJmcf3P0Yk8kyr61o9xOsVbuYzx9o6Me34jL2jWgQhRlcqoRAXJq2c679KRUHi0PYZTLPYKCEtIJ+2+MEcovTcUxdQyY5cDdQRW8F6+eSd3LrJlioP+DIilJnIujF+wORn0g2WyFKX2HzYXvsnLMQctk/XU4RG07HWgAw0Q0Vx9G+dkeqlXkhWBHHBALjVho+wTP5PWdkqzVWCurP/bU8uJ7jQndntXmzjPdgZ2S96AR0XDg/8NVo=
         file: artifacts/electronPackager/Orange (macOS).zip # Use Find and Replace to change
         draft: true
         on:

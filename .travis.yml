@@ -2,6 +2,9 @@ os: linux
 
 dist: xenial
 
+git:
+  depth: 1
+
 language: node_js
 
 node_js:
@@ -31,6 +34,7 @@ jobs:
     - script: npm run check:depcheck
       name: npm run check:depcheck
     - stage: Deploy
+      script: "Deploying..."
       deploy:
         provider: releases
         token:

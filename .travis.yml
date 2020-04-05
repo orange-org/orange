@@ -25,16 +25,22 @@ jobs:
     - stage: Check
       script: npm run check:lint
       name: Lint
+
     - script: npm run check:typescript
       name: TypeScript
+
     - script: npm run check:coverage
       name: Test and coverage
+
     - script: npm run check:npm-audit
       name: npm audit
+
     - script: npm run check:depcheck
       name: npm run check:depcheck
+
     - stage: Deploy
-      script: "Deploying..."
+      os: osx
+      script: "# Deploying..."
       deploy:
         provider: releases
         token:

@@ -22,30 +22,33 @@ branches:
 
 jobs:
   include:
-    - stage: Check
-      script: npm run check:lint
-      name: Lint
+    # - stage: Check
+    #   script: npm run check:lint
+    #   name: Lint
 
-    - script: npm run check:typescript
-      name: TypeScript
+    # - script: npm run check:typescript
+    #   name: TypeScript
 
-    - script: npm run check:coverage
-      name: Test and coverage
+    # - script: npm run check:coverage
+    #   name: Test and coverage
 
-    - script: npm run check:npm-audit
-      name: npm audit
+    # - script: npm run check:npm-audit
+    #   name: npm audit
 
-    - script: npm run check:depcheck
-      name: npm run check:depcheck
+    # - script: npm run check:depcheck
+    #   name: npm run check:depcheck
 
     - stage: Deploy
       os: osx
+      name: Deploy
       script: "# Deploying..."
       deploy:
         provider: releases
+        name: Orange v$TRAVIS_TAG
+        tag_name: $TRAVIS_TAG
         token:
-          secure: GFahoZ3jxPd4DN+gqf5gMxGDuxC3PeOKzf2eUTc96jEA+crnhImA2f8p8yL/6hacJsFnzu/1ElMyFN+U2JLLXPlFWJzHyvtepIH4uMD8qNVRF3C4ozgREhoFri9NfShqnCgIEu7Ryj7np/FioYof+k5twuD7fVZ8pdPRi6Q2QRZf5jqv0JG3iS3I5XZXbnUImJHInHMKcTgXOGnQQcAL4acrmO6zU0Eckdgw224swizl86CZFadjYwQPX2v6F22JPZo40cYt+GdqBewp7l7j412qcLN4BkN3XaLNDeoihPuTjtGqwL3CrX3X1chPkhyxLGcDXudJgvUG3AN9xsuhG/XAHSkEEkiBqLK4NUsmuPIntJKQ0oQ0qU2+KAE6DF5xlOUPCD/8ab470jbdB4z0WS9/zKT3HbqvC9hY0GM8kS4A0haX1zoQN5KJmcf3P0Yk8kyr61o9xOsVbuYzx9o6Me34jL2jWgQhRlcqoRAXJq2c679KRUHi0PYZTLPYKCEtIJ+2+MEcovTcUxdQyY5cDdQRW8F6+eSd3LrJlioP+DIilJnIujF+wORn0g2WyFKX2HzYXvsnLMQctk/XU4RG07HWgAw0Q0Vx9G+dkeqlXkhWBHHBALjVho+wTP5PWdkqzVWCurP/bU8uJ7jQndntXmzjPdgZ2S96AR0XDg/8NVo=
-        file: artifacts/electronPackager/Orange (macOS).zip # Use Find and Replace to change
+          secure: ppRAt+1dAxJwyKhEGiIPWdD9sBB2XqwEghEA0sSFbYA3vpMZeb8LTD0kz5g3L5u5BAZtD5f2uMaO7W5JTAWp+7BFAIB5d3j978BjwmcDLWv8a1w2EHEOEch1QKhUmdFlFZRJfCrUBHu9EOA8EGqToM/pzpvTajWphNEO0vWmcbhdYgjkrL+VXIgU3aq0CW1fKMrFPevVb0hjUSh+wsWiW2RkLBxHU8XinfkMEvTZQOKdVWD+EhjpyDjhwuR+XeHnNmq2ve3rv17Qlrvd1dngAdAjNmps6Yk6nnkJqOyWCSz89G+8WH79uFTh4V2aSx+9YtQrvzmSZjFOC11dmbCj31rWbZ82RRvPI2gapbkvDbVKAwpuakpHO2NSZvumegfD0p+kvyyMon3ZNANZdLUqr0JNu4knKuJu5BCltuNHP/CJ5THe/A+xtUJZMaUjTot4Nvz8t+PBMJhfk3aEX54vqhKmOIw8xrcyU9QCrKSm4jT8Y5m5b1pXktYCLaawQrHn9jgoQxn/y/RWmfRB2FejO1voZB9gGG3PFbh8j/M+iANJY+lCViIRL/xpPXj9kkzXhxsxlCdEOofvIkszCVK7tfedmkEt6/YvDDF/S5q1Qx9QWDHupCY37U8Mzr3MtbipuE7h8IFHsb/g3LGeC2V7i4QI61S8m0bZnsOCas6f2a0=
+        file: artifacts/electronPackager/Orange-macOS-$TRAVIS_TAG.zip
         draft: true
         on:
           tags: true

@@ -104,6 +104,8 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1",
     "bluebird": "^3.7.2",
     "clsx": "^1.0.4",
     "electron": "^6.1.7",

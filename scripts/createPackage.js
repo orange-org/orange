@@ -36,7 +36,10 @@ async function bundleElectronApp() {
   await new Promise(resolve_ => {
     const archive = archiver("zip", { zlib: { level: 9 } });
     const output = fs.createWriteStream(
-      resolve(electronPackagerArtifactsDir, "Orange (macOS).zip"),
+      resolve(
+        electronPackagerArtifactsDir,
+        `Orange-macOS-${process.env.TRAVIS_TAG}.zip`,
+      ),
     );
     archive.pipe(output);
     archive.directory(

@@ -13,7 +13,7 @@
       "program": "${workspaceRoot}/src/main/main.ts",
       "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
       "sourceMaps": true,
-      "args": ["."],
+      "args": [".", "--datadir=/Users/mk/bitcoin-core-full-node-datadir/"],
       "outputCapture": "std",
       "preLaunchTask": "_webpack-build-main",
       "env": {
@@ -24,7 +24,14 @@
       "name": "Debug Jest Tests",
       "type": "node",
       "request": "launch",
-      "runtimeArgs": ["--inspect-brk", "${workspaceRoot}/node_modules/.bin/jest", "--runInBand", "--watch", "--no-cache", "--coverage"],
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand",
+        "--watch",
+        "--no-cache",
+        "--coverage"
+      ],
       "console": "externalTerminal",
       "internalConsoleOptions": "neverOpen",
       "port": 9229,

@@ -1,7 +1,7 @@
 {
   "name": "orange",
   "productName": "Orange",
-  "version": "See the releases page on GitHub",
+  "version": "see-the-releases-page-on-gitHub",
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
   "main": "main/main.js",

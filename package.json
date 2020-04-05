@@ -1,7 +1,7 @@
 {
   "name": "orange",
   "productName": "Orange",
-  "version": "0.1.0",
+  "version": "See the releases page on GitHub",
   "description": "Bitcoin blockchain explorer for Bitcoin Core",
   "license": "Unlicense",
   "main": "main/main.js",
@@ -21,7 +21,7 @@
     "check:typescript": "npm run _typescript",
     "check:depcheck": "depcheck",
     "check": "run-p --aggregate-output -cln check:*",
-    "package:osx": "node scripts/createPackage.js",
+    "create-package": "node scripts/createPackage.js",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
     "test": "jest",
     "_build": "run-p --aggregate-output -cln build:*:*",

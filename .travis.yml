@@ -5,7 +5,7 @@ dist: xenial
 language: node_js
 
 node_js:
-  - 13.12.0
+  - 13.12.0 # Use Find and Replace to change
 
 cache: npm
 
@@ -18,14 +18,26 @@ branches:
 
 jobs:
   include:
-    - stage: "Check"
+    - stage: Check
       script: npm run check:lint
-      name: "Lint"
+      name: Lint
     - script: npm run check:typescript
-      name: "TypeScript"
+      name: TypeScript
     - script: npm run check:coverage
-      name: "Test and coverage"
+      name: Test and coverage
     - script: npm run check:npm-audit
-      name: "npm audit"
+      name: npm audit
     - script: npm run check:depcheck
-      name: "npm run check:depcheck"
+      name: npm run check:depcheck
+
+deploy:
+  provider: releases
+  token:
+    secure: ZOqhKocLT7s4Zv3mqnuMo+wJHPVXmRC5ZX4ksEPVP1En8oUpTIyGhqJ2obedpLa0GW15644ENJcBuCFoSeSrhrMvUsNF8m7nBc3YBYgg3Q36WT+dMAMcFleuTAGVXavxinAJidMaVi/Lsy+kMZ8upx/UqTaAkDdQGWmxUxbcZIhbGNUs94gEERNoVUjEy+hCv9iiTOZMqo1g8btBoobb2YXeqU0Z6ekTxFXVU6HmbCSI2eE1uXlxjjTXtdQoX/k833Vxq0brPoOaG3xN1VENE/IfYIYddPDH6DUaeJwLK6rFakB35OozZz38jZACGNWgSyFqxZoKh0sdDzGkc99yvFJSb6MqF5FVCMFaB/C1rdyWH2NXrPt7nIEPwRwi3oYe4k3Qjg0HEjilgXrDHsXfelZNNYCokKBtev9vVXAOQj0mzRuMmj46k2PjpdUS+RuRX+QvQ6wkcNH1bpnbwto4M9qb+f18LpCHJVKzJ3detmMcQWiHrZkwkFqlhj/pSQBzqHDiWV6o7v5Ava2H8sn4FGYoRN77QzoPF80XwLJ8qEWM5GtQzM1YnBaPMpO7R6VBeWB/MZfAn1mfBYZweH3QJe0RkWS5ZtHf1/uY9V4JgT6BYj3KdXqtcGm9lzHiBvbFl9esXCTeb/miheB6kroLg7HwRMu8LxVI/tkRcBFu1lg=
+  file: artifacts/electronPackager/Orange (macOS).zip # Use Find and Replace to change
+  draft: true
+  on:
+    tags: true
+  edge: true
+
+before_deploy: npm run create-package

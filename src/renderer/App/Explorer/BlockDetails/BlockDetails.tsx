@@ -21,17 +21,21 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { formatDate, humanFileSize, pluralize } from "_r/utils/smallUtils";
+import {
+  secondsTimestampToFormattedDate,
+  humanFileSize,
+  pluralize,
+} from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 
 const blockDataFormatters = {
-  mediantime: formatDate,
+  mediantime: secondsTimestampToFormattedDate,
   size: humanFileSize,
   strippedsize: humanFileSize,
-  time: formatDate,
+  time: secondsTimestampToFormattedDate,
   weight: humanFileSize,
 };
 

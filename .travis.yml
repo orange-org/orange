@@ -41,14 +41,7 @@ jobs:
     - stage: Deploy
       name: Deploy
       os: osx
-      branches:
-        only:
-          # We duplicate the semver instructions here because without it
-          # Travis CI would boot up a virtual machine for this for any PRs
-          # to master and run the script below and then exit. This is an
-          # unnecessary waste of time. That's why we restrict this stage
-          # to branches that match semver
-          - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
+      if: branch =~ /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
       script: "# Deploying..."
       deploy:
         provider: releases

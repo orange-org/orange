@@ -7,18 +7,25 @@ const semverRegExp = /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-
 const repoUrl = "git@github.com:orange-org/orange.git";
 
 if (!version.match(semverRegExp)) {
-  throw new Error(`"${version}" is not a valid semantic version`);
+  shelljs.echo(`"${version}" is not a valid semantic version`);
+  shelljs.exit(1);
 }
 
 shelljs.cd(resolve(__dirname, ".."));
 
-console.log(`Creating git tag ${version}...`);
-shelljs.exec(`git tag ${version}`);
+shelljs.echo(`Creating git tag ${version}...`);
+if (shelljs.exec(`git tag ${version}`).code !== 0) {
+  shelljs.echo("Error: git tag failed");
+  shelljs.exit(1);
+}
 
-console.log(`Pushing git tag ${version}...`);
-shelljs.exec(`git push ${repoUrl} ${version}`);
+shelljs.echo(`Pushing git tag ${version}...`);
+if (shelljs.exec(`git push ${repoUrl} ${version}`).code !== 0) {
+  shelljs.echo("Error: git push failed");
+  shelljs.exit(1);
+}
 
-console.log(
+shelljs.echo(
   `\n\n"${version}" has been successfully pushed to ${repoUrl}.\n` +
     "This should trigger a Travis CI draft release https://travis-ci.org/github/orange-org/orange",
 );

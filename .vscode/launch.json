@@ -13,7 +13,7 @@
       "program": "${workspaceRoot}/src/main/main.ts",
       "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
       "sourceMaps": true,
-      "args": [".", "--datadir=/Users/mk/bitcoin-core-full-node-datadir/"],
+      "args": ["."],
       "outputCapture": "std",
       "preLaunchTask": "_webpack-build-main",
       "env": {

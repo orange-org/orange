@@ -5,7 +5,11 @@ import clsx from "clsx";
 import React, { memo, ReactText, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
-import { formatDate, fromNow, humanFileSize } from "_r/utils/smallUtils";
+import {
+  secondsTimestampToFormattedDate,
+  fromNow,
+  humanFileSize,
+} from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/bitcoindRpcResponses";
 import { Null } from "_t/typeHelpers";
 import { useBlockStyles } from "./BlockStyles";
@@ -77,15 +81,12 @@ const Block_: React.FC<CardProps & {
           </div>
           <div>
             <Typography variant="body2" className={classNames.date}>
-              {data.time && formatDate(data.time * 1000)}
+              {data.time && secondsTimestampToFormattedDate(data.time)}
             </Typography>
           </div>
         </div>
         <div className={classNames.metaData}>
-          {renderMetaDataItem(
-            QueryBuilder,
-            data.time && fromNow(data.time * 1000),
-          )}
+          {renderMetaDataItem(QueryBuilder, data.time && fromNow(data.time))}
           {renderMetaDataItem(
             SaveOutlined,
             data.size && humanFileSize(data.size),

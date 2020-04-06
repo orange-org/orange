@@ -6,7 +6,10 @@ import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { formatDate, humanFileSize } from "_r/utils/smallUtils";
+import {
+  secondsTimestampToFormattedDate,
+  humanFileSize,
+} from "_r/utils/smallUtils";
 import { RawTransaction } from "_t/bitcoindRpcResponses";
 import clsx from "clsx";
 import { OtherDetails } from "../OtherDetails";
@@ -14,7 +17,7 @@ import { OtherDetails } from "../OtherDetails";
 const SVG_ICON_WIDTH = 24;
 
 const transactionDataFormatters = {
-  locktime: formatDate,
+  locktime: secondsTimestampToFormattedDate,
   size: humanFileSize,
   vsize: humanFileSize,
   weight: humanFileSize,

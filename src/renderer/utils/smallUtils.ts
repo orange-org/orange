@@ -2,12 +2,12 @@
 /* eslint-disable no-param-reassign */
 import moment from "moment";
 
-export const formatDate = (momentInput: moment.MomentInput) => {
-  return moment(momentInput).format("llll");
+export const secondsTimestampToFormattedDate = (momentInput: number) => {
+  return moment(momentInput * 1000).format("llll");
 };
 
-export const fromNow = (momentInput: moment.MomentInput) => {
-  return moment(momentInput).fromNow();
+export const fromNow = (momentInput: number) => {
+  return moment(momentInput * 1000).fromNow();
 };
 
 export const pluralize = (

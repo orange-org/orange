@@ -18,7 +18,6 @@ notifications:
 branches:
   only:
     - master
-    - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/ # Semver, for pushed tags
 
 jobs:
   include:
@@ -39,8 +38,11 @@ jobs:
       name: npm run check:depcheck
 
     - stage: Deploy
-      os: osx
       name: Deploy
+      os: osx
+      branches:
+        only:
+          - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/ # Semver, for pushed tags
       script: "# Deploying..."
       deploy:
         provider: releases

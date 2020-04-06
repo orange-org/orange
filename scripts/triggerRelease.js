@@ -15,7 +15,7 @@ shelljs.cd(resolve(__dirname, ".."));
 
 shelljs.echo(`Creating git tag ${version}...`);
 if (shelljs.exec(`git tag ${version}`).code !== 0) {
-  shelljs.echo("Error: tag tag failed");
+  shelljs.echo("Error: git tag failed");
   shelljs.exit(1);
 }
 

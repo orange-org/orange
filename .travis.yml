@@ -18,6 +18,7 @@ notifications:
 branches:
   only:
     - master
+    - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/ # Semver, for pushed tags
 
 jobs:
   include:
@@ -42,7 +43,12 @@ jobs:
       os: osx
       branches:
         only:
-          - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/ # Semver, for pushed tags
+          # We duplicate the semver instructions here because without it
+          # Travis CI would boot up a virtual machine for this for any PRs
+          # to master and run the script below and then exit. This is an
+          # unnecessary waste of time. That's why we restrict this stage
+          # to branches that match semver
+          - /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/
       script: "# Deploying..."
       deploy:
         provider: releases

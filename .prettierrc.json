@@ -20,6 +20,13 @@
       "options": {
         "printWidth": 100
       }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "proseWrap": "always",
+        "printWidth": 80
+      }
     }
   ]
 }

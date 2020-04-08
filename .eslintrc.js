@@ -56,7 +56,7 @@ module.exports = {
     "react/jsx-no-undef": "off",
     "import/no-unresolved": "off",
     "react/prop-types": "off",
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": 2,
     "no-unused-vars": "off",
     "no-prototype-builtins": "off",
 

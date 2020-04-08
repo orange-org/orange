@@ -3,7 +3,7 @@ const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
 
-const { baseConfig } = require("./webpack.base.config");
+const baseConfig = require("./webpack.base.config");
 const getContentSecurityPolicy = require("./getContentSecurityPolicy");
 
 const root = resolve(__dirname, "..");

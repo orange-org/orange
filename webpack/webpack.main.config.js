@@ -6,7 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const { resolve } = require("path");
 
 const getIsDevelopment = require("./getIsDevelopment");
-const { baseConfig } = require("./webpack.base.config");
+const baseConfig = require("./webpack.base.config");
 
 const root = resolve(__dirname, "..");
 const isDevelopment = getIsDevelopment();

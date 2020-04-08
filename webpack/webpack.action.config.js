@@ -7,6 +7,7 @@ const baseConfig = require("./webpack.base.config");
 const root = resolve(__dirname, "..");
 
 module.exports = merge.smart(baseConfig, {
+  mode: "production",
   target: "node",
   entry: `${root}/.github/action/index.ts`,
   output: { path: `${root}/.github/action`, filename: "index.js" },

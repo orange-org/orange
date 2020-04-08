@@ -11,8 +11,4 @@ module.exports = merge.smart(baseConfig, {
   entry: `${root}/.github/action/index.ts`,
   output: { path: `${root}/.github/action`, filename: "index.js" },
   devtool: "none",
-  externals: {
-    "@actions/exec": "commonjs2 @actions/exec",
-    "@actions/core": "commonjs2 @actions/core",
-  },
 });

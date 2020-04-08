@@ -1,0 +1,12 @@
+name: "CICD"
+on: [push]
+
+jobs:
+  Main:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout action code
+        uses: actions/checkout@v2
+      - name: Test
+        uses: ./.github/action

@@ -8,7 +8,7 @@ git:
 language: node_js
 
 node_js:
-  - 13.12.0 # Use Find and Replace to change
+  - 12 # Use Find and Replace to change
 
 cache: npm
 

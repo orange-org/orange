@@ -6,8 +6,8 @@
   "license": "Unlicense",
   "main": "main/main.js",
   "engines": {
-    "node": "13.12.0",
-    "npm": "6.14.4"
+    "node": "^12.0.0",
+    "npm": "^6.0.0"
   },
   "scripts": {
     "build:prod:main": "NODE_ENV=production npm run _webpack-build-main",

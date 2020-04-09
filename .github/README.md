@@ -10,3 +10,6 @@ The command for generating the action bundle is `npm run build-action`
 ## Development
 
 You can use https://github.com/nektos/act to run and develop the action locally.
+
+You'll have to download an 18GB Docker image as described in act's
+documentation.

@@ -1,29 +1,19 @@
 import * as core from "@actions/core";
 import { exec } from "@actions/exec";
+import * as bluebird from "bluebird";
+
+const execWithErrorMessage = async (command: string, message: string) => {
+  if ((await exec(command, null, { ignoreReturnCode: true })) > 0) {
+    core.setFailed(message);
+  }
+};
 
 async function run() {
-  core.debug("Im here!");
+  await execWithErrorMessage("npm ci", "`npm ci` failed");
 
-  // let myOutput = "";
-  // let myError = "";
+  const command = core.getInput("command", { required: true });
 
-  // const options = {} as any;
-  // options.listeners = {
-  //   stdout: (data: Buffer) => {
-  //     myOutput += data.toString();
-  //   },
-  //   stderr: (data: Buffer) => {
-  //     myError += data.toString();
-  //   },
-  // };
-
-  // await exec("npm ci", [], options);
-  // await exec("npm ci", [], options);
-
-  // core.debug(myOutput);
-  // core.debug(myError);
-  await exec("npm ci", null, { failOnStdErr: true });
-  await exec("npm run check:lint", null, { failOnStdErr: true });
+  await execWithErrorMessage(command, `\`${command}\` failed!`);
 }
 
-run();
+bluebird.try(run).catch(core.debug);

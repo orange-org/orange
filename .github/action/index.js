@@ -548,9 +548,6 @@
       };
     }
   },
-  function(t, e) {
-    t.exports = require("path");
-  },
   function(t, e, n) {
     "use strict";
     var r =
@@ -597,7 +594,7 @@
     Object.defineProperty(e, "__esModule", { value: !0 });
     const o = n(14),
       s = i(n(5)),
-      a = i(n(3));
+      a = i(n(4));
     var c;
     function l(t) {
       o.issue("error", t);
@@ -669,6 +666,9 @@
       });
   },
   function(t, e) {
+    t.exports = require("path");
+  },
+  function(t, e) {
     t.exports = require("os");
   },
   function(t, e) {
@@ -712,7 +712,7 @@
     Object.defineProperty(e, "__esModule", { value: !0 });
     const o = n(19),
       s = n(20),
-      a = n(3);
+      a = n(4);
     function c(t) {
       return (
         (1 & t.mode) > 0 ||
@@ -985,17 +985,17 @@
   function(t, e, n) {
     "use strict";
     n.r(e);
-    var r = n(4),
+    var r = n(3),
       i = n(11),
       o = n(12);
-    const s = async (t, e) => {
-      (await Object(i.exec)(t, null, { ignoreReturnCode: !0 })) > 0 &&
-        r.setFailed(e);
-    };
     o.try(async function() {
-      await s("npm ci", "`npm ci` failed");
-      const t = r.getInput("command", { required: !0 });
-      await s(t, `\`${t}\` failed!`);
+      const t = r.getInput("commandz"),
+        e = r.getInput("ref");
+      if ((console.log("ref", e), t))
+        return await (async (t, e) => {
+          (await Object(i.exec)(t, null, { ignoreReturnCode: !0 })) > 0 &&
+            r.setFailed(e);
+        })(t, `\`${t}\` failed!`);
     }).catch(r.debug);
   },
   function(t, e, n) {
@@ -1096,7 +1096,7 @@
     const i = n(5),
       o = n(16),
       s = n(6),
-      a = n(3),
+      a = n(4),
       c = n(17),
       l = n(7),
       u = "win32" === process.platform;
@@ -1490,7 +1490,7 @@
       };
     Object.defineProperty(e, "__esModule", { value: !0 });
     const i = n(6),
-      o = n(3),
+      o = n(4),
       s = n(18),
       a = n(7),
       c = s.promisify(i.exec);

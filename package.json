@@ -14,6 +14,7 @@
     "build:prod:renderer": "NODE_ENV=production npm run _webpack-build-renderer",
     "build": "run-s _rimraf-artifacts _build",
     "build-action": "NODE_ENV=production webpack --config webpack/webpack.action.config.js",
+    "generate-workflows": "node .github/generateWorkflows/generateWorkflows.js",
     "check:coverage": "npm run _test-with-coverage",
     "check:lint": "eslint '**/*.{ts,tsx,js}'",
     "check:npm-audit": "npm audit",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@actions/core": "^1.2.3",
     "@actions/exec": "^1.0.3",
+    "@actions/github": "^2.1.1",
     "@babel/core": "^7.8.3",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
@@ -87,6 +89,7 @@
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.1.0",
     "jest": "^25.1.0",
+    "js-yaml": "^3.13.1",
     "lint-staged": "^9.5.0",
     "memfs": "^3.0.5",
     "nock": "^11.8.2",

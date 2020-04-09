@@ -8,15 +8,13 @@ name: Master
       - master
 jobs:
   check:
+    if: false
     name: Check
     strategy:
       fail-fast: false
       matrix:
-        - 'npm run check:lint'
-        - 'npm run check:typescript'
-        - 'npm run check:coverage'
-        - 'npm run check:npm-audit'
-        - 'npm run check:depcheck'
+        command:
+          - 'npm run check:depcheck'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -25,16 +23,21 @@ jobs:
         uses: ./.github/action
         with:
           command: '${{ matrix.command }}'
-          ref: '${{ github.ref_type }}'
   build-packages:
     if: false
     name: Build packages
+    strategy:
+      fail-fast: false
+      matrix:
+        electronPlatform:
+          - darwin
     needs: check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Build for macOS
+      - name: Build packages
         uses: ./.github/action
         with:
           task: build-packages
+          electronPlatform: '${{ matrix.electronPlatform }}'

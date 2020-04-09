@@ -13,3 +13,5 @@ You can use https://github.com/nektos/act to run and develop the action locally.
 
 You'll have to download an 18GB Docker image as described in act's
 documentation.
+
+I'm sorry about how complicated this is.

@@ -1,3 +1,7 @@
+const { compact } = require("lodash");
+
+const isDevelop = process.env.NODE_ENV !== "production";
+
 module.exports = {
   name: "Master",
 
@@ -12,18 +16,25 @@ module.exports = {
 
   jobs: {
     check: {
+      if: false,
+
       name: "Check",
+
       strategy: {
         "fail-fast": false,
-        matrix: [
-          "npm run check:lint",
-          "npm run check:typescript",
-          "npm run check:coverage",
-          "npm run check:npm-audit",
-          "npm run check:depcheck",
-        ],
+        matrix: {
+          command: compact([
+            isDevelop ? null : "npm run check:lint",
+            isDevelop ? null : "npm run check:typescript",
+            isDevelop ? null : "npm run check:coverage",
+            isDevelop ? null : "npm run check:npm-audit",
+            "npm run check:depcheck",
+          ]),
+        },
       },
+
       "runs-on": "ubuntu-latest",
+
       steps: [
         {
           name: "Checkout repo",
@@ -40,20 +51,32 @@ module.exports = {
     },
 
     "build-packages": {
-      if: false,
+      if: !isDevelop,
+
       name: "Build packages",
+
+      strategy: {
+        "fail-fast": false,
+        matrix: {
+          os: ["macos-latest"],
+        },
+      },
+
       needs: "check",
-      "runs-on": "ubuntu-latest",
+
+      "runs-on": "${{ matrix.os }}",
+
       steps: [
         {
           name: "Checkout repo",
           uses: "actions/checkout@v2",
         },
         {
-          name: "Build for macOS",
+          name: "Build package on ${{ matrix.os }}",
           uses: "./.github/action",
           with: {
-            task: "build-packages",
+            task: "build-package",
+            os: "${{ matrix.os }}",
           },
         },
       ],

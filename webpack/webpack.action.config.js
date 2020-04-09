@@ -9,7 +9,7 @@ const root = resolve(__dirname, "..");
 module.exports = merge.smart(baseConfig, {
   mode: "production",
   target: "node",
-  entry: `${root}/.github/action/index.ts`,
-  output: { path: `${root}/.github/action`, filename: "index.js" },
+  entry: `${root}/.github/action/action.ts`,
+  output: { path: `${root}/.github/action`, filename: "action.js" },
   devtool: "none",
 });

@@ -1,5 +1,6 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 const merge = require("webpack-merge");
+const nodeExternals = require("webpack-node-externals");
 const { resolve } = require("path");
 
 const baseConfig = require("./webpack.base.config");
@@ -12,4 +13,5 @@ module.exports = merge.smart(baseConfig, {
   entry: `${root}/.github/action/action.ts`,
   output: { path: `${root}/.github/action`, filename: "action.js" },
   devtool: "none",
+  externals: [nodeExternals()],
 });

@@ -1,14 +1,9 @@
 import * as core from "@actions/core";
-import { exec } from "@actions/exec";
-import * as github from "@actions/github";
 import * as bluebird from "bluebird";
-
-import { execWithErrorMessage } from "./utils";
 import { buildPackage } from "./buildPackage";
+import { execWithErrorMessage } from "./utils";
 
 async function run() {
-  await execWithErrorMessage("npm ci", "`npm ci` failed");
-
   const command = core.getInput("command");
 
   if (command) {

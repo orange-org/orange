@@ -8,7 +8,6 @@ name: Master
       - master
 jobs:
   check:
-    if: false
     name: Check
     strategy:
       fail-fast: false
@@ -17,8 +16,12 @@ jobs:
           - 'npm run check:depcheck'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - &ref_0
+        name: Checkout repo
         uses: actions/checkout@v2
+      - &ref_1
+        name: npm install
+        run: npm ci
       - name: '${{ matrix.command }}'
         uses: ./.github/action
         with:
@@ -29,15 +32,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        electronPlatform:
-          - darwin
+        os:
+          - macos-latest
     needs: check
-    runs-on: ubuntu-latest
+    runs-on: '${{ matrix.os }}'
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Build packages
+      - *ref_0
+      - *ref_1
+      - name: 'Build package on ${{ matrix.os }}'
         uses: ./.github/action
         with:
-          task: build-packages
-          electronPlatform: '${{ matrix.electronPlatform }}'
+          task: build-package
+          os: '${{ matrix.os }}'

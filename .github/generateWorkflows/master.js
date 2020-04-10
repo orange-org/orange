@@ -2,6 +2,18 @@ const { compact } = require("lodash");
 
 const isDevelop = process.env.NODE_ENV !== "production";
 
+const steps = {
+  npmInstall: {
+    name: "npm install",
+    run: "npm ci",
+  },
+
+  checkout: {
+    name: "Checkout repo",
+    uses: "actions/checkout@v2",
+  },
+};
+
 module.exports = {
   name: "Master",
 
@@ -16,8 +28,6 @@ module.exports = {
 
   jobs: {
     check: {
-      if: false,
-
       name: "Check",
 
       strategy: {
@@ -36,10 +46,8 @@ module.exports = {
       "runs-on": "ubuntu-latest",
 
       steps: [
-        {
-          name: "Checkout repo",
-          uses: "actions/checkout@v2",
-        },
+        steps.checkout,
+        steps.npmInstall,
         {
           name: "${{ matrix.command }}",
           uses: "./.github/action",
@@ -67,10 +75,8 @@ module.exports = {
       "runs-on": "${{ matrix.os }}",
 
       steps: [
-        {
-          name: "Checkout repo",
-          uses: "actions/checkout@v2",
-        },
+        steps.checkout,
+        steps.npmInstall,
         {
           name: "Build package on ${{ matrix.os }}",
           uses: "./.github/action",

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import * as core from "@actions/core";
 import bluebird from "bluebird";
-import packager from "electron-packager";
+import * as packager from "electron-packager";
 import { getAppVersion } from "./getAppVersion";
 import { execWithErrorMessage } from "./utils";
 
@@ -50,7 +50,7 @@ export async function buildPackage() {
   //   archive.finalize();
   // });
 
-  console.log("Done!");
+  // console.log("Done!");
 }
 
-bluebird.try(buildPackage).catch(console.error);
+// bluebird.try(buildPackage).catch(console.error);

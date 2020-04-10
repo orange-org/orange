@@ -13,6 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         command:
+          - 'npm run check:lint'
+          - 'npm run check:typescript'
+          - 'npm run check:coverage'
+          - 'npm run check:npm-audit'
           - 'npm run check:depcheck'
     runs-on: ubuntu-latest
     steps:
@@ -27,7 +31,7 @@ jobs:
         with:
           command: '${{ matrix.command }}'
   build-packages:
-    if: false
+    if: true
     name: Build packages
     strategy:
       fail-fast: false

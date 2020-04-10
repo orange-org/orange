@@ -55,10 +55,10 @@ module.exports = {
     //   ],
     // },
 
-    build: {
+    "create-executable": {
       if: !isDevelop,
 
-      name: "Build",
+      name: "Create executable",
 
       strategy: {
         "fail-fast": false,
@@ -72,10 +72,10 @@ module.exports = {
       steps: [
         ...commonSteps,
         {
-          name: "Build ${{ matrix.os }}",
+          name: "Create executable ${{ matrix.os }}",
           uses: "./.github/action",
           with: {
-            task: "build",
+            task: "create-executable",
             os: "${{ matrix.os }}",
           },
         },

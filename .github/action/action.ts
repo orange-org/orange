@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as bluebird from "bluebird";
-import { build } from "./build";
+import { createExecutable } from "./createExecutable";
 import { execWithErrorMessage } from "./utils";
 
 async function run() {
@@ -10,8 +10,14 @@ async function run() {
     return await execWithErrorMessage(command, `\`${command}\` failed!`);
   }
 
-  if (core.getInput("task") === "build") {
-    return await build();
+  const task = core.getInput("task");
+
+  if (task === "create-executable") {
+    return await createExecutable();
+  }
+
+  if (task === "draft-release") {
+    return await draftRelease();
   }
 }
 

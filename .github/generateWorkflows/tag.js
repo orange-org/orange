@@ -11,10 +11,13 @@ module.exports = {
   jobs: {
     ...masterWorkflow.jobs,
 
-    "create-draft-release": {
+    "draft-release": {
       if: !isDevelop,
       name: "Create draft GitHub Release",
       needs: Object.keys(masterWorkflow.jobs),
+      with: {
+        task: "draft-release",
+      },
     },
   },
 };

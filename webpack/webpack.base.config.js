@@ -4,8 +4,6 @@ const { resolve } = require("path");
 const globalConstants = require("./globalConstants");
 const getIsDevelopment = require("./getIsDevelopment");
 
-const foo = "hi";
-
 const root = resolve(__dirname, "..");
 
 const isDevelopment = getIsDevelopment();

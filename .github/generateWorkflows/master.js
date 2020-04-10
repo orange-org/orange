@@ -27,36 +27,36 @@ module.exports = {
   },
 
   jobs: {
-    check: {
-      name: "Check",
+    // check: {
+    //   name: "Check",
 
-      strategy: {
-        "fail-fast": false,
-        matrix: {
-          command: compact([
-            isDevelop ? null : "npm run check:lint",
-            isDevelop ? null : "npm run check:typescript",
-            isDevelop ? null : "npm run check:coverage",
-            isDevelop ? null : "npm run check:npm-audit",
-            "npm run check:depcheck",
-          ]),
-        },
-      },
+    //   strategy: {
+    //     "fail-fast": false,
+    //     matrix: {
+    //       command: compact([
+    //         isDevelop ? null : "npm run check:lint",
+    //         isDevelop ? null : "npm run check:typescript",
+    //         isDevelop ? null : "npm run check:coverage",
+    //         isDevelop ? null : "npm run check:npm-audit",
+    //         "npm run check:depcheck",
+    //       ]),
+    //     },
+    //   },
 
-      "runs-on": "ubuntu-latest",
+    //   "runs-on": "ubuntu-latest",
 
-      steps: [
-        steps.checkout,
-        steps.npmInstall,
-        {
-          name: "${{ matrix.command }}",
-          uses: "./.github/action",
-          with: {
-            command: "${{ matrix.command }}",
-          },
-        },
-      ],
-    },
+    //   steps: [
+    //     steps.checkout,
+    //     steps.npmInstall,
+    //     {
+    //       name: "${{ matrix.command }}",
+    //       uses: "./.github/action",
+    //       with: {
+    //         command: "${{ matrix.command }}",
+    //       },
+    //     },
+    //   ],
+    // },
 
     "build-packages": {
       if: !isDevelop,
@@ -66,11 +66,9 @@ module.exports = {
       strategy: {
         "fail-fast": false,
         matrix: {
-          os: ["macos-latest"],
+          os: ["macos-latest", "ubuntu-latest", "windows-latest"],
         },
       },
-
-      needs: "check",
 
       "runs-on": "${{ matrix.os }}",
 

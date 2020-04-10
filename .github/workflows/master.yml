@@ -7,27 +7,6 @@ name: Master
     branches:
       - master
 jobs:
-  check:
-    name: Check
-    strategy:
-      fail-fast: false
-      matrix:
-        command:
-          - 'npm run check:lint'
-          - 'npm run check:typescript'
-          - 'npm run check:coverage'
-          - 'npm run check:npm-audit'
-          - 'npm run check:depcheck'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: npm install
-        run: npm ci
-      - name: '${{ matrix.command }}'
-        uses: ./.github/action
-        with:
-          command: '${{ matrix.command }}'
   build-packages:
     if: true
     name: Build packages
@@ -36,7 +15,8 @@ jobs:
       matrix:
         os:
           - macos-latest
-    needs: check
+          - ubuntu-latest
+          - windows-latest
     runs-on: '${{ matrix.os }}'
     steps:
       - name: Checkout repo

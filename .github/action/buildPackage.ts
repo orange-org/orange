@@ -4,12 +4,13 @@ import * as artifact from "@actions/artifact";
 import fs from "fs-extra";
 import * as packager from "electron-packager";
 import * as archiver from "archiver";
+import { basename } from "path";
 import { getAppVersion } from "./getAppVersion";
 import { execWithErrorMessage } from "./utils";
 
 const artifactClient = artifact.create();
-
 const appVersion = getAppVersion();
+const electronPackagerArtifactDir = "artifacts/electronPackager";
 
 const platformDefinitions = {
   "macos-latest": {
@@ -31,16 +32,16 @@ export async function buildPackage() {
   await execWithErrorMessage("npm run build", "`npm run build` failed");
 
   const os = core.getInput("os", { required: true });
-  const platformDefinition = platformDefinitions[os];
+  const { archiveName, electronPackagerPlatform } = platformDefinitions[os];
 
   console.log(`Creating Electron package on ${os}...`);
   await packager({
     arch: "x64",
     dir: "artifacts/webpack",
-    out: "artifacts/electronPackager",
+    out: electronPackagerArtifactDir,
     icon: "src/assets/orange",
     overwrite: true,
-    platform: platformDefinition.electronPackagerPlatform,
+    platform: electronPackagerPlatform,
     prune: false,
     appVersion: getAppVersion(),
   });
@@ -49,11 +50,11 @@ export async function buildPackage() {
   await new Promise(resolve_ => {
     const archive = archiver("zip", { zlib: { level: 9 } });
     const output = fs.createWriteStream(
-      `artifacts/electronPackager/${platformDefinition.archiveName}`,
+      `${electronPackagerArtifactDir}/${archiveName}`,
     );
     archive.pipe(output);
     archive.directory(
-      `artifacts/electronPackager/Orange-${platformDefinition.electronPackagerPlatform}-x64/`,
+      `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64/`,
       false,
     );
     output.on("close", resolve_);
@@ -64,10 +65,15 @@ export async function buildPackage() {
     archive.finalize();
   });
 
-  console.log(`Uploading artifact ${platformDefinition.archiveName}...`);
-  await artifactClient.uploadArtifact(
-    platformDefinition.archiveName,
-    [`artifacts/electronPackage/${platformDefinition.archiveName}`],
-    "artifacts/electronPackager",
-  );
+  console.log(`Uploading ${archiveName}...`);
+  try {
+    await artifactClient.uploadArtifact(
+      basename(archiveName),
+      [`${electronPackagerArtifactDir}/${archiveName}`],
+      electronPackagerArtifactDir,
+    );
+  } catch (e) {
+    console.error(e);
+    core.setFailed(`Could not upload ${archiveName}`);
+  }
 }

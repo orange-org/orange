@@ -1,12 +1,13 @@
 import * as core from "@actions/core";
 import * as artifact from "@actions/artifact";
 import { GitHub, context } from "@actions/github";
+import fs from "fs-extra";
 import { getAppVersion } from "./getAppVersion";
 import { isSemVer } from "./utils";
 
 export const draftRelease = async () => {
   try {
-    const github = new GitHub(process.env.GITHUB_TOKEN);
+    const github = new GitHub(core.getInput("githubToken"));
     const { owner, repo } = context.repo;
     const appVersion = getAppVersion();
 
@@ -15,7 +16,7 @@ export const draftRelease = async () => {
     //   return;
     // }
 
-    console.log("Creating GitHub release");
+    console.log("Creating GitHub release...");
     const createReleaseResponse = await github.repos.createRelease({
       owner,
       repo,
@@ -29,14 +30,24 @@ export const draftRelease = async () => {
     } = createReleaseResponse;
 
     const artifactClient = artifact.create();
+    console.log("Downloading build artifacts...");
     const downloadResponse = await artifactClient.downloadAllArtifacts();
 
-    console.log(downloadResponse);
-    // // output result
-    // for (let response in downloadResponse) {
-    //   console.log(response.artifactName);
-    //   console.log(response.downloadPath);
-    // }
+    for (let response of downloadResponse) {
+      const { downloadPath, artifactName } = response;
+      const artifactPath = `${downloadPath}/${artifactName}`;
+
+      console.log(`Uploading release asset ${artifactName}...`);
+      await github.repos.uploadReleaseAsset({
+        url: uploadUrl,
+        headers: {
+          "content-type": "application/zip",
+          "content-length": fs.statSync(artifactPath).size,
+        },
+        name: artifactName,
+        file: fs.readFileSync(artifactPath),
+      });
+    }
   } catch (error) {
     core.setFailed(error.message);
   }

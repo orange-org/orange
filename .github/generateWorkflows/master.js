@@ -64,6 +64,7 @@ module.exports = {
         "fail-fast": false,
         matrix: {
           os: ["macos-latest", "ubuntu-latest", "windows-latest"],
+          // os: ["windows-latest"],
         },
       },
 
@@ -98,6 +99,7 @@ module.exports = {
           uses: "./.github/action",
           with: {
             task: "draft-release",
+            githubToken: "${{ secrets.GITHUB_TOKEN }}",
           },
         },
       ],

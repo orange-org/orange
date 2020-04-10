@@ -22,4 +22,4 @@ const action = async () => {
   }
 };
 
-bluebird.try(action).catch(core.debug);
+bluebird.try(action).catch(error => core.setFailed(error.toString()));

@@ -12,7 +12,7 @@ async function run() {
 
   const task = core.getInput("task");
 
-  if (task === "build-packages") {
+  if (task === "build-package") {
     return await buildPackage();
   }
 }

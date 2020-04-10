@@ -1,4 +1,5 @@
 const masterWorkflow = require("./master");
+const { isDevelop } = require("./isDevelop");
 
 module.exports = {
   name: "Draft Release",
@@ -11,9 +12,9 @@ module.exports = {
     ...masterWorkflow.jobs,
 
     "create-draft-release": {
-      if: false,
+      if: !isDevelop,
       name: "Create draft GitHub Release",
-      needs: "build-packages",
+      needs: Object.keys(masterWorkflow.jobs),
     },
   },
 };

@@ -1,18 +1,16 @@
 const { compact } = require("lodash");
+const { isDevelop } = require("./isDevelop");
 
-const isDevelop = process.env.NODE_ENV !== "production";
-
-const steps = {
-  npmInstall: {
-    name: "npm install",
-    run: "npm ci",
-  },
-
-  checkout: {
+const commonSteps = [
+  {
     name: "Checkout repo",
     uses: "actions/checkout@v2",
   },
-};
+  {
+    name: "npm install",
+    run: "npm ci",
+  },
+];
 
 module.exports = {
   name: "Master",
@@ -46,8 +44,7 @@ module.exports = {
     //   "runs-on": "ubuntu-latest",
 
     //   steps: [
-    //     steps.checkout,
-    //     steps.npmInstall,
+    //     ...commonSteps,
     //     {
     //       name: "${{ matrix.command }}",
     //       uses: "./.github/action",
@@ -58,10 +55,10 @@ module.exports = {
     //   ],
     // },
 
-    "build-packages": {
+    build: {
       if: !isDevelop,
 
-      name: "Build packages",
+      name: "Build",
 
       strategy: {
         "fail-fast": false,
@@ -73,13 +70,12 @@ module.exports = {
       "runs-on": "${{ matrix.os }}",
 
       steps: [
-        steps.checkout,
-        steps.npmInstall,
+        ...commonSteps,
         {
-          name: "Build package on ${{ matrix.os }}",
+          name: "Build ${{ matrix.os }}",
           uses: "./.github/action",
           with: {
-            task: "build-package",
+            task: "build",
             os: "${{ matrix.os }}",
           },
         },

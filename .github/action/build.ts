@@ -27,7 +27,7 @@ const platformDefinitions = {
   },
 };
 
-export async function buildPackage() {
+export async function build() {
   console.log("Building source code...");
   await execWithErrorMessage("npm run build", "`npm run build` failed");
 

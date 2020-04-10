@@ -20,11 +20,9 @@ jobs:
           - 'npm run check:depcheck'
     runs-on: ubuntu-latest
     steps:
-      - &ref_0
-        name: Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v2
-      - &ref_1
-        name: npm install
+      - name: npm install
         run: npm ci
       - name: '${{ matrix.command }}'
         uses: ./.github/action
@@ -41,8 +39,10 @@ jobs:
     needs: check
     runs-on: '${{ matrix.os }}'
     steps:
-      - *ref_0
-      - *ref_1
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: npm install
+        run: npm ci
       - name: 'Build package on ${{ matrix.os }}'
         uses: ./.github/action
         with:

@@ -81,5 +81,26 @@ module.exports = {
         },
       ],
     },
+
+    "draft-release": {
+      if: !isDevelop,
+
+      name: "Draft release",
+
+      needs: "create-executable",
+
+      "runs-on": "ubuntu-latest",
+
+      steps: [
+        ...commonSteps,
+        {
+          name: "Draft release",
+          uses: "./.github/action",
+          with: {
+            task: "draft-release",
+          },
+        },
+      ],
+    },
   },
 };

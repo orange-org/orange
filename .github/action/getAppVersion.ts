@@ -8,5 +8,5 @@ export const getAppVersion = () => {
     return tag;
   }
 
-  return github.context.sha;
+  return github.context.sha.substr(0, 10);
 };

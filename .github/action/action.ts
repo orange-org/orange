@@ -2,8 +2,9 @@ import * as core from "@actions/core";
 import * as bluebird from "bluebird";
 import { createExecutable } from "./createExecutable";
 import { execWithErrorMessage } from "./utils";
+import { draftRelease } from "./draftRelease";
 
-async function run() {
+const action = async () => {
   const command = core.getInput("command");
 
   if (command) {
@@ -19,6 +20,6 @@ async function run() {
   if (task === "draft-release") {
     return await draftRelease();
   }
-}
+};
 
-bluebird.try(run).catch(core.debug);
+bluebird.try(action).catch(core.debug);

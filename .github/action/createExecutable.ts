@@ -12,7 +12,7 @@ const artifactClient = artifact.create();
 const appVersion = getAppVersion();
 const electronPackagerArtifactDir = "artifacts/electronPackager";
 
-const platformDefinitions = {
+export const platformDefinitions = {
   "macos-latest": {
     electronPackagerPlatform: "darwin",
     archiveName: `Orange-v${appVersion}-macOS.zip`,
@@ -27,7 +27,7 @@ const platformDefinitions = {
   },
 };
 
-export async function createExecutable() {
+export const createExecutable = async () => {
   console.log("Building source code...");
   await execWithErrorMessage("npm run build", "`npm run build` failed");
 
@@ -76,4 +76,4 @@ export async function createExecutable() {
     console.error(e);
     core.setFailed(`Could not upload ${archiveName}`);
   }
-}
+};

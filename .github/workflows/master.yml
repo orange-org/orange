@@ -7,9 +7,9 @@ name: Master
     branches:
       - master
 jobs:
-  build-packages:
+  create-executable:
     if: true
-    name: Build packages
+    name: Create executable
     strategy:
       fail-fast: false
       matrix:
@@ -23,8 +23,22 @@ jobs:
         uses: actions/checkout@v2
       - name: npm install
         run: npm ci
-      - name: 'Build package on ${{ matrix.os }}'
+      - name: 'Create executable ${{ matrix.os }}'
         uses: ./.github/action
         with:
-          task: build-package
+          task: create-executable
           os: '${{ matrix.os }}'
+  draft-release:
+    if: true
+    name: Draft release
+    needs: create-executable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: npm install
+        run: npm ci
+      - name: Draft release
+        uses: ./.github/action
+        with:
+          task: draft-release

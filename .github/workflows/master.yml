@@ -26,18 +26,3 @@ jobs:
         with:
           task: create-executable
           os: '${{ matrix.os }}'
-  draft-release:
-    if: true
-    name: Draft release
-    needs: create-executable
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: npm install
-        run: npm ci
-      - name: Draft release
-        uses: ./.github/action
-        with:
-          task: draft-release
-          githubToken: '${{ secrets.GITHUB_TOKEN }}'

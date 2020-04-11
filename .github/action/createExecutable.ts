@@ -8,23 +8,26 @@ import { basename } from "path";
 import * as electronInstaller from "electron-winstaller";
 import { getAppVersion } from "./getAppVersion";
 import { execWithErrorMessage } from "./utils";
+import pkgJson from "../../package.json";
 
 const artifactClient = artifact.create();
 const appVersion = getAppVersion();
 const electronPackagerArtifactDir = "artifacts/electronPackager";
 
+const { productName } = pkgJson;
+
 export const platformDefinitions = {
   "macos-latest": {
     electronPackagerPlatform: "darwin",
-    archiveName: `Orange-v${appVersion}-macOS.zip`,
+    archiveName: `${productName}-v${appVersion}-macOS.zip`,
   },
   "ubuntu-latest": {
     electronPackagerPlatform: "linux",
-    archiveName: `Orange-v${appVersion}-Linux.zip`,
+    archiveName: `${productName}-v${appVersion}-Linux.zip`,
   },
   "windows-latest": {
     electronPackagerPlatform: "win32",
-    archiveName: `Orange-v${appVersion}-Windows.exe`,
+    archiveName: `${productName}-v${appVersion}-Windows.exe`,
   },
 };
 
@@ -56,7 +59,7 @@ export const createExecutable = async () => {
       );
       archive.pipe(output);
       archive.directory(
-        `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64/`,
+        `${electronPackagerArtifactDir}/${productName}-${electronPackagerPlatform}-x64/`,
         false,
       );
       output.on("close", resolve_);
@@ -69,12 +72,14 @@ export const createExecutable = async () => {
   } else if (os === "windows-latest") {
     console.log(`Creating ${archiveName}...`);
     await electronInstaller.createWindowsInstaller({
-      appDirectory: `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64`,
+      appDirectory: `${electronPackagerArtifactDir}/${productName}-${electronPackagerPlatform}-x64`,
       outputDirectory: electronPackagerArtifactDir,
       authors: "https://github.com/orange-org",
-      exe: "Orange.exe",
+      exe: `${productName}.exe`,
       setupExe: archiveName,
       version: appVersion,
+      name: productName,
+      title: productName,
     });
   }
 

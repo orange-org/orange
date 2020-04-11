@@ -6,8 +6,14 @@ import { registerIpcListener } from "./registerIpcListener";
 import { processes } from "./processes";
 import { getStore } from "./getStore";
 import { parseCommandLineArgs } from "./parseCommandLineArgs";
+import { handleSquirrelEvents } from "./handleSquirrelEvents";
+import { productName } from "../../package.json";
 
 export const startMainProcess = () => {
+  if (handleSquirrelEvents(app)) {
+    return;
+  }
+
   app.enableSandbox();
 
   let mainWindow: BrowserWindow;
@@ -39,7 +45,7 @@ export const startMainProcess = () => {
       },
 
       center: true,
-      title: "Orange",
+      title: productName,
       minWidth: 800,
       minHeight: 600,
       width: 1000,

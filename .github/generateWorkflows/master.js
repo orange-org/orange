@@ -83,26 +83,26 @@ module.exports = {
       ],
     },
 
-    "draft-release": {
-      if: !isDevelop,
+    // "draft-release": {
+    //   if: !isDevelop,
 
-      name: "Draft release",
+    //   name: "Draft release",
 
-      needs: "create-executable",
+    //   needs: "create-executable",
 
-      "runs-on": "ubuntu-latest",
+    //   "runs-on": "ubuntu-latest",
 
-      steps: [
-        ...commonSteps,
-        {
-          name: "Draft release",
-          uses: "./.github/action",
-          with: {
-            task: "draft-release",
-            githubToken: "${{ secrets.GITHUB_TOKEN }}",
-          },
-        },
-      ],
-    },
+    //   steps: [
+    //     ...commonSteps,
+    //     {
+    //       name: "Draft release",
+    //       uses: "./.github/action",
+    //       with: {
+    //         task: "draft-release",
+    //         githubToken: "${{ secrets.GITHUB_TOKEN }}",
+    //       },
+    //     },
+    //   ],
+    // },
   },
 };

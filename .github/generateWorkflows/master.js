@@ -63,8 +63,8 @@ module.exports = {
       strategy: {
         "fail-fast": false,
         matrix: {
-          os: ["macos-latest", "ubuntu-latest", "windows-latest"],
-          // os: ["windows-latest"],
+          // os: ["macos-latest", "ubuntu-latest", "windows-latest"],
+          os: ["windows-latest"],
         },
       },
 

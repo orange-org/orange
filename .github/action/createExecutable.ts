@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import * as packager from "electron-packager";
 import * as archiver from "archiver";
 import { basename } from "path";
+import * as electronInstaller from "electron-winstaller";
 import { getAppVersion } from "./getAppVersion";
 import { execWithErrorMessage } from "./utils";
 
@@ -23,7 +24,7 @@ export const platformDefinitions = {
   },
   "windows-latest": {
     electronPackagerPlatform: "win32",
-    archiveName: `Orange-v${appVersion}-Windows.zip`,
+    archiveName: `Orange-v${appVersion}-Windows.exe`,
   },
 };
 
@@ -46,34 +47,41 @@ export const createExecutable = async () => {
     appVersion: getAppVersion(),
   });
 
-  console.log("Compressing Electron package...");
-  await new Promise(resolve_ => {
-    const archive = archiver("zip", { zlib: { level: 9 } });
-    const output = fs.createWriteStream(
-      `${electronPackagerArtifactDir}/${archiveName}`,
-    );
-    archive.pipe(output);
-    archive.directory(
-      `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64/`,
-      false,
-    );
-    output.on("close", resolve_);
-    archive.on("error", error => {
-      console.error(error);
-      core.setFailed(`Could not create a zip archive on ${os}`);
+  if (os === "macos-latest") {
+    console.log("Compressing Electron package...");
+    await new Promise(resolve_ => {
+      const archive = archiver("zip", { zlib: { level: 9 } });
+      const output = fs.createWriteStream(
+        `${electronPackagerArtifactDir}/${archiveName}`,
+      );
+      archive.pipe(output);
+      archive.directory(
+        `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64/`,
+        false,
+      );
+      output.on("close", resolve_);
+      archive.on("error", error => {
+        console.error(error);
+        core.setFailed(`Could not create a zip archive on ${os}`);
+      });
+      archive.finalize();
     });
-    archive.finalize();
-  });
+  } else if (os === "windows-latest") {
+    console.log(`Creating ${archiveName}...`);
+    await electronInstaller.createWindowsInstaller({
+      appDirectory: `${electronPackagerArtifactDir}/Orange-${electronPackagerPlatform}-x64`,
+      outputDirectory: electronPackagerArtifactDir,
+      authors: "https://github.com/orange-org",
+      exe: "Orange.exe",
+      setupExe: archiveName,
+      version: appVersion,
+    });
+  }
 
   console.log(`Uploading ${archiveName}...`);
-  try {
-    await artifactClient.uploadArtifact(
-      basename(archiveName),
-      [`${electronPackagerArtifactDir}/${archiveName}`],
-      electronPackagerArtifactDir,
-    );
-  } catch (e) {
-    console.error(e);
-    core.setFailed(`Could not upload ${archiveName}`);
-  }
+  await artifactClient.uploadArtifact(
+    basename(archiveName),
+    [`${electronPackagerArtifactDir}/${archiveName}`],
+    electronPackagerArtifactDir,
+  );
 };

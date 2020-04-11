@@ -80,6 +80,9 @@ export const createExecutable = async () => {
       version: appVersion,
       name: productName,
       title: productName,
+      iconUrl:
+        "https://raw.githubusercontent.com/msafi/orange/55d3cebd112e8e5ea0cf3a3ecf2bb6aa824ba3c4/src/assets/orange.ico",
+      setupIcon: "src/assets/orange.ico",
     });
   }
 

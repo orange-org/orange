@@ -77,7 +77,6 @@ module.exports = {
           uses: "./.github/action",
           with: {
             task: "create-executable",
-            os: "${{ matrix.os }}",
           },
         },
       ],

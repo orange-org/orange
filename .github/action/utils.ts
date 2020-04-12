@@ -1,13 +1,21 @@
 import * as github from "@actions/github";
 import * as core from "@actions/core";
 import { exec } from "@actions/exec";
+import shelljs from "shelljs";
+import { isOnGithubActions } from "./isOnGithubActions";
 
 export const execWithErrorMessage = async (
   command: string,
   message: string,
 ) => {
-  if ((await exec(command, null, { ignoreReturnCode: true })) > 0) {
-    core.setFailed(message);
+  if (isOnGithubActions) {
+    if ((await exec(command, null, { ignoreReturnCode: true })) > 0) {
+      core.setFailed(message);
+    }
+  } else {
+    if (shelljs.exec(command).code > 0) {
+      shelljs.exit(1);
+    }
   }
 };
 

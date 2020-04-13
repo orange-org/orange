@@ -22,7 +22,7 @@
     "check:depcheck": "depcheck",
     "check": "run-p --aggregate-output -cln check:*",
     "create-executable": "cross-env FILENAME=createExecutable run-s build-action _create-executable",
-    "develop:main": "run-s _webpack-build-main _electron",
+    "develop:main": "cross-env NODE_ENV=development run-s _webpack-build-main _electron",
     "develop:renderer": "cross-env NODE_ENV=development run-p -ln _webpack-server '_typescript -- -w'",
     "trigger-release": "node scripts/triggerRelease.js",
     "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",

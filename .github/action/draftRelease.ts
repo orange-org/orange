@@ -4,6 +4,7 @@ import { GitHub, context } from "@actions/github";
 import fs from "fs-extra";
 import { getAppVersion } from "./getAppVersion";
 import { isSemVer } from "./utils";
+import { productName } from "../../package.json";
 
 export const draftRelease = async () => {
   try {
@@ -11,17 +12,17 @@ export const draftRelease = async () => {
     const { owner, repo } = context.repo;
     const appVersion = getAppVersion();
 
-    // if (!isSemVer(appVersion)) {
-    //   core.setFailed(`Version ${appVersion} is not a valid semantic version.`);
-    //   return;
-    // }
+    if (!isSemVer(appVersion)) {
+      core.setFailed(`Version ${appVersion} is not a valid semantic version.`);
+      return;
+    }
 
     console.log("Creating GitHub release...");
     const createReleaseResponse = await github.repos.createRelease({
       owner,
       repo,
       tag_name: appVersion,
-      name: `Orange v${appVersion}`,
+      name: `${productName} v${appVersion}`,
       draft: true,
     });
 

@@ -1,11 +1,8 @@
-name: Master
+name: Draft Release
 'on':
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  create:
+    tags:
+      - '*'
 jobs:
   check:
     name: Check
@@ -46,3 +43,18 @@ jobs:
         uses: ./.github/action
         with:
           task: create-executable
+  draft-release:
+    if: true
+    name: Draft release
+    needs: create-executable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: npm install
+        run: npm ci
+      - name: Draft release
+        uses: ./.github/action
+        with:
+          task: draft-release
+          githubToken: '${{ secrets.GITHUB_TOKEN }}'

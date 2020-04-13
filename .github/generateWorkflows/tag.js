@@ -1,11 +1,12 @@
 const masterWorkflow = require("./master");
 const { isDevelop } = require("./isDevelop");
+const { commonSteps } = require("./commonSteps");
 
 module.exports = {
   name: "Draft Release",
 
   on: {
-    push: "tags",
+    create: { tags: ["*"] },
   },
 
   jobs: {
@@ -13,11 +14,24 @@ module.exports = {
 
     "draft-release": {
       if: !isDevelop,
-      name: "Create draft GitHub Release",
-      needs: Object.keys(masterWorkflow.jobs),
-      with: {
-        task: "draft-release",
-      },
+
+      name: "Draft release",
+
+      needs: "create-executable",
+
+      "runs-on": "ubuntu-latest",
+
+      steps: [
+        ...commonSteps,
+        {
+          name: "Draft release",
+          uses: "./.github/action",
+          with: {
+            task: "draft-release",
+            githubToken: "${{ secrets.GITHUB_TOKEN }}",
+          },
+        },
+      ],
     },
   },
 };

@@ -46,5 +46,5 @@ export const isWhitelistedUrl = (url: string) => {
   }
 
   // Block all else
-  return true;
+  return false;
 };

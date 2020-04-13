@@ -10,10 +10,6 @@ import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { productName } from "../../package.json";
 
 export const startMainProcess = () => {
-  if (handleSquirrelEvents(app)) {
-    return;
-  }
-
   app.enableSandbox();
 
   let mainWindow: BrowserWindow;
@@ -22,6 +18,10 @@ export const startMainProcess = () => {
   store.args = parseCommandLineArgs();
 
   function createWindow() {
+    if (handleSquirrelEvents(app)) {
+      return;
+    }
+
     /* istanbul ignore if */
     if (getIsDevelopment()) {
       // eslint-disable-next-line global-require

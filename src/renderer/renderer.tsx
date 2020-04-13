@@ -18,10 +18,10 @@ const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
     type: "show-error",
     message:
       "reason" in event
-        ? `Unhandled rejection: ${event.reason}`
+        ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
         : [
             `Message: ${event.message}`,
-            `Error object: ${JSON.stringify(event.error)}`,
+            `Error object: ${JSON.stringify(event.error, null, 2)}`,
           ].join("\n"),
   });
 };

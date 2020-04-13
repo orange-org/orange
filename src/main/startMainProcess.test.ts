@@ -5,9 +5,11 @@ import {
   BrowserWindow,
   resetStateOfElectronMock,
   WebContents,
+  dialog,
 } from "__mocks__/electron";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
+import waitForExpect from "wait-for-expect";
 import { startMainProcess } from "./startMainProcess";
 import { startPreloadProcess } from "./startPreloadProcess";
 
@@ -39,15 +41,18 @@ const initializeMainProcess = () => {
   return mainWindow;
 };
 
+let cleanPreloadProcess: () => any;
+
 describe("main", () => {
   beforeEach(() => {
     startMainProcess();
-    startPreloadProcess();
+    cleanPreloadProcess = startPreloadProcess();
   });
 
   afterEach(() => {
     nock.cleanAll();
     resetStateOfElectronMock();
+    cleanPreloadProcess();
   });
 
   describe("general integration", () => {
@@ -86,6 +91,30 @@ describe("main", () => {
         }
       };
       window.addEventListener("message", eventListener);
+    });
+
+    test('"show-error" IPC event', () => {
+      initializeMainProcess();
+
+      window.postMessage(
+        {
+          nonce: __NONCE__,
+          type: "show-error",
+          source: "@orange/renderer",
+          message: "stuff",
+        },
+        "*",
+      );
+
+      return waitForExpect(() => {
+        expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(1);
+        expect(dialog.showMessageBoxSync).toHaveBeenCalledWith({
+          message:
+            "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nstuff",
+          title: "An error occurred",
+          type: "warning",
+        });
+      });
     });
 
     test("wiring of mainWindow.webContents.session.webRequest.onBeforeRequest", () => {

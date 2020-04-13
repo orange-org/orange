@@ -18,6 +18,7 @@ export const startMainProcess = () => {
   store.args = parseCommandLineArgs();
 
   function createWindow() {
+    /* istanbul ignore if: this is both hard to test and non-critical. */
     if (handleSquirrelEvents(app)) {
       return;
     }

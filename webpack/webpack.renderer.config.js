@@ -1,15 +1,12 @@
-const { DefinePlugin, NamedModulesPlugin, IgnorePlugin } = require("webpack");
+const { NamedModulesPlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
 
-const { baseConfig, getBabelRule } = require("./webpack.base.config");
-const getIsDevelopment = require("./getIsDevelopment");
+const baseConfig = require("./webpack.base.config");
 const getContentSecurityPolicy = require("./getContentSecurityPolicy");
 
 const root = resolve(__dirname, "..");
-
-const isDevelopment = getIsDevelopment();
 
 module.exports = merge.smart(baseConfig, {
   performance: {

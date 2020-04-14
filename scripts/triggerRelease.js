@@ -27,5 +27,5 @@ if (shelljs.exec(`git push ${repoUrl} ${version}`).code !== 0) {
 
 shelljs.echo(
   `\n\n"${version}" has been successfully pushed to ${repoUrl}.\n` +
-    "This should trigger a Travis CI draft release https://travis-ci.org/github/orange-org/orange",
+    "This should trigger a GitHub Actions draft release https://github.com/orange-org/orange/actions",
 );

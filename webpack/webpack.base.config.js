@@ -8,7 +8,7 @@ const root = resolve(__dirname, "..");
 
 const isDevelopment = getIsDevelopment();
 
-exports.baseConfig = {
+module.exports = {
   mode: isDevelopment ? "development" : "production",
   node: {
     __dirname: false,

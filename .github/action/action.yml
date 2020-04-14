@@ -1,0 +1,6 @@
+name: "Main"
+description: "This action contains the code for the CI/CD"
+author: "Orange"
+runs:
+  using: "node12"
+  main: "action.js"

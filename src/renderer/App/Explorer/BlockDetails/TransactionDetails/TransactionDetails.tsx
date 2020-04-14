@@ -94,13 +94,7 @@ export const TransactionDetails: React.FC<{
     inputCell?: boolean;
     value: number;
     details: RawTransaction["vin"][number] | RawTransaction["vout"][number];
-  }> = ({
-    children: cellChildren,
-    inputCell,
-    value,
-    details,
-    ...cellProps
-  }) => (
+  }> = ({ children: cellChildren, inputCell, value, ...cellProps }) => (
     <div
       {...cellProps}
       className={clsx(

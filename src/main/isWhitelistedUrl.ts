@@ -1,6 +1,7 @@
-import { dirname } from "path";
+import { dirname, normalize } from "path";
 import { getIsDevelopment } from "./getIsDevelopment";
 import { getAppRoot } from "./getAppRoot";
+import { getGlobalProcess } from "./getGlobalProcess";
 
 export const isWhitelistedUrl = (url: string) => {
   const { protocol, hostname, pathname } = new URL(url);
@@ -29,8 +30,20 @@ export const isWhitelistedUrl = (url: string) => {
 
   // In either development or production, allow loading any file
   // located in the app root directory
-  if (protocol === "file:" && pathname.match(new RegExp(`^${getAppRoot()}`))) {
-    return true;
+  if (protocol === "file:") {
+    const normalizedPathname = normalize(pathname);
+    const platformSpecificAppRoot =
+      getGlobalProcess().platform === "win32"
+        ? /* istanbul ignore next */ `\\${getAppRoot()}`
+        : getAppRoot();
+
+    /* istanbul ignore else */
+    if (
+      normalizedPathname.substr(0, platformSpecificAppRoot.length) ===
+      platformSpecificAppRoot
+    ) {
+      return true;
+    }
   }
 
   // Block all else

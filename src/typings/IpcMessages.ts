@@ -8,29 +8,22 @@ type Message<S, T, M> = {
   message: M;
 };
 
-type MessageNoPayload<S, T> = {
-  nonce: NONCE;
-  source: S;
-  type: T;
-  message?: null;
-};
+// type MessageNoPayload<S, T> = {
+//   nonce: NONCE;
+//   source: S;
+//   type: T;
+//   message?: null;
+// };
 
 type MtR = "@orange/main";
 type MtM = "@orange/renderer";
 
-export type BitcoindLogLinesMtR = Message<MtR, "bitcoind-log-lines", string[]>;
-
-export type RpcServerIsDownMtR = MessageNoPayload<MtR, "rpc-server-is-down">;
-
 export type RpcResponseMtR = Message<MtR, "rpc-response", RpcResponse>;
 
-export type MessageToRenderer =
-  | BitcoindLogLinesMtR
-  | RpcResponseMtR
-  | RpcServerIsDownMtR;
-
-export type OpenDebugFileMtM = MessageNoPayload<MtM, "open-debug-file">;
+export type MessageToRenderer = RpcResponseMtR;
 
 export type RpcRequestMtM = Message<MtM, "rpc-request", RpcRequest>;
 
-export type MessageToMain = OpenDebugFileMtM | RpcRequestMtM;
+export type showErrorMtM = Message<MtM, "show-error", string>;
+
+export type MessageToMain = RpcRequestMtM | showErrorMtM;

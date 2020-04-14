@@ -6,6 +6,8 @@ import { registerIpcListener } from "./registerIpcListener";
 import { processes } from "./processes";
 import { getStore } from "./getStore";
 import { parseCommandLineArgs } from "./parseCommandLineArgs";
+import { handleSquirrelEvents } from "./handleSquirrelEvents";
+import { productName } from "../../package.json";
 
 export const startMainProcess = () => {
   app.enableSandbox();
@@ -16,6 +18,11 @@ export const startMainProcess = () => {
   store.args = parseCommandLineArgs();
 
   function createWindow() {
+    /* istanbul ignore if: this is both hard to test and non-critical. */
+    if (handleSquirrelEvents(app)) {
+      return;
+    }
+
     /* istanbul ignore if */
     if (getIsDevelopment()) {
       // eslint-disable-next-line global-require
@@ -39,7 +46,7 @@ export const startMainProcess = () => {
       },
 
       center: true,
-      title: "Orange",
+      title: productName,
       minWidth: 800,
       minHeight: 600,
       width: 1000,

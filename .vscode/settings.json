@@ -3,7 +3,7 @@
     "artifacts": true,
     "coverage": true
   },
-  "cSpell.words": ["Mempool", "SCROLLABLE", "bitcoind", "clsx", "testid"],
+  "cSpell.words": ["Executables", "Mempool", "SCROLLABLE", "bitcoind", "clsx", "testid"],
   "editor.formatOnSave": true,
   "editor.rulers": [80],
   "rewrap.wrappingColumn": 80,

@@ -1,7 +1,7 @@
 import { MessageToRenderer } from "_t/IpcMessages";
 import { BrowserWindow } from "electron";
 
-export function sendMessageToRenderer(
+export function callRenderer(
   payload: Omit<MessageToRenderer, "source">,
   mainWindow: BrowserWindow,
 ) {

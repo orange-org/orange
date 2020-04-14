@@ -10,7 +10,7 @@ import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import "typeface-roboto";
 import { getApp } from "_r/App/App";
-import { callMain } from "./callMain";
+import { callMain } from "./ipc/callMain";
 
 const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
   callMain({

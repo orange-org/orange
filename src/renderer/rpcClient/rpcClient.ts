@@ -1,4 +1,4 @@
-import { callMain } from "_r/callMain";
+import { callMain } from "_r/ipc/callMain";
 import { generateUuid } from "_r/utils/smallUtils";
 import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponse } from "_t/bitcoindRpcResponses";

@@ -21,7 +21,7 @@ some assurance that the code is in a good state.
 ## The Draft Release workflow
 
 The Draft Release workflow is defined at
-[`.github/generateWorkflows/draftRelease.js`](../generateWorkflows/draftRlease.js).
+[`.github/generateWorkflows/draftRelease.js`](../generateWorkflows/draftRelease.js).
 It runs for newly created tags. It's mainly responsible for creating a draft
 release on GitHub.
 

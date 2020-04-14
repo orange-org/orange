@@ -12,9 +12,8 @@ We have two workflows: "Master" and "Draft Release".
 ## The Master workflow
 
 The Master workflow is defined at
-['.github/generateWorkflows/master.js'](.github/generateWorkflows/master.js). It
-runs for merges to the `master` branch and pull requests against the `master`
-branch.
+[`.github/generateWorkflows/master.js`](../generateWorkflows/master.js). It runs
+for merges to the `master` branch and pull requests against the `master` branch.
 
 The Master workflow runs checks and builds the executables. Its success gives us
 some assurance that the code is in a good state.
@@ -22,7 +21,7 @@ some assurance that the code is in a good state.
 ## The Draft Release workflow
 
 The Draft Release workflow is defined at
-['.github/generateWorkflows/draftRelease.js'](.github/generateWorkflows/draftRlease.js).
+[`.github/generateWorkflows/draftRelease.js`](../generateWorkflows/draftRelease.js).
 It runs for newly created tags. It's mainly responsible for creating a draft
 release on GitHub.
 
@@ -52,26 +51,26 @@ But we define them in JavaScript because this gives us more modularity and
 flexibility.
 
 So to modify the workflows, edit the JS files at
-['.github/generateWorkflows'](.github/generateWorkflows) and when you're done
-run the following npm script.
+[`.github/generateWorkflows`](../generateWorkflows) and when you're done run the
+following npm script.
 
 ```bash
 NODE_ENV=production npm run generate-workflows
 ```
 
 This script will execute the file
-['.github/generateWorkflows/generateWorkflows.js'](.github/generateWorkflows/generateWorkflows.js)
-which will generate the Yaml files at ['.github/workflows'](.github/workflows).
+[`.github/generateWorkflows/generateWorkflows.js`](../generateWorkflows/generateWorkflows.js)
+which will generate the Yaml files at [`.github/workflows`](../workflows).
 
 ## Modifying and developing `.github/action`
 
 A GitHub Action needs to be in plain JavaScript, not TypeScript. However,
 Orange's action is developed in TypeScript and it is then compiled with webpack
 into a single plain JavaScript bundle at
-['.github/action/action.js'](.github/action/action.js).
+[`.github/action/action.js`](../action/action.js).
 
-If you modify any of the code at ['.github/action'](.github/action), you will
-need to recompile the bundle and commit the resulting changes.
+If you modify any of the code at [`.github/action`](../action), you will need to
+recompile the bundle and commit the resulting changes.
 
 To compile the bundle, run
 
@@ -89,10 +88,9 @@ npm run create-executable
 ```
 
 This command will run the script
-['.github/action/createExecutable.ts'](.github/action/createExecutable.ts),
-which will generate an executable targeted to your operating system. You will
-find the executable at
-['artifacts/electronPackager'](artifacts/electronPackager).
+[`.github/action/createExecutable.ts`](../action/createExecutable.ts), which
+will generate an executable targeted to your operating system. You will find the
+executable at `artifacts/electronPackager`.
 
 `createExecutable.ts` can run on a local development environment in addition to
 running on a GitHub Action machine.

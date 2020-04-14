@@ -15,6 +15,7 @@ jobs:
         command:
           - 'npm run check:lint'
           - 'npm run check:typescript'
+          - 'npm run check:coverage'
           - 'npm run check:npm-audit'
           - 'npm run check:depcheck'
     runs-on: ubuntu-latest

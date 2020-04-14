@@ -24,7 +24,7 @@ module.exports = {
           command: compact([
             isDevelop ? null : "npm run check:lint",
             isDevelop ? null : "npm run check:typescript",
-            // isDevelop ? null : "npm run check:coverage",
+            isDevelop ? null : "npm run check:coverage",
             isDevelop ? null : "npm run check:npm-audit",
             "npm run check:depcheck",
           ]),

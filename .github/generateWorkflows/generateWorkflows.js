@@ -4,7 +4,7 @@ const { resolve } = require("path");
 
 const workflowsDir = resolve(__dirname, "..", "workflows");
 
-["master", "tag"].forEach(workflow => {
+["master", "draftRelease"].forEach(workflow => {
   // ["master"].forEach(workflow => {
   fs.writeFileSync(
     resolve(workflowsDir, `${workflow}.yml`),

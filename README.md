@@ -1,4 +1,4 @@
-# Orange [![Build Status](https://travis-ci.org/orange-org/orange.svg?branch=master)](https://travis-ci.org/orange-org/orange)
+# Orange
 
 Orange is a Bitcoin blockchain explorer for Bitcoin Core. It's built with
 Electron, TypeScript and React.

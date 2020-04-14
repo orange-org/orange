@@ -34,9 +34,10 @@ export const isWhitelistedUrl = (url: string) => {
     const normalizedPathname = normalize(pathname);
     const platformSpecificAppRoot =
       getGlobalProcess().platform === "win32"
-        ? `\\${getAppRoot()}`
+        ? /* istanbul ignore next */ `\\${getAppRoot()}`
         : getAppRoot();
 
+    /* istanbul ignore else */
     if (
       normalizedPathname.substr(0, platformSpecificAppRoot.length) ===
       platformSpecificAppRoot

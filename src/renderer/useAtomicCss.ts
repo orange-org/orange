@@ -56,6 +56,7 @@ const useAtomicStyles = makeStyles(
       colorDivider: c("color", theme.palette.divider),
       colorHint: c("color", theme.palette.text.hint),
       colorPrimary: c("color", theme.palette.text.primary),
+      "colorPrimaryFade50%": c("color", fade(theme.palette.text.primary, 0.5)),
 
       displayFlex: c("display", "flex"),
       displayGrid: c("display", "grid"),
@@ -76,6 +77,7 @@ const useAtomicStyles = makeStyles(
 
       fontFamilyMonospace: c("fontFamily", "monospace"),
 
+      "fontSize0.8Rem": c("fontSize", "0.8rem"),
       "fontSize130%": c("fontSize", "130%"),
 
       fontStyleItalic: c("fontStyle", "italic"),
@@ -196,11 +198,11 @@ const useAtomicStyles = makeStyles(
   { index: 1 },
 );
 
+type AtomicCssKeys = keyof ReturnType<typeof useAtomicStyles>;
+export type AtomicCssKeysArray = (AtomicCssKeys | AtomicCssKeys[] | null)[];
+
 export const useAtomicCss = () => {
   const atomicStyles = useAtomicStyles();
-
-  type AtomicCssKeys = keyof ReturnType<typeof useAtomicStyles>;
-  type AtomicCssKeysArray = (AtomicCssKeys | AtomicCssKeys[] | null)[];
 
   return (...classNames: AtomicCssKeysArray) =>
     clsx(

@@ -2,6 +2,7 @@ import { map } from "bluebird";
 import { Dispatch } from "redux";
 import { rpcService } from "_r/rpcClient/rpcService";
 import { GetState } from "_t/typeHelpers";
+import { ErrorCode } from "_c/constants";
 import * as actions from "./actions";
 import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
 
@@ -67,3 +68,10 @@ export const requestRawTransactionToDisplay = (
 
   return transaction;
 };
+
+// export const askUserToFixConnectionError = (errorCode: ErrorCode) => async (
+//   dispatch: Dispatch,
+// ) => {
+//   dispatch(setCurrentConnectionError(errorCode));
+//   dispatch(push("/fix-connection-error"));
+// };

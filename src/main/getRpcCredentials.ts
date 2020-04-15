@@ -6,6 +6,8 @@
 import { promises as fs } from "fs";
 import { getGlobalProcess } from "_m/getGlobalProcess";
 import { getStore } from "_m/getStore";
+import { ERROR_CODES } from "_c/constants";
+import { UiHandledError } from "_c/UiHandledError";
 
 const readCookieCredentials = async () => {
   /**
@@ -38,9 +40,18 @@ const readCookieCredentials = async () => {
    * Now that we have the `dataDir`, we need to find `bitcoin.conf` and
    * determine which network is being used, main, testnet, or regtest.
    */
-  const bitcoinConf = await fs.readFile(`${dataDirRoot}/bitcoin.conf`, {
-    encoding: "utf8",
-  });
+  let bitcoinConf: string;
+  try {
+    bitcoinConf = await fs.readFile(`${dataDirRoot}/bitcoin.conf`, {
+      encoding: "utf8",
+    });
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new UiHandledError(__NONCE__, ERROR_CODES.couldNotFindBitcoinConf);
+    }
+
+    throw error;
+  }
 
   /**
    * Parse `bitcoin.conf`. Use code copied from here:
@@ -84,9 +95,19 @@ const readCookieCredentials = async () => {
     port = 8332;
   }
 
-  const cookie = await fs.readFile(`${dataDir}.cookie`, {
-    encoding: "utf8",
-  });
+  let cookie: string;
+  try {
+    cookie = await fs.readFile(`${dataDir}.cookie`, {
+      encoding: "utf8",
+    });
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new UiHandledError(__NONCE__, ERROR_CODES.couldNotFindCookieFile);
+    }
+
+    throw error;
+  }
+
   const [username, password] = cookie.split(":");
 
   return { username, password, port };

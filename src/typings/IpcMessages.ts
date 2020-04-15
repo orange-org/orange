@@ -1,3 +1,4 @@
+import { ErrorCode } from "_c/constants";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
 
@@ -19,8 +20,9 @@ type MtR = "@orange/main";
 type MtM = "@orange/renderer";
 
 export type RpcResponseMtR = Message<MtR, "rpc-response", RpcResponse>;
+export type ErrorMtR = Message<MtR, "error", ErrorCode>;
 
-export type MessageToRenderer = RpcResponseMtR;
+export type MessageToRenderer = RpcResponseMtR | ErrorMtR;
 
 export type RpcRequestMtM = Message<MtM, "rpc-request", RpcRequest>;
 

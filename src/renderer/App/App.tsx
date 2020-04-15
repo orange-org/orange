@@ -5,20 +5,22 @@ import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
-import { createStore } from "_r/redux/reducers/store";
+import { store as store_ } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 
 export const getApp = (
   /* istanbul ignore next */
-  store: ReturnType<typeof createStore> = createStore(),
+  store = store_,
 ) => () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
+
+        {/* <RpcConnectionManager /> */}
 
         <Router>
           <Switch>

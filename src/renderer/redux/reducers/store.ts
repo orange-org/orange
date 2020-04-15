@@ -31,3 +31,5 @@ const reducer = combineReducers({
 
 export const createStore = () =>
   createStore_(reducer, composeEnhancers(applyMiddleware(thunk)));
+
+export const store = createStore();

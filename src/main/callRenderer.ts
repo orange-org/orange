@@ -1,10 +1,7 @@
 import { MessageToRenderer } from "_t/IpcMessages";
-import { BrowserWindow } from "electron";
+import { mainWindow } from "./mainWindow";
 
-export function callRenderer(
-  payload: Omit<MessageToRenderer, "source">,
-  mainWindow: BrowserWindow,
-) {
+export function callRenderer(payload: Omit<MessageToRenderer, "source">) {
   /* istanbul ignore else */
   if (!mainWindow.isDestroyed()) {
     mainWindow.webContents.send("message-to-renderer", {

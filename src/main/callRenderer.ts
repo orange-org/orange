@@ -1,7 +1,9 @@
 import { MessageToRenderer } from "_t/IpcMessages";
-import { mainWindow } from "./mainWindow";
+import { getMainWindow } from "./getMainWindow";
 
-export function callRenderer(payload: Omit<MessageToRenderer, "source">) {
+export const callRenderer = (payload: Omit<MessageToRenderer, "source">) => {
+  const mainWindow = getMainWindow();
+
   /* istanbul ignore else */
   if (!mainWindow.isDestroyed()) {
     mainWindow.webContents.send("message-to-renderer", {
@@ -9,4 +11,4 @@ export function callRenderer(payload: Omit<MessageToRenderer, "source">) {
       ...payload,
     });
   }
-}
+};

@@ -4,18 +4,23 @@ import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceR
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
 import { getStore } from "./getStore";
 import { handleSquirrelEvents } from "./handleSquirrelEvents";
-import { mainWindow } from "./mainWindow";
+import { getMainWindow } from "./getMainWindow";
 import { parseCommandLineArgs } from "./parseCommandLineArgs";
 import { processes } from "./processes";
 import { registerIpcListener } from "./registerIpcListener";
+import { registerErrorHandling } from "./registerErrorHandling";
 
 export const startMainProcess = () => {
+  registerErrorHandling();
+
   app.enableSandbox();
 
   const store = getStore();
   store.args = parseCommandLineArgs();
 
   function createWindow() {
+    const mainWindow = getMainWindow();
+
     /* istanbul ignore if: this is both hard to test and non-critical. */
     if (handleSquirrelEvents(app)) {
       return;

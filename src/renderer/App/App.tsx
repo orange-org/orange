@@ -9,6 +9,7 @@ import { store as store_ } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
+import { Settings } from "./Settings/Settings";
 
 export const getApp = (
   /* istanbul ignore next */
@@ -20,17 +21,20 @@ export const getApp = (
         <CssBaseline />
         <GlobalCss />
 
-        {/* <RpcConnectionManager /> */}
-
         <Router>
+          <AppBar />
+
           <Switch>
             <Route exact path="/">
               <RedirectToHighestBlock />
             </Route>
 
             <Route path="/explorer/:blockHeightAsId">
-              <AppBar />
               <Explorer />
+            </Route>
+
+            <Route path="/settings/bitcoin-core-connection">
+              <Settings />
             </Route>
           </Switch>
         </Router>

@@ -36,6 +36,7 @@ const useAtomicStyles = makeStyles(
         "borderColor",
         fade(theme.palette.divider, 0.06),
       ),
+      borderColorSecondaryMain: c("borderColor", theme.palette.secondary.main),
 
       borderLeftStyleSolid: c("borderLeftStyle", "solid"),
 
@@ -44,6 +45,8 @@ const useAtomicStyles = makeStyles(
       borderRightStyleSolid: c("borderRightStyle", "solid"),
 
       borderStyleSolid: c("borderStyle", "solid"),
+
+      borderTopStyleSolid: c("borderTopStyle", "solid"),
 
       borderWidth1: c("borderWidth", 1),
       borderWidth2: c("borderWidth", 2),
@@ -67,6 +70,7 @@ const useAtomicStyles = makeStyles(
       flex1: c("flex", 1),
       flexDirectionColumn: c("flexDirection", "column"),
       flexDirectionRowReverse: c("flexDirection", "row-reverse"),
+      flexGrow1: c("flexGrow", 1),
       flexShrink0: c("flexShrink", 0),
       flexWrapWrap: c("flexWrap", "wrap"),
 
@@ -101,7 +105,11 @@ const useAtomicStyles = makeStyles(
       marginLeft04: c("marginLeft", theme.spacing(4)),
       marginLeft10: c("marginLeft", theme.spacing(10)),
 
+      marginLeftAuto: c("marginLeft", "auto"),
+
       marginRight02: c("marginRight", theme.spacing(2)),
+
+      marginRightAuto: c("marginRight", "auto"),
 
       marginTop01: c("marginTop", theme.spacing(1)),
       marginTop02: c("marginTop", theme.spacing(2)),
@@ -124,6 +132,8 @@ const useAtomicStyles = makeStyles(
         marginBottom: theme.spacing(10),
         marginTop: theme.spacing(10),
       },
+
+      maxWidth800: c("maxWidth", 800),
 
       "minWidth100%": c("minWidth", "100%"),
       minWidthUnset: c("minWidth", "unset"),
@@ -163,7 +173,7 @@ const useAtomicStyles = makeStyles(
 
       topLevelComponent: {
         height: "100%",
-        padding: "64px 0 0 0", // compensate for AppBar
+        marginTop: "64px", // compensate for AppBar
       },
 
       whiteSpaceNoWrap: c("whiteSpace", "nowrap"),

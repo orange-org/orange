@@ -12,22 +12,24 @@ import "typeface-roboto";
 import { getApp } from "_r/App/App";
 import { callMain } from "./ipc/callMain";
 
-const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
-  callMain({
-    nonce: __NONCE__,
-    type: "show-error",
-    message:
-      "reason" in event
-        ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
-        : [
-            `Message: ${event.message}`,
-            `Error object: ${JSON.stringify(event.error, null, 2)}`,
-          ].join("\n"),
-  });
-};
+if (process.env.NODE_ENV === "production") {
+  const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
+    callMain({
+      nonce: __NONCE__,
+      type: "show-error",
+      message:
+        "reason" in event
+          ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
+          : [
+              `Message: ${event.message}`,
+              `Error object: ${JSON.stringify(event.error, null, 2)}`,
+            ].join("\n"),
+    });
+  };
 
-window.addEventListener("unhandledrejection", handleError);
-window.addEventListener("error", handleError);
+  window.addEventListener("unhandledrejection", handleError);
+  window.addEventListener("error", handleError);
+}
 
 export const HotApp = hot(getApp());
 

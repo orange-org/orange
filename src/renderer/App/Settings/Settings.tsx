@@ -42,18 +42,6 @@ export const Settings: React.FC = () => {
       <Paper className={a("marginTop05", "padding3")}>
         <Typography variant="h2">Bitcoin Core connection</Typography>
 
-        <TextField
-          {...commonTextFieldProps}
-          className={a("marginTop05")}
-          label="Server URL"
-        />
-
-        <Typography className={a(...helperTextClasses)}>
-          Bitcoin Core server is usually reachable at{" "}
-          <code>http://localhost:8332</code>. If you have different
-          configurations, you can enter your server URL here manually.
-        </Typography>
-
         <FormControlLabel
           className={a("marginTop05")}
           control={<Switch checked onChange={() => true} name="checkedB" />}
@@ -64,7 +52,7 @@ export const Settings: React.FC = () => {
           Every time you start Bitcoin Core with server enabled, it creates a
           file usually called <code>.cookie</code> where it stores the username
           and password for connecting to the server. Apps that talk to Bitcoin
-          Core, like Orange, use this file for authentication.
+          Core, like Orange, can use this file for authentication.
         </Typography>
 
         <div className={a("displayFlex", "alignItemsCenter", "marginTop05")}>
@@ -98,6 +86,18 @@ export const Settings: React.FC = () => {
           your cookie if you've chosen to use cookie authentication. You can
           also enter the username and password here manually.{" "}
           <code>rpcauth</code> username and password should also work.
+        </Typography>
+
+        <TextField
+          {...commonTextFieldProps}
+          className={a("marginTop05")}
+          label="Server URL"
+        />
+
+        <Typography className={a(...helperTextClasses)}>
+          Bitcoin Core server is usually reachable at{" "}
+          <code>http://localhost:8332</code>. If you have different
+          configurations, you can enter your server URL here manually.
         </Typography>
       </Paper>
     </div>

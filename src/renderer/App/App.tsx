@@ -10,11 +10,14 @@ import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
+import { FixBitcoinCoreConnection } from "./FixBitcoinCoreConnection/FixBitcoinCoreConnection";
 
 export const getApp = (
   /* istanbul ignore next */
   store = store_,
 ) => () => {
+  const appBar = <AppBar />;
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
@@ -22,19 +25,25 @@ export const getApp = (
         <GlobalCss />
 
         <Router>
-          <AppBar />
-
           <Switch>
             <Route exact path="/">
               <RedirectToHighestBlock />
             </Route>
 
             <Route path="/explorer/:blockHeightAsId">
+              {appBar}
               <Explorer />
             </Route>
 
-            <Route path="/settings/bitcoin-core-connection">
+            <Route path="/settings">
+              {appBar}
               <Settings />
+            </Route>
+          </Switch>
+
+          <Switch>
+            <Route path="/fix-bitcoin-core-connection">
+              <FixBitcoinCoreConnection />
             </Route>
           </Switch>
         </Router>

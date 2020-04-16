@@ -30,3 +30,8 @@ export type GetState = () => State;
  * `undefined` or `null`
  */
 export type Null = undefined | null;
+
+// https://github.com/piotrwitek/utility-types/blob/ba66c895c7e52263268d179c142088f3e245a033/src/mapped-types.ts#L371
+export type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
+  ? U
+  : never;

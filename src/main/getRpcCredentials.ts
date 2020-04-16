@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-cond-assign */
@@ -40,18 +41,9 @@ const readCookieCredentials = async () => {
    * Now that we have the `dataDir`, we need to find `bitcoin.conf` and
    * determine which network is being used, main, testnet, or regtest.
    */
-  let bitcoinConf: string;
-  try {
-    bitcoinConf = await fs.readFile(`${dataDirRoot}/bitcoin.conf`, {
-      encoding: "utf8",
-    });
-  } catch (error) {
-    if (error.code === "ENOENT") {
-      throw new UiHandledError(__NONCE__, ERROR_CODES.couldNotFindBitcoinConf);
-    }
-
-    throw error;
-  }
+  const bitcoinConf = await fs.readFile(`${dataDirRoot}/bitcoin.conf`, {
+    encoding: "utf8",
+  });
 
   /**
    * Parse `bitcoin.conf`. Use code copied from here:
@@ -95,18 +87,9 @@ const readCookieCredentials = async () => {
     port = 8332;
   }
 
-  let cookie: string;
-  try {
-    cookie = await fs.readFile(`${dataDir}.cookie`, {
-      encoding: "utf8",
-    });
-  } catch (error) {
-    if (error.code === "ENOENT") {
-      throw new UiHandledError(__NONCE__, ERROR_CODES.couldNotFindCookieFile);
-    }
-
-    throw error;
-  }
+  const cookie = await fs.readFile(`${dataDir}.cookie`, {
+    encoding: "utf8",
+  });
 
   const [username, password] = cookie.split(":");
 

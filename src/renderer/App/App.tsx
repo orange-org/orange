@@ -1,69 +1,49 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import { Provider } from "react-redux";
-import {
-  MemoryRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
-import { store as store_ } from "_r/redux/reducers/store";
+import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
-import { FixBitcoinCoreConnection } from "./FixBitcoinCoreConnection/FixBitcoinCoreConnection";
+import { BitcoinCoreConnectionHelper } from "./BitcoinCoreConnectionHelper/BitcoinCoreConnectionHelper";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
 
-export const getApp = (
-  /* istanbul ignore next */
-  store = store_,
-) => () => {
+export const Routes = () => {
   const appBar = <AppBar />;
-  // const isBitcoinCoreConnected = useSelector(s => s.isBitcoinCoreConnected);
-  const requireBitcoinCoreConnection = (Component: React.FC) => {
-    if (false) {
-      return <Component />;
-    }
 
-    return <Redirect to="/fix-bitcoin-core-connection" />;
-  };
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <RedirectToHighestBlock />
+        </Route>
 
+        <Route path="/explorer/:blockHeightAsId">
+          {appBar}
+          <Explorer />
+        </Route>
+
+        <Route path="/settings">
+          {appBar}
+          <Settings />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+export const getApp = () => () => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
-
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              {requireBitcoinCoreConnection(() => (
-                <RedirectToHighestBlock />
-              ))}
-            </Route>
-
-            <Route path="/explorer/:blockHeightAsId">
-              {requireBitcoinCoreConnection(() => (
-                <>
-                  {appBar}
-                  <Explorer />
-                </>
-              ))}
-            </Route>
-
-            <Route path="/settings">
-              {appBar}
-              <Settings />
-            </Route>
-
-            <Route path="/fix-bitcoin-core-connection">
-              <FixBitcoinCoreConnection />
-            </Route>
-          </Switch>
-        </Router>
+        <BitcoinCoreConnectionHelper />
+        <Routes />
       </ThemeProvider>
     </Provider>
   );

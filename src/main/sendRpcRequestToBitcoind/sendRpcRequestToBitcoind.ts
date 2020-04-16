@@ -3,7 +3,7 @@ import { ERROR_CODES } from "_c/constants";
 import { getRpcCredentials } from "_m/getRpcCredentials";
 import { RpcRequest } from "_t/bitcoindRpcRequests";
 import { RawRpcResponse, RpcError } from "_t/bitcoindRpcResponses";
-import { ExtractedRpcResponse } from "_t/typeHelpers";
+import { ExtractedRpcResponse, PromiseType } from "_t/typeHelpers";
 import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 
 export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
@@ -11,10 +11,29 @@ export const sendRpcRequestToBitcoind = async <TRpcRequest extends RpcRequest>(
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   type ExtractedResponse = ExtractedRpcResponse<TRpcRequest>;
 
-  const { username, password, port } = await getRpcCredentials();
+  let rpcCredentialsResponse: PromiseType<ReturnType<typeof getRpcCredentials>>;
+  let rpcCredentialsError: any;
+
+  try {
+    rpcCredentialsResponse = await getRpcCredentials();
+  } catch (error) {
+    rpcCredentialsError = error;
+  }
 
   return new Promise(resolve => {
     const { method, params = [], requestId } = rpcRequest;
+
+    if (rpcCredentialsError) {
+      resolve({
+        method,
+        requestId,
+        result: null,
+        error: rpcCredentialsError,
+      } as ExtractedResponse);
+      return;
+    }
+
+    const { username, password, port } = rpcCredentialsResponse;
     const url = `http://localhost:${port}`;
 
     if (!isRpcMethodAllowed(method)) {

@@ -9,7 +9,7 @@ export type State = StateConfig<{
   explorerBlockList: Block[];
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
-  isBitcoinCoreConnected: boolean;
+  isBitcoinCoreCookieAvailable: boolean;
 }>;
 
 export const initialState: State = {
@@ -18,7 +18,7 @@ export const initialState: State = {
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
-  isBitcoinCoreConnected: null,
+  isBitcoinCoreCookieAvailable: null,
 };
 
 export const reducer = createReducer(initialState)
@@ -46,4 +46,10 @@ export const reducer = createReducer(initialState)
         selectedExplorerTransactionInputValues: action.payload,
       };
     },
-  );
+  )
+  .handleAction(actions.setCouldNotFindBitcoinCoreCookie, (state, action) => {
+    return {
+      ...state,
+      couldNotFindBitcoinCoreCookie: action.payload,
+    };
+  });

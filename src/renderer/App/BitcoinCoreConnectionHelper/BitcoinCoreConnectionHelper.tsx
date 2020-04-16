@@ -17,7 +17,7 @@ export const useStyles = makeStyles(() => ({
   },
 }));
 
-export const FixBitcoinCoreConnection = () => {
+export const BitcoinCoreConnectionHelper = () => {
   const s = useStyles();
   const a = useAtomicCss();
   const helperTextClasses: AtomicCssKeysArray = [
@@ -25,6 +25,10 @@ export const FixBitcoinCoreConnection = () => {
     "fontSize0.8Rem",
     "marginTop01",
   ];
+
+  if (true) {
+    return null;
+  }
 
   return (
     <Dialog

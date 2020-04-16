@@ -1,4 +1,4 @@
-import { State } from "_r/redux/reducers/store";
+import { State } from "_r/redux/reducers/reducer";
 import { RpcRequest } from "./bitcoindRpcRequests";
 import { RpcResponse } from "./bitcoindRpcResponses";
 

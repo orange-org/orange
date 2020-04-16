@@ -92,7 +92,7 @@ const BlockDetails_ = () => {
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
-  const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
+  const selectedExplorerBlock = useSelector(s => s.selectedExplorerBlock);
 
   useEffect(() => {
     let isMounted = true;

@@ -1,5 +1,5 @@
 import { Action, AnyAction, Store } from "redux";
-import { State } from "_r/redux/reducers/store";
+import { State } from "_r/redux/reducers/reducer";
 import { GetState } from "./typeHelpers";
 
 declare module "react-redux" {

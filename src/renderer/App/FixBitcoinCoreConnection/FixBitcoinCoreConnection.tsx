@@ -4,7 +4,6 @@ import {
   DialogContent,
   Typography,
   makeStyles,
-  LinearProgress,
   CircularProgress,
   Button,
   DialogActions,

@@ -27,7 +27,7 @@ export const ListOfBlocks: React.FC = () => {
     );
   }, [blockHeightAsId, dispatch]);
 
-  const explorerBlockList = useSelector(s => s.misc.explorerBlockList);
+  const explorerBlockList = useSelector(s => s.explorerBlockList);
 
   return (
     <div

@@ -3,23 +3,25 @@ import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/bitcoindRpcResponses";
 import { StateConfig } from "_t/typeHelpers";
 
-export type MiscState = StateConfig<{
+export type State = StateConfig<{
   bestBlock: Block;
   selectedExplorerBlock: Block;
   explorerBlockList: Block[];
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
+  isBitcoinCoreConnected: boolean;
 }>;
 
-export const initialState: MiscState = {
+export const initialState: State = {
   bestBlock: null,
   selectedExplorerBlock: null,
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
+  isBitcoinCoreConnected: null,
 };
 
-export const misc = createReducer(initialState)
+export const reducer = createReducer(initialState)
   .handleAction(actions.setExplorerBlockList, (state, action) => ({
     ...state,
     explorerBlockList: action.payload,

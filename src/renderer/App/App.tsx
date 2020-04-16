@@ -1,11 +1,11 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import React, { ReactNode } from "react";
-import { Provider, useSelector } from "react-redux";
+import React from "react";
+import { Provider } from "react-redux";
 import {
   MemoryRouter as Router,
+  Redirect,
   Route,
   Switch,
-  Redirect,
 } from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
@@ -13,16 +13,16 @@ import { GlobalCss } from "_r/globalCss";
 import { store as store_ } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
+import { FixBitcoinCoreConnection } from "./FixBitcoinCoreConnection/FixBitcoinCoreConnection";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
-import { FixBitcoinCoreConnection } from "./FixBitcoinCoreConnection/FixBitcoinCoreConnection";
 
 export const getApp = (
   /* istanbul ignore next */
   store = store_,
 ) => () => {
   const appBar = <AppBar />;
-  const isBitcoinCoreConnected = useSelector(s => s.isBitcoinCoreConnected);
+  // const isBitcoinCoreConnected = useSelector(s => s.isBitcoinCoreConnected);
   const requireBitcoinCoreConnection = (Component: React.FC) => {
     if (false) {
       return <Component />;

@@ -43,9 +43,9 @@ export const TransactionDetails: React.FC<{
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();
-  const transaction = useSelector(s => s.misc.selectedExplorerTransaction);
+  const transaction = useSelector(s => s.selectedExplorerTransaction);
   const transactionInputValues = useSelector(
-    s => s.misc.selectedExplorerTransactionInputValues,
+    s => s.selectedExplorerTransactionInputValues,
   );
 
   useEffect(() => {

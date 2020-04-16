@@ -8,7 +8,6 @@
 
 // const windowMessageEventHandler = (event: MessageEvent) => {
 //   // const { data } = event;
-
 //   // if (isErrorMessage(data)) {
 //   //   if (
 //   //     ERROR_CODES.couldNotFindBitcoinConf === data.message ||

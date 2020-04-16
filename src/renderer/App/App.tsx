@@ -1,7 +1,12 @@
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import React from "react";
-import { Provider } from "react-redux";
-import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
+import React, { ReactNode } from "react";
+import { Provider, useSelector } from "react-redux";
+import {
+  MemoryRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
@@ -17,6 +22,14 @@ export const getApp = (
   store = store_,
 ) => () => {
   const appBar = <AppBar />;
+  const isBitcoinCoreConnected = useSelector(s => s.isBitcoinCoreConnected);
+  const requireBitcoinCoreConnection = (Component: React.FC) => {
+    if (false) {
+      return <Component />;
+    }
+
+    return <Redirect to="/fix-bitcoin-core-connection" />;
+  };
 
   return (
     <Provider store={store}>
@@ -27,21 +40,25 @@ export const getApp = (
         <Router>
           <Switch>
             <Route exact path="/">
-              <RedirectToHighestBlock />
+              {requireBitcoinCoreConnection(() => (
+                <RedirectToHighestBlock />
+              ))}
             </Route>
 
             <Route path="/explorer/:blockHeightAsId">
-              {appBar}
-              <Explorer />
+              {requireBitcoinCoreConnection(() => (
+                <>
+                  {appBar}
+                  <Explorer />
+                </>
+              ))}
             </Route>
 
             <Route path="/settings">
               {appBar}
               <Settings />
             </Route>
-          </Switch>
 
-          <Switch>
             <Route path="/fix-bitcoin-core-connection">
               <FixBitcoinCoreConnection />
             </Route>

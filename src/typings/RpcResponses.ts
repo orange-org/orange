@@ -1,20 +1,24 @@
 /* eslint-disable camelcase */
+import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import {
-  NetworkInfoRpcRequest,
   BlockchainInfoRpcRequest,
-  BlockRpcRequest,
-  UptimeRpcRequest,
-  PeerInfoRpcRequest,
-  MempoolInfoRpcRequest,
-  RpcInfoRpcRequest,
-  ChainTipsRpcRequest,
-  BlockHeaderRpcRequest,
   BlockHashRpcRequest,
+  BlockHeaderRpcRequest,
+  BlockRpcRequest,
+  ChainTipsRpcRequest,
+  MempoolInfoRpcRequest,
+  NetworkInfoRpcRequest,
+  PeerInfoRpcRequest,
   RawTransactionRpcRequest,
+  RpcInfoRpcRequest,
+  UptimeRpcRequest,
 } from "_t/RpcRequests";
+import { ObjectValues } from "./typeHelpers";
 
 export type RpcError = {
-  code: number;
+  code: ObjectValues<
+    typeof RPC_ERROR & typeof NODE_ERROR & typeof BITCOIN_CORE_RPC_ERROR
+  >;
   message: string;
   payload?: any;
 };

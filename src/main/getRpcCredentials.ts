@@ -5,9 +5,9 @@
 /* eslint-disable no-extra-boolean-cast */
 /* eslint-disable no-unused-expressions */
 import { promises as fs } from "fs";
+import { RPC_ERROR } from "_c/constants";
 import { getGlobalProcess } from "_m/getGlobalProcess";
 import { getStore } from "_m/getStore";
-import { ERROR_CODES } from "_c/constants";
 // import { UiHandledError } from "_c/UiHandledError";
 
 const readCookieCredentials = async () => {
@@ -49,7 +49,11 @@ const readCookieCredentials = async () => {
   } catch (error) {
     if (error.code === "ENOENT") {
       // eslint-disable-next-line no-throw-literal
-      throw { ...error, orangeCode: ERROR_CODES.couldNotOpenBitcoinConf };
+      throw {
+        ...error,
+        code: RPC_ERROR.couldNotOpenBitcoinConf,
+        message: "Could not open `bitcoin.conf`",
+      };
     }
 
     throw error;
@@ -105,7 +109,11 @@ const readCookieCredentials = async () => {
   } catch (error) {
     if (error.code === "ENOENT") {
       // eslint-disable-next-line no-throw-literal
-      throw { ...error, orangeCode: ERROR_CODES.couldNotOpenCookieFile };
+      throw {
+        ...error,
+        code: RPC_ERROR.couldNotOpenCookieFile,
+        message: "Could not open cookie file",
+      };
     }
 
     throw error;

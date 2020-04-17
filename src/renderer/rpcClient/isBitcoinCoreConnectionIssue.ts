@@ -1,12 +1,12 @@
-import { RpcError } from "_t/bitcoindRpcResponses";
-import { ERROR_CODES, RPC_SERVER_ERROR_CODES } from "_c/constants";
+import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
+import { RpcError } from "_t/RpcResponses";
 
 export const isBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
   console.log("rpcError", rpcError);
   return (
-    rpcError.code === ERROR_CODES.couldNotOpenCookieFile ||
-    rpcError.code === ERROR_CODES.couldNotOpenBitcoinConf ||
-    rpcError.code === RPC_SERVER_ERROR_CODES.warmingUp ||
-    rpcError.code === ERROR_CODES.rpcRequestError
+    rpcError.code === RPC_ERROR.couldNotOpenCookieFile ||
+    rpcError.code === RPC_ERROR.couldNotOpenBitcoinConf ||
+    rpcError.code === BITCOIN_CORE_RPC_ERROR.warmingUp ||
+    rpcError.code === NODE_ERROR.ECONNREFUSED
   );
 };

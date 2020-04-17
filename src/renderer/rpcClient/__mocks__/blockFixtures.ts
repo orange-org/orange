@@ -1,4 +1,4 @@
-import { Block } from "_t/bitcoindRpcResponses";
+import { Block } from "_t/RpcResponses";
 
 export const blockFixture1: Block = {
   hash: "00000000000000daf54a28b5ddff93a8ab735effeee8b917a2d0ec72ac02dc66",

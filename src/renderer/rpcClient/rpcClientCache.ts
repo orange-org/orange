@@ -1,5 +1,5 @@
-import { UnsentRpcRequest } from "_t/bitcoindRpcRequests";
-import { RpcResponse } from "_t/bitcoindRpcResponses";
+import { UnsentRpcRequest } from "_t/RpcRequests";
+import { RpcResponse } from "_t/RpcResponses";
 
 class RpcClientCache {
   results: { [stringifiedRpcRequest: string]: RpcResponse } = {};

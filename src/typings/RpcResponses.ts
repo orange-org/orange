@@ -11,7 +11,7 @@ import {
   BlockHeaderRpcRequest,
   BlockHashRpcRequest,
   RawTransactionRpcRequest,
-} from "_t/bitcoindRpcRequests";
+} from "_t/RpcRequests";
 
 export type RpcError = {
   code: number;

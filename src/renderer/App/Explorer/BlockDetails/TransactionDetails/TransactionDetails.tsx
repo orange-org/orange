@@ -10,7 +10,7 @@ import {
   secondsTimestampToFormattedDate,
   humanFileSize,
 } from "_r/utils/smallUtils";
-import { RawTransaction } from "_t/bitcoindRpcResponses";
+import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
 import { OtherDetails } from "../OtherDetails";
 

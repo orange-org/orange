@@ -1,4 +1,4 @@
-import { BlockchainInfo } from "_t/bitcoindRpcResponses";
+import { BlockchainInfo } from "_t/RpcResponses";
 
 export const blockchainInfoFixture1: BlockchainInfo = {
   chain: "test",

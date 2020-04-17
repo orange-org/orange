@@ -1,6 +1,6 @@
 import { ErrorCode } from "_c/constants";
-import { RpcRequest } from "./bitcoindRpcRequests";
-import { RpcResponse } from "./bitcoindRpcResponses";
+import { RpcRequest } from "./RpcRequests";
+import { RpcResponse } from "./RpcResponses";
 
 type Message<S, T, M> = {
   nonce: NONCE;

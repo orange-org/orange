@@ -1,6 +1,6 @@
 import { State } from "_r/redux/reducers/reducer";
-import { RpcRequest } from "./bitcoindRpcRequests";
-import { RpcResponse } from "./bitcoindRpcResponses";
+import { RpcRequest } from "./RpcRequests";
+import { RpcResponse } from "./RpcResponses";
 
 export type NullableKeys<TypeWithKeys> = {
   [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | null;
@@ -9,6 +9,8 @@ export type NullableKeys<TypeWithKeys> = {
 export type ValuesOf<T extends any[]> = T[number];
 
 export type AllKeys<T> = T extends T ? keyof T : never;
+
+export type ObjectValues<T> = T[keyof T];
 
 export type ExtractedRpcResponse<
   T extends RpcRequest | Omit<RpcRequest, "requestId">

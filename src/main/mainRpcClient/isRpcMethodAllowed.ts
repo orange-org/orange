@@ -1,4 +1,4 @@
-import { RpcRequest } from "_t/bitcoindRpcRequests";
+import { RpcRequest } from "_t/RpcRequests";
 
 export const isRpcMethodAllowed = (methodName: RpcRequest["method"]) => {
   const allowedMethods: RpcRequest["method"][] = [

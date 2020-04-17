@@ -10,7 +10,7 @@ import {
   fromNow,
   humanFileSize,
 } from "_r/utils/smallUtils";
-import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { Block as TBlock } from "_t/RpcResponses";
 import { Null } from "_t/typeHelpers";
 import { useBlockStyles } from "./BlockStyles";
 

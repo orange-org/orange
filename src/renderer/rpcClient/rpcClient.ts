@@ -1,7 +1,7 @@
 import { callMain } from "_r/ipc/callMain";
 import { generateUuid } from "_r/utils/smallUtils";
-import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
-import { RpcResponse } from "_t/bitcoindRpcResponses";
+import { RpcRequest, UnsentRpcRequest } from "_t/RpcRequests";
+import { RpcResponse } from "_t/RpcResponses";
 import { RpcResponseMtR } from "_t/IpcMessages";
 import { store } from "_r/redux/reducers/store";
 import { setBitcoinCoreConnectionIssue } from "_r/redux/actions";

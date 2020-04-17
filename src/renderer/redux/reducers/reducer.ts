@@ -1,6 +1,6 @@
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
-import { Block, RawTransaction } from "_t/bitcoindRpcResponses";
+import { Block, RawTransaction } from "_t/RpcResponses";
 import { StateConfig, NullableKeys } from "_t/typeHelpers";
 import { handleSetBitcoinCoreConnectionIssue } from "./handleSetBitcoinCoreConnectionIssue";
 

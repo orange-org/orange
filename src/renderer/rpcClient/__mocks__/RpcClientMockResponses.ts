@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
-import { UnsentRpcRequest } from "_t/bitcoindRpcRequests";
-import { RpcResponse } from "_t/bitcoindRpcResponses";
+import { UnsentRpcRequest } from "_t/RpcRequests";
+import { RpcResponse } from "_t/RpcResponses";
 
 type SimplifiedRpcResponse =
   | RpcResponse["result"]

@@ -27,7 +27,7 @@ import {
   pluralize,
 } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
-import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { Block as TBlock } from "_t/RpcResponses";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 

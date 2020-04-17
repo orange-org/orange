@@ -9,7 +9,7 @@ import {
   Uptime,
   RawTransaction,
   RpcError,
-} from "_t/bitcoindRpcResponses";
+} from "_t/RpcResponses";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 

@@ -1,5 +1,5 @@
 import nock from "nock";
-import { sendRpcRequestToBitcoind } from "_m/sendRpcRequestToBitcoind/sendRpcRequestToBitcoind";
+import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
 import { ERROR_CODES } from "_c/constants";
 
 jest.mock("_m/getRpcCredentials", () => ({
@@ -20,7 +20,7 @@ describe("sendRpcRequestToBitcoind", () => {
         result: "whatever bitcoind responds",
       });
 
-    const response = await sendRpcRequestToBitcoind({
+    const response = await mainRpcClient({
       method: "getblockhash",
       params: [600000],
       requestId: "123",
@@ -36,7 +36,7 @@ describe("sendRpcRequestToBitcoind", () => {
         error: "whatever bitcoind puts in error key",
       });
 
-    const response = await sendRpcRequestToBitcoind({
+    const response = await mainRpcClient({
       method: "getblockhash",
       params: [600000],
       requestId: "123",
@@ -50,7 +50,7 @@ describe("sendRpcRequestToBitcoind", () => {
       .post("/")
       .reply(200, "{json?");
 
-    const response = await sendRpcRequestToBitcoind({
+    const response = await mainRpcClient({
       method: "getblockchaininfo",
       requestId: "123",
     });
@@ -66,7 +66,7 @@ describe("sendRpcRequestToBitcoind", () => {
       .post("/")
       .replyWithError("whatever the request error is");
 
-    const response = await sendRpcRequestToBitcoind({
+    const response = await mainRpcClient({
       method: "getblockchaininfo",
       requestId: "123",
     });
@@ -83,7 +83,7 @@ describe("sendRpcRequestToBitcoind", () => {
       .post("/")
       .reply(200, { result: "okay" });
 
-    const response = await sendRpcRequestToBitcoind({
+    const response = await mainRpcClient({
       // @ts-ignore
       method: "submitheader",
       requestId: "123",

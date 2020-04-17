@@ -336,4 +336,7 @@ export type RpcResponse = {
   | RawTransactionRpcResponse
 );
 
-export type RawRpcResponse = { result: any; error: RpcError | null };
+export type RawRpcResponse = {
+  result: RpcResponse["result"];
+  error: RpcError | null;
+};

@@ -14,18 +14,22 @@ import { makeRpcRequest } from "./makeRpcRequest";
 
 export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
+  firstTry = true,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   const { method, params = [], requestId } = rpcRequest;
 
   try {
     if (!isRpcMethodAllowed(method)) {
       throw {
-        code: ERROR.rpcMethodNotAllowedByMainProcess,
+        code: RPC_ERROR.methodNotAllowedByMainProcess,
         message: "RPC method not allowed by main process",
       };
     }
 
-    const { username, password, port } = await getRpcCredentials();
+    const useCacheForCredentials = !firstTry;
+    const { username, password, port } = await getRpcCredentials(
+      useCacheForCredentials,
+    );
     const url = `http://localhost:${port}`;
     const options = {
       method: "POST",
@@ -37,8 +41,18 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     const response = await makeRpcRequest({ url, options, body });
 
     if (response.statusCode === 401 || response.statusCode === 403) {
+      /**
+       * If we get 401 or 403 from Bitcoin Core, it could be because we
+       * used the cached credentials from the cookie file. Let's try
+       * to re-run this function but while flagging that this is not
+       * the first try so that we won't use the credentials cache.
+       */
+      if (firstTry) {
+        return mainRpcClient(rpcRequest, false);
+      }
+
       throw {
-        code: ERROR.rpcUnauthorized,
+        code: RPC_ERROR.unauthorized,
         message: "RPC server unauthorized request",
       };
     }

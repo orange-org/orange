@@ -7,6 +7,7 @@ export const isBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
     rpcError.code === RPC_ERROR.couldNotOpenCookieFile ||
     rpcError.code === RPC_ERROR.couldNotOpenBitcoinConf ||
     rpcError.code === BITCOIN_CORE_RPC_ERROR.warmingUp ||
+    rpcError.code === RPC_ERROR.unauthorized ||
     rpcError.code === NODE_ERROR.ECONNREFUSED
   );
 };

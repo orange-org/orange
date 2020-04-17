@@ -2,7 +2,7 @@ import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/RpcResponses";
 import { StateConfig, NullableKeys } from "_t/typeHelpers";
-import { handleSetBitcoinCoreConnectionIssue } from "./handleSetBitcoinCoreConnectionIssue";
+import { reduceSetBitcoinCoreConnectionIssue } from "./reduceSetBitcoinCoreConnectionIssue";
 
 export type State = StateConfig<{
   bestBlock: Block;
@@ -15,6 +15,7 @@ export type State = StateConfig<{
     isCookieAvailable: boolean;
     isServerReachable: boolean;
     isAuthenticated: boolean;
+    isServerWarmingUp: boolean;
   }>;
 };
 
@@ -28,6 +29,7 @@ export const initialState: State = {
     isCookieAvailable: null,
     isServerReachable: null,
     isAuthenticated: null,
+    isServerWarmingUp: null,
   },
 };
 
@@ -59,5 +61,5 @@ export const reducer = createReducer(initialState)
   )
   .handleAction(
     actions.setBitcoinCoreConnectionIssue,
-    handleSetBitcoinCoreConnectionIssue,
+    reduceSetBitcoinCoreConnectionIssue,
   );

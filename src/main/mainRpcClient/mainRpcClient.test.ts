@@ -1,6 +1,6 @@
 import nock from "nock";
 import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
-import { ERROR_CODES } from "_c/constants";
+import { ERROR } from "_c/constants";
 
 jest.mock("_m/getRpcCredentials", () => ({
   getRpcCredentials: () => ({
@@ -56,7 +56,7 @@ describe("sendRpcRequestToBitcoind", () => {
     });
 
     expect(response.error).toEqual({
-      code: ERROR_CODES.jsonParse,
+      code: ERROR.jsonParse,
       message: "",
     });
   });
@@ -72,7 +72,7 @@ describe("sendRpcRequestToBitcoind", () => {
     });
 
     expect(response.error).toEqual({
-      code: ERROR_CODES.rpcRequestError,
+      code: ERROR.rpcRequestError,
       message: "",
       payload: new Error("whatever the request error is"),
     });
@@ -89,7 +89,9 @@ describe("sendRpcRequestToBitcoind", () => {
       requestId: "123",
     });
 
-    expect(response.error).toEqual({ code: ERROR_CODES.rpcMethodNotAllowed });
+    expect(response.error).toEqual({
+      code: ERROR.rpcMethodNotAllowedByMainProcess,
+    });
     expect(scope.pendingMocks().length).toBe(1);
 
     nock.cleanAll();

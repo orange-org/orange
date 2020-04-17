@@ -8,6 +8,7 @@ import {
   RpcInfo,
   Uptime,
   RawTransaction,
+  RpcError,
 } from "_t/bitcoindRpcResponses";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
@@ -28,9 +29,9 @@ export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 
-export const setCouldNotFindBitcoinCoreCookie = createAction(
-  "SET_COULD_NOT_FIND_BITCOIN_CORE_COOKIE",
-)<boolean>();
+export const setBitcoinCoreConnectionIssue = createAction(
+  "SET_BITCOIN_CORE_CONNECTION_ISSUE",
+)<RpcError | null>();
 
 export const setSelectedExplorerBlock = createAction(
   "SET_SELECTED_EXPLORER_BLOCK",

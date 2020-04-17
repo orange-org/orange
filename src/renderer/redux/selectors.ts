@@ -1,5 +1,8 @@
-// import { State } from "./reducers/reducer";
+import { State } from "./reducers/reducer";
 
-// export const isBitcoinCoreConnected = (s: State) => {
-//   return s.bitcoinCoreCookieAvailable === true;
-// };
+export const hasBitcoinCoreConnectionIssue = (s: State) => {
+  return Object.keys(s.bitcoinCoreConnectionIssue).some(
+    // @ts-ignore
+    key => s.bitcoinCoreConnectionIssue[key] === false,
+  );
+};

@@ -14,8 +14,9 @@ export const ERROR_CODES = {
   jsonParse: 5002,
   rpcRequestError: 5003,
   rpcMethodNotAllowed: 5004,
-  couldNotFindBitcoinConf: 5005,
-  couldNotFindCookieFile: 5006,
+  couldNotOpenBitcoinConf: 5005,
+  couldNotOpenCookieFile: 5006,
+  rpcUnauthorized: 5007,
 } as const;
 
 export type ErrorCode = typeof ERROR_CODES[keyof typeof ERROR_CODES];

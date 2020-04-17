@@ -17,6 +17,8 @@ export const Routes = () => {
 
   return (
     <Router>
+      <BitcoinCoreConnectionHelper />
+
       <Switch>
         <Route exact path="/">
           <RedirectToHighestBlock />
@@ -42,7 +44,6 @@ export const getApp = () => () => {
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
-        <BitcoinCoreConnectionHelper />
         <Routes />
       </ThemeProvider>
     </Provider>

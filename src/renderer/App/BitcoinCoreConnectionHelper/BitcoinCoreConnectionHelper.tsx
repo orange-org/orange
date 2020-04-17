@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { useAtomicCss, AtomicCssKeysArray } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { hasBitcoinCoreConnectionIssue } from "_r/redux/selectors";
 
 export const useStyles = makeStyles(() => ({
   root: {
@@ -19,6 +21,9 @@ export const useStyles = makeStyles(() => ({
 
 export const BitcoinCoreConnectionHelper = () => {
   const s = useStyles();
+  const hasBitcoinCoreConnectionIssue_ = useSelector(
+    hasBitcoinCoreConnectionIssue,
+  );
   const a = useAtomicCss();
   const helperTextClasses: AtomicCssKeysArray = [
     "colorPrimaryFade50%",
@@ -26,7 +31,7 @@ export const BitcoinCoreConnectionHelper = () => {
     "marginTop01",
   ];
 
-  if (true) {
+  if (!hasBitcoinCoreConnectionIssue_) {
     return null;
   }
 

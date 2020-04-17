@@ -1,7 +1,8 @@
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/bitcoindRpcResponses";
-import { StateConfig } from "_t/typeHelpers";
+import { StateConfig, NullableKeys } from "_t/typeHelpers";
+import { handleSetBitcoinCoreConnectionIssue } from "./handleSetBitcoinCoreConnectionIssue";
 
 export type State = StateConfig<{
   bestBlock: Block;
@@ -9,8 +10,13 @@ export type State = StateConfig<{
   explorerBlockList: Block[];
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
-  isBitcoinCoreCookieAvailable: boolean;
-}>;
+}> & {
+  bitcoinCoreConnectionIssue: NullableKeys<{
+    isCookieAvailable: boolean;
+    isServerReachable: boolean;
+    isAuthenticated: boolean;
+  }>;
+};
 
 export const initialState: State = {
   bestBlock: null,
@@ -18,7 +24,11 @@ export const initialState: State = {
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
-  isBitcoinCoreCookieAvailable: null,
+  bitcoinCoreConnectionIssue: {
+    isCookieAvailable: null,
+    isServerReachable: null,
+    isAuthenticated: null,
+  },
 };
 
 export const reducer = createReducer(initialState)
@@ -47,9 +57,7 @@ export const reducer = createReducer(initialState)
       };
     },
   )
-  .handleAction(actions.setCouldNotFindBitcoinCoreCookie, (state, action) => {
-    return {
-      ...state,
-      couldNotFindBitcoinCoreCookie: action.payload,
-    };
-  });
+  .handleAction(
+    actions.setBitcoinCoreConnectionIssue,
+    handleSetBitcoinCoreConnectionIssue,
+  );

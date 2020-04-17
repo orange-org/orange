@@ -3,7 +3,10 @@ import { generateUuid } from "_r/utils/smallUtils";
 import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
 import { RpcResponse } from "_t/bitcoindRpcResponses";
 import { RpcResponseMtR } from "_t/IpcMessages";
+import { store } from "_r/redux/reducers/store";
+import { setBitcoinCoreConnectionIssue } from "_r/redux/actions";
 import { rpcClientCache } from "./rpcClientCache";
+import { isBitcoinCoreConnectionIssue } from "./isBitcoinCoreConnectionIssue";
 
 const isRpcResponse = (
   response: any,
@@ -43,14 +46,23 @@ export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
         window.removeEventListener("message", windowMessageEventHandler);
 
         if (response.message.error) {
-          reject(response.message.error);
-        } else {
-          if (cacheTtl) {
-            rpcClientCache.add(rpcRequest, response.message, cacheTtl);
+          if (isBitcoinCoreConnectionIssue(response.message.error)) {
+            store.dispatch(
+              setBitcoinCoreConnectionIssue(response.message.error),
+            );
+            return;
           }
 
-          resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
+          reject(response.message.error);
+          return;
         }
+
+        if (cacheTtl) {
+          rpcClientCache.add(rpcRequest, response.message, cacheTtl);
+        }
+
+        store.dispatch(setBitcoinCoreConnectionIssue(null));
+        resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
       }
     };
     window.addEventListener("message", windowMessageEventHandler);

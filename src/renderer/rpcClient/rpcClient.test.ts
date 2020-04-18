@@ -1,4 +1,5 @@
 import { RpcResponseMtR } from "_t/IpcMessages";
+import { RPC_ERROR } from "_c/constants";
 import { rpcClient as rpcClient_ } from "./rpcClient";
 
 const { rpcClient } = jest.requireActual("./rpcClient") as {
@@ -150,7 +151,10 @@ describe("rpcClient", () => {
             result: null,
             requestId: event.data.message.requestId,
             method: "getblockhash",
-            error: { code: 1, message: "error happened" },
+            error: {
+              code: RPC_ERROR.couldNotOpenBitcoinConf,
+              message: "error happened",
+            },
           },
           source: "@orange/main",
         };

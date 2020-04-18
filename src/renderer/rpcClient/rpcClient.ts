@@ -1,76 +1,47 @@
-import { callMain } from "_r/ipc/callMain";
-import { generateUuid } from "_r/utils/smallUtils";
-import { RpcRequest, UnsentRpcRequest } from "_t/RpcRequests";
+import { UnsentRpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
-import { RpcResponseMtR } from "_t/IpcMessages";
-import { store } from "_r/redux/reducers/store";
-import { setBitcoinCoreConnectionIssue } from "_r/redux/actions";
-import { rpcClientCache } from "./rpcClientCache";
 import { isBitcoinCoreConnectionIssue } from "./isBitcoinCoreConnectionIssue";
-
-const isRpcResponse = (
-  response: any,
-  requestId: string,
-): response is RpcResponseMtR => {
-  return (
-    response?.message?.requestId === requestId &&
-    response?.source === "@orange/main"
-  );
-};
+import { makeRpcRequest } from "./makeRpcRequest";
+import { rpcClientCache } from "./rpcClientCache";
+import { fixingBitcoinCoreConnectionIssue } from "./fixingBitcoinCoreConnectionIssue";
 
 export type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
   RpcResponse["result"],
   Extract<RpcResponse, { method: T["method"]; error: null }>["result"]
 >;
 
-export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
+export const rpcClient = async <TRpcRequest extends UnsentRpcRequest>(
   nonce: NONCE,
   rpcRequest: TRpcRequest,
   cacheTtl?: number,
 ): Promise<RpcClientReturnType<TRpcRequest>> => {
-  // eslint-disable-next-line consistent-return
-  return new Promise((resolve, reject) => {
-    if (cacheTtl) {
-      const cacheResult = rpcClientCache.get(rpcRequest);
+  if (cacheTtl) {
+    const cacheResult = rpcClientCache.get(rpcRequest);
 
-      if (cacheResult) {
-        return resolve(cacheResult.result as RpcClientReturnType<TRpcRequest>);
-      }
+    if (cacheResult) {
+      return cacheResult.result as RpcClientReturnType<TRpcRequest>;
+    }
+  }
+
+  const response = await makeRpcRequest(nonce, rpcRequest);
+
+  if (response.error) {
+    if (isBitcoinCoreConnectionIssue(response.error)) {
+      /**
+       * If the reason we got an error is a fixable Bitcoin Core connection
+       * issue, then we will try to fix it and re-try the call again.
+       */
+      await fixingBitcoinCoreConnectionIssue();
+
+      return rpcClient(nonce, rpcRequest, cacheTtl);
     }
 
-    const requestId = generateUuid();
-    const windowMessageEventHandler = (event: MessageEvent) => {
-      const { data: response } = event;
+    throw response.error;
+  }
 
-      if (isRpcResponse(response, requestId)) {
-        window.removeEventListener("message", windowMessageEventHandler);
+  if (cacheTtl) {
+    rpcClientCache.add(rpcRequest, response, cacheTtl);
+  }
 
-        if (response.message.error) {
-          if (isBitcoinCoreConnectionIssue(response.message.error)) {
-            store.dispatch(
-              setBitcoinCoreConnectionIssue(response.message.error),
-            );
-            return;
-          }
-
-          reject(response.message.error);
-          return;
-        }
-
-        if (cacheTtl) {
-          rpcClientCache.add(rpcRequest, response.message, cacheTtl);
-        }
-
-        store.dispatch(setBitcoinCoreConnectionIssue(null));
-        resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
-      }
-    };
-    window.addEventListener("message", windowMessageEventHandler);
-
-    callMain({
-      nonce,
-      type: "rpc-request",
-      message: { ...rpcRequest, requestId } as RpcRequest,
-    });
-  });
+  return response.result as RpcClientReturnType<TRpcRequest>;
 };

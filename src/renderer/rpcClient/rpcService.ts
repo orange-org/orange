@@ -40,6 +40,12 @@ class RpcService {
       params: [transactionId, verbose],
     });
   };
+
+  requestUptime = async (nonce: NONCE) => {
+    return rpcClient(nonce, {
+      method: "uptime",
+    });
+  };
 }
 
 export const rpcService = new RpcService();

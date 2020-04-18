@@ -1,19 +1,19 @@
-import React from "react";
 import {
-  Dialog,
-  DialogContent,
-  Typography,
-  makeStyles,
-  CircularProgress,
   Button,
+  CircularProgress,
+  Dialog,
   DialogActions,
+  DialogContent,
   DialogTitle,
+  makeStyles,
+  Typography,
 } from "@material-ui/core";
-import { useAtomicCss, AtomicCssKeysArray } from "_r/useAtomicCss";
-import { Link } from "react-router-dom";
+import React from "react";
 import { useSelector } from "react-redux";
-import { hasBitcoinCoreConnectionIssue } from "_r/redux/selectors";
+import { Link } from "react-router-dom";
 import { productName } from "_r/../../package.json";
+import { hasBitcoinCoreConnectionIssue } from "_r/redux/selectors";
+import { AtomicCssKeysArray, useAtomicCss } from "_r/useAtomicCss";
 
 export const useStyles = makeStyles(() => ({
   root: {
@@ -30,6 +30,7 @@ export const BitcoinCoreConnectionHelper = () => {
     state => state.bitcoinCoreConnectionIssue,
   );
   const a = useAtomicCss();
+
   const helperTextClasses: AtomicCssKeysArray = [
     "colorPrimaryFade50%",
     "fontSize0.8Rem",

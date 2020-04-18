@@ -125,7 +125,7 @@ const readCookieCredentials = async () => {
 };
 
 export const getRpcCredentials = async (
-  useCache = true,
+  allowCachedCredentials = true,
 ): Promise<{
   username: string;
   password: string;
@@ -134,7 +134,7 @@ export const getRpcCredentials = async (
   const store = getStore();
 
   if (
-    !useCache ||
+    !allowCachedCredentials ||
     !store.username ||
     /* istanbul ignore next */ !store.password ||
     /* istanbul ignore next */ !store.port

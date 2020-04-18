@@ -21,9 +21,9 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
       };
     }
 
-    const useCacheForCredentials = !firstTry;
+    const allowCachedCredentials = !firstTry;
     const { username, password, port } = await getRpcCredentials(
-      useCacheForCredentials,
+      allowCachedCredentials,
     );
     const url = `http://localhost:${port}`;
     const options = {

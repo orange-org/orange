@@ -4,7 +4,7 @@ import { Arguments } from "./parseCommandLineArgs";
 const store: Partial<{
   username: string;
   password: string;
-  port: number;
+  serverUrl: string;
   args: Arguments;
 }> = {};
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-throw-literal */
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { getRpcCredentials } from "_m/mainRpcClient/getRpcCredentials/getRpcCredentials";
+import { getRpcConfigurations } from "_m/mainRpcClient/getRpcCredentials/getRpcConfigurations";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
@@ -22,10 +22,9 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     }
 
     const allowCachedCredentials = !firstTry;
-    const { username, password, port } = await getRpcCredentials(
+    const { username, password, serverUrl } = await getRpcConfigurations(
       allowCachedCredentials,
     );
-    const url = `http://localhost:${port}`;
     const options = {
       method: "POST",
       auth: `${username}:${password}`,
@@ -33,7 +32,7 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     };
     const body = { jsonrpc: "1.0", id: "N/A", method, params };
 
-    const response = await makeRpcRequest({ url, options, body });
+    const response = await makeRpcRequest({ url: serverUrl, options, body });
 
     if (response.statusCode === 401 || response.statusCode === 403) {
       /**

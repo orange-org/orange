@@ -18,7 +18,8 @@ export type State = StateConfig<{
     isServerWarmingUp: boolean;
   }>;
   mainProcessData: NullableKeys<{
-    dataDir: string;
+    serverUrl: string;
+    cookieFile: string;
     username: string;
     password: string;
   }>;
@@ -37,7 +38,8 @@ export const initialState: State = {
     isServerWarmingUp: null,
   },
   mainProcessData: {
-    dataDir: null,
+    serverUrl: null,
+    cookieFile: null,
     username: null,
     password: null,
   },

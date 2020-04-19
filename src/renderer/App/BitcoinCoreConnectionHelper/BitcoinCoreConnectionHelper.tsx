@@ -1,22 +1,17 @@
 import {
   Button,
-  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  makeStyles,
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { productName } from "_r/../../package.json";
+import { BitcoinCoreConnectionStatus } from "_r/App/components/BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
 import * as selectors from "_r/redux/selectors";
 import { AtomicCssKeysArray, useAtomicCss } from "_r/useAtomicCss";
-import { State } from "_r/redux/reducers/reducer";
-import { BitcoinCoreConnectionStatus } from "_r/App/components/BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
-import { ServerIsUnreachable } from "./ServerIsUnreachable";
 
 export const BitcoinCoreConnectionHelper = () => {
   const hasBitcoinCoreConnectionIssue = useSelector(

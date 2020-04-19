@@ -1,5 +1,6 @@
 import { store } from "_r/redux/reducers/store";
 import { Message, MtR } from "_t/IpcMessages";
+import { setMainProcessDataInReduxStore } from "_r/redux/actions";
 
 const isMessageFromMain = (data: any): data is Message<MtR, string, any> => {
   return data && data.source === "@orange/main";

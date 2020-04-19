@@ -10,6 +10,8 @@ import {
   RawTransaction,
   RpcError,
 } from "_t/RpcResponses";
+import { DeepPartial } from "redux";
+import { State } from "./reducers/reducer";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -48,3 +50,7 @@ export const setSelectedExplorerTransaction = createAction(
 export const setSelectedExplorerTransactionInputValues = createAction(
   "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
 )<RawTransaction["vout"][number]["value"][]>();
+
+export const setMainProcessDataInReduxStore = createAction(
+  "SET_MAIN_PROCESS_DATA_IN_REDUX_STORE",
+)<DeepPartial<State["mainProcessData"]>>();

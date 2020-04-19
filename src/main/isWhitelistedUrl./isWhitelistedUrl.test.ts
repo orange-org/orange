@@ -1,6 +1,6 @@
 import { getIsDevelopment as getIsDevelopment_ } from "_m/getIsDevelopment";
 import { isWhitelistedUrl } from "./isWhitelistedUrl";
-import { getAppRoot } from "./getAppRoot";
+import { getAppRoot } from "../getAppRoot";
 
 const getIsDevelopment = getIsDevelopment_ as jest.Mock;
 

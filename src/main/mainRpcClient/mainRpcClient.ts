@@ -1,6 +1,6 @@
 /* eslint-disable no-throw-literal */
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { getRpcCredentials } from "_m/getRpcCredentials";
+import { getRpcCredentials } from "_m/mainRpcClient/getRpcCredentials/getRpcCredentials";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";

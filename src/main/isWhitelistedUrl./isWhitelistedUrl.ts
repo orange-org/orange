@@ -1,7 +1,7 @@
 import { dirname, normalize } from "path";
-import { getIsDevelopment } from "./getIsDevelopment";
-import { getAppRoot } from "./getAppRoot";
-import { getGlobalProcess } from "./getGlobalProcess";
+import { getIsDevelopment } from "../getIsDevelopment";
+import { getAppRoot } from "../getAppRoot";
+import { getGlobalProcess } from "../getGlobalProcess";
 
 export const isWhitelistedUrl = (url: string) => {
   const { protocol, hostname, pathname } = new URL(url);

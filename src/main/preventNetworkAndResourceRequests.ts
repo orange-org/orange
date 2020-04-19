@@ -1,4 +1,4 @@
-import { isWhitelistedUrl } from "_m/isWhitelistedUrl";
+import { isWhitelistedUrl } from "_m/isWhitelistedUrl./isWhitelistedUrl";
 import { getMainWindow } from "./getMainWindow";
 
 export function preventNetworkAndResourceRequests() {

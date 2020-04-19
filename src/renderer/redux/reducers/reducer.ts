@@ -17,6 +17,11 @@ export type State = StateConfig<{
     isUnauthorized: boolean;
     isServerWarmingUp: boolean;
   }>;
+  mainProcessData: NullableKeys<{
+    dataDir: string;
+    username: string;
+    password: string;
+  }>;
 };
 
 export const initialState: State = {
@@ -30,6 +35,11 @@ export const initialState: State = {
     isServerUnreachable: null,
     isUnauthorized: null,
     isServerWarmingUp: null,
+  },
+  mainProcessData: {
+    dataDir: null,
+    username: null,
+    password: null,
   },
 };
 

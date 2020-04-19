@@ -2,7 +2,7 @@ import { vol } from "memfs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
 import { getRpcCredentials } from "./getRpcCredentials";
-import { getStore as getStore_ } from "./getStore";
+import { getStore as getStore_ } from "../../getStore";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
 const getStore = getStore_ as jest.Mock;

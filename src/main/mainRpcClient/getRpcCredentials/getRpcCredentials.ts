@@ -8,6 +8,7 @@ import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
 import { getGlobalProcess } from "_m/getGlobalProcess";
 import { getStore } from "_m/getStore";
+import { callRenderer } from "../../callRenderer";
 // import { UiHandledError } from "_c/UiHandledError";
 
 const readCookieCredentials = async () => {
@@ -58,6 +59,14 @@ const readCookieCredentials = async () => {
 
     throw error;
   }
+
+  callRenderer({
+    nonce: __NONCE__,
+    type: "set-data-in-redux-store",
+    message: {
+      dataDir: dataDirRoot,
+    },
+  });
 
   /**
    * Parse `bitcoin.conf`. Use code copied from here:

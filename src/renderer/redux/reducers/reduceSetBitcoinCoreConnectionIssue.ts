@@ -3,9 +3,9 @@ import { setBitcoinCoreConnectionIssue } from "../actions";
 import { initialState, State } from "./reducer";
 
 const keyErrorMap = {
-  isCookieAvailable: RPC_ERROR.couldNotOpenCookieFile,
-  isServerReachable: NODE_ERROR.ECONNREFUSED,
-  isAuthenticated: RPC_ERROR.unauthorized,
+  isCookieUnavailable: RPC_ERROR.couldNotOpenCookieFile,
+  isServerUnreachable: NODE_ERROR.ECONNREFUSED,
+  isUnauthorized: RPC_ERROR.unauthorized,
   isServerWarmingUp: BITCOIN_CORE_RPC_ERROR.warmingUp,
 };
 
@@ -15,20 +15,20 @@ export const reduceSetBitcoinCoreConnectionIssue = (
 ): State => {
   return {
     ...state,
-    bitcoinCoreConnectionIssue: Object.keys(
-      state.bitcoinCoreConnectionIssue,
+    bitcoinCoreConnectionIssues: Object.keys(
+      state.bitcoinCoreConnectionIssues,
     ).reduce(
       (bitcoinCoreConnectionIssue, key_) => {
         const key = key_ as keyof typeof bitcoinCoreConnectionIssue;
 
         if (keyErrorMap[key] === action.payload?.code) {
           // eslint-disable-next-line no-param-reassign
-          bitcoinCoreConnectionIssue[key] = false;
+          bitcoinCoreConnectionIssue[key] = true;
         }
 
         return bitcoinCoreConnectionIssue;
       },
-      { ...initialState.bitcoinCoreConnectionIssue },
+      { ...initialState.bitcoinCoreConnectionIssues },
     ),
   };
 };

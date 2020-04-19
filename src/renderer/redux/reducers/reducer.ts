@@ -11,10 +11,10 @@ export type State = StateConfig<{
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
 }> & {
-  bitcoinCoreConnectionIssue: NullableKeys<{
-    isCookieAvailable: boolean;
-    isServerReachable: boolean;
-    isAuthenticated: boolean;
+  bitcoinCoreConnectionIssues: NullableKeys<{
+    isCookieUnavailable: boolean;
+    isServerUnreachable: boolean;
+    isUnauthorized: boolean;
     isServerWarmingUp: boolean;
   }>;
 };
@@ -25,10 +25,10 @@ export const initialState: State = {
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
-  bitcoinCoreConnectionIssue: {
-    isCookieAvailable: null,
-    isServerReachable: null,
-    isAuthenticated: null,
+  bitcoinCoreConnectionIssues: {
+    isCookieUnavailable: null,
+    isServerUnreachable: null,
+    isUnauthorized: null,
     isServerWarmingUp: null,
   },
 };

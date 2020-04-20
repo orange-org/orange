@@ -1,7 +1,5 @@
+import { setHasBitcoinCoreConnectionIssue } from "_r/redux/actions";
 import { store } from "_r/redux/reducers/store";
-import { setBitcoinCoreConnectionIssue } from "_r/redux/actions";
-import { poll } from "_r/utils/poll";
-import { makeRpcRequest } from "./makeRpcRequest";
 
 /**
  * This function resolves only when Bitcoin Core gives a non-error response.
@@ -10,18 +8,29 @@ import { makeRpcRequest } from "./makeRpcRequest";
  * connection issue.
  */
 export const fixingBitcoinCoreConnectionIssue = () => {
+  store.dispatch(setHasBitcoinCoreConnectionIssue(true));
+
   return new Promise(resolve => {
-    const stopPolling = poll(async () => {
-      const response = await makeRpcRequest(__NONCE__, { method: "uptime" });
-
-      if (response.result) {
-        stopPolling();
+    const intervalId = setInterval(() => {
+      if (!store.getState().hasBitcoinCoreConnectionIssue) {
+        clearInterval(intervalId);
         resolve();
-        store.dispatch(setBitcoinCoreConnectionIssue(null));
-        return;
       }
-
-      store.dispatch(setBitcoinCoreConnectionIssue(response.error));
     }, 1000);
+
+    //   const stopPolling = poll(async () => {
+    //     const response = await makeRpcRequest(__NONCE__, { method: "uptime" });
+    //     const { newRpcConfigurationsSaved } = store.getState();
+
+    //     if (response.result && newRpcConfigurationsSaved) {
+    //       stopPolling();
+    //       resolve();
+    //       store.dispatch(setBitcoinCoreConnectionIssue(null));
+    //       store.dispatch(setNewRpcConfigurationsSaved(null));
+    //       return;
+    //     }
+
+    //     store.dispatch(setBitcoinCoreConnectionIssue(response.error));
+    //   }, 1000);
   });
 };

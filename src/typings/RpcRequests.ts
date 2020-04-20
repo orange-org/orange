@@ -63,7 +63,14 @@ export type RawTransactionRpcRequest = {
   params: [string, boolean?];
 };
 
-export type RpcRequest = { requestId: string } & (
+export type RpcRequest = {
+  requestId: string;
+  connectionConfigurations?: {
+    serverUrl: string;
+    password: string;
+    username: string;
+  };
+} & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest

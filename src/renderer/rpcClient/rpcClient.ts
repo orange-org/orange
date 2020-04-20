@@ -1,6 +1,6 @@
 import { UnsentRpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
-import { isBitcoinCoreConnectionIssue } from "./isBitcoinCoreConnectionIssue";
+import { isBitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 import { makeRpcRequest } from "./makeRpcRequest";
 import { rpcClientCache } from "./rpcClientCache";
 import { fixingBitcoinCoreConnectionIssue } from "./fixingBitcoinCoreConnectionIssue";

@@ -31,10 +31,6 @@ export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
 export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 
-export const setBitcoinCoreConnectionIssue = createAction(
-  "SET_BITCOIN_CORE_CONNECTION_ISSUE",
-)<RpcError | null>();
-
 export const setSelectedExplorerBlock = createAction(
   "SET_SELECTED_EXPLORER_BLOCK",
 )<Block>();
@@ -54,3 +50,7 @@ export const setSelectedExplorerTransactionInputValues = createAction(
 export const setMainProcessDataInReduxStore = createAction(
   "SET_MAIN_PROCESS_DATA_IN_REDUX_STORE",
 )<DeepPartial<State["mainProcessData"]>>();
+
+export const setHasBitcoinCoreConnectionIssue = createAction(
+  "SET_HAS_BITCOIN_CORE_CONNECTION_ISSUE",
+)<boolean>();

@@ -2,6 +2,7 @@ import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/RpcResponses";
 import { StateConfig, NullableKeys } from "_t/typeHelpers";
+import { merge } from "lodash";
 import { reduceSetBitcoinCoreConnectionIssue } from "./reduceSetBitcoinCoreConnectionIssue";
 
 export type State = StateConfig<{
@@ -10,13 +11,9 @@ export type State = StateConfig<{
   explorerBlockList: Block[];
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
+  newRpcConfigurationsSaved: boolean;
+  hasBitcoinCoreConnectionIssue: boolean;
 }> & {
-  bitcoinCoreConnectionIssues: NullableKeys<{
-    isCookieUnavailable: boolean;
-    isServerUnreachable: boolean;
-    isUnauthorized: boolean;
-    isServerWarmingUp: boolean;
-  }>;
   mainProcessData: NullableKeys<{
     serverUrl: string;
     cookieFile: string;
@@ -31,12 +28,8 @@ export const initialState: State = {
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
-  bitcoinCoreConnectionIssues: {
-    isCookieUnavailable: null,
-    isServerUnreachable: null,
-    isUnauthorized: null,
-    isServerWarmingUp: null,
-  },
+  newRpcConfigurationsSaved: null,
+  hasBitcoinCoreConnectionIssue: null,
   mainProcessData: {
     serverUrl: null,
     cookieFile: null,
@@ -46,10 +39,12 @@ export const initialState: State = {
 };
 
 export const reducer = createReducer(initialState)
-  .handleAction(actions.setExplorerBlockList, (state, action) => ({
-    ...state,
-    explorerBlockList: action.payload,
-  }))
+  .handleAction(actions.setExplorerBlockList, (state, action) => {
+    return {
+      ...state,
+      explorerBlockList: action.payload,
+    };
+  })
   .handleAction(actions.setSelectedExplorerBlock, (state, action) => {
     return {
       ...state,
@@ -71,7 +66,9 @@ export const reducer = createReducer(initialState)
       };
     },
   )
-  .handleAction(
-    actions.setBitcoinCoreConnectionIssue,
-    reduceSetBitcoinCoreConnectionIssue,
-  );
+  .handleAction(actions.setMainProcessDataInReduxStore, (state, action) => {
+    return {
+      ...state,
+      mainProcessData: merge(state.mainProcessData, action.payload),
+    };
+  });

@@ -8,7 +8,7 @@ import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
-import { BitcoinCoreConnectionHelper } from "./BitcoinCoreConnectionHelper/BitcoinCoreConnectionHelper";
+import { BitcoinCoreConnectionIssueDialog } from "./BitcoinCoreConnectionIssueDialog/BitcoinCoreConnectionIssueDialog";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
 
@@ -17,7 +17,7 @@ export const Routes = () => {
 
   return (
     <Router>
-      <BitcoinCoreConnectionHelper />
+      <BitcoinCoreConnectionIssueDialog />
 
       <Switch>
         <Route exact path="/">
@@ -38,14 +38,12 @@ export const Routes = () => {
   );
 };
 
-export const getApp = () => () => {
-  return (
-    <Provider store={store}>
-      <ThemeProvider theme={createMuiTheme(theme)}>
-        <CssBaseline />
-        <GlobalCss />
-        <Routes />
-      </ThemeProvider>
-    </Provider>
-  );
-};
+export const getApp = () => () => (
+  <Provider store={store}>
+    <ThemeProvider theme={createMuiTheme(theme)}>
+      <CssBaseline />
+      <GlobalCss />
+      <Routes />
+    </ThemeProvider>
+  </Provider>
+);

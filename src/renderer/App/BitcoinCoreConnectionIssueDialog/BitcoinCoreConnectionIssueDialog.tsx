@@ -6,25 +6,20 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { productName } from "_r/../../package.json";
-import * as selectors from "_r/redux/selectors";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
 import { BitcoinCoreConnectionSettings } from "../components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
-import { useConnectionStatus } from "./useConnectionStatus";
+// import { useConnectionStatus } from "./useConnectionStatus";
 
 export const BitcoinCoreConnectionIssueDialog = () => {
-  const hasBitcoinCoreConnectionIssue = useSelector(
-    selectors.hasBitcoinCoreConnectionIssue,
-  );
   const [keepOpen, setKeepOpen] = useState(false);
   const a = useAtomicCss();
-  const { isConnected } = useConnectionStatus();
-  const dispatch = useDispatch();
-  const { username, password, serverUrl } = useSelector(
-    state => state.mainProcessData,
-  );
+  const isConnected = true;
+  // const dispatch = useDispatch();
+  // const { username, password, serverUrl } = useSelector(
+  //   state => state.mainProcessData,
+  // );
   const isOpen = true;
   // const isOpen = hasBitcoinCoreConnectionIssue || keepOpen;
   useEffect(() => {
@@ -44,7 +39,7 @@ export const BitcoinCoreConnectionIssueDialog = () => {
    *
    * When the user clicks "Close", `keepOpen` is set to `false`.
    */
-  if (hasBitcoinCoreConnectionIssue && !keepOpen) {
+  if (true && !keepOpen) {
     setKeepOpen(true);
   }
 
@@ -73,7 +68,7 @@ export const BitcoinCoreConnectionIssueDialog = () => {
         <Button
           color="primary"
           onClick={() => setKeepOpen(false)}
-          disabled={hasBitcoinCoreConnectionIssue}
+          disabled
           variant="contained"
           disableElevation
           className={a("marginTop05", "marginLeftAuto")}

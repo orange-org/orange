@@ -1,12 +1,14 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { RpcError } from "_t/RpcResponses";
-import { State } from "_r/redux/reducers/reducer";
+
+type BitcoinCoreConnectionIssue =
+  | "cookieUnavailable"
+  | "serverUnreachable"
+  | "serverWarmingUp"
+  | "unauthorized";
 
 export const determineBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
-  const possibleErrors: [
-    Exclude<State["bitcoinCoreConnectionIssue"], null>,
-    RpcError["code"],
-  ][] = [
+  const possibleErrors: [BitcoinCoreConnectionIssue, RpcError["code"]][] = [
     ["cookieUnavailable", RPC_ERROR.couldNotOpenCookieFile],
     ["serverUnreachable", NODE_ERROR.ECONNREFUSED],
     ["serverWarmingUp", BITCOIN_CORE_RPC_ERROR.warmingUp],

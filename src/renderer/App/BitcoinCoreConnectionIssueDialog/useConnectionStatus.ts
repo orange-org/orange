@@ -1,14 +1,11 @@
-import { useSelector } from "react-redux";
-import * as selectors from "_r/redux/selectors";
+// import { useSelector } from "react-redux";
 
-export const useConnectionStatus = () => {
-  const bitcoinCoreConnectionIssue = useSelector(
-    selectors.determineBitcoinConnectionIssue,
-  );
+// export const useConnectionStatus = () => {
+//   const bitcoinCoreConnectionIssue = "isUnauthorized";
 
-  const isUnauthorized = bitcoinCoreConnectionIssue === "isUnauthorized";
-  const isServerWarmingUp = bitcoinCoreConnectionIssue === "isServerWarmingUp";
-  const isConnected = !bitcoinCoreConnectionIssue;
+//   const isUnauthorized = bitcoinCoreConnectionIssue === "isUnauthorized";
+//   const isServerWarmingUp = bitcoinCoreConnectionIssue === "isServerWarmingUp";
+//   const isConnected = !bitcoinCoreConnectionIssue;
 
-  return { isUnauthorized, isServerWarmingUp, isConnected };
-};
+//   return { isUnauthorized, isServerWarmingUp, isConnected };
+// };

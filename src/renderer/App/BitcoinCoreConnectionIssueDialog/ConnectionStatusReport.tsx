@@ -1,17 +1,14 @@
-import { DialogContent, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import React from "react";
 import { productName } from "_r/../../package.json";
 import { BitcoinCoreConnectionStatus } from "_r/App/components/BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { useConnectionStatus } from "./useConnectionStatus";
+// import { useConnectionStatus } from "./useConnectionStatus";
 
 export const ConnectionStatusReport = () => {
   const a = useAtomicCss();
-  const {
-    isConnected,
-    isServerWarmingUp,
-    isUnauthorized,
-  } = useConnectionStatus();
+  // @ts-ignore
+  const { isConnected, isServerWarmingUp, isUnauthorized } = {};
 
   return (
     <>

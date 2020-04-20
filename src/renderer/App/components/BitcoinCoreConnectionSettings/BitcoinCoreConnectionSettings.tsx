@@ -30,7 +30,8 @@ export const BitcoinCoreConnectionSettings = () => {
       password: mainProcessData.password || "",
       serverUrl: mainProcessData.serverUrl || "",
     },
-    onSubmit: {},
+    // @ts-ignore
+    onSubmit: v => v,
   });
 
   return (

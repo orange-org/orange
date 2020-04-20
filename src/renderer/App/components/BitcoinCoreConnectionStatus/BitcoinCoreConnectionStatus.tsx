@@ -2,16 +2,11 @@ import { CircularProgress, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { CheckCircle } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import * as selectors from "_r/redux/selectors";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { rpcService } from "_r/rpcClient/rpcService";
 
 export const BitcoinCoreConnectionStatus = () => {
   const a = useAtomicCss();
-  const bitcoinCoreConnectionIssue = useSelector(
-    selectors.determineBitcoinConnectionIssue,
-  );
 
   useEffect(() => {
     async function effect() {
@@ -28,11 +23,12 @@ export const BitcoinCoreConnectionStatus = () => {
   });
 
   // eslint-disable-next-line no-nested-ternary
-  const status = !bitcoinCoreConnectionIssue
-    ? "connected"
-    : bitcoinCoreConnectionIssue === "isServerWarmingUp"
-    ? "waiting for server to warm up..."
-    : "retrying...";
+  const status = "connected";
+  // const status = !bitcoinCoreConnectionIssue
+  //   ? "connected"
+  //   : bitcoinCoreConnectionIssue === "isServerWarmingUp"
+  //   ? "waiting for server to warm up..."
+  //   : "retrying...";
 
   return (
     <div className={a("displayFlex", "alignItemsCenter")}>

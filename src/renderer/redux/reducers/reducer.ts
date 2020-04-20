@@ -1,9 +1,8 @@
+import { merge } from "lodash";
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/RpcResponses";
-import { StateConfig, NullableKeys } from "_t/typeHelpers";
-import { merge } from "lodash";
-import { reduceSetBitcoinCoreConnectionIssue } from "./reduceSetBitcoinCoreConnectionIssue";
+import { NullableKeys, StateConfig } from "_t/typeHelpers";
 
 export type State = StateConfig<{
   bestBlock: Block;

@@ -9,7 +9,8 @@ export const RedirectToHighestBlock: React.FC = () => {
     const request = async () => {
       const blockchainInfo = await rpcService.requestBlockchainInfo(__NONCE__);
 
-      history.push(`/explorer/${blockchainInfo.blocks.toString()}`);
+      // history.push(`/explorer/${blockchainInfo.blocks.toString()}`);
+      history.push(`/settings`);
     };
 
     request();

@@ -11,7 +11,12 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
   firstTry = true,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
-  const { method, params = [], requestId } = rpcRequest;
+  const {
+    method,
+    params = [],
+    requestId,
+    connectionConfigurations: callerProvidedRpcConfigurations,
+  } = rpcRequest;
 
   try {
     if (!isRpcMethodAllowed(method)) {
@@ -22,9 +27,13 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     }
 
     const allowCachedCredentials = !firstTry;
-    const { username, password, serverUrl } = await getRpcConfigurations(
+    const diskRpcConfigurations = await getRpcConfigurations(
       allowCachedCredentials,
     );
+
+    const { username, password, serverUrl } =
+      callerProvidedRpcConfigurations || diskRpcConfigurations;
+
     const options = {
       method: "POST",
       auth: `${username}:${password}`,

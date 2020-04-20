@@ -28,6 +28,11 @@ module.exports = {
   plugins: ["react", "@typescript-eslint", "import", "react-hooks", "jest"],
   rules: {
     "react/destructuring-assignment": "off", // to allow `props.whateverProp`
+    "arrow-body-style": [
+      "error",
+      "as-needed",
+      { requireReturnForObjectLiteral: true },
+    ],
     "no-console": "error",
     "import/no-extraneous-dependencies": "off",
     "react-hooks/rules-of-hooks": "error",

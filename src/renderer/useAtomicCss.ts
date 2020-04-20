@@ -9,12 +9,15 @@ const useAtomicStyles = makeStyles(
     const c = (
       name: keyof CSS.Properties<number | string>,
       val: number | string,
-    ) => ({
-      [name]: val,
-    });
+    ) => {
+      return {
+        [name]: val,
+      };
+    };
 
     /* eslint sort-keys: "error" */
-    return {
+    const atomicCss = {
+      // return {
       alignItemsCenter: c("alignItems", "center"),
 
       backgroundColorBlackFade01: c(
@@ -186,8 +189,18 @@ const useAtomicStyles = makeStyles(
 
       zIndex2: c("zIndex", 2),
       zIndex3: c("zIndex", 3),
+    } as const;
+
+    const styleGroups = {
+      helperText: {
+        ...atomicCss["colorPrimaryFade50%"],
+        ...atomicCss["fontSize0.8Rem"],
+        ...atomicCss.marginTop01,
+      },
     };
     /* eslint-disable sort-keys */
+
+    return { ...atomicCss, ...styleGroups };
   },
 
   /**

@@ -5,32 +5,25 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { poll } from "_r/utils/poll";
 import { BitcoinCoreConnectionSettings } from "../components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
+import { ConnectionStatusReport } from "./ConnectionStatusReport";
 // import { useConnectionStatus } from "./useConnectionStatus";
 
 export const BitcoinCoreConnectionIssueDialog = () => {
+  const buttonProps = useRef<any>(null);
   const [keepOpen, setKeepOpen] = useState(false);
+  const [enterServerDetails, setEnterServerDetails] = useState(false);
+  const hasBitcoinCoreConnectionIssue = useSelector(
+    state => state.hasBitcoinCoreConnectionIssue,
+  );
   const a = useAtomicCss();
-  const isConnected = true;
-  // const dispatch = useDispatch();
-  // const { username, password, serverUrl } = useSelector(
-  //   state => state.mainProcessData,
-  // );
+  const isConnected = !hasBitcoinCoreConnectionIssue;
   const isOpen = true;
   // const isOpen = hasBitcoinCoreConnectionIssue || keepOpen;
-  useEffect(() => {
-    poll(async () => {
-      // if (response.error) {
-      //   dispatch(setBitcoinCoreConnectionIssue(response.error));
-      // } else if (response.result && usingSavedConfigurations) {
-      //   dispatch(setBitcoinCoreConnectionIssue(null));
-      // }
-    }, 1000);
-  });
 
   /**
    * When we encounter a connection issue, we want to keep the dialog open
@@ -39,9 +32,14 @@ export const BitcoinCoreConnectionIssueDialog = () => {
    *
    * When the user clicks "Close", `keepOpen` is set to `false`.
    */
-  if (true && !keepOpen) {
+  if (hasBitcoinCoreConnectionIssue && !keepOpen) {
     setKeepOpen(true);
   }
+
+  const Comp = BitcoinCoreConnectionSettings;
+  // const Comp = enterServerDetails
+  //   ? BitcoinCoreConnectionSettings
+  //   : ConnectionStatusReport;
 
   return (
     <Dialog open={isOpen}>
@@ -52,30 +50,37 @@ export const BitcoinCoreConnectionIssueDialog = () => {
         </span>{" "}
         reach Bitcoin Core
       </DialogTitle>
-      <DialogContent>
-        {/* <ConnectionStatusReport /> */}
-        <BitcoinCoreConnectionSettings />
-      </DialogContent>
 
-      <DialogActions>
-        <Button
-          variant="outlined"
-          className={a("marginTop05", "marginLeftAuto")}
-        >
-          Enter server details
-        </Button>
+      <Comp
+        render={(Content, Buttonz) => (
+          <>
+            <DialogContent>
+              <Content />
+            </DialogContent>
 
-        <Button
-          color="primary"
-          onClick={() => setKeepOpen(false)}
-          disabled
-          variant="contained"
-          disableElevation
-          className={a("marginTop05", "marginLeftAuto")}
-        >
-          Close
-        </Button>
-      </DialogActions>
+            <DialogActions>
+              <Buttonz
+                variant="outlined"
+                // onClick={() => setEnterServerDetails(true)}
+                className={a("marginTop05", "marginLeftAuto")}
+              >
+                Enter server details
+              </Buttonz>
+
+              {/* <Button
+  color="primary"
+  onClick={() => setKeepOpen(false)}
+  disabled
+  variant="contained"
+  disableElevation
+  className={a("marginTop05", "marginLeftAuto")}
+>
+  Close
+</Button> */}
+            </DialogActions>
+          </>
+        )}
+      />
     </Dialog>
   );
 };

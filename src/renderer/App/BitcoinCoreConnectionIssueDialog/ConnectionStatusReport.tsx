@@ -3,12 +3,16 @@ import React from "react";
 import { productName } from "_r/../../package.json";
 import { BitcoinCoreConnectionStatus } from "_r/App/components/BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
-// import { useConnectionStatus } from "./useConnectionStatus";
+import { useConnectionStatus } from "./useConnectionStatus";
 
 export const ConnectionStatusReport = () => {
   const a = useAtomicCss();
-  // @ts-ignore
-  const { isConnected, isServerWarmingUp, isUnauthorized } = {};
+  const {
+    isUnauthorized,
+    isServerWarmingUp,
+    isConnected,
+    connectionIssue,
+  } = useConnectionStatus();
 
   return (
     <>
@@ -20,7 +24,7 @@ export const ConnectionStatusReport = () => {
           </Typography>
 
           <div className={a("marginTop05")}>
-            <BitcoinCoreConnectionStatus />
+            <BitcoinCoreConnectionStatus issue={connectionIssue} />
           </div>
 
           <Typography className={a("helperText")}>

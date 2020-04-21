@@ -68,6 +68,12 @@ export const reducer = createReducer(initialState)
   .handleAction(actions.setMainProcessDataInReduxStore, (state, action) => {
     return {
       ...state,
-      mainProcessData: merge(state.mainProcessData, action.payload),
+      mainProcessData: merge({}, state.mainProcessData, action.payload),
+    };
+  })
+  .handleAction(actions.setHasBitcoinCoreConnectionIssue, (state, action) => {
+    return {
+      ...state,
+      hasBitcoinCoreConnectionIssue: action.payload,
     };
   });

@@ -12,6 +12,8 @@ import "typeface-roboto";
 import { getApp } from "_r/App/App";
 import { callMain } from "./ipc/callMain";
 
+import "_r/ipc/registerIpcListeners";
+
 if (process.env.NODE_ENV === "production") {
   const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
     callMain({

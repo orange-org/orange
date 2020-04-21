@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { BitcoinCoreConnectionSettings } from "_r/App/components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
+// import { BitcoinCoreConnectionSettings } from "_r/App/components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
 
 export const Settings: React.FC = () => {
   const a = useAtomicCss();
@@ -19,7 +19,7 @@ export const Settings: React.FC = () => {
       <Typography variant="h1">Settings</Typography>
 
       <Paper className={a("marginTop05", "padding3")}>
-        <BitcoinCoreConnectionSettings />
+        {/* <BitcoinCoreConnectionSettings /> */}
       </Paper>
     </div>
   );

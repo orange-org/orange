@@ -1,7 +1,7 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { RpcError } from "_t/RpcResponses";
 
-type BitcoinCoreConnectionIssue =
+export type BitcoinCoreConnectionIssue =
   | "cookieUnavailable"
   | "serverUnreachable"
   | "serverWarmingUp"

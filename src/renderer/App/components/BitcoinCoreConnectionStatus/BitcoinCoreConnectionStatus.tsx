@@ -4,31 +4,18 @@ import { CheckCircle } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { rpcService } from "_r/rpcClient/rpcService";
+import { BitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 
-export const BitcoinCoreConnectionStatus = () => {
+export const BitcoinCoreConnectionStatus: React.FC<{
+  issue: BitcoinCoreConnectionIssue | null;
+}> = props => {
   const a = useAtomicCss();
-
-  useEffect(() => {
-    async function effect() {
-      /**
-       * We send this request to nudge the status of the server. The Redux store
-       * should get updated if there are any issues with the request.
-       *
-       * The rest of our code in this component works off of the Redux store.
-       */
-      await rpcService.requestUptime(__NONCE__);
-    }
-
-    effect();
-  });
-
   // eslint-disable-next-line no-nested-ternary
-  const status = "connected";
-  // const status = !bitcoinCoreConnectionIssue
-  //   ? "connected"
-  //   : bitcoinCoreConnectionIssue === "isServerWarmingUp"
-  //   ? "waiting for server to warm up..."
-  //   : "retrying...";
+  const status = !props.issue
+    ? "connected"
+    : props.issue === "serverWarmingUp"
+    ? "waiting for server to warm up..."
+    : "retrying...";
 
   return (
     <div className={a("displayFlex", "alignItemsCenter")}>

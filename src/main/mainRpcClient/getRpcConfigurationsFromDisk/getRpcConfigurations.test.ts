@@ -1,7 +1,7 @@
 import { vol } from "memfs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
-import { getRpcConfigurations } from "./getRpcConfigurations";
+import { getRpcConfigurationsFromDisk } from "./getRpcConfigurationsFromDisk";
 import { getStore as getStore_ } from "../../getStore";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
@@ -38,7 +38,7 @@ describe("getRpcCredentials", () => {
       "appData/Bitcoin/.cookie": "__cookie__:123123",
     });
 
-    expect(await getRpcConfigurations()).toEqual({
+    expect(await getRpcConfigurationsFromDisk()).toEqual({
       username: "__cookie__",
       password: "123123",
       port: 8332,
@@ -58,7 +58,7 @@ describe("getRpcCredentials", () => {
       "home/Library/Application Support/Bitcoin/.cookie": "__cookie__:424242",
     });
 
-    expect(await getRpcConfigurations()).toEqual({
+    expect(await getRpcConfigurationsFromDisk()).toEqual({
       username: "__cookie__",
       password: "424242",
       port: 8332,
@@ -78,7 +78,7 @@ describe("getRpcCredentials", () => {
       "home/.bitcoin/.cookie": "__cookie__:1337",
     });
 
-    expect(await getRpcConfigurations()).toEqual({
+    expect(await getRpcConfigurationsFromDisk()).toEqual({
       username: "__cookie__",
       password: "1337",
       port: 8332,
@@ -95,7 +95,7 @@ describe("getRpcCredentials", () => {
         [`home/.bitcoin/${dirName}/.cookie`]: `__cookie__:${password}`,
       });
 
-      expect(await getRpcConfigurations()).toEqual({
+      expect(await getRpcConfigurationsFromDisk()).toEqual({
         username: "__cookie__",
         password,
         port,
@@ -120,7 +120,7 @@ describe("getRpcCredentials", () => {
       "home/.bitcoin/.cookie": "__cookie__:bar",
     });
 
-    expect(await getRpcConfigurations()).toEqual({
+    expect(await getRpcConfigurationsFromDisk()).toEqual({
       username: "__cookie__",
       password: "c4ch3",
       port: 8332,
@@ -137,7 +137,7 @@ describe("getRpcCredentials", () => {
       "some/rand/dir/.cookie": "__cookie__:bar",
     });
 
-    expect(await getRpcConfigurations()).toEqual({
+    expect(await getRpcConfigurationsFromDisk()).toEqual({
       username: "__cookie__",
       password: "bar",
       port: 8332,

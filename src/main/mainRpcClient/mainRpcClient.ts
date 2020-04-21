@@ -1,22 +1,23 @@
 /* eslint-disable no-throw-literal */
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { getRpcConfigurations } from "_m/mainRpcClient/getRpcCredentials/getRpcConfigurations";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 import { makeRpcRequest } from "./makeRpcRequest";
 
+export type RpcConfigurations = {
+  username: string;
+  password: string;
+  serverUrl: string;
+};
+
 export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
-  firstTry = true,
+  rpcConfigurations: RpcConfigurations,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
-  const {
-    method,
-    params = [],
-    requestId,
-    connectionConfigurations: callerProvidedRpcConfigurations,
-  } = rpcRequest;
+  const { method, params = [], requestId } = rpcRequest;
+  const { username, password, serverUrl } = rpcConfigurations;
 
   try {
     if (!isRpcMethodAllowed(method)) {
@@ -25,14 +26,6 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
         message: "RPC method not allowed by main process",
       };
     }
-
-    const allowCachedCredentials = !firstTry;
-    const diskRpcConfigurations = await getRpcConfigurations(
-      allowCachedCredentials,
-    );
-
-    const { username, password, serverUrl } =
-      callerProvidedRpcConfigurations || diskRpcConfigurations;
 
     const options = {
       method: "POST",
@@ -44,16 +37,6 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     const response = await makeRpcRequest({ url: serverUrl, options, body });
 
     if (response.statusCode === 401 || response.statusCode === 403) {
-      /**
-       * If we get 401 or 403 from Bitcoin Core, it could be because we
-       * used the cached credentials from the cookie file. Let's try
-       * to re-run this function but while flagging that this is not
-       * the first try so that we won't use the credentials cache.
-       */
-      if (firstTry) {
-        return mainRpcClient(rpcRequest, false);
-      }
-
       throw {
         code: RPC_ERROR.unauthorized,
         message: "RPC server unauthorized request",

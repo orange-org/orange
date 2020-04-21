@@ -7,7 +7,7 @@ import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { getMainWindow } from "./getMainWindow";
 import { parseCommandLineArgs } from "./parseCommandLineArgs";
 import { processes } from "./processes";
-import { registerIpcListener } from "./registerIpcListener";
+import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
 import { registerErrorHandling } from "./registerErrorHandling";
 
 export const startMainProcess = () => {

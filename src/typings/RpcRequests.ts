@@ -65,11 +65,13 @@ export type RawTransactionRpcRequest = {
 
 export type RpcRequest = {
   requestId: string;
-  connectionConfigurations?: {
-    serverUrl: string;
-    password: string;
-    username: string;
-  };
+  connectionConfigurations?: { serverUrl: string } & (
+    | {
+        password: string;
+        username: string;
+      }
+    | { cookieFile: string }
+  );
 } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest

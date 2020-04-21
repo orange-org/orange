@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
 import { getStore } from "_m/getStore";
+import { callRenderer } from "_m/callRenderer";
 import { getActiveChain } from "./getActiveChain";
 import { getDataDir } from "./getDataDir";
 import { getRpcCredentialsFromCookieFile } from "./getRpcCredentialsFromCookieFile";
@@ -57,6 +58,12 @@ const _getRpcConfigurationsFromDisk = async () => {
     cookieFile,
   );
   const serverUrl = getServerUrl(chainName);
+
+  callRenderer({
+    nonce: __NONCE__,
+    type: "set-data-in-redux-store",
+    message: { username, password, serverUrl, cookieFile },
+  });
 
   return { username, password, serverUrl };
 };

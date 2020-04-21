@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { BitcoinCoreConnectionSettings } from "../components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
+import { BitcoinCoreConnectionSettingsInDialog } from "./BitcoinCoreConnectionSettingsInDialog";
 import { ConnectionStatusReport } from "./ConnectionStatusReport";
 // import { useConnectionStatus } from "./useConnectionStatus";
 
@@ -36,11 +37,6 @@ export const BitcoinCoreConnectionIssueDialog = () => {
     setKeepOpen(true);
   }
 
-  const Comp = BitcoinCoreConnectionSettings;
-  // const Comp = enterServerDetails
-  //   ? BitcoinCoreConnectionSettings
-  //   : ConnectionStatusReport;
-
   return (
     <Dialog open={isOpen}>
       <DialogTitle>
@@ -50,37 +46,7 @@ export const BitcoinCoreConnectionIssueDialog = () => {
         </span>{" "}
         reach Bitcoin Core
       </DialogTitle>
-
-      <Comp
-        render={(Content, Buttonz) => (
-          <>
-            <DialogContent>
-              <Content />
-            </DialogContent>
-
-            <DialogActions>
-              <Buttonz
-                variant="outlined"
-                // onClick={() => setEnterServerDetails(true)}
-                className={a("marginTop05", "marginLeftAuto")}
-              >
-                Enter server details
-              </Buttonz>
-
-              {/* <Button
-  color="primary"
-  onClick={() => setKeepOpen(false)}
-  disabled
-  variant="contained"
-  disableElevation
-  className={a("marginTop05", "marginLeftAuto")}
->
-  Close
-</Button> */}
-            </DialogActions>
-          </>
-        )}
-      />
+      <BitcoinCoreConnectionSettingsInDialog />
     </Dialog>
   );
 };

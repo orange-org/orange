@@ -1,16 +1,16 @@
-import { UnsentRpcRequest } from "_t/RpcRequests";
+import { RpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
 import { isBitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
-import { makeRpcRequest } from "./makeRpcRequest";
+import { callMain } from "_r/ipc/callMain";
 import { rpcClientCache } from "./rpcClientCache";
 import { fixingBitcoinCoreConnectionIssue } from "./fixingBitcoinCoreConnectionIssue";
 
-export type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
+export type RpcClientReturnType<T extends RpcRequest> = Extract<
   RpcResponse["result"],
   Extract<RpcResponse, { method: T["method"]; error: null }>["result"]
 >;
 
-export const rpcClient = async <TRpcRequest extends UnsentRpcRequest>(
+export const rpcClient = async <TRpcRequest extends RpcRequest>(
   nonce: NONCE,
   rpcRequest: TRpcRequest,
   cacheTtl?: number,
@@ -23,7 +23,12 @@ export const rpcClient = async <TRpcRequest extends UnsentRpcRequest>(
     }
   }
 
-  const response = await makeRpcRequest(nonce, rpcRequest);
+  console.log("=\nFILE: rpcClient.ts\nLINE: 27\n=");
+  const { message: response } = await callMain({
+    nonce,
+    type: "rpc-request",
+    message: rpcRequest,
+  });
 
   if (response.error) {
     if (isBitcoinCoreConnectionIssue(response.error)) {

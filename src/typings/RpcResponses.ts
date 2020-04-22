@@ -324,9 +324,7 @@ export type RawTransactionRpcResponse = CreateRpcResponse<
   RawTransaction
 >;
 
-export type RpcResponse = {
-  requestId: string;
-} & (
+export type RpcResponse =
   | NetworkInfoRpcResponse
   | BlockchainInfoRpcResponse
   | BlockRpcResponse
@@ -337,8 +335,7 @@ export type RpcResponse = {
   | ChainTipsRpcResponse
   | BlockHeaderRpcResponse
   | BlockHashRpcResponse
-  | RawTransactionRpcResponse
-);
+  | RawTransactionRpcResponse;
 
 export type RawRpcResponse = {
   result: RpcResponse["result"];

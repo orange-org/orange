@@ -21,6 +21,8 @@ export const ListOfBlocks: React.FC = () => {
   const a = useAtomicCss();
   const { blockHeightAsId } = useParams();
 
+  console.log("=\nFILE: BlockList.tsx\nLINE: 24\n=");
+
   useEffect(() => {
     dispatch(
       thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),
@@ -45,9 +47,9 @@ export const ListOfBlocks: React.FC = () => {
       data-testid="scrollable-blocks-container"
     >
       <div className={a("marginY10", "marginX05")}>
-        {explorerBlockList?.map(block => {
-          return <Block key={block.hash} data={block} />;
-        })}
+        {explorerBlockList?.map(block => (
+          <Block key={block.hash} data={block} />
+        ))}
       </div>
       <div />
     </div>

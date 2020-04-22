@@ -13,8 +13,8 @@ import { useFormik } from "formik";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { makeRpcRequest } from "_r/rpcClient/makeRpcRequest";
 import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
+import { callMain } from "_r/ipc/callMain";
 
 type SaveButton = React.FC<ButtonProps>;
 
@@ -50,7 +50,13 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
      * `password` values from main process
      */
     const request = async () => {
-      await makeRpcRequest(__NONCE__, { method: "uptime" });
+      await callMain({
+        nonce: __NONCE__,
+        type: "rpc-request",
+        message: {
+          method: "uptime",
+        },
+      });
     };
 
     request();

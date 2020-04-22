@@ -3,35 +3,38 @@ import { DeepPartial } from "redux";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
 
-export type Message<S, T, M> = {
+export type Message<T, M> = {
   nonce: NONCE;
-  source: S;
   type: T;
   message: M;
 };
 
-// type MessageNoPayload<S, T> = {
-//   nonce: NONCE;
-//   source: S;
-//   type: T;
-//   message?: null;
-// };
-
 export type MtR = "@orange/main";
 export type MtM = "@orange/renderer";
 
-export type RpcResponseMtR = Message<MtR, "rpc-response", RpcResponse>;
-
 export type SetDataInReduxStoreMtR = Message<
-  MtR,
   "set-data-in-redux-store",
   DeepPartial<State["mainProcessData"]>
 >;
 
-export type MessageToRenderer = RpcResponseMtR | SetDataInReduxStoreMtR;
+export type RpcRequestMtM = Message<"rpc-request", RpcRequest>;
+export type RpcResponseMtR = Message<RpcRequestMtM["type"], RpcResponse>;
 
-export type RpcRequestMtM = Message<MtM, "rpc-request", RpcRequest>;
-
-export type showErrorMtM = Message<MtM, "show-error", string>;
+export type showErrorMtM = Message<"show-error", string>;
+export type showErrorMtR = Message<showErrorMtM["type"], string>;
 
 export type MessageToMain = RpcRequestMtM | showErrorMtM;
+export type MessageToRenderer =
+  | RpcResponseMtR
+  | showErrorMtR
+  | SetDataInReduxStoreMtR;
+
+export type SendableMessageToRenderer = {
+  source: MtR;
+  messageId: string;
+} & MessageToRenderer;
+
+export type SendableMessageToMain = {
+  source: MtM;
+  messageId: string;
+} & MessageToMain;

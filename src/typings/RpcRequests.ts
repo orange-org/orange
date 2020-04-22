@@ -64,7 +64,6 @@ export type RawTransactionRpcRequest = {
 };
 
 export type RpcRequest = {
-  requestId: string;
   connectionConfigurations?: { serverUrl: string } & (
     | {
         password: string;
@@ -89,4 +88,3 @@ export type RpcRequest = {
 );
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;
-export type UnsentRpcRequest = Omit<RpcRequest, "requestId">;

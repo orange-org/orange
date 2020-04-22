@@ -1,17 +1,9 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@material-ui/core";
-import React, { useState, useRef } from "react";
+import { Dialog, DialogTitle } from "@material-ui/core";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { BitcoinCoreConnectionSettings } from "../components/BitcoinCoreConnectionSettings/BitcoinCoreConnectionSettings";
 import { BitcoinCoreConnectionSettingsInDialog } from "./BitcoinCoreConnectionSettingsInDialog";
-import { ConnectionStatusReport } from "./ConnectionStatusReport";
 // import { useConnectionStatus } from "./useConnectionStatus";
 
 export const BitcoinCoreConnectionIssueDialog = () => {

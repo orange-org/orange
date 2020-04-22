@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
-import { UnsentRpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
+import { RpcRequest } from "_t/RpcRequests";
 
 type SimplifiedRpcResponse =
   | RpcResponse["result"]
@@ -8,11 +8,11 @@ type SimplifiedRpcResponse =
 
 class RpcClientMockResponses {
   queuedResponses: {
-    request: UnsentRpcRequest;
+    request: RpcRequest;
     response: SimplifiedRpcResponse;
   }[] = [];
 
-  forRequest = (request: UnsentRpcRequest) => {
+  forRequest = (request: RpcRequest) => {
     return {
       queueResponse: (response: SimplifiedRpcResponse) => {
         this.queuedResponses.push({
@@ -23,7 +23,7 @@ class RpcClientMockResponses {
     };
   };
 
-  popResponseFor = (request: UnsentRpcRequest) => {
+  popResponseFor = (request: RpcRequest) => {
     const responseIndex = this.queuedResponses.findIndex(queuedResponse =>
       isEqual(queuedResponse.request, request),
     );

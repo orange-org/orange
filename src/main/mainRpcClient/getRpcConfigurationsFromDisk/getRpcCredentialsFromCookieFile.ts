@@ -9,7 +9,11 @@ export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
       encoding: "utf8",
     });
   } catch (error) {
-    if (error.code === "ENOENT") {
+    if (
+      error.code === "ENOENT" ||
+      error.code === "EACCES" ||
+      error.code === "EISDIR"
+    ) {
       // eslint-disable-next-line no-throw-literal
       throw {
         ...error,

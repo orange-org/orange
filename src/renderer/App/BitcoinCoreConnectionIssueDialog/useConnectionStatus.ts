@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { makeRpcRequest } from "_r/rpcClient/makeRpcRequest";
 import {
   BitcoinCoreConnectionIssue,
   determineBitcoinCoreConnectionIssue,
 } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 import { poll } from "_r/utils/poll";
 import { RpcRequest } from "_t/RpcRequests";
+import { callMain } from "_r/ipc/callMain";
 
 export const useConnectionStatus = (
   connectionConfigurations?: RpcRequest["connectionConfigurations"],
@@ -15,13 +15,15 @@ export const useConnectionStatus = (
     setConnectionIssue,
   ] = useState<BitcoinCoreConnectionIssue | null>(null);
 
-  console.log("=\nFILE: useConnectionStatus.ts\nLINE: 18\n=");
-
   useEffect(() => {
     const stopPolling = poll(async () => {
-      const response = await makeRpcRequest(__NONCE__, {
-        method: "uptime",
-        connectionConfigurations,
+      const { message: response } = await callMain({
+        nonce: __NONCE__,
+        type: "rpc-request",
+        message: {
+          method: "uptime",
+          connectionConfigurations,
+        },
       });
 
       if (response.error) {

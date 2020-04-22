@@ -17,7 +17,7 @@ export const Routes = () => {
 
   return (
     <Router>
-      <BitcoinCoreConnectionIssueDialog />
+      {/* <BitcoinCoreConnectionIssueDialog /> */}
 
       <Switch>
         <Route exact path="/">

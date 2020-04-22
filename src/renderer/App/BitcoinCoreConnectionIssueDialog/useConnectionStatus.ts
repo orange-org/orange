@@ -17,10 +17,10 @@ export const useConnectionStatus = (
 
   useEffect(() => {
     const stopPolling = poll(async () => {
-      const { message: response } = await callMain({
+      const { payload: response } = await callMain({
         nonce: __NONCE__,
         type: "rpc-request",
-        message: {
+        payload: {
           method: "uptime",
           connectionConfigurations,
         },

@@ -62,7 +62,7 @@ const _getRpcConfigurationsFromDisk = async () => {
   callRenderer({
     nonce: __NONCE__,
     type: "set-data-in-redux-store",
-    message: { username, password, serverUrl, cookieFile },
+    payload: { username, password, serverUrl, cookieFile },
   });
 
   return { username, password, serverUrl };

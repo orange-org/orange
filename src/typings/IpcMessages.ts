@@ -3,11 +3,13 @@ import { DeepPartial } from "redux";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
 
-export type Message<T, M> = {
+export type Message<T, P> = {
   nonce: NONCE;
   type: T;
-  message: M;
+  payload: P;
 };
+
+export type MessageWithoutPayload<T> = Omit<Message<T, undefined>, "payload">;
 
 export type MtR = "@orange/main";
 export type MtM = "@orange/renderer";
@@ -20,14 +22,26 @@ export type SetDataInReduxStoreMtR = Message<
 export type RpcRequestMtM = Message<"rpc-request", RpcRequest>;
 export type RpcResponseMtR = Message<RpcRequestMtM["type"], RpcResponse>;
 
-export type showErrorMtM = Message<"show-error", string>;
-export type showErrorMtR = Message<showErrorMtM["type"], string>;
+export type ShowErrorMtM = Message<"show-error", string>;
+export type ShowErrorMtR = Message<ShowErrorMtM["type"], string>;
 
-export type MessageToMain = RpcRequestMtM | showErrorMtM;
+export type ShowCookieOpenDialogMtM = MessageWithoutPayload<
+  "show-cookie-open-dialog"
+>;
+export type ShowCookieOpenDialogMtR = Message<
+  ShowCookieOpenDialogMtM["type"],
+  string | null
+>;
+
+export type MessageToMain =
+  | RpcRequestMtM
+  | ShowErrorMtM
+  | ShowCookieOpenDialogMtM;
 export type MessageToRenderer =
   | RpcResponseMtR
-  | showErrorMtR
-  | SetDataInReduxStoreMtR;
+  | ShowErrorMtR
+  | SetDataInReduxStoreMtR
+  | ShowCookieOpenDialogMtR;
 
 export type SendableMessageToRenderer = {
   source: MtR;

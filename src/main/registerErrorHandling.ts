@@ -18,7 +18,11 @@ export const registerErrorHandling = () => {
     // }
 
     if (error) {
-      showErrorDialog(JSON.stringify(error, null, 2));
+      showErrorDialog(
+        error instanceof Error
+          ? error.toString()
+          : JSON.stringify(error, null, 2),
+      );
     }
   };
 

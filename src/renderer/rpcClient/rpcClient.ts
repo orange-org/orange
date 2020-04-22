@@ -24,10 +24,10 @@ export const rpcClient = async <TRpcRequest extends RpcRequest>(
   }
 
   console.log("=\nFILE: rpcClient.ts\nLINE: 27\n=");
-  const { message: response } = await callMain({
+  const { payload: response } = await callMain({
     nonce,
     type: "rpc-request",
-    message: rpcRequest,
+    payload: rpcRequest,
   });
 
   if (response.error) {

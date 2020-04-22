@@ -19,7 +19,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: "foo",
             method: "getblockhash",
             error: null,
@@ -48,7 +48,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: "this will be cached",
             method: "getblockhash",
             error: null,
@@ -69,7 +69,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: "this will not be returned",
             method: "getblockhash",
             error: null,
@@ -97,7 +97,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: "this will be expired",
             method: "getblockhash",
             error: null,
@@ -117,7 +117,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: "this will be returned",
             method: "getblockhash",
             error: null,
@@ -148,7 +148,7 @@ describe("rpcClient", () => {
         const rpcResponse: RpcResponseMtR = {
           nonce: __NONCE__,
           type: "rpc-request",
-          message: {
+          payload: {
             result: null,
             method: "getblockhash",
             error: {

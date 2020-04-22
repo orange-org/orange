@@ -12,7 +12,7 @@ const windowMessageEventHandler = (event: MessageEvent) => {
   const { data } = event;
 
   if (isOfType(data, "set-data-in-redux-store")) {
-    store.dispatch(setMainProcessDataInReduxStore(data.message));
+    store.dispatch(setMainProcessDataInReduxStore(data.payload));
   }
 };
 window.addEventListener("message", windowMessageEventHandler);

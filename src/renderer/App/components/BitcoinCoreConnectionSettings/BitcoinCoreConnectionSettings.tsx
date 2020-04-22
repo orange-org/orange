@@ -16,8 +16,6 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
 import { callMain } from "_r/ipc/callMain";
 
-type SaveButton = React.FC<ButtonProps>;
-
 export const useBitcoinCoreConnectionSettingsHooks = () => {
   const mainProcessData = useSelector(state => state.mainProcessData);
   const cookieAuthenticationState = useState(true);
@@ -53,7 +51,7 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
       await callMain({
         nonce: __NONCE__,
         type: "rpc-request",
-        message: {
+        payload: {
           method: "uptime",
         },
       });

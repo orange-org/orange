@@ -12,8 +12,8 @@ export const handleRpcRequest = async (
   let response!: RpcResponse;
 
   try {
-    if (data.message.connectionConfigurations) {
-      const { connectionConfigurations } = data.message;
+    if (data.payload.connectionConfigurations) {
+      const { connectionConfigurations } = data.payload;
 
       let username: string;
       let password: string;
@@ -29,14 +29,14 @@ export const handleRpcRequest = async (
         password = connectionConfigurations.password;
       }
 
-      response = await mainRpcClient(data.message, {
+      response = await mainRpcClient(data.payload, {
         username,
         password,
         serverUrl: connectionConfigurations.serverUrl,
       });
     } else {
       let rpcConfigurations = await getRpcConfigurationsFromDisk();
-      response = await mainRpcClient(data.message, rpcConfigurations);
+      response = await mainRpcClient(data.payload, rpcConfigurations);
 
       /**
        * If we get 401 or 403 from Bitcoin Core, it could be because we
@@ -45,14 +45,14 @@ export const handleRpcRequest = async (
        */
       if (response.error?.code === RPC_ERROR.unauthorized) {
         rpcConfigurations = await getRpcConfigurationsFromDisk(false);
-        response = await mainRpcClient(data.message, rpcConfigurations);
+        response = await mainRpcClient(data.payload, rpcConfigurations);
       }
     }
   } catch (error) {
     const errorResponse = {
       result: null,
       error: { message: "", code: 0 },
-      method: data.message.method,
+      method: data.payload.method,
     };
 
     const errorDefinitions = [
@@ -98,7 +98,7 @@ export const handleRpcRequest = async (
   respondToRenderer({
     nonce: __NONCE__,
     type: "rpc-request",
-    message: response,
+    payload: response,
     messageId: data.messageId,
   });
 };

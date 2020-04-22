@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === "production") {
     callMain({
       nonce: __NONCE__,
       type: "show-error",
-      message:
+      payload:
         "reason" in event
           ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
           : [

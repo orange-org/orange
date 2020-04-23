@@ -2,7 +2,7 @@ import { merge } from "lodash";
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/RpcResponses";
-import { NullableKeys, StateConfig } from "_t/typeHelpers";
+import { NullableProperties, StateConfig } from "_t/typeHelpers";
 
 export type State = StateConfig<{
   bestBlock: Block;
@@ -13,7 +13,7 @@ export type State = StateConfig<{
   newRpcConfigurationsSaved: boolean;
   hasBitcoinCoreConnectionIssue: boolean;
 }> & {
-  mainProcessData: NullableKeys<{
+  mainProcessData: NullableProperties<{
     serverUrl: string;
     cookieFile: string;
     username: string;
@@ -65,12 +65,6 @@ export const reducer = createReducer(initialState)
       };
     },
   )
-  .handleAction(actions.setMainProcessDataInReduxStore, (state, action) => {
-    return {
-      ...state,
-      mainProcessData: merge({}, state.mainProcessData, action.payload),
-    };
-  })
   .handleAction(actions.setHasBitcoinCoreConnectionIssue, (state, action) => {
     return {
       ...state,

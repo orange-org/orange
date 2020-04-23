@@ -10,67 +10,86 @@ import {
 } from "@material-ui/core";
 import { FolderOpen } from "@material-ui/icons";
 import { useFormik } from "formik";
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useAtomicCss } from "_r/useAtomicCss";
+import React, { useEffect, useState } from "react";
+import Yup from "yup";
 import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
-import { callMain } from "_r/ipc/callMain";
+import { ipcService } from "_r/ipc/ipcService";
+import { useAtomicCss } from "_r/useAtomicCss";
+import { NullableProperties, KeysOfUnion } from "_t/typeHelpers";
+import { RpcConfigurations } from "_t/IpcMessages";
 import { BitcoinCoreConnectionStatus } from "../BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
+import { calculateUseCookieAuthentication } from "./calculateUseCookieAuthentication";
+
+type FormValues = {
+  useCookieAuthentication: boolean;
+  password: string;
+  username: string;
+  cookieFile: string;
+  serverUrl: string;
+};
 
 export const useBitcoinCoreConnectionSettingsHooks = () => {
-  const mainProcessData = useSelector(state => state.mainProcessData);
+  const [initialValues, setInitialValues] = useState<FormValues>({
+    useCookieAuthentication: true,
+    cookieFile: "",
+    username: "",
+    password: "",
+    serverUrl: "http://localhost:8332",
+  });
+
+  useEffect(() => {
+    const request = async () => {
+      try {
+        const response = await ipcService.getRpcConfigurations(__NONCE__);
+
+        setInitialValues({
+          username: "username" in response ? response.username : "",
+          password: "password" in response ? response.password : "",
+          cookieFile: "cookieFile" in response ? response.cookieFile : "",
+          serverUrl:
+            "serverUrl" in response
+              ? response.serverUrl
+              : "http://localhost:8332",
+          useCookieAuthentication: calculateUseCookieAuthentication(response),
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    request();
+  }, []);
+
   const cookieAuthenticationState = useState(true);
   const [useCookieAuthentication] = cookieAuthenticationState;
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      cookieFile: mainProcessData.cookieFile || "",
-      username: mainProcessData.username || "",
-      password: mainProcessData.password || "",
-      serverUrl: mainProcessData.serverUrl || "",
-    },
+    initialValues,
+    // validationSchema: Yup.object().shape({
+    //   cookieFile: Yup.string().required("Required"),
+    // }),
     // @ts-ignore
     onSubmit: v => console.log(v),
   });
 
-  const connectionStatus = useConnectionStatus({
+  const rpcConfigurations: RpcConfigurations = {
     serverUrl: formik.values.serverUrl,
-    ...(useCookieAuthentication
-      ? { cookieFile: formik.values.cookieFile }
+    ...(formik.values.useCookieAuthentication
+      ? { cookieFile: formik.values.cookieFile! }
       : {
-          username: formik.values.username,
-          password: formik.values.password,
+          username: formik.values.username!,
+          password: formik.values.password!,
         }),
-  });
+  };
 
-  useEffect(() => {
-    /**
-     * Make one normal request to populate `cookieFile`, `username`, and
-     * `password` values from main process
-     */
-    const request = async () => {
-      await callMain({
-        nonce: __NONCE__,
-        type: "rpc-request",
-        payload: {
-          method: "uptime",
-        },
-      });
-    };
-
-    request();
-  });
+  const connectionStatus = useConnectionStatus(rpcConfigurations);
 
   return {
     formik,
-    mainProcessData,
     connectionStatus,
     cookieAuthenticationState,
     setCookieFileFromDialog: async () => {
-      const { payload: response } = await callMain({
-        nonce: __NONCE__,
-        type: "show-cookie-open-dialog",
-      });
+      const response = await ipcService.getCookieFileFromOpenDialog(__NONCE__);
 
       if (response !== null) {
         formik.setFieldValue("cookieFile", response);
@@ -123,10 +142,8 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
       <FormControlLabel
         control={
           <Switch
-            checked={useCookieAuthentication}
-            onChange={() => {
-              setCookieAuthentication(!useCookieAuthentication);
-            }}
+            checked={formik.values.useCookieAuthentication}
+            {...formik.getFieldProps("useCookieAuthentication")}
           />
         }
         label={<Typography>Use cookie authentication</Typography>}
@@ -139,50 +156,55 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
         like Orange, can use this file for authentication.
       </Typography>
 
-      <div className={a("displayFlex", "alignItemsCenter", "marginTop05")}>
-        <TextField
-          disabled={!useCookieAuthentication}
-          {...commonTextFieldProps}
-          label="Cookie file"
-          {...formik.getFieldProps("cookieFile")}
-        />
+      {formik.values.useCookieAuthentication && (
+        <>
+          <div className={a("displayFlex", "alignItemsCenter", "marginTop05")}>
+            <TextField
+              {...commonTextFieldProps}
+              label="Cookie file"
+              {...formik.getFieldProps("cookieFile")}
+            />
 
-        <IconButton onClick={setCookieFileFromDialog}>
-          <FolderOpen />
-        </IconButton>
-      </div>
+            <IconButton onClick={setCookieFileFromDialog}>
+              <FolderOpen />
+            </IconButton>
+          </div>
+          <Typography className={a("helperText")}>
+            You can specify your cookie file location here.
+          </Typography>
+        </>
+      )}
 
-      <Typography className={a("helperText")}>
-        You can specify your cookie file location here.
-      </Typography>
+      {!formik.values.useCookieAuthentication && (
+        <>
+          <div className={a("displayFlex", "marginTop05", "alignItemsCenter")}>
+            <TextField
+              {...commonTextFieldProps}
+              label="Username"
+              {...formik.getFieldProps("username")}
+            />
 
-      <div className={a("displayFlex", "marginTop05", "alignItemsCenter")}>
-        <TextField
-          disabled={useCookieAuthentication}
-          {...commonTextFieldProps}
-          label="Username"
-          {...formik.getFieldProps("username")}
-        />
+            <Typography variant="h3" className={a("marginLeft02")}>
+              :
+            </Typography>
 
-        <Typography variant="h3" className={a("marginLeft02")}>
-          :
-        </Typography>
+            <TextField
+              {...commonTextFieldProps}
+              label="Password"
+              className={a("marginLeft02")}
+              {...formik.getFieldProps("password")}
+            />
+          </div>
 
-        <TextField
-          disabled={useCookieAuthentication}
-          {...commonTextFieldProps}
-          label="Password"
-          className={a("marginLeft02")}
-          {...formik.getFieldProps("password")}
-        />
-      </div>
-
-      <Typography className={a("helperText")}>
-        The value of your username and password can be automatically read from
-        your cookie if you&apos; ve chosen to use cookie authentication.You can
-        also enter the username and password here manually.<code>rpcauth</code>{" "}
-        username and password should also work.
-      </Typography>
+          <Typography className={a("helperText")}>
+            The value of your username and password can be automatically read
+            from your cookie if you&apos; ve chosen to use cookie
+            authentication.You can also enter the username and password here
+            manually.<code>rpcauth</code> username and password should also
+            work.
+          </Typography>
+        </>
+      )}
 
       <TextField
         {...commonTextFieldProps}

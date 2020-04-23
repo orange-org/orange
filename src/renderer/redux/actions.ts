@@ -47,10 +47,6 @@ export const setSelectedExplorerTransactionInputValues = createAction(
   "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
 )<RawTransaction["vout"][number]["value"][]>();
 
-export const setMainProcessDataInReduxStore = createAction(
-  "SET_MAIN_PROCESS_DATA_IN_REDUX_STORE",
-)<DeepPartial<State["mainProcessData"]>>();
-
 export const setHasBitcoinCoreConnectionIssue = createAction(
   "SET_HAS_BITCOIN_CORE_CONNECTION_ISSUE",
 )<boolean>();

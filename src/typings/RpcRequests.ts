@@ -1,3 +1,5 @@
+import { RpcConfigurations } from "./IpcMessages";
+
 export type NetworkInfoRpcRequest = {
   method: "getnetworkinfo";
   params?: null;
@@ -64,13 +66,7 @@ export type RawTransactionRpcRequest = {
 };
 
 export type RpcRequest = {
-  connectionConfigurations?: { serverUrl: string } & (
-    | {
-        password: string;
-        username: string;
-      }
-    | { cookieFile: string }
-  );
+  connectionConfigurations?: RpcConfigurations;
 } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest

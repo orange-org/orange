@@ -1,19 +1,15 @@
 import { Dialog, DialogTitle } from "@material-ui/core";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { productName } from "_r/../../package.json";
-import { useAtomicCss } from "_r/useAtomicCss";
 import { BitcoinCoreConnectionSettingsInDialog } from "./BitcoinCoreConnectionSettingsInDialog";
 import { ConnectionStatusReport } from "./ConnectionStatusReport";
 
 export const BitcoinCoreConnectionIssueDialog = () => {
-  const buttonProps = useRef<any>(null);
   const [keepOpen, setKeepOpen] = useState(false);
   const [enterServerDetails, setEnterServerDetails] = useState(false);
   const hasBitcoinCoreConnectionIssue = useSelector(
     state => state.hasBitcoinCoreConnectionIssue,
   );
-  const a = useAtomicCss();
   const isOpen = true;
   // const isOpen = hasBitcoinCoreConnectionIssue || keepOpen;
 

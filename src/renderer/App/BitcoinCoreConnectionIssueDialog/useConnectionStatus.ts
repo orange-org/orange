@@ -5,19 +5,18 @@ import {
   determineBitcoinCoreConnectionIssue,
 } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 import { poll } from "_r/utils/poll";
-import { RpcRequest } from "_t/RpcRequests";
+import { RpcConfigurations } from "_t/IpcMessages";
 
-export const useConnectionStatus = (
-  connectionConfigurations?: RpcRequest["connectionConfigurations"],
-) => {
+export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
   const [connectionIssue, setConnectionIssue] = useState<
     BitcoinCoreConnectionIssue | "newConfig" | null
   >(null);
   const { username, password, serverUrl, cookieFile } =
-    connectionConfigurations || ({} as any);
+    rpcConfigurations || ({} as any);
 
   // Every time we pass new connectionConfigurations we run the effect below
   useEffect(() => {
+    let isMounted = true;
     // We start by indicating that we've received new config.
     setConnectionIssue("newConfig");
 
@@ -28,13 +27,13 @@ export const useConnectionStatus = (
         type: "rpc-request",
         payload: {
           method: "uptime",
-          connectionConfigurations,
+          connectionConfigurations: rpcConfigurations,
         },
       });
 
-      if (response.error) {
+      if (response.error && isMounted) {
         setConnectionIssue(determineBitcoinCoreConnectionIssue(response.error));
-      } else {
+      } else if (isMounted) {
         setConnectionIssue(null);
       }
     }, 1000);
@@ -48,7 +47,10 @@ export const useConnectionStatus = (
       polling.start();
     }, 1000);
 
-    return polling.stop;
+    return () => {
+      polling.stop();
+      isMounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username, password, serverUrl, cookieFile]);
 

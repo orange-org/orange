@@ -1,20 +1,14 @@
 /* eslint-disable no-throw-literal */
-import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
+import { RPC_ERROR } from "_c/constants";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 import { makeRpcRequest } from "./makeRpcRequest";
 
-export type RpcConfigurations = {
-  username: string;
-  password: string;
-  serverUrl: string;
-};
-
 export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
-  rpcConfigurations: RpcConfigurations,
+  rpcConfigurations: { username: string; password: string; serverUrl: string },
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   const { method, params = [] } = rpcRequest;
   const { username, password, serverUrl } = rpcConfigurations;

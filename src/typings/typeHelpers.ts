@@ -2,8 +2,14 @@ import { State } from "_r/redux/reducers/reducer";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
 
-export type NullableKeys<TypeWithKeys> = {
+export type NullableProperties<TypeWithKeys> = {
   [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | null;
+};
+
+export type KeysOfUnion<T> = T extends any ? keyof T : never;
+
+export type NonNullableProperties<T> = {
+  [Key in keyof T]: NonNullable<T[Key]>;
 };
 
 export type ValuesOf<T extends any[]> = T[number];
@@ -20,7 +26,7 @@ export type WithoutProperty<T, K> = {
   [L in Exclude<keyof T, K>]: T[L];
 };
 
-export type StateConfig<T> = Readonly<NullableKeys<T>>;
+export type StateConfig<T> = Readonly<NullableProperties<T>>;
 
 export type Json = { [name: string]: string };
 

@@ -5,6 +5,7 @@ const store: Partial<{
   username: string;
   password: string;
   serverUrl: string;
+  cookieFile: string;
   args: Arguments;
 }> = {};
 

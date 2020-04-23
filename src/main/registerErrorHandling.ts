@@ -1,23 +1,10 @@
-// import { UiHandledError } from "_c/UiHandledError";
 import { showErrorDialog } from "./showErrorDialog";
-// import { callRenderer } from "./callRenderer";
-
-// const isOrangeError = (error: any): error is UiHandledError => {
-//   return error && "isUiHandledError" in error;
-// };
 
 export const registerErrorHandling = () => {
   const globalErrorHandler = (error: Error | {} | null | undefined) => {
-    // if (isOrangeError(error)) {
-    //   callRenderer({
-    //     nonce: error.nonce,
-    //     type: "error",
-    //     message: error.code,
-    //   });
-    //   return;
-    // }
-
     if (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
       showErrorDialog(
         error instanceof Error
           ? error.toString()

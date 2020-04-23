@@ -1,21 +1,22 @@
+/* eslint-disable no-nested-ternary */
 import { CircularProgress, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { CheckCircle } from "@material-ui/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { rpcService } from "_r/rpcClient/rpcService";
 import { BitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 
 export const BitcoinCoreConnectionStatus: React.FC<{
-  issue: BitcoinCoreConnectionIssue | null;
+  issue: BitcoinCoreConnectionIssue | "newConfig" | null;
 }> = props => {
   const a = useAtomicCss();
-  // eslint-disable-next-line no-nested-ternary
   const status = !props.issue
     ? "connected"
     : props.issue === "serverWarmingUp"
     ? "waiting for server to warm up..."
-    : "retrying...";
+    : props.issue === "newConfig"
+    ? "checking new configurations..."
+    : "unable to connect. Retrying...";
 
   return (
     <div className={a("displayFlex", "alignItemsCenter")}>

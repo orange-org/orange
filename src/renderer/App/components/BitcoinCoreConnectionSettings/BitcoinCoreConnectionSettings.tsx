@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
 import { callMain } from "_r/ipc/callMain";
+import { BitcoinCoreConnectionStatus } from "../BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
 
 export const useBitcoinCoreConnectionSettingsHooks = () => {
   const mainProcessData = useSelector(state => state.mainProcessData);
@@ -65,6 +66,16 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
     mainProcessData,
     connectionStatus,
     cookieAuthenticationState,
+    setCookieFileFromDialog: async () => {
+      const { payload: response } = await callMain({
+        nonce: __NONCE__,
+        type: "show-cookie-open-dialog",
+      });
+
+      if (response !== null) {
+        formik.setFieldValue("cookieFile", response);
+      }
+    },
   };
 };
 
@@ -101,6 +112,8 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
       setCookieAuthentication,
     ],
     formik,
+    setCookieFileFromDialog,
+    connectionStatus: { connectionIssue },
   } = props.hookData;
 
   return (
@@ -110,7 +123,9 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
         control={
           <Switch
             checked={useCookieAuthentication}
-            onChange={() => setCookieAuthentication(!useCookieAuthentication)}
+            onChange={() => {
+              setCookieAuthentication(!useCookieAuthentication);
+            }}
           />
         }
         label={<Typography>Use cookie authentication</Typography>}
@@ -131,7 +146,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
           {...formik.getFieldProps("cookieFile")}
         />
 
-        <IconButton>
+        <IconButton onClick={setCookieFileFromDialog}>
           <FolderOpen />
         </IconButton>
       </div>
@@ -145,7 +160,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
           disabled={useCookieAuthentication}
           {...commonTextFieldProps}
           label="Username"
-          value={formik.values.username}
+          {...formik.getFieldProps("username")}
         />
 
         <Typography variant="h3" className={a("marginLeft02")}>
@@ -157,7 +172,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
           {...commonTextFieldProps}
           label="Password"
           className={a("marginLeft02")}
-          value={formik.values.password}
+          {...formik.getFieldProps("password")}
         />
       </div>
 
@@ -172,7 +187,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
         {...commonTextFieldProps}
         className={a("marginTop05")}
         label="Server URL"
-        value={formik.values.serverUrl}
+        {...formik.getFieldProps("serverUrl")}
       />
 
       <Typography className={a("helperText")}>
@@ -180,20 +195,10 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
         <code>http://localhost:8332</code>.If you have different configurations,
         you can enter your server URL here manually.
       </Typography>
+
+      <div className={a("marginTop05")}>
+        <BitcoinCoreConnectionStatus issue={connectionIssue} />
+      </div>
     </>
   );
 };
-
-// export const BitcoinCoreConnectionSettings: React.FC<{
-//   render: (Content: React.FC, Button: SaveButton) => JSX.Element;
-// }> = props => {
-//   const Button: SaveButton = buttonProps => (
-//     <MuiButton
-//       color="primary"
-//       {...buttonProps}
-//       onClick={() => formik.handleSubmit()}
-//     >
-//       Save
-//     </MuiButton>
-//   );
-// };

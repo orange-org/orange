@@ -3,16 +3,32 @@ import { delay } from "bluebird";
 
 export const poll = (cb: any, timeout: number) => {
   let keepPolling = true;
+  let pause_ = false;
 
-  async function startPolling() {
+  function pause() {
+    pause_ = true;
+  }
+
+  function resume() {
+    pause_ = false;
+  }
+
+  function stop() {
+    keepPolling = false;
+  }
+
+  async function start() {
     while (keepPolling) {
-      await Promise.all([cb(), delay(timeout)]);
+      if (!pause_) {
+        await Promise.all([cb(), delay(timeout)]);
+      }
     }
   }
 
-  startPolling();
-
-  return function stopPolling() {
-    keepPolling = false;
+  return {
+    start,
+    stop,
+    pause,
+    resume,
   };
 };

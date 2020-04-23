@@ -87,6 +87,8 @@ export const BitcoinCoreConnectionSettingsSaveButton: React.FC<{
 }> = props => (
   <MuiButton
     color="primary"
+    variant="contained"
+    disableElevation
     {...props.buttonProps}
     onClick={() => props.hookData.formik.handleSubmit()}
   >
@@ -119,7 +121,6 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
   return (
     <>
       <FormControlLabel
-        className={a("marginTop05")}
         control={
           <Switch
             checked={useCookieAuthentication}

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { BitcoinCoreConnectionSettingsInDialog } from "./BitcoinCoreConnectionSettingsInDialog";
-// import { useConnectionStatus } from "./useConnectionStatus";
+import { ConnectionStatusReport } from "./ConnectionStatusReport";
 
 export const BitcoinCoreConnectionIssueDialog = () => {
   const buttonProps = useRef<any>(null);
@@ -14,7 +14,6 @@ export const BitcoinCoreConnectionIssueDialog = () => {
     state => state.hasBitcoinCoreConnectionIssue,
   );
   const a = useAtomicCss();
-  const isConnected = !hasBitcoinCoreConnectionIssue;
   const isOpen = true;
   // const isOpen = hasBitcoinCoreConnectionIssue || keepOpen;
 
@@ -32,13 +31,18 @@ export const BitcoinCoreConnectionIssueDialog = () => {
   return (
     <Dialog open={isOpen}>
       <DialogTitle>
-        {productName} could{" "}
-        <span style={{ textDecoration: isConnected ? "line-through" : "none" }}>
-          not
-        </span>{" "}
-        reach Bitcoin Core
+        Bitcoin Core connection {enterServerDetails ? "settings" : "issue"}
       </DialogTitle>
-      <BitcoinCoreConnectionSettingsInDialog />
+
+      {enterServerDetails ? (
+        <BitcoinCoreConnectionSettingsInDialog
+          onClickCancel={() => setEnterServerDetails(false)}
+        />
+      ) : (
+        <ConnectionStatusReport
+          onClickEnterServerDetails={() => setEnterServerDetails(true)}
+        />
+      )}
     </Dialog>
   );
 };

@@ -1,8 +1,8 @@
 import { Button as MuiButton, ButtonProps } from "@material-ui/core";
 import React from "react";
-import { HookData } from "./useBitcoinCoreConnectionSettings";
+import { HookData } from "./useRpcSettings";
 
-export const BitcoinCoreConnectionSettingsSaveButton: React.FC<{
+export const RpcSettingsSaveButton: React.FC<{
   hookData: HookData;
   buttonProps?: ButtonProps;
 }> = props => (

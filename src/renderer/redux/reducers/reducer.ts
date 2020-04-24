@@ -11,7 +11,7 @@ export type State = StateConfig<{
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
   newRpcConfigurationsSaved: boolean;
-  hasBitcoinCoreConnectionIssue: boolean;
+  hasRpcIssue: boolean;
 }> & {
   mainProcessData: NullableProperties<{
     serverUrl: string;
@@ -28,7 +28,7 @@ export const initialState: State = {
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
   newRpcConfigurationsSaved: null,
-  hasBitcoinCoreConnectionIssue: null,
+  hasRpcIssue: null,
   mainProcessData: {
     serverUrl: null,
     cookieFile: null,
@@ -65,9 +65,9 @@ export const reducer = createReducer(initialState)
       };
     },
   )
-  .handleAction(actions.setHasBitcoinCoreConnectionIssue, (state, action) => {
+  .handleAction(actions.setHasRpcIssue, (state, action) => {
     return {
       ...state,
-      hasBitcoinCoreConnectionIssue: action.payload,
+      hasRpcIssue: action.payload,
     };
   });

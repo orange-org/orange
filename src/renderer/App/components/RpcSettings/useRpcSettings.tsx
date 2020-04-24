@@ -1,13 +1,13 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { DEFAULT_SERVER_URL } from "_c/constants";
-import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
+import { useConnectionStatus } from "_r/App/RpcIssueDialog/useConnectionStatus";
 import { ipcService } from "_r/ipc/ipcService";
 import { RpcConfigurations } from "_t/IpcMessages";
-import { bitcoinCoreConnectionSettingsValidationSchema } from "./BitcoinCoreConnectionSettingsValidationSchema";
-import { bitcoinCoreConnectionSettingsSubmitHandler } from "./bitcoinCoreConnectionSettingsSubmitHandler";
+import { rpcSettingsSubmitHandler } from "./rpcSettingsSubmitHandler";
+import { rpcSettingsValidationSchema } from "./rpcSettingsValidationSchema";
 
-export const useBitcoinCoreConnectionSettingsHooks = () => {
+export const useRpcSettingsHooks = () => {
   const [initialValues, setInitialValues] = useState<FormValues>({
     useDefaultSettings: true,
     useCookieAuthentication: true,
@@ -38,8 +38,8 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues,
-    validationSchema: bitcoinCoreConnectionSettingsValidationSchema,
-    onSubmit: bitcoinCoreConnectionSettingsSubmitHandler,
+    validationSchema: rpcSettingsValidationSchema,
+    onSubmit: rpcSettingsSubmitHandler,
   });
 
   const rpcConfigurations: RpcConfigurations = {
@@ -78,4 +78,4 @@ export type FormValues = {
   serverUrl: string;
 };
 
-export type HookData = ReturnType<typeof useBitcoinCoreConnectionSettingsHooks>;
+export type HookData = ReturnType<typeof useRpcSettingsHooks>;

@@ -8,7 +8,7 @@ import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
-import { BitcoinCoreConnectionIssueDialog } from "./BitcoinCoreConnectionIssueDialog/BitcoinCoreConnectionIssueDialog";
+import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
 
@@ -17,7 +17,7 @@ export const Routes = () => {
 
   return (
     <Router>
-      <BitcoinCoreConnectionIssueDialog />
+      <RpcIssueDialog />
 
       <Switch>
         <Route exact path="/">

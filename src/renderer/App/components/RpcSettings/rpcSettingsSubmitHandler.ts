@@ -1,12 +1,12 @@
 import { FormikHelpers } from "formik";
-import { FormValues } from "./useBitcoinCoreConnectionSettings";
+import { FormValues } from "./useRpcSettings";
 
 type SubmitHandler = (
   values: FormValues,
   formikHelpers: FormikHelpers<FormValues>,
 ) => void | Promise<any>;
 
-export const bitcoinCoreConnectionSettingsSubmitHandler: SubmitHandler = (
+export const rpcSettingsSubmitHandler: SubmitHandler = (
   values,
   { setSubmitting },
 ) => {

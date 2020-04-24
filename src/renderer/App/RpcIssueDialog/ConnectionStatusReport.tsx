@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { productName } from "_r/../../package.json";
-import { BitcoinCoreConnectionStatus } from "_r/App/components/BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
+import { RpcStatus } from "_r/App/components/RpcStatus/RpcStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { useConnectionStatus } from "./useConnectionStatus";
 
@@ -32,7 +32,7 @@ export const ConnectionStatusReport: React.FC<{
             </Typography>
 
             <div className={a("marginTop05")}>
-              <BitcoinCoreConnectionStatus issue={connectionIssue} />
+              <RpcStatus issue={connectionIssue} />
             </div>
 
             <Typography className={a("helperText")}>

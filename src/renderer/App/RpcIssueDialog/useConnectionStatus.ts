@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { ipcService } from "_r/ipc/ipcService";
-import {
-  BitcoinCoreConnectionIssue,
-  determineBitcoinCoreConnectionIssue,
-} from "_r/utils/bitcoinCoreConnectionIssueHelpers";
+import { RpcIssue, determineRpcIssue } from "_r/utils/rpcIssueHelpers";
 import { poll } from "_r/utils/poll";
 import { isValidUrl } from "_r/utils/smallUtils";
 import { RpcConfigurations } from "_t/IpcMessages";
 
 export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
   const [connectionIssue, setConnectionIssue] = useState<
-    BitcoinCoreConnectionIssue | "newConfig" | null
+    RpcIssue | "newConfig" | null
   >(null);
   const { username, password, serverUrl, cookieFile } =
     rpcConfigurations || ({} as any);
@@ -32,9 +29,7 @@ export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
         });
 
         if (response.error && isMounted) {
-          setConnectionIssue(
-            determineBitcoinCoreConnectionIssue(response.error),
-          );
+          setConnectionIssue(determineRpcIssue(response.error));
         } else if (isMounted) {
           setConnectionIssue(null);
         }

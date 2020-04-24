@@ -1,4 +1,4 @@
-import { setHasBitcoinCoreConnectionIssue } from "_r/redux/actions";
+import { setHasRpcIssue } from "_r/redux/actions";
 import { store } from "_r/redux/reducers/store";
 
 /**
@@ -7,12 +7,12 @@ import { store } from "_r/redux/reducers/store";
  * It also sets Redux store states that prompt the user to fix Bitcoin Core
  * connection issue.
  */
-export const fixingBitcoinCoreConnectionIssue = () => {
-  store.dispatch(setHasBitcoinCoreConnectionIssue(true));
+export const fixingRpcIssue = () => {
+  store.dispatch(setHasRpcIssue(true));
 
   return new Promise(resolve => {
     const intervalId = setInterval(() => {
-      if (!store.getState().hasBitcoinCoreConnectionIssue) {
+      if (!store.getState().hasRpcIssue) {
         clearInterval(intervalId);
         resolve();
       }
@@ -25,12 +25,12 @@ export const fixingBitcoinCoreConnectionIssue = () => {
     //     if (response.result && newRpcConfigurationsSaved) {
     //       stopPolling();
     //       resolve();
-    //       store.dispatch(setBitcoinCoreConnectionIssue(null));
+    //       store.dispatch(setRpcIssue(null));
     //       store.dispatch(setNewRpcConfigurationsSaved(null));
     //       return;
     //     }
 
-    //     store.dispatch(setBitcoinCoreConnectionIssue(response.error));
+    //     store.dispatch(setRpcIssue(response.error));
     //   }, 1000);
   });
 };

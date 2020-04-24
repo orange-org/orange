@@ -44,7 +44,7 @@ class IpcService {
       }),
     );
 
-  saveBitcoinCoreConnectionConfigurations = (
+  saveRpcConfigurations = (
     nonce: NONCE,
     connectionConfigurations: RpcConfigurations | null,
   ) => {};

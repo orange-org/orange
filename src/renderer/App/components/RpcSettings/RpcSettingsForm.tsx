@@ -10,10 +10,10 @@ import { FolderOpen } from "@material-ui/icons";
 import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { BitcoinCoreConnectionStatus } from "../BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
-import { HookData } from "./useBitcoinCoreConnectionSettings";
+import { RpcStatus } from "../RpcStatus/RpcStatus";
+import { HookData } from "./useRpcSettings";
 
-export const BitcoinCoreConnectionSettingsForm: React.FC<{
+export const RpcSettingsForm: React.FC<{
   hookData: HookData;
 }> = props => {
   const a = useAtomicCss();
@@ -145,7 +145,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
       )}
 
       <div className={a("marginTop05")}>
-        <BitcoinCoreConnectionStatus issue={connectionIssue} />
+        <RpcStatus issue={connectionIssue} />
       </div>
     </>
   );

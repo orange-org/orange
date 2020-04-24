@@ -34,11 +34,7 @@ export const AppBar: React.FC = () => {
 
         <div className={a("flexGrow1")} />
 
-        <IconButton
-          onClick={() => null}
-          component={Link}
-          to="/settings/bitcoin-core-connection"
-        >
+        <IconButton onClick={() => null} component={Link} to="/settings">
           <Settings />
         </IconButton>
       </Toolbar>

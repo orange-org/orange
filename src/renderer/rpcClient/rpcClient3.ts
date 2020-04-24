@@ -4,9 +4,9 @@
 // import { RpcResponse } from "_t/RpcResponses";
 // import { RpcResponseMtR } from "_t/IpcMessages";
 // import { store } from "_r/redux/reducers/store";
-// import { setBitcoinCoreConnectionIssue } from "_r/redux/actions";
+// import { setRpcIssue } from "_r/redux/actions";
 // import { rpcClientCache } from "./rpcClientCache";
-// import { isBitcoinCoreConnectionIssue } from "./isBitcoinCoreConnectionIssue";
+// import { isRpcIssue } from "./isRpcIssue";
 
 // const isRpcResponse = (
 //   response: any,
@@ -46,9 +46,9 @@
 //         window.removeEventListener("message", windowMessageEventHandler);
 
 //         if (response.message.error) {
-//           if (isBitcoinCoreConnectionIssue(response.message.error)) {
+//           if (isRpcIssue(response.message.error)) {
 //             store.dispatch(
-//               setBitcoinCoreConnectionIssue(response.message.error),
+//               setRpcIssue(response.message.error),
 //             );
 //             return;
 //           }
@@ -61,7 +61,7 @@
 //           rpcClientCache.add(rpcRequest, response.message, cacheTtl);
 //         }
 
-//         store.dispatch(setBitcoinCoreConnectionIssue(null));
+//         store.dispatch(setRpcIssue(null));
 //         resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
 //       }
 //     };

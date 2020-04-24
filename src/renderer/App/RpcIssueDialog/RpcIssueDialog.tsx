@@ -1,17 +1,15 @@
 import { Dialog, DialogTitle } from "@material-ui/core";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { BitcoinCoreConnectionSettingsInDialog } from "./BitcoinCoreConnectionSettingsInDialog";
+import { RpcSettingsInDialog } from "./RpcSettingsInDialog";
 import { ConnectionStatusReport } from "./ConnectionStatusReport";
 
-export const BitcoinCoreConnectionIssueDialog = () => {
+export const RpcIssueDialog = () => {
   const [keepOpen, setKeepOpen] = useState(false);
   const [enterServerDetails, setEnterServerDetails] = useState(false);
-  const hasBitcoinCoreConnectionIssue = useSelector(
-    state => state.hasBitcoinCoreConnectionIssue,
-  );
+  const hasRpcIssue = useSelector(state => state.hasRpcIssue);
   const isOpen = true;
-  // const isOpen = hasBitcoinCoreConnectionIssue || keepOpen;
+  // const isOpen = hasRpcIssue || keepOpen;
 
   /**
    * When we encounter a connection issue, we want to keep the dialog open
@@ -20,7 +18,7 @@ export const BitcoinCoreConnectionIssueDialog = () => {
    *
    * When the user clicks "Close", `keepOpen` is set to `false`.
    */
-  if (hasBitcoinCoreConnectionIssue && !keepOpen) {
+  if (hasRpcIssue && !keepOpen) {
     setKeepOpen(true);
   }
 
@@ -31,7 +29,7 @@ export const BitcoinCoreConnectionIssueDialog = () => {
       </DialogTitle>
 
       {enterServerDetails ? (
-        <BitcoinCoreConnectionSettingsInDialog
+        <RpcSettingsInDialog
           onClickCancel={() => setEnterServerDetails(false)}
         />
       ) : (

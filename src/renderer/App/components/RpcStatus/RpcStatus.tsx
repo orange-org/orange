@@ -3,11 +3,11 @@ import { CircularProgress, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { CheckCircle } from "@material-ui/icons";
 import React from "react";
+import { RpcIssue } from "_r/utils/rpcIssueHelpers";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { BitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 
-export const BitcoinCoreConnectionStatus: React.FC<{
-  issue: BitcoinCoreConnectionIssue | "newConfig" | null;
+export const RpcStatus: React.FC<{
+  issue: RpcIssue | "newConfig" | null;
 }> = props => {
   const a = useAtomicCss();
   const status = !props.issue

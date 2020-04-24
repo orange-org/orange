@@ -48,13 +48,13 @@ export type GetRpcConfigurationsMtR = Message<
   RpcConfigurations
 >;
 
-export type SaveBitcoinCoreConnectionConfigurationsMtM = Message<
-  "save-bitcoin-core-connection-configurations",
+export type SaveRpcConfigurationsMtM = Message<
+  "save-rpc-configurations",
   RpcConfigurations
 >;
 
-export type SaveBitcoinCoreConnectionConfigurationsMtR = Message<
-  SaveBitcoinCoreConnectionConfigurationsMtM["type"],
+export type SaveRpcConfigurationsMtR = Message<
+  SaveRpcConfigurationsMtM["type"],
   null
 >;
 
@@ -63,13 +63,13 @@ export type MessageToMain =
   | ShowErrorMtM
   | GetCookieFileFromOpenDialogMtM
   | GetRpcConfigurationsMtM
-  | SaveBitcoinCoreConnectionConfigurationsMtM;
+  | SaveRpcConfigurationsMtM;
 export type MessageToRenderer =
   | RpcResponseMtR
   | ShowErrorMtR
   | GetCookieFileFromOpenDialogMtR
   | GetRpcConfigurationsMtR
-  | SaveBitcoinCoreConnectionConfigurationsMtR;
+  | SaveRpcConfigurationsMtR;
 
 export type SendableMessageToRenderer = {
   source: MtR;

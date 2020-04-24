@@ -1,14 +1,14 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { RpcError } from "_t/RpcResponses";
 
-export type BitcoinCoreConnectionIssue =
+export type RpcIssue =
   | "cookieUnavailable"
   | "serverUnreachable"
   | "serverWarmingUp"
   | "unauthorized";
 
-export const determineBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
-  const possibleErrors: [BitcoinCoreConnectionIssue, RpcError["code"]][] = [
+export const determineRpcIssue = (rpcError: RpcError) => {
+  const possibleErrors: [RpcIssue, RpcError["code"]][] = [
     ["cookieUnavailable", RPC_ERROR.couldNotOpenCookieFile],
     ["serverUnreachable", NODE_ERROR.ECONNREFUSED],
     ["serverUnreachable", NODE_ERROR.ENOTFOUND],
@@ -22,5 +22,5 @@ export const determineBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
   );
 };
 
-export const isBitcoinCoreConnectionIssue = (rpcError: RpcError) =>
-  determineBitcoinCoreConnectionIssue(rpcError) !== null;
+export const isRpcIssue = (rpcError: RpcError) =>
+  determineRpcIssue(rpcError) !== null;

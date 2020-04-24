@@ -29,7 +29,7 @@
     "test": "jest",
     "_build": "run-p --aggregate-output -cln build:*:*",
     "_create-executable": "node .github/action/createExecutable.js && rimraf .github/action/createExecutable.js",
-    "_electron": "electron ./artifacts/webpack/main/main.js",
+    "_electron": "electron ./artifacts/webpack",
     "_open-coverage-results": "open-cli coverage/lcov-report/index.html",
     "_rimraf-artifacts": "rimraf artifacts",
     "_test-with-coverage": "npm run test -- --coverage",

@@ -13,6 +13,7 @@ export const BITCOIN_CORE_RPC_ERROR = {
 
 export const NODE_ERROR = {
   ECONNREFUSED: "ECONNREFUSED",
+  ENOTFOUND: "ENOTFOUND",
 } as const;
 
 export const RPC_ERROR = {
@@ -27,4 +28,4 @@ export const ERROR = {
   jsonParse: 5002,
 } as const;
 
-export type ErrorCode = ObjectValues<typeof ERROR>;
+export const DEFAULT_SERVER_URL = "http://localhost:8332";

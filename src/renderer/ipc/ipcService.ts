@@ -8,13 +8,6 @@ const extractPayload = async <T extends ReturnType<typeof callMain>>(
   return payload;
 };
 
-const s = extractPayload(
-  callMain({
-    nonce: __NONCE__,
-    type: "get-cookie-file-from-open-dialog",
-  }),
-);
-
 class IpcService {
   getRpcConfigurations = (nonce: NONCE) =>
     extractPayload(

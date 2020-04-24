@@ -11,6 +11,7 @@ export const determineBitcoinCoreConnectionIssue = (rpcError: RpcError) => {
   const possibleErrors: [BitcoinCoreConnectionIssue, RpcError["code"]][] = [
     ["cookieUnavailable", RPC_ERROR.couldNotOpenCookieFile],
     ["serverUnreachable", NODE_ERROR.ECONNREFUSED],
+    ["serverUnreachable", NODE_ERROR.ENOTFOUND],
     ["serverWarmingUp", BITCOIN_CORE_RPC_ERROR.warmingUp],
     ["unauthorized", RPC_ERROR.unauthorized],
   ];

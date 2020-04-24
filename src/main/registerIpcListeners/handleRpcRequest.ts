@@ -64,7 +64,9 @@ export const handleRpcRequest = async (
 
       {
         message: "Server is unreachable",
-        condition: error.code === NODE_ERROR.ECONNREFUSED,
+        condition:
+          error.code === NODE_ERROR.ECONNREFUSED ||
+          error.code === NODE_ERROR.ENOTFOUND,
       },
 
       {

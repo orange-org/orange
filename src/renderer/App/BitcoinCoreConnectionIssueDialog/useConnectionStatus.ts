@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { callMain } from "_r/ipc/callMain";
+import { ipcService } from "_r/ipc/ipcService";
 import {
   BitcoinCoreConnectionIssue,
   determineBitcoinCoreConnectionIssue,
 } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 import { poll } from "_r/utils/poll";
-import { RpcConfigurations } from "_t/IpcMessages";
 import { isValidUrl } from "_r/utils/smallUtils";
+import { RpcConfigurations } from "_t/IpcMessages";
 
 export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
   const [connectionIssue, setConnectionIssue] = useState<
@@ -26,13 +26,9 @@ export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
       if (rpcConfigurations && !isValidUrl(rpcConfigurations.serverUrl)) {
         setConnectionIssue("serverUnreachable");
       } else {
-        const { payload: response } = await callMain({
-          nonce: __NONCE__,
-          type: "rpc-request",
-          payload: {
-            method: "uptime",
-            connectionConfigurations: rpcConfigurations,
-          },
+        const response = await ipcService.rpcRequest(__NONCE__, {
+          method: "uptime",
+          connectionConfigurations: rpcConfigurations,
         });
 
         if (response.error && isMounted) {

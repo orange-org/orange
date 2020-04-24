@@ -22,7 +22,7 @@ import { DEFAULT_SERVER_URL } from "_c/constants";
 import { BitcoinCoreConnectionStatus } from "../BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
 
 type FormValues = {
-  useAutomaticConfigurations: boolean;
+  useDefaultSettings: boolean;
   useCookieAuthentication: boolean;
   password: string;
   username: string;
@@ -32,7 +32,7 @@ type FormValues = {
 
 export const useBitcoinCoreConnectionSettingsHooks = () => {
   const [initialValues, setInitialValues] = useState<FormValues>({
-    useAutomaticConfigurations: true,
+    useDefaultSettings: true,
     useCookieAuthentication: true,
     cookieFile: "",
     username: "",
@@ -45,7 +45,7 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
       const response = await ipcService.getRpcConfigurations(__NONCE__);
 
       setInitialValues({
-        useAutomaticConfigurations: true,
+        useDefaultSettings: true,
         username: "username" in response ? response.username : "",
         password: "password" in response ? response.password : "",
         cookieFile: "cookieFile" in response ? response.cookieFile : "",
@@ -92,7 +92,7 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
   };
 
   const connectionStatus = useConnectionStatus(
-    formik.values.useAutomaticConfigurations ? undefined : rpcConfigurations,
+    formik.values.useDefaultSettings ? undefined : rpcConfigurations,
   );
 
   return {
@@ -134,8 +134,7 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
     setCookieFileFromDialog,
     connectionStatus: { connectionIssue },
   } = props.hookData;
-  type FieldName = keyof typeof formik.values;
-  const getTextFieldProps = (fieldName: FieldName) => {
+  const getTextFieldProps = (fieldName: keyof typeof formik.values) => {
     const commonTextFieldProps: Pick<
       OutlinedTextFieldProps,
       "size" | "fullWidth" | "variant"
@@ -160,22 +159,20 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
       <FormControlLabel
         control={
           <Switch
-            checked={formik.values.useAutomaticConfigurations}
-            {...formik.getFieldProps("useAutomaticConfigurations")}
+            checked={formik.values.useDefaultSettings}
+            {...formik.getFieldProps("useDefaultSettings")}
           />
         }
-        label={
-          <Typography>Automatically detect server configurations</Typography>
-        }
+        label={<Typography>Use default settings</Typography>}
       />
 
       <Typography className={a("helperText")}>
-        {productName} can try to automatically detect your server settings. If
+        {productName} can try to to use the default server settings. If
         you&apos;re using the default configurations for your Bitcoin Core RPC
         server this option should work for you.
       </Typography>
 
-      {!formik.values.useAutomaticConfigurations && (
+      {!formik.values.useDefaultSettings && (
         <>
           <FormControlLabel
             control={
@@ -190,8 +187,8 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
           <Typography className={a("helperText")}>
             Every time you start Bitcoin Core with server enabled, it creates a
             file usually called <code>.cookie</code> where it stores the
-            username and password for connecting to the server.Apps that talk to
-            Bitcoin Core, like Orange, can use this file for authentication.
+            username and password for connecting to the server. Apps that talk
+            to Bitcoin Core, like Orange, can use this file for authentication.
           </Typography>
 
           {formik.values.useCookieAuthentication && (
@@ -220,8 +217,8 @@ export const BitcoinCoreConnectionSettingsForm: React.FC<{
                 className={a("displayFlex", "marginTop05", "alignItemsCenter")}
               >
                 <TextField
-                  {...getTextFieldProps("username")}
                   label="Username"
+                  {...getTextFieldProps("username")}
                 />
 
                 <Typography variant="h3" className={a("marginLeft02")}>

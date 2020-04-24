@@ -1,9 +1,9 @@
+import { ipcService } from "_r/ipc/ipcService";
+import { isBitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
 import { RpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
-import { isBitcoinCoreConnectionIssue } from "_r/utils/bitcoinCoreConnectionIssueHelpers";
-import { callMain } from "_r/ipc/callMain";
-import { rpcClientCache } from "./rpcClientCache";
 import { fixingBitcoinCoreConnectionIssue } from "./fixingBitcoinCoreConnectionIssue";
+import { rpcClientCache } from "./rpcClientCache";
 
 export type RpcClientReturnType<T extends RpcRequest> = Extract<
   RpcResponse["result"],
@@ -23,12 +23,7 @@ export const rpcClient = async <TRpcRequest extends RpcRequest>(
     }
   }
 
-  console.log("=\nFILE: rpcClient.ts\nLINE: 27\n=");
-  const { payload: response } = await callMain({
-    nonce,
-    type: "rpc-request",
-    payload: rpcRequest,
-  });
+  const response = await ipcService.rpcRequest(__NONCE__, rpcRequest);
 
   if (response.error) {
     if (isBitcoinCoreConnectionIssue(response.error)) {

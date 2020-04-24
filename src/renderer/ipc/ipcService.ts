@@ -1,4 +1,5 @@
 import { PromiseType } from "_t/typeHelpers";
+import { ShowErrorMtM, RpcRequestMtM } from "_t/IpcMessages";
 import { callMain } from "./callMain";
 
 const extractPayload = async <T extends ReturnType<typeof callMain>>(
@@ -22,6 +23,24 @@ class IpcService {
       callMain({
         nonce,
         type: "get-cookie-file-from-open-dialog",
+      }),
+    );
+
+  showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
+    extractPayload(
+      callMain({
+        nonce,
+        type: "show-error",
+        payload: error,
+      }),
+    );
+
+  rpcRequest = (nonce: NONCE, request: RpcRequestMtM["payload"]) =>
+    extractPayload(
+      callMain({
+        nonce,
+        type: "rpc-request",
+        payload: request,
       }),
     );
 }

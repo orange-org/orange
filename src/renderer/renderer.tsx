@@ -10,21 +10,19 @@ import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import "typeface-roboto";
 import { getApp } from "_r/App/App";
-import { callMain } from "./ipc/callMain";
+import { ipcService } from "./ipc/ipcService";
 
 if (process.env.NODE_ENV === "production") {
   const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {
-    callMain({
-      nonce: __NONCE__,
-      type: "show-error",
-      payload:
-        "reason" in event
-          ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
-          : [
-              `Message: ${event.message}`,
-              `Error object: ${JSON.stringify(event.error, null, 2)}`,
-            ].join("\n"),
-    });
+    ipcService.showError(
+      __NONCE__,
+      "reason" in event
+        ? `Unhandled rejection: ${JSON.stringify(event.reason, null, 2)}`
+        : [
+            `Message: ${event.message}`,
+            `Error object: ${JSON.stringify(event.error, null, 2)}`,
+          ].join("\n"),
+    );
   };
 
   window.addEventListener("unhandledrejection", handleError);

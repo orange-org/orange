@@ -1,6 +1,4 @@
 import {
-  Button as MuiButton,
-  ButtonProps,
   FormControlLabel,
   IconButton,
   OutlinedTextFieldProps,
@@ -9,121 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { FolderOpen } from "@material-ui/icons";
-import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as yup from "yup";
+import React from "react";
 import { productName } from "_r/../../package.json";
-import { useConnectionStatus } from "_r/App/BitcoinCoreConnectionIssueDialog/useConnectionStatus";
-import { ipcService } from "_r/ipc/ipcService";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { RpcConfigurations } from "_t/IpcMessages";
-import { isValidUrl } from "_r/utils/smallUtils";
-import { DEFAULT_SERVER_URL } from "_c/constants";
 import { BitcoinCoreConnectionStatus } from "../BitcoinCoreConnectionStatus/BitcoinCoreConnectionStatus";
-
-type FormValues = {
-  useDefaultSettings: boolean;
-  useCookieAuthentication: boolean;
-  password: string;
-  username: string;
-  cookieFile: string;
-  serverUrl: string;
-};
-
-export const useBitcoinCoreConnectionSettingsHooks = () => {
-  const [initialValues, setInitialValues] = useState<FormValues>({
-    useDefaultSettings: true,
-    useCookieAuthentication: true,
-    cookieFile: "",
-    username: "",
-    password: "",
-    serverUrl: DEFAULT_SERVER_URL,
-  });
-
-  useEffect(() => {
-    const request = async () => {
-      const response = await ipcService.getRpcConfigurations(__NONCE__);
-
-      setInitialValues({
-        useDefaultSettings: true,
-        username: "username" in response ? response.username : "",
-        password: "password" in response ? response.password : "",
-        cookieFile: "cookieFile" in response ? response.cookieFile : "",
-        serverUrl:
-          "serverUrl" in response ? response.serverUrl : DEFAULT_SERVER_URL,
-        useCookieAuthentication: "cookieFile" in response,
-      });
-    };
-
-    request();
-  }, []);
-
-  const requireIfUseCookieAuthenticationIs = (bool: boolean) =>
-    yup.string().when("useCookieAuthentication", {
-      is: bool,
-      then: yup.string().required("Required"),
-      otherwise: yup.string().notRequired(),
-    });
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues,
-    validationSchema: yup.object().shape({
-      useCookieAuthentication: yup.bool(),
-      username: requireIfUseCookieAuthenticationIs(false),
-      password: requireIfUseCookieAuthenticationIs(false),
-      cookieFile: requireIfUseCookieAuthenticationIs(true),
-      serverUrl: yup
-        .string()
-        .required("Required")
-        .test({ test: isValidUrl, message: "A valid URL is required" }),
-    }),
-    // @ts-ignore
-    onSubmit: (values, { setSubmitting }) => {},
-  });
-
-  const rpcConfigurations: RpcConfigurations = {
-    serverUrl: formik.values.serverUrl,
-    ...(formik.values.useCookieAuthentication
-      ? { cookieFile: formik.values.cookieFile }
-      : {
-          username: formik.values.username,
-          password: formik.values.password,
-        }),
-  };
-
-  const connectionStatus = useConnectionStatus(
-    formik.values.useDefaultSettings ? undefined : rpcConfigurations,
-  );
-
-  return {
-    formik,
-    connectionStatus,
-    setCookieFileFromDialog: async () => {
-      const response = await ipcService.getCookieFileFromOpenDialog(__NONCE__);
-
-      if (response !== null) {
-        formik.setFieldValue("cookieFile", response);
-      }
-    },
-  };
-};
-
-type HookData = ReturnType<typeof useBitcoinCoreConnectionSettingsHooks>;
-
-export const BitcoinCoreConnectionSettingsSaveButton: React.FC<{
-  hookData: HookData;
-  buttonProps?: ButtonProps;
-}> = props => (
-  <MuiButton
-    color="primary"
-    variant="contained"
-    disableElevation
-    {...props.buttonProps}
-    onClick={() => props.hookData.formik.handleSubmit()}
-  >
-    Save
-  </MuiButton>
-);
+import { HookData } from "./useBitcoinCoreConnectionSettings";
 
 export const BitcoinCoreConnectionSettingsForm: React.FC<{
   hookData: HookData;

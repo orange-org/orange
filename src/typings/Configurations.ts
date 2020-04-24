@@ -1,3 +1,5 @@
 import { RpcConfigurations } from "./IpcMessages";
 
-export type Configurations = RpcConfigurations;
+export type Configurations = {
+  bitcoinCoreConnectionConfigurations: RpcConfigurations;
+};

@@ -78,7 +78,7 @@ export const useBitcoinCoreConnectionSettingsHooks = () => {
         .test({ test: isValidUrl, message: "A valid URL is required" }),
     }),
     // @ts-ignore
-    onSubmit: v => console.log(v),
+    onSubmit: (values, { setSubmitting }) => {},
   });
 
   const rpcConfigurations: RpcConfigurations = {

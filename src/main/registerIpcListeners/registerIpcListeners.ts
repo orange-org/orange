@@ -4,6 +4,7 @@ import { showErrorDialog } from "../showErrorDialog";
 import { handleRpcRequest } from "./handleRpcRequest";
 import { handleGetCookieFileFromOpenDialog } from "./handleGetCookieFileFromOpenDialog";
 import { handleGetRpcConfigurations } from "./handleGetRpcConfigurations";
+import { handleSaveBitcoinCoreConnectionConfigurations } from "./handleSaveBitcoinCoreConnectionConfigurations";
 
 export const registerIpcListener = () => {
   ipcMain.on("message-to-main", async (_event, data: SendableMessageToMain) => {
@@ -16,6 +17,8 @@ export const registerIpcListener = () => {
       await handleGetCookieFileFromOpenDialog(data);
     } else if (data.type === "get-rpc-configurations") {
       await handleGetRpcConfigurations(data);
+    } else if (data.type === "save-bitcoin-core-connection-configurations") {
+      await handleSaveBitcoinCoreConnectionConfigurations(data);
     }
   });
 };

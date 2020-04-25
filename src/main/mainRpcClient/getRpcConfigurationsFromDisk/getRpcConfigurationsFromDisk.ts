@@ -1,14 +1,12 @@
-import { getStore } from "_m/getStore";
 import { readConfigurations } from "_m/writeConfigurations/readConfigurations";
-import { KeysOfUnion } from "_t/typeHelpers";
 import { getActiveChain } from "./getActiveChain";
+import { getBitcoinConf } from "./getBitcoinConf";
+import { getCookieFilePath } from "./getCookieFilePath";
 import { getDataDir } from "./getDataDir";
 import { getRpcCredentialsFromCookieFile } from "./getRpcCredentialsFromCookieFile";
 import { getServerUrl } from "./getServerUrl";
-import { getBitcoinConf } from "./getBitcoinConf";
-import { getCookieFilePath } from "./getCookieFilePath";
 
-const _getRpcConfigurationsFromDisk = async () => {
+export const getRpcConfigurationsFromDisk = async () => {
   const configurations = await readConfigurations();
 
   if (configurations.rpc) {
@@ -43,43 +41,3 @@ const _getRpcConfigurationsFromDisk = async () => {
 
   return { username, password, serverUrl, cookieFile };
 };
-
-const getRpcConfigurationsFromDiskWithCache = async (
-  allowCachedCredentials = true,
-): Promise<{
-  username: string;
-  password: string;
-  serverUrl: string;
-  cookieFile: string;
-}> => {
-  const store = getStore();
-
-  if (
-    !allowCachedCredentials ||
-    !store.username ||
-    /* istanbul ignore next */ !store.password ||
-    /* istanbul ignore next */ !store.serverUrl ||
-    /* istanbul ignore next */ !store.cookieFile
-  ) {
-    const {
-      username,
-      password,
-      serverUrl,
-      cookieFile,
-    } = await _getRpcConfigurationsFromDisk();
-
-    store.username = username;
-    store.password = password;
-    store.serverUrl = serverUrl;
-    store.cookieFile = cookieFile;
-  }
-
-  return {
-    username: store.username,
-    password: store.password,
-    serverUrl: store.serverUrl,
-    cookieFile: store.cookieFile,
-  };
-};
-
-export const getRpcConfigurationsFromDisk = getRpcConfigurationsFromDiskWithCache;

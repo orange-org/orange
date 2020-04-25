@@ -35,18 +35,8 @@ export const handleRpcRequest = async (
         serverUrl: connectionConfigurations.serverUrl,
       });
     } else {
-      let rpcConfigurations = await getRpcConfigurationsFromDisk();
+      const rpcConfigurations = await getRpcConfigurationsFromDisk();
       response = await mainRpcClient(data.payload, rpcConfigurations);
-
-      /**
-       * If we get 401 or 403 from Bitcoin Core, it could be because we
-       * used the cached credentials from the cookie file. Let's try
-       * again without cached credentials
-       */
-      if (response.error?.code === RPC_ERROR.unauthorized) {
-        rpcConfigurations = await getRpcConfigurationsFromDisk(false);
-        response = await mainRpcClient(data.payload, rpcConfigurations);
-      }
     }
   } catch (error) {
     const errorResponse = {

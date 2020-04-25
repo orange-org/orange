@@ -2,21 +2,16 @@ import { app, globalShortcut } from "electron";
 import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
-import { getStore } from "./getStore";
-import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { getMainWindow } from "./getMainWindow";
-import { parseCommandLineArgs } from "./parseCommandLineArgs";
+import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { processes } from "./processes";
-import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
 import { registerErrorHandling } from "./registerErrorHandling";
+import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
 
 export const startMainProcess = () => {
   registerErrorHandling();
 
   app.enableSandbox();
-
-  const store = getStore();
-  store.args = parseCommandLineArgs();
 
   function createWindow() {
     const mainWindow = getMainWindow();

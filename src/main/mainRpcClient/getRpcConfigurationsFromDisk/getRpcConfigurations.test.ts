@@ -2,10 +2,8 @@ import { vol } from "memfs";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
 import { getRpcConfigurationsFromDisk } from "./getRpcConfigurationsFromDisk";
-import { getStore as getStore_ } from "../../getStore";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
-const getStore = getStore_ as jest.Mock;
 
 export const setupProcessVariables = (processVariables: {
   platform: string;
@@ -21,7 +19,6 @@ export const setupProcessVariables = (processVariables: {
 
 describe("getRpcCredentials", () => {
   afterEach(() => {
-    getStore.mockImplementation(() => ({}));
     vol.reset();
   });
 
@@ -103,35 +100,7 @@ describe("getRpcCredentials", () => {
     });
   });
 
-  test("caching credentials", async () => {
-    /**
-     * Here we manually add values to the memory cache.
-     * `getRpcCredentials` will use these values instead
-     * of retrieving the values in the file system.
-     */
-    getStore.mockImplementation(() => ({
-      username: "__cookie__",
-      password: "c4ch3",
-      port: 8332,
-    }));
-
-    vol.fromJSON({
-      "home/.bitcoin/bitcoin.conf": "",
-      "home/.bitcoin/.cookie": "__cookie__:bar",
-    });
-
-    expect(await getRpcConfigurationsFromDisk()).toEqual({
-      username: "__cookie__",
-      password: "c4ch3",
-      port: 8332,
-    });
-  });
-
   test("retrieving cookie from a custom datadir", async () => {
-    getStore.mockImplementation(() => ({
-      args: { datadir: "some/rand/dir/" },
-    }));
-
     vol.fromJSON({
       "some/rand/dir/bitcoin.conf": "",
       "some/rand/dir/.cookie": "__cookie__:bar",

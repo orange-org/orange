@@ -5,7 +5,9 @@ import { poll } from "_r/utils/poll";
 import { isValidUrl } from "_r/utils/smallUtils";
 import { RpcConfigurations } from "_t/IpcMessages";
 
-export const useConnectionStatus = (rpcConfigurations?: RpcConfigurations) => {
+export const useConnectionStatus = (
+  rpcConfigurations?: RpcConfigurations | null,
+) => {
   const [connectionIssue, setConnectionIssue] = useState<
     RpcIssue | "newConfig" | null
   >(null);

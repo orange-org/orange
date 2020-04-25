@@ -66,7 +66,7 @@ export type RawTransactionRpcRequest = {
 };
 
 export type RpcRequest = {
-  connectionConfigurations?: RpcConfigurations;
+  connectionConfigurations?: RpcConfigurations | null;
 } & (
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest

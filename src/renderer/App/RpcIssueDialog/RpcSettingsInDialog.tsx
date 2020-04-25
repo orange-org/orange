@@ -21,7 +21,7 @@ export const RpcSettingsInDialog: React.FC<{
           onClick={props.onClickCancel}
           disableElevation
         >
-          Cancel
+          Cancel without saving
         </Button>
 
         <RpcSettingsSaveButton hookData={hookData} />

@@ -5,6 +5,7 @@ import { getRpcCredentialsFromCookieFile } from "_m/mainRpcClient/getRpcConfigur
 import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
+import { getDefaultRpcConfigurations } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getDefaultRpcConfigurations";
 
 export const handleRpcRequest = async (
   data: Extract<SendableMessageToMain, { type: "rpc-request" }>,
@@ -12,27 +13,36 @@ export const handleRpcRequest = async (
   let response!: RpcResponse;
 
   try {
-    if (data.payload.connectionConfigurations) {
-      const { connectionConfigurations } = data.payload;
+    if (data.payload.connectionConfigurations !== undefined) {
+      const { connectionConfigurations: rpcConfigurations } = data.payload;
 
       let username: string;
       let password: string;
-      if ("cookieFile" in connectionConfigurations) {
-        const rpcConfigurations = await getRpcCredentialsFromCookieFile(
-          connectionConfigurations.cookieFile,
+      let serverUrl: string;
+      if (rpcConfigurations === null) {
+        const defaultRpcConfigurations = await getDefaultRpcConfigurations();
+
+        username = defaultRpcConfigurations.username;
+        password = defaultRpcConfigurations.password;
+        serverUrl = defaultRpcConfigurations.serverUrl;
+      } else if ("cookieFile" in rpcConfigurations) {
+        const cookieCredentials = await getRpcCredentialsFromCookieFile(
+          rpcConfigurations.cookieFile,
         );
 
+        username = cookieCredentials.username;
+        password = cookieCredentials.password;
+        serverUrl = rpcConfigurations.serverUrl;
+      } else {
         username = rpcConfigurations.username;
         password = rpcConfigurations.password;
-      } else {
-        username = connectionConfigurations.username;
-        password = connectionConfigurations.password;
+        serverUrl = rpcConfigurations.serverUrl;
       }
 
       response = await mainRpcClient(data.payload, {
         username,
         password,
-        serverUrl: connectionConfigurations.serverUrl,
+        serverUrl,
       });
     } else {
       const rpcConfigurations = await getRpcConfigurationsFromDisk();

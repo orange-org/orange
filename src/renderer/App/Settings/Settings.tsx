@@ -1,7 +1,6 @@
 import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-// import { RpcSettings } from "_r/App/components/RpcSettings/RpcSettings";
 
 export const Settings: React.FC = () => {
   const a = useAtomicCss();
@@ -17,10 +16,6 @@ export const Settings: React.FC = () => {
       )}
     >
       <Typography variant="h1">Settings</Typography>
-
-      <Paper className={a("marginTop05", "padding3")}>
-        {/* <RpcSettings /> */}
-      </Paper>
     </div>
   );
 };

@@ -56,7 +56,7 @@ export const useRpcSettingsHooks = () => {
   };
 
   const connectionStatus = useConnectionStatus(
-    formik.values.useDefaultSettings ? undefined : rpcConfigurations,
+    formik.values.useDefaultSettings ? null : rpcConfigurations,
   );
 
   return {

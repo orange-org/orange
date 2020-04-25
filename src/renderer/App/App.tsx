@@ -1,4 +1,9 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  // @ts-ignore
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  CssBaseline,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, { StrictMode } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter as Router, Route, Switch } from "react-router-dom";

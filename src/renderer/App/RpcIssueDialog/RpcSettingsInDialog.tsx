@@ -1,8 +1,8 @@
 import React from "react";
 import { DialogContent, DialogActions, Button } from "@material-ui/core";
-import { RpcSettingsForm } from "../components/RpcSettings/RpcSettingsForm";
-import { useRpcSettingsHooks } from "../components/RpcSettings/useRpcSettings";
-import { RpcSettingsSaveButton } from "../components/RpcSettings/RpcSettingsSaveButton";
+import { RpcSettingsForm } from "_r/App/components/RpcSettings/RpcSettingsForm";
+import { useRpcSettingsHooks } from "_r/App/components/RpcSettings/useRpcSettings";
+import { RpcSettingsSaveButton } from "_r/App/components/RpcSettings/RpcSettingsSaveButton";
 
 export const RpcSettingsInDialog: React.FC<{
   onClickCancel: () => void;

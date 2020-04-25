@@ -50,7 +50,7 @@ export type GetRpcConfigurationsMtR = Message<
 
 export type SaveRpcConfigurationsMtM = Message<
   "save-rpc-configurations",
-  RpcConfigurations
+  RpcConfigurations | null
 >;
 
 export type SaveRpcConfigurationsMtR = Message<

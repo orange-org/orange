@@ -36,10 +36,10 @@ export const useRpcSettingsHooks = () => {
   }, []);
 
   const formik = useFormik({
-    enableReinitialize: true,
     initialValues,
+    enableReinitialize: true,
     validationSchema: rpcSettingsValidationSchema,
-    onSubmit: rpcSettingsSubmitHandler,
+    onSubmit: rpcSettingsSubmitHandler(() => null),
   });
 
   const rpcConfigurations: RpcConfigurations = {

@@ -1,4 +1,6 @@
 import { getStore } from "_m/getStore";
+import { readConfigurations } from "_m/writeConfigurations/readConfigurations";
+import { KeysOfUnion } from "_t/typeHelpers";
 import { getActiveChain } from "./getActiveChain";
 import { getDataDir } from "./getDataDir";
 import { getRpcCredentialsFromCookieFile } from "./getRpcCredentialsFromCookieFile";
@@ -7,6 +9,29 @@ import { getBitcoinConf } from "./getBitcoinConf";
 import { getCookieFilePath } from "./getCookieFilePath";
 
 const _getRpcConfigurationsFromDisk = async () => {
+  const configurations = await readConfigurations();
+
+  if (configurations.rpc) {
+    if ("cookieFile" in configurations.rpc) {
+      const { username, password } = await getRpcCredentialsFromCookieFile(
+        configurations.rpc.cookieFile,
+      );
+
+      return {
+        username,
+        password,
+        serverUrl: configurations.rpc.serverUrl,
+        cookieFile: configurations.rpc.cookieFile,
+      };
+    }
+
+    return {
+      username: configurations.rpc.username,
+      password: configurations.rpc.password,
+      serverUrl: configurations.rpc.serverUrl,
+    };
+  }
+
   const dataDir = getDataDir();
   const bitcoinConf = await getBitcoinConf(dataDir);
   const chainName = getActiveChain(bitcoinConf);

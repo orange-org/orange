@@ -46,8 +46,15 @@ class IpcService {
 
   saveRpcConfigurations = (
     nonce: NONCE,
-    connectionConfigurations: RpcConfigurations | null,
-  ) => {};
+    rpcConfigurations: RpcConfigurations | null,
+  ) =>
+    extractPayload(
+      callMain({
+        nonce,
+        type: "save-rpc-configurations",
+        payload: rpcConfigurations,
+      }),
+    );
 }
 
 export const ipcService = new IpcService();

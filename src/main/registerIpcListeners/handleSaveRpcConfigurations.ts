@@ -1,24 +1,36 @@
+/* eslint-disable no-param-reassign */
+import { writeConfigurations } from "_m/writeConfigurations/writeConfigurations";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { writeConfigurations } from "_m/writeConfigurations";
+import { respondToRenderer } from "_m/callRenderer";
 
 export const handleSaveRpcConfigurations = async (
   data: Extract<SendableMessageToMain, { type: "save-rpc-configurations" }>,
 ) => {
-  // const { connectionConfigurations } = data.payload;
-  // if (connectionConfigurations) {
-  //   if ("cookieFile" in connectionConfigurations) {
-  //     await writeConfigurations({
-  //       cookieFile: connectionConfigurations.cookieFile,
-  //       serverUrl: connectionConfigurations.serverUrl,
-  //     });
-  //   } else {
-  //     await writeConfigurations({
-  //       username: connectionConfigurations.username,
-  //       password: connectionConfigurations.password,
-  //       serverUrl: connectionConfigurations.serverUrl,
-  //     });
-  //   }
-  // } else {
-  //   throw new TypeError("No connection configurations were provided");
-  // }
+  const { payload: rpcConfigurations } = data;
+
+  await writeConfigurations(currentConfigurations => {
+    if (!rpcConfigurations) {
+      currentConfigurations.rpc = null;
+    } else if ("cookieFile" in rpcConfigurations) {
+      currentConfigurations.rpc = {
+        cookieFile: rpcConfigurations.cookieFile,
+        serverUrl: rpcConfigurations.serverUrl,
+      };
+    } else {
+      currentConfigurations.rpc = {
+        username: rpcConfigurations.username,
+        password: rpcConfigurations.password,
+        serverUrl: rpcConfigurations.serverUrl,
+      };
+    }
+
+    return currentConfigurations;
+  });
+
+  respondToRenderer({
+    nonce: __NONCE__,
+    type: "save-rpc-configurations",
+    payload: null,
+    messageId: data.messageId,
+  });
 };

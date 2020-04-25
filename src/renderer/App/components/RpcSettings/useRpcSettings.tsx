@@ -19,7 +19,7 @@ export const useRpcSettingsHooks = () => {
 
   useEffect(() => {
     const request = async () => {
-      const response = await ipcService.getRpcConfigurations(__NONCE__);
+      const response = await ipcService.getSavedRpcConfigurations(__NONCE__);
 
       setInitialValues({
         useDefaultSettings: true,

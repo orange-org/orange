@@ -29,8 +29,8 @@ export type GetCookieFileFromOpenDialogMtR = Message<
   string | null
 >;
 
-export type GetRpcConfigurationsMtM = MessageWithoutPayload<
-  "get-rpc-configurations"
+export type GetSavedRpcConfigurationsMtM = MessageWithoutPayload<
+  "get-saved-rpc-configurations"
 >;
 
 export type RpcConfigurations = (
@@ -43,9 +43,9 @@ export type RpcConfigurations = (
   serverUrl: string;
 };
 
-export type GetRpcConfigurationsMtR = Message<
-  GetRpcConfigurationsMtM["type"],
-  RpcConfigurations
+export type GetSavedRpcConfigurationsMtR = Message<
+  GetSavedRpcConfigurationsMtM["type"],
+  RpcConfigurations | null
 >;
 
 export type SaveRpcConfigurationsMtM = Message<
@@ -62,13 +62,13 @@ export type MessageToMain =
   | RpcRequestMtM
   | ShowErrorMtM
   | GetCookieFileFromOpenDialogMtM
-  | GetRpcConfigurationsMtM
+  | GetSavedRpcConfigurationsMtM
   | SaveRpcConfigurationsMtM;
 export type MessageToRenderer =
   | RpcResponseMtR
   | ShowErrorMtR
   | GetCookieFileFromOpenDialogMtR
-  | GetRpcConfigurationsMtR
+  | GetSavedRpcConfigurationsMtR
   | SaveRpcConfigurationsMtR;
 
 export type SendableMessageToRenderer = {

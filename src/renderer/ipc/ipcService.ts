@@ -10,11 +10,11 @@ const extractPayload = async <T extends ReturnType<typeof callMain>>(
 };
 
 class IpcService {
-  getRpcConfigurations = (nonce: NONCE) =>
+  getSavedRpcConfigurations = (nonce: NONCE) =>
     extractPayload(
       callMain({
         nonce,
-        type: "get-rpc-configurations",
+        type: "get-saved-rpc-configurations",
       }),
     );
 

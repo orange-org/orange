@@ -18,12 +18,12 @@ export const handleRpcRequest = async (
       let username: string;
       let password: string;
       if ("cookieFile" in connectionConfigurations) {
-        const f = await getRpcCredentialsFromCookieFile(
+        const rpcConfigurations = await getRpcCredentialsFromCookieFile(
           connectionConfigurations.cookieFile,
         );
 
-        username = f.username;
-        password = f.password;
+        username = rpcConfigurations.username;
+        password = rpcConfigurations.password;
       } else {
         username = connectionConfigurations.username;
         password = connectionConfigurations.password;

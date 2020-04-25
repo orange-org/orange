@@ -17,8 +17,11 @@ const returnNullIfError = async <T extends () => any>(
   }
 };
 
-export const handleGetRpcConfigurations = async (
-  data: Extract<SendableMessageToMain, { type: "get-rpc-configurations" }>,
+export const handleGetSavedRpcConfigurations = async (
+  data: Extract<
+    SendableMessageToMain,
+    { type: "get-saved-rpc-configurations" }
+  >,
 ) => {
   const username = "";
   const password = "";

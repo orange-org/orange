@@ -22,13 +22,16 @@ export const useRpcSettingsHooks = () => {
       const response = await ipcService.getSavedRpcConfigurations(__NONCE__);
 
       setInitialValues({
-        useDefaultSettings: true,
-        username: "username" in response ? response.username : "",
-        password: "password" in response ? response.password : "",
-        cookieFile: "cookieFile" in response ? response.cookieFile : "",
+        useDefaultSettings: !response,
+        username: response && "username" in response ? response.username : "",
+        password: response && "password" in response ? response.password : "",
+        cookieFile:
+          response && "cookieFile" in response ? response.cookieFile : "",
         serverUrl:
-          "serverUrl" in response ? response.serverUrl : DEFAULT_SERVER_URL,
-        useCookieAuthentication: "cookieFile" in response,
+          response && "serverUrl" in response
+            ? response.serverUrl
+            : DEFAULT_SERVER_URL,
+        useCookieAuthentication: !response || "cookieFile" in response,
       });
     };
 

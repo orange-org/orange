@@ -16,18 +16,24 @@ require("@testing-library/jest-dom/extend-expect");
 jest.mock("fs");
 jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
-jest.mock("_m/getStore", () => ({
-  getStore: jest.fn(),
-}));
-jest.mock("_m/getGlobalProcess", () => ({
-  getGlobalProcess: jest.fn(),
-}));
+jest.mock("_m/getStore", () => {
+  return {
+    getStore: jest.fn(),
+  };
+});
+jest.mock("_m/getGlobalProcess", () => {
+  return {
+    getGlobalProcess: jest.fn(),
+  };
+});
 
 const setMockImplementations = () => {
   /**
    * Reset `store` of the `main` process between tests.
    */
-  getStore.mockImplementation(() => ({}));
+  getStore.mockImplementation(() => {
+    return {};
+  });
 
   /**
    * Set some consistent values for Node `process` variable

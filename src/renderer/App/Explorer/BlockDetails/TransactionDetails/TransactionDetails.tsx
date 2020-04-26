@@ -182,9 +182,7 @@ export const TransactionDetails: React.FC<{
       </Paper>
       <Typography className={a("marginTop02", "textAlignCenter")}>
         Total:{" "}
-        {transaction.vout.reduce((total, output) => {
-          return output.value + total;
-        }, 0)}{" "}
+        {transaction.vout.reduce((total, output) => output.value + total, 0)}{" "}
         BTC
       </Typography>
     </>

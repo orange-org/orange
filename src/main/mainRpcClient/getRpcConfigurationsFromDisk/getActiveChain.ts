@@ -7,8 +7,8 @@ const possibleChainNames = ["testnet", "regtest"];
  * Parse `bitcoin.conf`. Use code copied from here:
  * https://github.com/steveukx/properties/blob/96ba64fa1b48b72f0c53e07b99fe38b96001229e/src/PropertiesReader.js#L69-L82
  */
-export const getActiveChain = (bitcoinConf: string) => {
-  return bitcoinConf.split("\n").reduce((result, line) => {
+export const getActiveChain = (bitcoinConf: string) =>
+  bitcoinConf.split("\n").reduce((result, line) => {
     if ((line = line.trim())) {
       const section = /^\[([^=]+)]$/.exec(line);
       const property = !section && /^([^#=]+)(={0,1})(.*)$/.exec(line);
@@ -30,4 +30,3 @@ export const getActiveChain = (bitcoinConf: string) => {
 
     return result;
   }, "");
-};

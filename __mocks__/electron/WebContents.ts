@@ -12,7 +12,5 @@ export class WebContents extends EventEmitter {
     webRequest: new WebRequest(),
   };
 
-  send = (name: string, data: any) => {
-    return ipcRenderer.emit(name, {}, data);
-  };
+  send = (name: string, data: any) => ipcRenderer.emit(name, {}, data);
 }

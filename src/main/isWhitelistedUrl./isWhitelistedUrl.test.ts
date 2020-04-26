@@ -4,9 +4,11 @@ import { getAppRoot } from "../getAppRoot";
 
 const getIsDevelopment = getIsDevelopment_ as jest.Mock;
 
-jest.mock("_m/getIsDevelopment", () => ({
-  getIsDevelopment: jest.fn(),
-}));
+jest.mock("_m/getIsDevelopment", () => {
+  return {
+    getIsDevelopment: jest.fn(),
+  };
+});
 
 describe("isWhitelistedUrl", () => {
   describe("during development", () => {

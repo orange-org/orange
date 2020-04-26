@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { CircularProgress, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
-import { CheckCircle } from "@material-ui/icons";
+import { CheckCircleOutline } from "@material-ui/icons";
 import React from "react";
 import { RpcIssue } from "_r/utils/rpcIssueHelpers";
 import { useAtomicCss } from "_r/useAtomicCss";
@@ -24,7 +24,7 @@ export const RpcStatus: React.FC<{
 
       <div className={a("marginLeft02", "displayFlex", "alignItemsCenter")}>
         {status === "connected" ? (
-          <CheckCircle fontSize="small" style={{ color: green[500] }} />
+          <CheckCircleOutline fontSize="small" style={{ color: green[500] }} />
         ) : (
           <CircularProgress color="secondary" size={15} />
         )}

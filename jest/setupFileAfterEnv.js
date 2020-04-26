@@ -1,5 +1,4 @@
 const { merge } = require("lodash");
-const { getStore } = require("_m/getStore");
 const { getGlobalProcess } = require("_m/getGlobalProcess");
 
 /**
@@ -16,11 +15,6 @@ require("@testing-library/jest-dom/extend-expect");
 jest.mock("fs");
 jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
-jest.mock("_m/getStore", () => {
-  return {
-    getStore: jest.fn(),
-  };
-});
 jest.mock("_m/getGlobalProcess", () => {
   return {
     getGlobalProcess: jest.fn(),
@@ -28,13 +22,6 @@ jest.mock("_m/getGlobalProcess", () => {
 });
 
 const setMockImplementations = () => {
-  /**
-   * Reset `store` of the `main` process between tests.
-   */
-  getStore.mockImplementation(() => {
-    return {};
-  });
-
   /**
    * Set some consistent values for Node `process` variable
    */

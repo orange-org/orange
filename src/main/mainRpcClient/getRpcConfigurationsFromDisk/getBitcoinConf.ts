@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
+import { ErrorWithCode } from "_c/ErrorWithCode";
 
 export const getBitcoinConf = async (dataDir: string) => {
   try {
@@ -8,12 +9,10 @@ export const getBitcoinConf = async (dataDir: string) => {
     });
   } catch (error) {
     if (error.code === "ENOENT") {
-      // eslint-disable-next-line no-throw-literal
-      throw {
-        ...error,
-        code: RPC_ERROR.couldNotOpenBitcoinConf,
-        message: "Could not open `bitcoin.conf`",
-      };
+      throw new ErrorWithCode(
+        "Could not open `bitcoin.conf`",
+        RPC_ERROR.couldNotOpenBitcoinConf,
+      );
     }
 
     throw error;

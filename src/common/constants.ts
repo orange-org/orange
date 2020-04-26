@@ -25,7 +25,6 @@ export const RPC_ERROR = {
 
 export const ERROR = {
   general: 5001,
-  jsonParse: 5002,
 } as const;
 
 export const DEFAULT_SERVER_URL = "http://localhost:8332";

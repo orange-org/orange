@@ -1,6 +1,6 @@
-/* eslint-disable no-throw-literal */
 import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
+import { ErrorWithCode } from "_c/ErrorWithCode";
 
 export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
   let cookie: string;
@@ -14,7 +14,7 @@ export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
       cookie.split(":").length === 0 ||
       cookie.split(":")[0] !== "__cookie__"
     ) {
-      throw { code: "NOTCOOKIEFILE" };
+      throw new ErrorWithCode("", "NOTCOOKIEFILE");
     }
   } catch (error) {
     if (
@@ -23,11 +23,10 @@ export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
       error.code === "EISDIR" ||
       error.code === "NOTCOOKIEFILE"
     ) {
-      throw {
-        ...error,
-        code: RPC_ERROR.couldNotOpenCookieFile,
-        message: "Could not open cookie file",
-      };
+      throw new ErrorWithCode(
+        "Could not open cookie file",
+        RPC_ERROR.couldNotOpenCookieFile,
+      );
     }
 
     throw error;

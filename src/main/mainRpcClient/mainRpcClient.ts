@@ -1,8 +1,8 @@
-/* eslint-disable no-throw-literal */
 import { RPC_ERROR } from "_c/constants";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
+import { ErrorWithCode } from "_c/ErrorWithCode";
 import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 import { makeRpcRequest } from "./makeRpcRequest";
 
@@ -14,10 +14,10 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   const { username, password, serverUrl } = rpcConfigurations;
 
   if (!isRpcMethodAllowed(method)) {
-    throw {
-      code: RPC_ERROR.methodNotAllowedByMainProcess,
-      message: "RPC method not allowed by main process",
-    };
+    throw new ErrorWithCode(
+      "RPC method not allowed by main process",
+      RPC_ERROR.methodNotAllowedByMainProcess,
+    );
   }
 
   const options = {
@@ -30,10 +30,10 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   const response = await makeRpcRequest({ url: serverUrl, options, body });
 
   if (response.statusCode === 401 || response.statusCode === 403) {
-    throw {
-      code: RPC_ERROR.unauthorized,
-      message: "RPC server unauthorized request",
-    };
+    throw new ErrorWithCode(
+      "RPC server unauthorized request",
+      RPC_ERROR.unauthorized,
+    );
   }
 
   const { result, error }: RawRpcResponse = JSON.parse(response.data);

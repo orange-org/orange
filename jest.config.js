@@ -17,6 +17,7 @@ module.exports = {
   }),
   testPathIgnorePatterns: [
     "<rootDir>[/\\\\](artifacts|node_modules|scripts)[/\\\\]",
+    "<rootDir>/artifacts/webpack/package.json",
   ],
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",

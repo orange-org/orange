@@ -36,9 +36,10 @@ describe("getRpcCredentials", () => {
     });
 
     expect(await getRpcConfigurationsFromDisk()).toEqual({
+      serverUrl: "http://localhost:8332",
       username: "__cookie__",
       password: "123123",
-      port: 8332,
+      cookieFile: "appData/Bitcoin/.cookie",
     });
   });
 
@@ -56,9 +57,10 @@ describe("getRpcCredentials", () => {
     });
 
     expect(await getRpcConfigurationsFromDisk()).toEqual({
+      serverUrl: "http://localhost:8332",
       username: "__cookie__",
       password: "424242",
-      port: 8332,
+      cookieFile: "home/Library/Application Support/Bitcoin/.cookie",
     });
   });
 
@@ -76,9 +78,10 @@ describe("getRpcCredentials", () => {
     });
 
     expect(await getRpcConfigurationsFromDisk()).toEqual({
+      serverUrl: "http://localhost:8332",
       username: "__cookie__",
       password: "1337",
-      port: 8332,
+      cookieFile: "home/.bitcoin/.cookie",
     });
   });
 
@@ -93,23 +96,11 @@ describe("getRpcCredentials", () => {
       });
 
       expect(await getRpcConfigurationsFromDisk()).toEqual({
+        serverUrl: `http://localhost:${port}`,
         username: "__cookie__",
         password,
-        port,
+        cookieFile: `home/.bitcoin/${dirName}/.cookie`,
       });
-    });
-  });
-
-  test("retrieving cookie from a custom datadir", async () => {
-    vol.fromJSON({
-      "some/rand/dir/bitcoin.conf": "",
-      "some/rand/dir/.cookie": "__cookie__:bar",
-    });
-
-    expect(await getRpcConfigurationsFromDisk()).toEqual({
-      username: "__cookie__",
-      password: "bar",
-      port: 8332,
     });
   });
 });

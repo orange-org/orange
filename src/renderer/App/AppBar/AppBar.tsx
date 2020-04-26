@@ -4,7 +4,7 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { Settings } from "@material-ui/icons";
+import { Settings, Home } from "@material-ui/icons";
 import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
@@ -34,7 +34,11 @@ export const AppBar: React.FC = () => {
 
         <div className={a("flexGrow1")} />
 
-        <IconButton onClick={() => null} component={Link} to="/settings">
+        <IconButton component={Link} to="/">
+          <Home />
+        </IconButton>
+
+        <IconButton component={Link} to="/settings">
           <Settings />
         </IconButton>
       </Toolbar>

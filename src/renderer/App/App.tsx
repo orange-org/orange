@@ -26,6 +26,7 @@ export const Routes = () => {
 
       <Switch>
         <Route exact path="/">
+          {appBar}
           <RedirectToHighestBlock />
         </Route>
 

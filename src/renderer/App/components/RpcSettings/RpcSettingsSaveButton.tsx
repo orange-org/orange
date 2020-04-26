@@ -13,6 +13,6 @@ export const RpcSettingsSaveButton: React.FC<{
     {...props.buttonProps}
     onClick={() => props.hookData.formik.handleSubmit()}
   >
-    Save
+    Save settings
   </MuiButton>
 );

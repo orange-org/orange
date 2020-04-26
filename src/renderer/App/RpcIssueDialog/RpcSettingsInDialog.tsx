@@ -5,9 +5,11 @@ import { useRpcSettingsHooks } from "_r/App/components/RpcSettings/useRpcSetting
 import { RpcSettingsSaveButton } from "_r/App/components/RpcSettings/RpcSettingsSaveButton";
 
 export const RpcSettingsInDialog: React.FC<{
-  onClickCancel: () => void;
+  navigateBackToConnectionStatusReport: () => void;
 }> = props => {
-  const hookData = useRpcSettingsHooks();
+  const hookData = useRpcSettingsHooks(
+    props.navigateBackToConnectionStatusReport,
+  );
 
   return (
     <>
@@ -18,7 +20,7 @@ export const RpcSettingsInDialog: React.FC<{
       <DialogActions>
         <Button
           variant="contained"
-          onClick={props.onClickCancel}
+          onClick={props.navigateBackToConnectionStatusReport}
           disableElevation
         >
           Cancel without saving

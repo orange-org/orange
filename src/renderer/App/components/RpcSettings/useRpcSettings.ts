@@ -7,7 +7,7 @@ import { RpcConfigurations } from "_t/IpcMessages";
 import { rpcSettingsSubmitHandler } from "./rpcSettingsSubmitHandler";
 import { rpcSettingsValidationSchema } from "./rpcSettingsValidationSchema";
 
-export const useRpcSettingsHooks = () => {
+export const useRpcSettingsHooks = (onSuccessfulFormSubmit?: () => void) => {
   const [initialValues, setInitialValues] = useState<FormValues>({
     useDefaultSettings: true,
     useCookieAuthentication: true,
@@ -42,7 +42,7 @@ export const useRpcSettingsHooks = () => {
     initialValues,
     enableReinitialize: true,
     validationSchema: rpcSettingsValidationSchema,
-    onSubmit: rpcSettingsSubmitHandler(() => null),
+    onSubmit: rpcSettingsSubmitHandler(onSuccessfulFormSubmit),
   });
 
   const rpcConfigurations: RpcConfigurations = {

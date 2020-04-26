@@ -4,14 +4,18 @@ import {
   Button,
   DialogContent,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { productName } from "_r/../../package.json";
 import { RpcStatus } from "_r/App/components/RpcStatus/RpcStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { setHasRpcIssue } from "_r/redux/actions";
+import { useDispatch } from "react-redux";
 import { useConnectionStatus } from "./useConnectionStatus";
 
 export const ConnectionStatusReport: React.FC<{
   onClickEnterServerDetails: () => void;
+  onClickClose: () => void;
+  disableClosing: boolean;
 }> = props => {
   const a = useAtomicCss();
   const {
@@ -20,6 +24,13 @@ export const ConnectionStatusReport: React.FC<{
     isConnected,
     connectionIssue,
   } = useConnectionStatus();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(setHasRpcIssue(false));
+    }
+  }, [dispatch, isConnected]);
 
   return (
     <>
@@ -59,6 +70,8 @@ export const ConnectionStatusReport: React.FC<{
         </Button>
 
         <Button
+          onClick={props.onClickClose}
+          disabled={props.disableClosing}
           color="primary"
           variant="contained"
           disableElevation

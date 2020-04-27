@@ -45,7 +45,6 @@ let cleanPreloadProcess: () => any;
 
 describe("main", () => {
   beforeEach(() => {
-    startMainProcess();
     cleanPreloadProcess = startPreloadProcess();
   });
 
@@ -57,6 +56,7 @@ describe("main", () => {
 
   describe("general integration", () => {
     test("IPC RPC requests between main and renderer through preload", done => {
+      startMainProcess();
       initializeMainProcess();
 
       window.postMessage(
@@ -94,6 +94,7 @@ describe("main", () => {
     });
 
     test('"show-error" IPC event', () => {
+      startMainProcess();
       initializeMainProcess();
 
       window.postMessage(
@@ -111,6 +112,37 @@ describe("main", () => {
         expect(dialog.showMessageBoxSync).toHaveBeenCalledWith({
           message:
             "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nstuff",
+          title: "An error occurred",
+          type: "warning",
+        });
+      });
+    });
+
+    test.only("catching generic errors", () => {
+      /* eslint-disable no-console */
+      const consoleLog = console.log;
+      console.log = jest.fn();
+
+      startMainProcess();
+      initializeMainProcess();
+
+      process.emit("unhandledRejection", "hello");
+      process.emit("unhandledRejection", new Error("happened"));
+
+      console.log = consoleLog;
+      /* eslint-enable no-console */
+      return waitForExpect(() => {
+        expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(2);
+        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(1, {
+          message:
+            'This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\n"hello"',
+          title: "An error occurred",
+          type: "warning",
+        });
+
+        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(2, {
+          message:
+            "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nError: happened",
           title: "An error occurred",
           type: "warning",
         });

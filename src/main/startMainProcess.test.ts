@@ -64,9 +64,9 @@ describe("main", () => {
           nonce: __NONCE__,
           type: "rpc-request",
           source: "@orange/renderer",
-          message: {
+          messageId: 123,
+          payload: {
             method: "getblock",
-            requestId: 123,
           },
         },
         "*",
@@ -79,10 +79,10 @@ describe("main", () => {
           expect(data).toEqual({
             source: "@orange/main",
             nonce: __NONCE__,
-            type: "rpc-response",
-            message: {
+            type: "rpc-request",
+            messageId: 123,
+            payload: {
               method: "getblock",
-              requestId: 123,
             },
           });
 
@@ -101,7 +101,7 @@ describe("main", () => {
           nonce: __NONCE__,
           type: "show-error",
           source: "@orange/renderer",
-          message: "stuff",
+          payload: "stuff",
         },
         "*",
       );

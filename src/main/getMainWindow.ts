@@ -3,6 +3,11 @@ import { productName } from "../../package.json";
 
 let mainWindow: BrowserWindow;
 
+export const deleteMainWindow = () => {
+  // @ts-ignore: used only by the tests to in the `afterEach` clean-up
+  mainWindow = undefined;
+};
+
 export const getMainWindow = () => {
   if (mainWindow) {
     return mainWindow;

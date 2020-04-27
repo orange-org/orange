@@ -1,4 +1,5 @@
 import { BrowserWindowConstructorOptions } from "electron";
+import { deleteMainWindow } from "_m/getMainWindow";
 import { WebContents } from "./WebContents";
 
 export class BrowserWindow {
@@ -16,5 +17,6 @@ export class BrowserWindow {
 }
 
 export const resetBrowserWindow = () => {
+  deleteMainWindow();
   BrowserWindow.instances = [];
 };

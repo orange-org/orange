@@ -8,7 +8,6 @@ import { handleSaveRpcConfigurations } from "./handleSaveRpcConfigurations";
 
 export const registerIpcListener = () => {
   ipcMain.on("message-to-main", async (_event, data: SendableMessageToMain) => {
-    /* istanbul ignore else */
     if (data.type === "rpc-request") {
       await handleRpcRequest(data);
     } else if (data.type === "show-error") {

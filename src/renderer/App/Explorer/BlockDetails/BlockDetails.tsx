@@ -174,7 +174,7 @@ const BlockDetails_ = () => {
         )}
       </Typography>
 
-      <Paper variant="outlined" className={a("marginTop02")}>
+      <Paper className={a("marginTop02")}>
         <AutoSizer disableHeight>
           {({ width }) => (
             <FixedSizeList

@@ -1,4 +1,4 @@
-import { respondToRenderer } from "_m/callRenderer";
+import { respondToRenderer } from "_m/respondToRenderer";
 import { readConfigurations } from "_m/writeConfigurations/readConfigurations";
 import {
   GetSavedRpcConfigurationsMtR,

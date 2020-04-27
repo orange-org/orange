@@ -1,5 +1,5 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { respondToRenderer } from "_m/callRenderer";
+import { respondToRenderer } from "_m/respondToRenderer";
 import { getRpcConfigurationsFromDisk } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcConfigurationsFromDisk";
 import { getRpcCredentialsFromCookieFile } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcCredentialsFromCookieFile";
 import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";

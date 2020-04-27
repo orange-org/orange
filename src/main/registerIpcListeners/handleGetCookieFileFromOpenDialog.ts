@@ -1,7 +1,7 @@
 import { dialog } from "electron";
 import { getMainWindow } from "_m/getMainWindow";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { respondToRenderer } from "_m/callRenderer";
+import { respondToRenderer } from "_m/respondToRenderer";
 
 export const handleGetCookieFileFromOpenDialog = async (
   data: Extract<

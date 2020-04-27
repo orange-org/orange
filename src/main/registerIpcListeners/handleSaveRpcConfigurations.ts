@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { writeConfigurations } from "_m/writeConfigurations/writeConfigurations";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { respondToRenderer } from "_m/callRenderer";
+import { respondToRenderer } from "_m/respondToRenderer";
 
 export const handleSaveRpcConfigurations = async (
   data: Extract<SendableMessageToMain, { type: "save-rpc-configurations" }>,

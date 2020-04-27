@@ -1,15 +1,9 @@
+import { merge } from "lodash";
 import { vol } from "memfs";
 import nock from "nock";
-import {
-  app,
-  BrowserWindow,
-  resetStateOfElectronMock,
-  WebContents,
-  dialog,
-} from "__mocks__/electron";
-import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
-import { merge } from "lodash";
 import waitForExpect from "wait-for-expect";
+import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
+import { app, BrowserWindow, dialog, WebContents } from "__mocks__/electron";
 import { startMainProcess } from "./startMainProcess";
 import { startPreloadProcess } from "./startPreloadProcess";
 
@@ -20,45 +14,35 @@ getGlobalProcess.mockImplementation(() =>
   merge(currentGlobalProcess, { argv: ["--datadir=some/data/dir/"] }),
 );
 
-const initializeMainProcess = () => {
-  app.emit("ready");
-
-  const { value: mainWindow } = BrowserWindow.instances.find(
-    instance => instance.name === "Orange",
-  )!;
-
-  mainWindow.webContents.emit("did-finish-load");
-
-  vol.fromJSON({
-    "home/.bitcoin/bitcoin.conf": "",
-    "home/.bitcoin/.cookie": "__cookie__:1337",
-  });
-
-  nock("http://localhost:8332")
-    .post("/")
-    .reply(200, {});
-
-  return mainWindow;
-};
-
-let cleanPreloadProcess: () => any;
-
 describe("main", () => {
-  beforeEach(() => {
-    cleanPreloadProcess = startPreloadProcess();
-  });
+  let mainWindow: BrowserWindow;
 
-  afterEach(() => {
-    nock.cleanAll();
-    resetStateOfElectronMock();
-    cleanPreloadProcess();
+  beforeAll(() => {
+    startMainProcess();
+    startPreloadProcess();
+
+    app.emit("ready");
+
+    const { value: mainWindow_ } = BrowserWindow.instances.find(
+      instance => instance.name === "Orange",
+    )!;
+
+    mainWindow = mainWindow_;
+
+    mainWindow.webContents.emit("did-finish-load");
+
+    vol.fromJSON({
+      "home/.bitcoin/bitcoin.conf": "",
+      "home/.bitcoin/.cookie": "__cookie__:1337",
+    });
+
+    nock("http://localhost:8332")
+      .post("/")
+      .reply(200, {});
   });
 
   describe("general integration", () => {
     test("IPC RPC requests between main and renderer through preload", done => {
-      startMainProcess();
-      initializeMainProcess();
-
       window.postMessage(
         {
           nonce: __NONCE__,
@@ -94,9 +78,6 @@ describe("main", () => {
     });
 
     test('"show-error" IPC event', () => {
-      startMainProcess();
-      initializeMainProcess();
-
       window.postMessage(
         {
           nonce: __NONCE__,
@@ -115,24 +96,24 @@ describe("main", () => {
           title: "An error occurred",
           type: "warning",
         });
+
+        dialog.showMessageBoxSync.mockReset();
       });
     });
 
-    test.only("catching generic errors", () => {
-      /* eslint-disable no-console */
-      const consoleLog = console.log;
-      console.log = jest.fn();
+    test("catching generic errors", () => {
+      jest.spyOn(console, "log").mockImplementation(jest.fn);
 
-      startMainProcess();
-      initializeMainProcess();
-
+      // @ts-ignore
       process.emit("unhandledRejection", "hello");
+      // @ts-ignore
       process.emit("unhandledRejection", new Error("happened"));
 
-      console.log = consoleLog;
-      /* eslint-enable no-console */
+      jest.spyOn(console, "log").mockRestore();
+
       return waitForExpect(() => {
         expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(2);
+
         expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(1, {
           message:
             'This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\n"hello"',
@@ -146,11 +127,12 @@ describe("main", () => {
           title: "An error occurred",
           type: "warning",
         });
+
+        dialog.showMessageBoxSync.mockReset();
       });
     });
 
     test("wiring of mainWindow.webContents.session.webRequest.onBeforeRequest", () => {
-      const mainWindow = initializeMainProcess();
       const spy = jest.fn();
 
       mainWindow.webContents.session.webRequest.emit(

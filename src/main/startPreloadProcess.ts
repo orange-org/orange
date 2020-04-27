@@ -1,7 +1,17 @@
 import { ipcRenderer } from "electron";
 import { MessageToRenderer, MessageToMain } from "_t/IpcMessages";
 
+let startPreloadProcessHasBeenCalled = false;
+
 export const startPreloadProcess = () => {
+  if (startPreloadProcessHasBeenCalled) {
+    throw new Error(
+      "`startPreloadProcess` is meant to be called only once per Node.js process",
+    );
+  }
+
+  startPreloadProcessHasBeenCalled = true;
+
   ipcRenderer.on("message-to-renderer", (_event, data: MessageToRenderer) => {
     window.postMessage(data, "*");
   });

@@ -3,7 +3,7 @@ import { BrowserWindow, resetBrowserWindow } from "./BrowserWindow";
 import { ipcMain, resetIpcMain } from "./ipcMain";
 import { WebContents } from "./WebContents";
 import { ipcRenderer, resetIpcRenderer } from "./ipcRenderer";
-import { dialog } from "./dialog";
+import { dialog, resetDialog } from "./dialog";
 
 const globalShortcut = {
   register: () => null,
@@ -24,4 +24,5 @@ export const resetStateOfElectronMock = () => {
   resetIpcMain();
   resetIpcRenderer();
   resetBrowserWindow();
+  resetDialog();
 };

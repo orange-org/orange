@@ -8,7 +8,17 @@ import { processes } from "./processes";
 import { registerErrorHandling } from "./registerErrorHandling";
 import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
 
+let startMainProcessHasBeenCalled = false;
+
 export const startMainProcess = () => {
+  if (startMainProcessHasBeenCalled) {
+    throw new Error(
+      "`startMainProcess` is meant to be called only once per Node.js process",
+    );
+  }
+
+  startMainProcessHasBeenCalled = true;
+
   registerErrorHandling();
 
   app.enableSandbox();

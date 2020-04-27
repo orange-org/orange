@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/dom";
-import { cleanup, fireEvent } from "@testing-library/react";
+import { cleanup, fireEvent, act } from "@testing-library/react";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
 import * as transactionFixtures from "_r/rpcClient/__mocks__/transactionFixtures";
 import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
@@ -12,9 +12,9 @@ describe("SearchBox", () => {
    * run sequentially
    */
   describe("Search flow", () => {
-    beforeAll(() => {
+    beforeAll(async () => {
       prepareRpcClientInitialLoad();
-      renderAppWithStore();
+      await renderAppWithStore();
     });
 
     afterAll(() => {

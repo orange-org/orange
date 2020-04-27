@@ -7,6 +7,7 @@ const hashRegex = /[0-9a-fA-F]{64}/;
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
+  const history = useHistory();
 
   const onChange: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -15,8 +16,6 @@ export const useSearchHandlers = () => {
 
     setSearchValue(value);
   };
-
-  const history = useHistory();
 
   const onKeyUp: (
     event: React.KeyboardEvent<HTMLInputElement>,

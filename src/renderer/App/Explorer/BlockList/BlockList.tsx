@@ -21,8 +21,6 @@ export const ListOfBlocks: React.FC = () => {
   const a = useAtomicCss();
   const { blockHeightAsId } = useParams();
 
-  console.log("=\nFILE: BlockList.tsx\nLINE: 24\n=");
-
   useEffect(() => {
     dispatch(
       thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),

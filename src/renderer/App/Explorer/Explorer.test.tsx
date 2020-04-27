@@ -19,7 +19,7 @@ describe("Explorer view", () => {
     it("starts by loading 20 blocks to display", async () => {
       prepareRpcClientInitialLoad();
 
-      renderAppWithStore();
+      await renderAppWithStore();
 
       const blocks = await screen.findAllByTestId("blocklist-block");
 
@@ -28,9 +28,9 @@ describe("Explorer view", () => {
   });
 
   describe("selecting a block", () => {
-    beforeAll(() => {
+    beforeAll(async () => {
       prepareRpcClientInitialLoad();
-      renderAppWithStore();
+      await renderAppWithStore();
     });
 
     afterAll(() => {

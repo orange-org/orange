@@ -22,7 +22,6 @@ describe("mainRpcClient", () => {
       {
         method: "getblockhash",
         params: [600000],
-        requestId: "123",
       },
       rpcConfigurations,
     );
@@ -41,7 +40,6 @@ describe("mainRpcClient", () => {
       {
         method: "getblockhash",
         params: [600000],
-        requestId: "123",
       },
       rpcConfigurations,
     );
@@ -59,12 +57,29 @@ describe("mainRpcClient", () => {
         {
           // @ts-ignore
           method: "submitheader",
-          requestId: "123",
         },
         rpcConfigurations,
       ),
     ).rejects.toThrow(ErrorWithCode);
     expect(scope.pendingMocks().length).toBe(1);
+
+    nock.cleanAll();
+  });
+
+  it("throws when statusCode is 401 or 403", async () => {
+    nock(RPC_SERVER_URL)
+      .post("/")
+      .reply(403);
+
+    await expect(
+      mainRpcClient(
+        {
+          method: "getblockhash",
+          params: [600000],
+        },
+        rpcConfigurations,
+      ),
+    ).rejects.toThrow(ErrorWithCode);
 
     nock.cleanAll();
   });

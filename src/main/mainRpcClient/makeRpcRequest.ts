@@ -3,7 +3,7 @@ import http from "http";
 type RequestParams = {
   url: string;
   options: http.RequestOptions;
-  body?: any;
+  body: any;
 };
 
 export const makeRpcRequest = (
@@ -26,9 +26,7 @@ export const makeRpcRequest = (
       });
     });
 
-    if (body) {
-      nodeRequest.write(JSON.stringify(body));
-    }
+    nodeRequest.write(JSON.stringify(body));
 
     nodeRequest.on("error", reject);
 

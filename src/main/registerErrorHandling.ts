@@ -2,6 +2,7 @@ import { showErrorDialog } from "./showErrorDialog";
 
 export const registerErrorHandling = () => {
   const globalErrorHandler = (error: Error | {} | null | undefined) => {
+    /* istanbul ignore else */
     if (error) {
       // eslint-disable-next-line no-console
       console.log(error);

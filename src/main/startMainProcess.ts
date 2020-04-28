@@ -11,6 +11,7 @@ import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners
 let startMainProcessHasBeenCalled = false;
 
 export const startMainProcess = () => {
+  /* istanbul ignore if */
   if (startMainProcessHasBeenCalled) {
     throw new Error(
       "`startMainProcess` is meant to be called only once per Node.js process",

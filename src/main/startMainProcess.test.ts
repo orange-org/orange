@@ -1,11 +1,8 @@
 import { merge } from "lodash";
-import { vol } from "memfs";
-import nock from "nock";
 import waitForExpect from "wait-for-expect";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { app, BrowserWindow, dialog, WebContents } from "__mocks__/electron";
-import { startMainProcess } from "./startMainProcess";
-import { startPreloadProcess } from "./startPreloadProcess";
+import { initializeElectronCode } from "./startMainProcess.testHelpers";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
 const currentGlobalProcess = getGlobalProcess_();
@@ -18,27 +15,7 @@ describe("main", () => {
   let mainWindow: BrowserWindow;
 
   beforeAll(() => {
-    startMainProcess();
-    startPreloadProcess();
-
-    app.emit("ready");
-
-    const { value: mainWindow_ } = BrowserWindow.instances.find(
-      instance => instance.name === "Orange",
-    )!;
-
-    mainWindow = mainWindow_;
-
-    mainWindow.webContents.emit("did-finish-load");
-
-    vol.fromJSON({
-      "home/.bitcoin/bitcoin.conf": "",
-      "home/.bitcoin/.cookie": "__cookie__:1337",
-    });
-
-    nock("http://localhost:8332")
-      .post("/")
-      .reply(200, {});
+    mainWindow = initializeElectronCode();
   });
 
   describe("general integration", () => {

@@ -11,10 +11,10 @@ type CallMainReturnType<TMessageToMain extends MessageToMain> = Extract<
 >;
 
 export const callMain = <TMessageToMain extends MessageToMain>(
-  payload: TMessageToMain,
+  message: TMessageToMain,
 ): Promise<CallMainReturnType<TMessageToMain>> => {
   const messageToMain = {
-    ...payload,
+    ...message,
     source: "@orange/renderer",
     messageId: generateUuid(),
   } as SendableMessageToMain;

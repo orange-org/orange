@@ -4,6 +4,7 @@ import { MessageToRenderer, MessageToMain } from "_t/IpcMessages";
 let startPreloadProcessHasBeenCalled = false;
 
 export const startPreloadProcess = () => {
+  /* istanbul ignore if */
   if (startPreloadProcessHasBeenCalled) {
     throw new Error(
       "`startPreloadProcess` is meant to be called only once per Node.js process",
@@ -29,8 +30,4 @@ export const startPreloadProcess = () => {
     }
   };
   window.addEventListener("message", messageEventListener);
-
-  // This is to clean up after each test.
-  // See https://github.com/orange-org/orange/issues/25
-  return () => window.removeEventListener("message", messageEventListener);
 };

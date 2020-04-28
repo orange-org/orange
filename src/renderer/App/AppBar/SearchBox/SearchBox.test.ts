@@ -1,10 +1,14 @@
 import { screen } from "@testing-library/dom";
-import { cleanup, fireEvent, act } from "@testing-library/react";
+import { cleanup, fireEvent } from "@testing-library/react";
+import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
 import * as transactionFixtures from "_r/rpcClient/__mocks__/transactionFixtures";
-import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
-import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitialLoad";
+import {
+  createNockRequestResponse,
+  prepareMocksForInitialHttpRequests,
+} from "_r/testUtils/prepareMocksForInitialHttpRequests";
 import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
+import { expectNoPendingHttpRequests } from "_r/testUtils/smallUtils";
 
 describe("SearchBox", () => {
   /**
@@ -13,13 +17,17 @@ describe("SearchBox", () => {
    */
   describe("Search flow", () => {
     beforeAll(async () => {
-      prepareRpcClientInitialLoad();
+      initializeElectronCode(false);
+      prepareMocksForInitialHttpRequests();
       await renderAppWithStore();
     });
 
     afterAll(() => {
-      rpcClientMockResponses.verify();
       cleanup();
+    });
+
+    afterEach(async () => {
+      await expectNoPendingHttpRequests();
     });
 
     test("app loads with the search box visible", async () => {
@@ -32,31 +40,39 @@ describe("SearchBox", () => {
 
     test("search for a block by height", async () => {
       const searchBox = await screen.findByLabelText("search");
-      rpcClientMockResponses
-        .forRequest({
+
+      createNockRequestResponse(
+        {
           method: "getblock",
           // @ts-ignore
           params: [blockFixtures.blockFixture2.height.toString(), 1],
-        })
-        .queueResponse({
-          error: {
-            code: -8,
-            message: "blockhash must be of length 64",
+        },
+        null,
+        {
+          response: {
+            error: {
+              code: -8,
+              message: "blockhash must be of length 64",
+            },
           },
-        });
+        },
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblockhash",
           params: [blockFixtures.blockFixture2.height],
-        })
-        .queueResponse(blockFixtures.blockFixture2.hash);
-      rpcClientMockResponses
-        .forRequest({
+        },
+        blockFixtures.blockFixture2.hash,
+      );
+
+      createNockRequestResponse(
+        {
           method: "getblock",
           params: [blockFixtures.blockFixture2.hash, 1],
-        })
-        .queueResponse(blockFixtures.blockFixture2);
+        },
+        blockFixtures.blockFixture2,
+      );
 
       /**
        * We will start by searching for a block by height
@@ -82,13 +98,14 @@ describe("SearchBox", () => {
     test("searching by hash", async () => {
       const searchBox = await screen.findByLabelText("search");
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblock",
           // @ts-ignore
           params: [blockFixtures.blockFixture3.hash, 1],
-        })
-        .queueResponse(blockFixtures.blockFixture3);
+        },
+        blockFixtures.blockFixture3,
+      );
 
       /**
        * We can now try searching for blockFixture3 by hash
@@ -110,53 +127,61 @@ describe("SearchBox", () => {
     test("searching by transaction", async () => {
       const searchBox = await screen.findByLabelText("search");
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblock",
           // @ts-ignore
           params: [blockFixtures.blockFixture3.hash, 1],
-        })
-        .queueResponse(blockFixtures.blockFixture3);
+        },
+        blockFixtures.blockFixture3,
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblock",
           // @ts-ignore
           params: [blockFixtures.blockFixture3.tx[2], 1],
-        })
-        .queueResponse({
-          error: {
-            code: -5,
-            message: "Block not found",
+        },
+        null,
+        {
+          response: {
+            error: {
+              code: -5,
+              message: "Block not found",
+            },
           },
-        });
+        },
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getrawtransaction",
           // @ts-ignore
           params: [blockFixtures.blockFixture3.tx[2], true],
-        })
-        .queueResponse(transactionFixtures.rawTransactionFixture1);
+        },
+        transactionFixtures.rawTransactionFixture1,
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getrawtransaction",
           // @ts-ignore
           params: [blockFixtures.blockFixture3.tx[2], true],
-        })
-        .queueResponse(transactionFixtures.rawTransactionFixture1);
+        },
+        transactionFixtures.rawTransactionFixture1,
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getrawtransaction",
           // @ts-ignore
           params: [
             transactionFixtures.rawTransactionFixture1.vin[0].txid,
             true,
           ],
-        })
-        .queueResponse(transactionFixtures.rawTransactionFixture2);
+        },
+        transactionFixtures.rawTransactionFixture2,
+      );
 
       fireEvent.change(searchBox, {
         target: { value: blockFixtures.blockFixture3.tx[2] },
@@ -177,14 +202,6 @@ describe("SearchBox", () => {
 
     test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
       const searchBox = await screen.findByLabelText("search");
-
-      rpcClientMockResponses
-        .forRequest({
-          method: "getblock",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture2.hash, 1],
-        })
-        .queueResponse(blockFixtures.blockFixture2);
 
       fireEvent.change(searchBox, {
         target: { value: blockFixtures.blockFixture2.hash },
@@ -208,38 +225,50 @@ describe("SearchBox", () => {
     test("it does not do anything when the search string does not return a block", async () => {
       const searchBox = await screen.findByLabelText("search");
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblock",
           // @ts-ignore
           params: ["🕺", 1],
-        })
-        .queueResponse({
-          error: { code: -8, message: "blockhash must be of length 64" },
-        });
+        },
+        null,
+        {
+          response: {
+            error: { code: -8, message: "blockhash must be of length 64" },
+          },
+        },
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getrawtransaction",
           // @ts-ignore
           params: ["🕺", true],
-        })
-        .queueResponse({
-          error: { code: -8, message: "parameter 1 must be of length 64" },
-        });
+        },
+        null,
+        {
+          response: {
+            error: { code: -8, message: "parameter 1 must be of length 64" },
+          },
+        },
+      );
 
-      rpcClientMockResponses
-        .forRequest({
+      createNockRequestResponse(
+        {
           method: "getblockhash",
           // @ts-ignore
-          params: [NaN],
-        })
-        .queueResponse({
-          error: {
-            code: -1,
-            message: "JSON value is not an integer as expected",
+          params: [null],
+        },
+        null,
+        {
+          response: {
+            error: {
+              code: -1,
+              message: "JSON value is not an integer as expected",
+            },
           },
-        });
+        },
+      );
 
       fireEvent.change(searchBox, {
         target: { value: "🕺" },

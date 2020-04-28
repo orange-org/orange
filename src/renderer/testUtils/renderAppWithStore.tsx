@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import { getApp } from "_r/App/App";
 import { resetStore } from "_r/redux/reducers/store";
@@ -11,5 +11,8 @@ export const renderAppWithStore = async () => {
     const App = getApp();
 
     await render(<App />);
+
+    // Wait for initial load
+    await screen.findAllByTestId("blocklist-block");
   });
 };

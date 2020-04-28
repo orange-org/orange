@@ -1,14 +1,19 @@
 import { screen } from "@testing-library/dom";
 import { cleanup, fireEvent } from "@testing-library/react";
+import nock from "nock";
+import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
 import { blockchainInfoFixture1 } from "_r/rpcClient/__mocks__/blockchainInfoFixtures";
 import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
-import { rpcClientMockResponses } from "_r/rpcClient/__mocks__/RpcClientMockResponses";
-import { prepareRpcClientInitialLoad } from "_r/testUtils/prepareRpcClientInitialLoad";
+import { prepareMocksForInitialHttpRequests } from "_r/testUtils/prepareMocksForInitialHttpRequests";
 import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
 
 describe("Explorer view", () => {
+  beforeAll(() => {
+    initializeElectronCode(false);
+  });
+
   afterEach(() => {
-    rpcClientMockResponses.verify();
+    expect(nock.isDone()).toBe(true);
   });
 
   describe("loading block list", () => {
@@ -17,7 +22,7 @@ describe("Explorer view", () => {
     });
 
     it("starts by loading 20 blocks to display", async () => {
-      prepareRpcClientInitialLoad();
+      prepareMocksForInitialHttpRequests();
 
       await renderAppWithStore();
 
@@ -29,7 +34,7 @@ describe("Explorer view", () => {
 
   describe("selecting a block", () => {
     beforeAll(async () => {
-      prepareRpcClientInitialLoad();
+      prepareMocksForInitialHttpRequests();
       await renderAppWithStore();
     });
 

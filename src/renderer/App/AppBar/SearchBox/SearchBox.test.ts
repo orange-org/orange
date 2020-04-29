@@ -1,14 +1,9 @@
 import { screen } from "@testing-library/dom";
 import { cleanup, fireEvent } from "@testing-library/react";
 import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
-import * as blockFixtures from "_r/rpcClient/__mocks__/blockFixtures";
-import * as transactionFixtures from "_r/rpcClient/__mocks__/transactionFixtures";
-import {
-  createNockRequestResponse,
-  prepareMocksForInitialHttpRequests,
-} from "_r/testUtils/prepareMocksForInitialHttpRequests";
-import { renderAppWithStore } from "_r/testUtils/renderAppWithStore";
-import { expectNoPendingHttpRequests } from "_r/testUtils/smallUtils";
+import * as blockFixtures from "_tu/fixtures/blockFixtures";
+import { renderAppWithStore } from "_tu/renderAppWithStore";
+import { startRpcMockServer } from "_tu/startRpcMockServer";
 
 describe("SearchBox", () => {
   /**
@@ -17,17 +12,13 @@ describe("SearchBox", () => {
    */
   describe("Search flow", () => {
     beforeAll(async () => {
+      startRpcMockServer();
       initializeElectronCode(false);
-      prepareMocksForInitialHttpRequests();
       await renderAppWithStore();
     });
 
     afterAll(() => {
       cleanup();
-    });
-
-    afterEach(async () => {
-      await expectNoPendingHttpRequests();
     });
 
     test("app loads with the search box visible", async () => {
@@ -40,39 +31,6 @@ describe("SearchBox", () => {
 
     test("search for a block by height", async () => {
       const searchBox = await screen.findByLabelText("search");
-
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture2.height.toString(), 1],
-        },
-        null,
-        {
-          response: {
-            error: {
-              code: -8,
-              message: "blockhash must be of length 64",
-            },
-          },
-        },
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getblockhash",
-          params: [blockFixtures.blockFixture2.height],
-        },
-        blockFixtures.blockFixture2.hash,
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          params: [blockFixtures.blockFixture2.hash, 1],
-        },
-        blockFixtures.blockFixture2,
-      );
 
       /**
        * We will start by searching for a block by height
@@ -98,15 +56,6 @@ describe("SearchBox", () => {
     test("searching by hash", async () => {
       const searchBox = await screen.findByLabelText("search");
 
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture3.hash, 1],
-        },
-        blockFixtures.blockFixture3,
-      );
-
       /**
        * We can now try searching for blockFixture3 by hash
        */
@@ -126,62 +75,6 @@ describe("SearchBox", () => {
 
     test("searching by transaction", async () => {
       const searchBox = await screen.findByLabelText("search");
-
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture3.hash, 1],
-        },
-        blockFixtures.blockFixture3,
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture3.tx[2], 1],
-        },
-        null,
-        {
-          response: {
-            error: {
-              code: -5,
-              message: "Block not found",
-            },
-          },
-        },
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getrawtransaction",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture3.tx[2], true],
-        },
-        transactionFixtures.rawTransactionFixture1,
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getrawtransaction",
-          // @ts-ignore
-          params: [blockFixtures.blockFixture3.tx[2], true],
-        },
-        transactionFixtures.rawTransactionFixture1,
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getrawtransaction",
-          // @ts-ignore
-          params: [
-            transactionFixtures.rawTransactionFixture1.vin[0].txid,
-            true,
-          ],
-        },
-        transactionFixtures.rawTransactionFixture2,
-      );
 
       fireEvent.change(searchBox, {
         target: { value: blockFixtures.blockFixture3.tx[2] },
@@ -224,51 +117,6 @@ describe("SearchBox", () => {
 
     test("it does not do anything when the search string does not return a block", async () => {
       const searchBox = await screen.findByLabelText("search");
-
-      createNockRequestResponse(
-        {
-          method: "getblock",
-          // @ts-ignore
-          params: ["🕺", 1],
-        },
-        null,
-        {
-          response: {
-            error: { code: -8, message: "blockhash must be of length 64" },
-          },
-        },
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getrawtransaction",
-          // @ts-ignore
-          params: ["🕺", true],
-        },
-        null,
-        {
-          response: {
-            error: { code: -8, message: "parameter 1 must be of length 64" },
-          },
-        },
-      );
-
-      createNockRequestResponse(
-        {
-          method: "getblockhash",
-          // @ts-ignore
-          params: [null],
-        },
-        null,
-        {
-          response: {
-            error: {
-              code: -1,
-              message: "JSON value is not an integer as expected",
-            },
-          },
-        },
-      );
 
       fireEvent.change(searchBox, {
         target: { value: "🕺" },

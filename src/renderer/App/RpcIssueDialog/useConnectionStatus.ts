@@ -10,7 +10,7 @@ export const useConnectionStatus = (
 ) => {
   const [connectionIssue, setConnectionIssue] = useState<
     RpcIssue | "newConfig" | null
-  >(null);
+  >("newConfig");
   const { username, password, serverUrl, cookieFile } =
     rpcConfigurations || ({} as any);
 

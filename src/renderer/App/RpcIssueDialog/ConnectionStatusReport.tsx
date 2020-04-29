@@ -34,7 +34,7 @@ export const ConnectionStatusReport: React.FC<{
 
   return (
     <>
-      <DialogContent>
+      <DialogContent data-testid="connection-status-report">
         {(!isUnauthorized && (
           <>
             <Typography variant="h4">

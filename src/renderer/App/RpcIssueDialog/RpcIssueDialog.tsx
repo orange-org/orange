@@ -17,7 +17,7 @@ export const RpcIssueDialog = () => {
   }, [hasRpcIssue]);
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} data-testid="rpc-issue-dialog">
       <DialogTitle>
         Bitcoin Core connection {enterServerDetails ? "settings" : "issue"}
       </DialogTitle>

@@ -38,6 +38,7 @@
       "_a/*": ["src/assets/*"],
       "_t/*": ["src/typings/*"],
       "_c/*": ["src/common/*"],
+      "_tu/*": ["src/testUtils/*"],
       "__mocks__/*": ["__mocks__/*"]
     }
   },

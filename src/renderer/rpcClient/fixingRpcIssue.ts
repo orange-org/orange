@@ -17,20 +17,5 @@ export const fixingRpcIssue = () => {
         resolve();
       }
     }, 1000);
-
-    //   const stopPolling = poll(async () => {
-    //     const response = await makeRpcRequest(__NONCE__, { method: "uptime" });
-    //     const { newRpcConfigurationsSaved } = store.getState();
-
-    //     if (response.result && newRpcConfigurationsSaved) {
-    //       stopPolling();
-    //       resolve();
-    //       store.dispatch(setRpcIssue(null));
-    //       store.dispatch(setNewRpcConfigurationsSaved(null));
-    //       return;
-    //     }
-
-    //     store.dispatch(setRpcIssue(response.error));
-    //   }, 1000);
   });
 };

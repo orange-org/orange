@@ -1,7 +1,5 @@
-const fs = require("fs");
+const nonce = require("./nonce");
 
 module.exports = {
-  __NONCE__: JSON.stringify(
-    fs.readFileSync(`${__dirname}/../.nonce`, { encoding: "utf8" }),
-  ),
+  __NONCE__: JSON.stringify(nonce),
 };

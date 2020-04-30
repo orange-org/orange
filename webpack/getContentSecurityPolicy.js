@@ -2,12 +2,9 @@ const getIsDevelopment = require("./getIsDevelopment");
 
 const isDevelopment = getIsDevelopment();
 
-module.exports = () =>
+module.exports = nonce =>
   [
-    // This is needed for Material UI to be able to inline itself
-    // I looked into using a nonce or a hash but that didn't make sense.
-    // See https://github.com/orange-org/orange/issues/1
-    ["style-src-elem", "'unsafe-inline'"],
+    ["style-src-elem", `'self' 'nonce-${nonce}'`],
     [
       "connect-src",
       isDevelopment
@@ -31,7 +28,7 @@ module.exports = () =>
     // Allow unsafe eval during development for hot module replacement
     ["script-src", isDevelopment ? "'unsafe-eval'" : "'none'"],
     ["script-src-attr", "'none'"],
-    ["style-src", "'none'"],
+    ["style-src", `'self' 'nonce-${nonce}'`],
     ["style-src-attr", isDevelopment ? "'self'" : "'none'"],
     ["worker-src", "'none'"],
     ["base-uri", "'none'"],

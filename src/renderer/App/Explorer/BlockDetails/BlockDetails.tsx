@@ -175,7 +175,7 @@ const BlockDetails_ = () => {
       </Typography>
 
       <Paper className={a("marginTop02")}>
-        <AutoSizer disableHeight>
+        <AutoSizer disableHeight nonce={(__NONCE__ as unknown) as string}>
           {({ width }) => (
             <FixedSizeList
               key={blockData.hash}

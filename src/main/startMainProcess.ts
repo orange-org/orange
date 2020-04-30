@@ -44,16 +44,18 @@ export const startMainProcess = () => {
 
     mainWindow.webContents.once("did-finish-load", registerIpcListener);
 
-    /* istanbul ignore if */
-    if (getIsDevelopment()) {
-      mainWindow.maximize();
-      mainWindow.webContents.openDevTools();
-    } else {
-      globalShortcut.register(
-        "CmdOrCtrl+R",
-        /* istanbul ignore next */ () => null,
-      );
-    }
+    mainWindow.webContents.once("did-frame-finish-load", () => {
+      /* istanbul ignore if */
+      if (getIsDevelopment()) {
+        mainWindow.maximize();
+        mainWindow.webContents.openDevTools();
+      } else {
+        globalShortcut.register(
+          "CmdOrCtrl+R",
+          /* istanbul ignore next */ () => null,
+        );
+      }
+    });
   }
 
   // Disable web view creation

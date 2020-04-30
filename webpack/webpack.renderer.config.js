@@ -2,6 +2,7 @@ const { NamedModulesPlugin, IgnorePlugin } = require("webpack");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
+const nonce = require("./nonce");
 
 const baseConfig = require("./webpack.base.config");
 const getContentSecurityPolicy = require("./getContentSecurityPolicy");
@@ -28,7 +29,10 @@ module.exports = merge.smart(baseConfig, {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          { loader: "style-loader", options: { attributes: { nonce } } },
+          "css-loader",
+        ],
       },
       {
         test: /\.(woff|woff2|eot|ttf|svg)$/,
@@ -48,7 +52,8 @@ module.exports = merge.smart(baseConfig, {
       title: "Orange",
       template: `${root}/src/renderer/index.html`,
       templateParameters: {
-        contentSecurityPolicy: getContentSecurityPolicy(),
+        contentSecurityPolicy: getContentSecurityPolicy(nonce),
+        nonce,
       },
     }),
     new IgnorePlugin({

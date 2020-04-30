@@ -9,11 +9,9 @@ const useAtomicStyles = makeStyles(
     const c = (
       name: keyof CSS.Properties<number | string>,
       val: number | string,
-    ) => {
-      return {
-        [name]: val,
-      };
-    };
+    ) => ({
+      [name]: val,
+    });
 
     /* eslint sort-keys: "error" */
     const atomicCss = {

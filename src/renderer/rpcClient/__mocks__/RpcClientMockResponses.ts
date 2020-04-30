@@ -12,16 +12,14 @@ class RpcClientMockResponses {
     response: SimplifiedRpcResponse;
   }[] = [];
 
-  forRequest = (request: RpcRequest) => {
-    return {
-      queueResponse: (response: SimplifiedRpcResponse) => {
-        this.queuedResponses.push({
-          request,
-          response,
-        });
-      },
-    };
-  };
+  forRequest = (request: RpcRequest) => ({
+    queueResponse: (response: SimplifiedRpcResponse) => {
+      this.queuedResponses.push({
+        request,
+        response,
+      });
+    },
+  });
 
   popResponseFor = (request: RpcRequest) => {
     const responseIndex = this.queuedResponses.findIndex(queuedResponse =>

@@ -1,4 +1,3 @@
-import { merge } from "lodash";
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
 import { Block, RawTransaction } from "_t/RpcResponses";
@@ -38,36 +37,26 @@ export const initialState: State = {
 };
 
 export const reducer = createReducer(initialState)
-  .handleAction(actions.setExplorerBlockList, (state, action) => {
-    return {
-      ...state,
-      explorerBlockList: action.payload,
-    };
-  })
-  .handleAction(actions.setSelectedExplorerBlock, (state, action) => {
-    return {
-      ...state,
-      selectedExplorerBlock: action.payload,
-    };
-  })
-  .handleAction(actions.setSelectedExplorerTransaction, (state, action) => {
-    return {
-      ...state,
-      selectedExplorerTransaction: action.payload,
-    };
-  })
+  .handleAction(actions.setExplorerBlockList, (state, action) => ({
+    ...state,
+    explorerBlockList: action.payload,
+  }))
+  .handleAction(actions.setSelectedExplorerBlock, (state, action) => ({
+    ...state,
+    selectedExplorerBlock: action.payload,
+  }))
+  .handleAction(actions.setSelectedExplorerTransaction, (state, action) => ({
+    ...state,
+    selectedExplorerTransaction: action.payload,
+  }))
   .handleAction(
     actions.setSelectedExplorerTransactionInputValues,
-    (state, action) => {
-      return {
-        ...state,
-        selectedExplorerTransactionInputValues: action.payload,
-      };
-    },
-  )
-  .handleAction(actions.setHasRpcIssue, (state, action) => {
-    return {
+    (state, action) => ({
       ...state,
-      hasRpcIssue: action.payload,
-    };
-  });
+      selectedExplorerTransactionInputValues: action.payload,
+    }),
+  )
+  .handleAction(actions.setHasRpcIssue, (state, action) => ({
+    ...state,
+    hasRpcIssue: action.payload,
+  }));

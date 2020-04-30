@@ -8,7 +8,6 @@ import {
   startMockErroringRpcServer,
   startMockRpcServer,
 } from "_tu/startMockRpcServer";
-import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
 
 describe("RpcIssueDialog", () => {
   /**

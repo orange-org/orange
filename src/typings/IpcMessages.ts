@@ -1,8 +1,5 @@
-import { State } from "_r/redux/reducers/reducer";
-import { DeepPartial } from "redux";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
-import { NullableProperties } from "./typeHelpers";
 
 export type Message<T, P> = {
   nonce: NONCE;

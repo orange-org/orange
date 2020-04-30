@@ -5,13 +5,10 @@ import {
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
+  RawTransaction,
   RpcInfo,
   Uptime,
-  RawTransaction,
-  RpcError,
 } from "_t/RpcResponses";
-import { DeepPartial } from "redux";
-import { State } from "./reducers/reducer";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 

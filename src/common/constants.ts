@@ -1,5 +1,3 @@
-import { ObjectValues } from "_t/typeHelpers";
-
 export const BITCOIN_CORE_RPC_ERROR = {
   /**
    * The below codes map to:

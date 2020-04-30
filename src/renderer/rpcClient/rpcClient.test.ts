@@ -1,5 +1,3 @@
-import { RpcResponseMtR } from "_t/IpcMessages";
-import { RPC_ERROR } from "_c/constants";
 import { ipcService as ipcService_ } from "_r/ipc/ipcService";
 import { rpcClient as rpcClient_ } from "./rpcClient";
 

@@ -4,11 +4,11 @@ import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
-import { startRpcMockServer } from "_tu/startRpcMockServer";
+import { startMockRpcServer } from "_tu/startMockRpcServer";
 
 describe("Explorer view", () => {
   beforeAll(() => {
-    startRpcMockServer();
+    startMockRpcServer();
     initializeElectronCode(false);
   });
 

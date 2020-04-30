@@ -3,7 +3,7 @@ import { cleanup, fireEvent } from "@testing-library/react";
 import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
-import { startRpcMockServer } from "_tu/startRpcMockServer";
+import { startMockRpcServer } from "_tu/startMockRpcServer";
 
 describe("SearchBox", () => {
   /**
@@ -12,7 +12,7 @@ describe("SearchBox", () => {
    */
   describe("Search flow", () => {
     beforeAll(async () => {
-      startRpcMockServer();
+      startMockRpcServer();
       initializeElectronCode(false);
       await renderAppWithStore();
     });

@@ -10,6 +10,7 @@ import { Block, RawTransaction } from "_t/RpcResponses";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import * as transactionFixtures from "_tu/fixtures/transactionFixtures";
+import { NODE_ERROR } from "_c/constants";
 
 const findFixture = <Fixture extends RawTransaction | Block>(
   cb: (fixture: Fixture) => boolean,
@@ -38,8 +39,21 @@ const findBlock = (cb: (blockFixture: Block) => boolean) =>
 const findTransaction = (cb: (transactionFixture: RawTransaction) => boolean) =>
   findFixture<RawTransaction>(cb, transactionFixtures);
 
-export const startRpcMockServer = () => {
-  const scope = nock(SERVER_URL, {
+export const startMockErroringRpcServer = (
+  error: any = { code: NODE_ERROR.ECONNREFUSED },
+) => {
+  nock.cleanAll();
+
+  nock(SERVER_URL)
+    .post("/")
+    .replyWithError(error)
+    .persist();
+};
+
+export const startMockRpcServer = () => {
+  nock.cleanAll();
+
+  nock(SERVER_URL, {
     reqheaders: {
       authorization: `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`,
     },
@@ -48,9 +62,10 @@ export const startRpcMockServer = () => {
     .reply(200, {
       error: null,
       result: blockchainInfoFixture1,
-    });
+    })
 
-  scope
+    // /////////////////////
+
     .post(
       "/",
       matches({
@@ -81,9 +96,10 @@ export const startRpcMockServer = () => {
       }
 
       throw new Error(`cant process ${requestBody}`);
-    });
+    })
 
-  scope
+    // /////////////////////////////
+
     .post(
       "/",
       matches({
@@ -119,9 +135,10 @@ export const startRpcMockServer = () => {
           },
         },
       ];
-    });
+    })
 
-  scope
+    // ///////////////////////////
+
     .post("/", matches({ method: "getrawtransaction" }))
     .reply((_uri, requestBody) => {
       const parsedRequestBody = JSON.parse(requestBody as any);
@@ -146,7 +163,14 @@ export const startRpcMockServer = () => {
       }
 
       throw new Error(`Can't process ${requestBody}`);
-    });
+    })
 
-  scope.persist();
+    // //////////////////
+
+    .post("/", matches({ method: "uptime" }))
+    .reply(200, { error: null, result: 1234 })
+
+    // //////////////////
+
+    .persist();
 };

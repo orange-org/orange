@@ -8,6 +8,15 @@ export const isWhitelistedUrl = (url: string) => {
 
   // During development
   if (getIsDevelopment()) {
+    // Allow installing extensions
+    if (
+      protocol === "https:" &&
+      (hostname === "clients2.googleusercontent.com" ||
+        hostname === "clients2.google.com")
+    ) {
+      return true;
+    }
+
     // Allow devtools
     if (protocol === "devtools:" && hostname === "devtools") {
       return true;

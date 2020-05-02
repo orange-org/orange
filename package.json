@@ -25,7 +25,7 @@
     "develop:main": "cross-env NODE_ENV=development run-s _webpack-build-main _electron",
     "develop:renderer": "cross-env NODE_ENV=development run-p -ln _webpack-server '_typescript -- -w'",
     "trigger-release": "node scripts/triggerRelease.js",
-    "see-coverage": "run-s '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
+    "see-coverage": "run-s --continue-on-error '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
     "test": "jest",
     "_build": "run-p --aggregate-output -cln build:*:*",
     "_create-executable": "node .github/action/createExecutable.js && rimraf .github/action/createExecutable.js",

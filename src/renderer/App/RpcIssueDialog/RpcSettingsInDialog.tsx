@@ -13,7 +13,7 @@ export const RpcSettingsInDialog: React.FC<{
 
   return (
     <>
-      <DialogContent data-testid="rpc-settings-in-dialog">
+      <DialogContent data-testid="rpcSettingsInDialog">
         <RpcSettingsForm hookData={hookData} />
       </DialogContent>
 

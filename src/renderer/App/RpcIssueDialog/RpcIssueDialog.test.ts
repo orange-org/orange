@@ -1,7 +1,7 @@
-import { screen, wait } from "@testing-library/dom";
+import { screen, wait, waitForElementToBeRemoved } from "@testing-library/dom";
 import { act, cleanup, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import waitForExpect from "wait-for-expect";
+import { vol } from "memfs";
 import { RPC_ERROR } from "_c/constants";
 import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
 import {
@@ -16,10 +16,9 @@ import {
   startMockErroringRpcServer,
   startMockRpcServer,
 } from "_tu/startMockRpcServer";
-import { vol } from "memfs";
-import { delay } from "bluebird";
+import { printElement } from "_tu/smallUtils";
 
-jest.setTimeout(99999999);
+jest.setTimeout(10000);
 
 describe("RpcIssueDialog", () => {
   /**
@@ -58,34 +57,23 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.keyUp(searchBox, { keyCode: 13 });
 
-    expect(await screen.findByTestId("rpc-issue-dialog")).toBeVisible();
+    expect(
+      await screen.findByTestId("rpcIssueDialog-open"),
+    ).toBeInTheDocument();
   });
 
-  // it("starts with the connection status report page", async () => {
-  //   expect(await screen.findByTestId("connection-status-report")).toBeVisible();
-  // });
+  it("starts with the connection status report page", async () => {
+    expect(await screen.findByTestId("connectionStatusReport")).toBeVisible();
+  });
 
-  // it("disables the close button on the dialog when not connected", async () => {
-  //   expect(await screen.findByText("Close")).toBeDisabled();
-  // });
+  it("tells the user when the credentials are not accepted by the RPC server", async () => {
+    startMockErroringRpcServer({
+      code: RPC_ERROR.unauthorized,
+    });
+    jest.advanceTimersByTime(2000);
 
-  // it("automatically detects when the server becomes available and enables the close button", async () => {
-  //   startMockRpcServer();
-  //   jest.advanceTimersByTime(2000);
-
-  //   await wait(async () =>
-  //     expect(await screen.findByText("Close")).toBeEnabled(),
-  //   );
-  // });
-
-  // it("tells the user when the credentials are not accepted by the RPC server", async () => {
-  //   startMockErroringRpcServer({
-  //     code: RPC_ERROR.unauthorized,
-  //   });
-  //   jest.advanceTimersByTime(2000);
-
-  //   expect(await screen.findByTestId("unauthorized-message")).toBeVisible();
-  // });
+    expect(await screen.findByTestId("unauthorized-message")).toBeVisible();
+  });
 
   it("switches to server settings form when the user clicks on that button", async () => {
     const enterServerDetailsButton = await screen.findByText(
@@ -94,62 +82,58 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.click(enterServerDetailsButton);
 
-    expect(await screen.findByTestId("rpc-settings-in-dialog")).toBeVisible();
+    expect(await screen.findByTestId("rpcSettingsInDialog")).toBeVisible();
   });
 
-  // it("checks the default RPC configurations", async () => {
-  //   expect(await screen.findByTestId("useDefaultSettings")).toBeChecked();
+  it("checks the default RPC configurations", async () => {
+    expect(await screen.findByTestId("useDefaultSettings")).toBeChecked();
 
-  //   jest.spyOn(makeRpcRequestModule, "makeRpcRequest");
+    jest.spyOn(makeRpcRequestModule, "makeRpcRequest");
 
-  //   jest.advanceTimersByTime(2000);
+    jest.advanceTimersByTime(2000);
 
-  //   await act(async () => {
-  //     await waitForExpect(() => {
-  //       expect(makeRpcRequestModule.makeRpcRequest).toHaveBeenCalledWith(
-  //         expect.objectContaining({
-  //           url: SERVER_URL,
-  //           options: expect.objectContaining({
-  //             auth: `${USERNAME}:${PASSWORD}`,
-  //           }),
-  //         }),
-  //       );
-  //     });
-  //   });
-  // });
+    await wait(() => {
+      expect(makeRpcRequestModule.makeRpcRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: SERVER_URL,
+          options: expect.objectContaining({
+            auth: `${USERNAME}:${PASSWORD}`,
+          }),
+        }),
+      );
+    });
+  });
 
   it("can turn off use of default settings", async () => {
     const useDefaultSettingsSwitch = await screen.findByTestId(
       "useDefaultSettings",
     );
 
-    await act(async () => {
-      await userEvent.click(useDefaultSettingsSwitch);
-    });
+    act(() => userEvent.click(useDefaultSettingsSwitch));
 
     await wait(async () =>
       expect(await screen.findByTestId("useDefaultSettings")).not.toBeChecked(),
     );
   });
 
-  // it("shows a checkbox for using cookie authentication when use default settings is unchecked", async () => {
-  //   expect(await screen.findByTestId("useCookieAuthentication")).toBeChecked();
-  // });
+  it("shows a checkbox for using cookie authentication when use default settings is unchecked", async () => {
+    expect(await screen.findByTestId("useCookieAuthentication")).toBeChecked();
+  });
 
-  // it("shows an empty text field for entering cookie file", async () => {
-  //   expect(await screen.findByTestId("cookieFile")).toBeEmpty();
-  // });
+  it("shows an empty text field for entering cookie file", async () => {
+    expect(await screen.findByTestId("cookieFile")).toBeEmpty();
+  });
 
-  // it("doesn't make RPC requests in this case", () => {
-  //   // @ts-ignore
-  //   makeRpcRequestModule.makeRpcRequest.mockClear();
+  it("doesn't make RPC requests in this case", () => {
+    // @ts-ignore
+    makeRpcRequestModule.makeRpcRequest.mockClear();
 
-  //   jest.advanceTimersByTime(2000);
+    jest.advanceTimersByTime(2000);
 
-  //   expect(makeRpcRequestModule.makeRpcRequest).not.toHaveBeenCalled();
-  // });
+    expect(makeRpcRequestModule.makeRpcRequest).not.toHaveBeenCalled();
+  });
 
-  it("allows the user to type in a cookie file path", async () => {
+  it("supports specifying a cookie file path", async () => {
     vol.fromJSON({
       ...vol.toJSON(),
       "/home/.bitcoin/.cookiez": `__cookie__:1234`,
@@ -157,60 +141,213 @@ describe("RpcIssueDialog", () => {
 
     const cookieFileTextField = await screen.findByTestId("cookieFile");
 
-    await act(async () => {
-      await userEvent.type(cookieFileTextField, "/home/.bitcoin/.cookiez");
-    });
+    await act(() =>
+      userEvent.type(cookieFileTextField, "/home/.bitcoin/.cookiez"),
+    );
 
     expect(cookieFileTextField).toHaveValue("/home/.bitcoin/.cookiez");
   });
 
   it("starts checking with the RPC server when it has a valid cookie file with good credentials", async () => {
-    jest.spyOn(makeRpcRequestModule, "makeRpcRequest"); // REMOVE
-
     // @ts-ignore
     makeRpcRequestModule.makeRpcRequest.mockClear();
 
     jest.advanceTimersByTime(2000);
 
-    await act(async () => {
-      await waitForExpect(() => {
-        expect(makeRpcRequestModule.makeRpcRequest).toHaveBeenCalledWith(
-          expect.objectContaining({
-            url: SERVER_URL,
-            options: expect.objectContaining({
-              auth: `__cookie__:1234`,
-            }),
+    await wait(() => {
+      expect(makeRpcRequestModule.makeRpcRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: SERVER_URL,
+          options: expect.objectContaining({
+            auth: `__cookie__:1234`,
           }),
-        );
-      });
+        }),
+      );
     });
   });
 
-  it("can save the settings to the configurations file", async () => {
+  it("supports saving the settings to the configurations file", async () => {
     const rpcSettingsSaveButton = await screen.getByTestId(
       "rpcSettingsSaveButton",
     );
 
+    act(() => userEvent.click(rpcSettingsSaveButton));
+
+    await wait(() => {
+      expect(vol.toJSON()).toEqual(
+        expect.objectContaining({
+          "/platform-specific/app-path/Orange.json": JSON.stringify(
+            {
+              rpc: {
+                cookieFile: "/home/.bitcoin/.cookiez",
+                serverUrl: SERVER_URL,
+              },
+            },
+            null,
+            2,
+          ),
+        }),
+      );
+    });
+  });
+
+  it("goes back to the connection status report page when the user clicks save", async () => {
+    await wait(async () => {
+      expect(await screen.getByTestId("connectionStatusReport")).toBeVisible();
+    });
+  });
+
+  it("supports going back to the RPC settings page again", async () => {
+    const enterServerDetailsButton = await screen.findByText(
+      "Enter server details",
+    );
+
+    act(() => userEvent.click(enterServerDetailsButton));
+
+    expect(await screen.findByTestId("rpcSettingsInDialog")).toBeVisible();
+  });
+
+  it("supports entering a username and password manually", async () => {
+    jest.advanceTimersByTime(2000);
+
+    await wait(async () =>
+      expect(await screen.findByTestId("useDefaultSettings")).not.toBeChecked(),
+    );
+
+    const useCookieAuthenticationSwitch = await screen.findByTestId(
+      "useCookieAuthentication",
+    );
+
+    act(() => userEvent.click(useCookieAuthenticationSwitch));
+
+    await wait(() => {
+      expect(useCookieAuthenticationSwitch).not.toBeChecked();
+    });
+
+    expect(await screen.getByTestId("username")).toBeEmpty();
+    expect(await screen.getByTestId("password")).toBeEmpty();
+  });
+
+  it("automatically checks the username and password", async () => {
+    // @ts-ignore
+    makeRpcRequestModule.makeRpcRequest.mockClear();
+
+    const usernameTextField = await screen.getByTestId("username");
+    const passwordTextField = await screen.getByTestId("password");
+
     await act(async () => {
-      await userEvent.click(rpcSettingsSaveButton);
+      await userEvent.type(usernameTextField, "hi");
+      await userEvent.type(passwordTextField, "ho");
+    });
+
+    jest.advanceTimersByTime(2000);
+
+    await wait(() => {
+      expect(makeRpcRequestModule.makeRpcRequest).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: SERVER_URL,
+          options: expect.objectContaining({
+            auth: `hi:ho`,
+          }),
+        }),
+      );
+    });
+  });
+
+  it("supports saving the username and password", async () => {
+    const rpcSettingsSaveButton = await screen.getByTestId(
+      "rpcSettingsSaveButton",
+    );
+
+    act(() => userEvent.click(rpcSettingsSaveButton));
+
+    await wait(() => {
+      expect(vol.toJSON()).toEqual(
+        expect.objectContaining({
+          "/platform-specific/app-path/Orange.json": JSON.stringify(
+            {
+              rpc: {
+                username: "hi",
+                password: "ho",
+                serverUrl: SERVER_URL,
+              },
+            },
+            null,
+            2,
+          ),
+        }),
+      );
+    });
+  });
+
+  it("supports reverting back to using the default settings", async () => {
+    const enterServerDetailsButton = await screen.findByText(
+      "Enter server details",
+    );
+
+    fireEvent.click(enterServerDetailsButton);
+
+    const useDefaultSettingsSwitch = await screen.findByTestId(
+      "useDefaultSettings",
+    );
+
+    jest.advanceTimersByTime(2000);
+
+    await wait(async () => {
+      expect(useDefaultSettingsSwitch).not.toBeChecked();
+    });
+
+    await act(async () => {
+      userEvent.click(useDefaultSettingsSwitch);
+      userEvent.click(await screen.getByTestId("rpcSettingsSaveButton"));
     });
 
     await wait(() => {
-      expect(true).toBe(false);
-      // expect(vol.toJSON()).toEqual(
-      //   expect.objectContaining({
-      //     "/platform-specific/app-path/Orange.json": JSON.stringify(
-      //       {
-      //         rpc: {
-      //           cookieFile: "/home/.bitcoin/.cookiez",
-      //           serverUrl: SERVER_URL,
-      //         },
-      //       },
-      //       null,
-      //       2,
-      //     ),
-      //   }),
-      // );
+      expect(vol.toJSON()).toEqual(
+        expect.objectContaining({
+          "/platform-specific/app-path/Orange.json": JSON.stringify(
+            {
+              rpc: null,
+            },
+            null,
+            2,
+          ),
+        }),
+      );
     });
+  });
+
+  it("does not allow closing the RPC issue dialog since there is still a problem with the connection", async () => {
+    jest.advanceTimersByTime(2000);
+
+    expect(
+      await screen.findByTestId("connectionStatusReport-closeButton"),
+    ).toBeDisabled();
+  });
+
+  it("enables the close button once a successful connection is made to the server", async () => {
+    startMockRpcServer();
+
+    jest.advanceTimersByTime(2000);
+
+    await wait(async () => {
+      expect(
+        await screen.findByTestId("connectionStatusReport-closeButton"),
+      ).toBeEnabled();
+    });
+  });
+
+  it("let's the user close the RPC issue dialog when RPC is connected", async () => {
+    await act(async () =>
+      userEvent.click(
+        await screen.findByTestId("connectionStatusReport-closeButton"),
+      ),
+    );
+
+    await wait(async () =>
+      expect(
+        await screen.findByTestId("rpcIssueDialog-closed"),
+      ).toBeInTheDocument(),
+    );
   });
 });

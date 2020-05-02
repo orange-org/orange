@@ -9,7 +9,7 @@ type SubmitHandler = (
 
 export const rpcSettingsSubmitHandler = (
   onSuccess: () => void = () => null,
-): SubmitHandler => async (values, { setSubmitting }) => {
+): SubmitHandler => async values => {
   if (values.useDefaultSettings) {
     await ipcService.saveRpcConfigurations(__NONCE__, null);
   } else if (values.useCookieAuthentication) {
@@ -26,5 +26,4 @@ export const rpcSettingsSubmitHandler = (
   }
 
   onSuccess();
-  setSubmitting(false);
 };

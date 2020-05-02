@@ -39,6 +39,9 @@ export const RpcSettingsForm: React.FC<{
       ...formik.getFieldProps(fieldName),
       error,
       helperText: error ? formik.errors[fieldName] : "",
+      inputProps: {
+        "data-testid": fieldName,
+      },
     };
   };
 
@@ -91,9 +94,6 @@ export const RpcSettingsForm: React.FC<{
                 className={a("displayFlex", "alignItemsCenter", "marginTop05")}
               >
                 <TextField
-                  inputProps={{
-                    "data-testid": "cookieFile",
-                  }}
                   {...getTextFieldProps("cookieFile")}
                   label="Cookie file"
                 />
@@ -140,9 +140,6 @@ export const RpcSettingsForm: React.FC<{
           )}
 
           <TextField
-            inputProps={{
-              "data-testid": "serverUrl",
-            }}
             className={a("marginTop05")}
             label="Server URL"
             {...getTextFieldProps("serverUrl")}

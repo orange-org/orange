@@ -34,7 +34,7 @@ export const ConnectionStatusReport: React.FC<{
 
   return (
     <>
-      <DialogContent data-testid="connection-status-report">
+      <DialogContent data-testid="connectionStatusReport">
         {(!isUnauthorized && (
           <>
             <Typography variant="h4">
@@ -70,6 +70,7 @@ export const ConnectionStatusReport: React.FC<{
         </Button>
 
         <Button
+          data-testid="connectionStatusReport-closeButton"
           onClick={props.onClickClose}
           disabled={props.disableClosing}
           color="primary"

@@ -28,6 +28,7 @@
       "runtimeArgs": [
         "--inspect-brk",
         "${workspaceRoot}/node_modules/.bin/jest",
+        "${file}",
         "--runInBand",
         "--watch"
       ],

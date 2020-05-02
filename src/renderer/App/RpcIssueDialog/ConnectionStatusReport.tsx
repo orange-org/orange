@@ -53,7 +53,7 @@ export const ConnectionStatusReport: React.FC<{
             </Typography>
           </>
         )) || (
-          <Typography data-testid="unauthorized-message">
+          <Typography data-testid="unauthorizedMessage">
             {productName} was not authorized to connect to Bitcoin Core. Please
             enter the correct username and password in the server details.
           </Typography>
@@ -62,6 +62,7 @@ export const ConnectionStatusReport: React.FC<{
 
       <DialogActions>
         <Button
+          data-testid="enterServerDetails"
           variant="outlined"
           className={a("marginTop05", "marginLeftAuto")}
           onClick={props.onClickEnterServerDetails}

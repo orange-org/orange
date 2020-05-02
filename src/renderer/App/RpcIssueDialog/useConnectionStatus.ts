@@ -43,11 +43,12 @@ export const useConnectionStatus = (
     // before we start polling. If the connectionConfigurations change before
     // this timeout, the `polling.stop` function instead will be called, as you
     // can see in the return value a few lines below.
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       polling.start();
     }, 1000);
 
     return () => {
+      clearTimeout(timeoutId);
       polling.stop();
       isMounted = false;
     };

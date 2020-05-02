@@ -40,7 +40,7 @@ export const RpcSettingsForm: React.FC<{
       error,
       helperText: error ? formik.errors[fieldName] : "",
       inputProps: {
-        "data-testid": fieldName,
+        "data-testid": `rpcSettingsForm-${fieldName}`,
       },
     };
   };
@@ -51,7 +51,7 @@ export const RpcSettingsForm: React.FC<{
         control={
           <Switch
             inputProps={{
-              "data-testid": "useDefaultSettings",
+              "data-testid": "rpcSettingsForm-useDefaultSettings",
             }}
             checked={formik.values.useDefaultSettings}
             {...formik.getFieldProps("useDefaultSettings")}
@@ -72,7 +72,7 @@ export const RpcSettingsForm: React.FC<{
             control={
               <Switch
                 inputProps={{
-                  "data-testid": "useCookieAuthentication",
+                  "data-testid": "rpcSettingsForm-useCookieAuthentication",
                 }}
                 checked={formik.values.useCookieAuthentication}
                 {...formik.getFieldProps("useCookieAuthentication")}

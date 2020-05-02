@@ -1,10 +1,7 @@
 /* eslint-disable import/no-default-export */
 import { Action, AnyAction, Store } from "redux";
 import { State } from "_r/redux/reducers/reducer";
-import {
-  SwitchBaseProps as MuiSwitchBaseProps,
-  SwitchProps,
-} from "@material-ui/core";
+import { SwitchProps } from "@material-ui/core";
 import { GetState } from "./typeHelpers";
 
 declare module "react-redux" {

@@ -1,3 +1,4 @@
+const React = require("react");
 const { merge } = require("lodash");
 const { getGlobalProcess } = require("_m/getGlobalProcess");
 
@@ -38,3 +39,10 @@ const setMockImplementations = () => {
 };
 
 setMockImplementations();
+
+// `useEffect` can be problematic in testing with React Testing Library and
+// Jest. The hack below helps. See https://github.com/testing-library/react-testing-library/issues/215
+beforeAll(() =>
+  jest.spyOn(React, "useEffect").mockImplementation(React.useLayoutEffect),
+);
+afterAll(() => React.useEffect.mockRestore());

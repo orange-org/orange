@@ -7,6 +7,7 @@ export const RpcSettingsSaveButton: React.FC<{
   buttonProps?: ButtonProps;
 }> = props => (
   <MuiButton
+    data-testid="rpcSettingsSaveButton"
     color="primary"
     variant="contained"
     disableElevation

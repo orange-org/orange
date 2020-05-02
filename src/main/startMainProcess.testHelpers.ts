@@ -20,8 +20,8 @@ export const initializeElectronCode = () => {
   mainWindow.webContents.emit("did-finish-load");
 
   vol.fromJSON({
-    "home/.bitcoin/bitcoin.conf": "",
-    "home/.bitcoin/.cookie": `${USERNAME}:${PASSWORD}`,
+    "/home/.bitcoin/bitcoin.conf": "",
+    "/home/.bitcoin/.cookie": `${USERNAME}:${PASSWORD}`,
   });
 
   return mainWindow;

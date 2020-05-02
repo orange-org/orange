@@ -15,7 +15,7 @@ const BLOCK_SCROLLABLE_CONTAINER = BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH - 5;
 export const BLOCK_AVAILABLE_WIDTH =
   BLOCK_SCROLLABLE_CONTAINER - BLOCK_HORIZONTAL_MARGIN * 2;
 
-export const ListOfBlocks: React.FC = () => {
+export const BlockList: React.FC = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const a = useAtomicCss();
@@ -53,3 +53,5 @@ export const ListOfBlocks: React.FC = () => {
     </div>
   );
 };
+
+BlockList.displayName = "BlockList";

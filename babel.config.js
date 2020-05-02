@@ -17,6 +17,7 @@ module.exports = {
     },
   },
   plugins: [
+    "@hh.ru/babel-plugin-react-displayname",
     "lodash",
     ["@babel/plugin-proposal-class-properties", { loose: true }],
     "@babel/plugin-proposal-optional-chaining",

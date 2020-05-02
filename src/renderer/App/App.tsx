@@ -44,7 +44,7 @@ export const Routes = () => {
   );
 };
 
-export const getApp = () => () => (
+const App = () => (
   <StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
@@ -55,3 +55,5 @@ export const getApp = () => () => (
     </Provider>
   </StrictMode>
 );
+
+export const getApp = () => App;

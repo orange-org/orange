@@ -86,7 +86,7 @@ const dummyBlockData: TBlock = {
 
 export const BLOCK_DETAILS_PADDING = 6;
 
-const BlockDetails_ = () => {
+export const BlockDetails = () => {
   const { url, path } = useRouteMatch();
   const a = useAtomicCss();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
@@ -337,5 +337,3 @@ const BlockDetails_ = () => {
     </div>
   );
 };
-
-export const BlockDetails = BlockDetails_;

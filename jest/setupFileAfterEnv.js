@@ -28,8 +28,8 @@ const setMockImplementations = () => {
       { ...process },
       {
         env: {
-          APPDATA: "appData",
-          HOME: "home",
+          APPDATA: "/appData",
+          HOME: "/home",
         },
         platform: "linux",
       },

@@ -1,8 +1,8 @@
 import {
+  Switch,
   FormControlLabel,
   IconButton,
   OutlinedTextFieldProps,
-  Switch,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -47,6 +47,9 @@ export const RpcSettingsForm: React.FC<{
       <FormControlLabel
         control={
           <Switch
+            inputProps={{
+              "data-testid": "useDefaultSettings",
+            }}
             checked={formik.values.useDefaultSettings}
             {...formik.getFieldProps("useDefaultSettings")}
           />
@@ -65,6 +68,9 @@ export const RpcSettingsForm: React.FC<{
           <FormControlLabel
             control={
               <Switch
+                inputProps={{
+                  "data-testid": "useCookieAuthentication",
+                }}
                 checked={formik.values.useCookieAuthentication}
                 {...formik.getFieldProps("useCookieAuthentication")}
               />
@@ -85,6 +91,9 @@ export const RpcSettingsForm: React.FC<{
                 className={a("displayFlex", "alignItemsCenter", "marginTop05")}
               >
                 <TextField
+                  inputProps={{
+                    "data-testid": "cookieFile",
+                  }}
                   {...getTextFieldProps("cookieFile")}
                   label="Cookie file"
                 />
@@ -131,6 +140,9 @@ export const RpcSettingsForm: React.FC<{
           )}
 
           <TextField
+            inputProps={{
+              "data-testid": "serverUrl",
+            }}
             className={a("marginTop05")}
             label="Server URL"
             {...getTextFieldProps("serverUrl")}

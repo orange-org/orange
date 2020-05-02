@@ -26,7 +26,7 @@ describe("getRpcCredentials", () => {
     setupProcessVariables({
       platform: "win32",
       env: {
-        APPDATA: "appData",
+        APPDATA: "/appData",
       },
     });
 
@@ -47,20 +47,20 @@ describe("getRpcCredentials", () => {
     setupProcessVariables({
       platform: "darwin",
       env: {
-        HOME: "home",
+        HOME: "/home",
       },
     });
 
     vol.fromJSON({
-      "home/Library/Application Support/Bitcoin/bitcoin.conf": "",
-      "home/Library/Application Support/Bitcoin/.cookie": "__cookie__:424242",
+      "/home/Library/Application Support/Bitcoin/bitcoin.conf": "",
+      "/home/Library/Application Support/Bitcoin/.cookie": "__cookie__:424242",
     });
 
     expect(await getRpcConfigurationsFromDisk()).toEqual({
       serverUrl: "http://localhost:8332",
       username: "__cookie__",
       password: "424242",
-      cookieFile: "home/Library/Application Support/Bitcoin/.cookie",
+      cookieFile: "/home/Library/Application Support/Bitcoin/.cookie",
     });
   });
 
@@ -73,15 +73,15 @@ describe("getRpcCredentials", () => {
     });
 
     vol.fromJSON({
-      "home/.bitcoin/bitcoin.conf": "",
-      "home/.bitcoin/.cookie": "__cookie__:1337",
+      "/home/.bitcoin/bitcoin.conf": "",
+      "/home/.bitcoin/.cookie": "__cookie__:1337",
     });
 
     expect(await getRpcConfigurationsFromDisk()).toEqual({
       serverUrl: "http://localhost:8332",
       username: "__cookie__",
       password: "1337",
-      cookieFile: "home/.bitcoin/.cookie",
+      cookieFile: "/home/.bitcoin/.cookie",
     });
   });
 
@@ -91,15 +91,15 @@ describe("getRpcCredentials", () => {
   ].forEach(([networkName, dirName, password, port]) => {
     test(`retrieving auth cookie for ${networkName} configurations`, async () => {
       vol.fromJSON({
-        "home/.bitcoin/bitcoin.conf": `${networkName}=1`,
-        [`home/.bitcoin/${dirName}/.cookie`]: `__cookie__:${password}`,
+        "/home/.bitcoin/bitcoin.conf": `${networkName}=1`,
+        [`/home/.bitcoin/${dirName}/.cookie`]: `__cookie__:${password}`,
       });
 
       expect(await getRpcConfigurationsFromDisk()).toEqual({
         serverUrl: `http://localhost:${port}`,
         username: "__cookie__",
         password,
-        cookieFile: `home/.bitcoin/${dirName}/.cookie`,
+        cookieFile: `/home/.bitcoin/${dirName}/.cookie`,
       });
     });
   });

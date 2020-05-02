@@ -53,11 +53,7 @@ export const startMockErroringRpcServer = (
 export const startMockRpcServer = () => {
   nock.cleanAll();
 
-  nock(SERVER_URL, {
-    reqheaders: {
-      authorization: `Basic ${btoa(`${USERNAME}:${PASSWORD}`)}`,
-    },
-  })
+  nock(SERVER_URL)
     .post("/", matches({ method: "getblockchaininfo" }))
     .reply(200, {
       error: null,

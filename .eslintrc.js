@@ -31,6 +31,7 @@ module.exports = {
     "arrow-body-style": ["error", "as-needed"],
     "no-console": "error",
     "import/no-extraneous-dependencies": "off",
+    "react/display-name": "error",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "react/jsx-props-no-spreading": "off",

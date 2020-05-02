@@ -29,9 +29,7 @@
         "--inspect-brk",
         "${workspaceRoot}/node_modules/.bin/jest",
         "--runInBand",
-        "--watch",
-        "--no-cache",
-        "--coverage"
+        "--watch"
       ],
       "console": "externalTerminal",
       "internalConsoleOptions": "neverOpen",

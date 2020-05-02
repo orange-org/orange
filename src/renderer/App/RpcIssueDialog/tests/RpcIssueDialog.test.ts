@@ -1,5 +1,5 @@
 import { screen, wait } from "@testing-library/dom";
-import { cleanup, fireEvent } from "@testing-library/react";
+import { cleanup, fireEvent, act } from "@testing-library/react";
 import { vol } from "memfs";
 import { RPC_ERROR } from "_c/constants";
 import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
@@ -57,9 +57,7 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.keyUp(await searchBoxPageElements.search(), { keyCode: 13 });
 
-    expect(
-      await screen.findByTestId("rpcIssueDialog-open"),
-    ).toBeInTheDocument();
+    expect(await pageElements.rpcIssueDialogOpen()).toBeInTheDocument();
   });
 
   it("starts with the connection status report page", async () => {
@@ -160,9 +158,26 @@ describe("RpcIssueDialog", () => {
     });
   });
 
-  // // it("stops checking with the RPC server when an invalid URL is given", async () => {});
+  it("stops checking with the RPC server when an invalid URL is given", async () => {
+    userEvent.clear(await pageElements.serverUrl());
+    await userEvent.type(await pageElements.serverUrl(), "http");
+
+    // @ts-ignore
+    makeRpcRequestModule.makeRpcRequest.mockClear();
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    await wait(() =>
+      expect(makeRpcRequestModule.makeRpcRequest).not.toHaveBeenCalled(),
+    );
+  });
 
   it("supports saving the settings to the configurations file", async () => {
+    userEvent.clear(await pageElements.serverUrl());
+    await userEvent.type(await pageElements.serverUrl(), SERVER_URL);
+
     userEvent.click(await pageElements.rpcSettingsSaveButton());
 
     await wait(() => {

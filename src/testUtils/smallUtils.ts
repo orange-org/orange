@@ -17,4 +17,7 @@ export const userEvent = {
 
   click: (...args: Parameters<typeof userEvent_.click>) =>
     act(() => userEvent_.click(...args)),
+
+  clear: (element: Element | Window) =>
+    act(() => (userEvent_ as any).clear(element)),
 };

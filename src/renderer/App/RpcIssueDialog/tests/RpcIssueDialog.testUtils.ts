@@ -29,4 +29,6 @@ export const pageElements = {
 
   connectionStatusReportCloseButton: () =>
     screen.findByTestId("connectionStatusReport-closeButton"),
+
+  serverUrl: () => screen.findByTestId("rpcSettingsForm-serverUrl"),
 };

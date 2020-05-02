@@ -23,7 +23,8 @@ module.exports = {
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!src/typings/**/*",
-    "!**testUtils**",
+    "!**/*.testUtils.{ts,tsx}",
+    "!**/testUtils/**",
   ],
   coverageThreshold: {
     global: {

@@ -44,16 +44,13 @@ export const startMainProcess = () => {
 
     mainWindow.webContents.once("did-finish-load", registerIpcListener);
 
+    /* istanbul ignore next */
     mainWindow.webContents.once("did-frame-finish-load", () => {
-      /* istanbul ignore if */
       if (getIsDevelopment()) {
         mainWindow.maximize();
         mainWindow.webContents.openDevTools();
       } else {
-        globalShortcut.register(
-          "CmdOrCtrl+R",
-          /* istanbul ignore next */ () => null,
-        );
+        globalShortcut.register("CmdOrCtrl+R", () => null);
       }
     });
   }

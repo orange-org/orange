@@ -19,41 +19,6 @@ describe("main", () => {
   });
 
   describe("general integration", () => {
-    test("IPC RPC requests between main and renderer through preload", done => {
-      window.postMessage(
-        {
-          nonce: __NONCE__,
-          type: "rpc-request",
-          source: "@orange/renderer",
-          messageId: 123,
-          payload: {
-            method: "getblock",
-          },
-        },
-        "*",
-      );
-
-      const eventListener = (event: MessageEvent) => {
-        const { data } = event;
-
-        if (data && data.source === "@orange/main") {
-          expect(data).toEqual({
-            source: "@orange/main",
-            nonce: __NONCE__,
-            type: "rpc-request",
-            messageId: 123,
-            payload: {
-              method: "getblock",
-            },
-          });
-
-          window.removeEventListener("message", eventListener);
-          done();
-        }
-      };
-      window.addEventListener("message", eventListener);
-    });
-
     test('"show-error" IPC event', () => {
       window.postMessage(
         {

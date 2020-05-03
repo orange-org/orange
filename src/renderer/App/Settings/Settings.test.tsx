@@ -12,7 +12,6 @@ describe("Settings", () => {
     startMockRpcServer();
     initializeElectronCode();
     await renderAppWithStore();
-    jest.useFakeTimers();
   });
 
   test("navigating to the settings page", async () => {

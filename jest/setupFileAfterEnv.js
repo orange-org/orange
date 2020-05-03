@@ -11,6 +11,8 @@ const { getGlobalProcess } = require("_m/getGlobalProcess");
  */
 window.HTMLElement.prototype.scrollIntoView = () => null;
 
+jest.useFakeTimers(); // Tests are a not the place to have real setTimeouts and setIntervals
+
 require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");

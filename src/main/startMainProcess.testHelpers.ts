@@ -7,7 +7,11 @@ export const USERNAME = "__cookie__";
 export const PASSWORD = "1337";
 export const SERVER_URL = "http://localhost:8332";
 
-export const initializeElectronCode = () => {
+export const initializeElectronCode = (
+  options: {
+    skipInitializingFilesystem?: boolean;
+  } = {},
+) => {
   startMainProcess();
   startPreloadProcess();
 
@@ -19,10 +23,12 @@ export const initializeElectronCode = () => {
 
   mainWindow.webContents.emit("did-finish-load");
 
-  vol.fromJSON({
-    "/home/.bitcoin/bitcoin.conf": "",
-    "/home/.bitcoin/.cookie": `${USERNAME}:${PASSWORD}`,
-  });
+  if (!options.skipInitializingFilesystem) {
+    vol.fromJSON({
+      "/home/.bitcoin/bitcoin.conf": "",
+      "/home/.bitcoin/.cookie": `${USERNAME}:${PASSWORD}`,
+    });
+  }
 
   return mainWindow;
 };

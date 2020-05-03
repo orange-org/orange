@@ -10,6 +10,7 @@ export type RpcIssue =
 export const determineRpcIssue = (rpcError: RpcError) => {
   const possibleErrors: [RpcIssue, RpcError["code"]][] = [
     ["cookieUnavailable", RPC_ERROR.couldNotOpenCookieFile],
+    ["serverUnreachable", RPC_ERROR.couldNotOpenBitcoinConf],
     ["serverUnreachable", NODE_ERROR.ECONNREFUSED],
     ["serverUnreachable", NODE_ERROR.ENOTFOUND],
     ["serverWarmingUp", BITCOIN_CORE_RPC_ERROR.warmingUp],

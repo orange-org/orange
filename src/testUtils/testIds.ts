@@ -21,4 +21,5 @@ export const testIds = {
   settingsSavedSnackBar: "settingsSavedSnackBar",
   homeButton: "homeButton",
   explorerPage: "explorerPage",
+  transactionDetails: "transactionDetails",
 } as const;

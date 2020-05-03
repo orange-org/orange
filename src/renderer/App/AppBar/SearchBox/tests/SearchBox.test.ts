@@ -5,21 +5,14 @@ import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
 import { findByTestId } from "_tu/findByTestId";
+import { printElement } from "_tu/smallUtils";
 
 describe("SearchBox", () => {
-  /**
-   * WARNING: the test cases in this block depend on each other and must
-   * run sequentially
-   */
   describe("Search flow", () => {
     beforeAll(async () => {
       startMockRpcServer();
       initializeElectronCode();
       await renderAppWithStore();
-    });
-
-    afterAll(() => {
-      cleanup();
     });
 
     test("app loads with the search box visible", async () => {
@@ -46,7 +39,7 @@ describe("SearchBox", () => {
       expect(
         await screen.findByText(
           `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
-          { selector: "h1" },
+          { selector: "h3" },
         ),
       ).toBeVisible();
     });
@@ -64,7 +57,7 @@ describe("SearchBox", () => {
       expect(
         await screen.findByText(
           `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h1" },
+          { selector: "h3" },
         ),
       ).toBeVisible();
     });
@@ -76,15 +69,7 @@ describe("SearchBox", () => {
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-      expect(
-        await screen.findByText("Transaction", { selector: "h2" }),
-      ).toBeVisible();
-
-      expect(
-        await screen.findByText(blockFixtures.blockFixture3.tx[2], {
-          selector: "p",
-        }),
-      ).toBeVisible();
+      expect(await findByTestId("transactionDetails")).toBeVisible();
     });
 
     test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
@@ -104,7 +89,7 @@ describe("SearchBox", () => {
       expect(
         await screen.findByText(
           `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h1" },
+          { selector: "h3" },
         ),
       ).toBeVisible();
     });
@@ -122,7 +107,7 @@ describe("SearchBox", () => {
       expect(
         await screen.findByText(
           `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h1" },
+          { selector: "h3" },
         ),
       ).toBeVisible();
     });

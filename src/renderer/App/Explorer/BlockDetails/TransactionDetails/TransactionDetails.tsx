@@ -12,6 +12,7 @@ import {
 } from "_r/utils/smallUtils";
 import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
+import { testIds } from "_tu/testIds";
 import { OtherDetails } from "../OtherDetails";
 
 const SVG_ICON_WIDTH = 24;
@@ -216,7 +217,10 @@ export const TransactionDetails: React.FC<{
   );
 
   return (
-    <div className={a("padding2", "overflowXHidden")}>
+    <div
+      className={a("padding2", "overflowXHidden")}
+      data-testid={testIds.transactionDetails}
+    >
       {heading}
       {breakdown}
       {otherDetails}

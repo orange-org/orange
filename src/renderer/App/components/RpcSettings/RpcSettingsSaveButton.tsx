@@ -1,5 +1,6 @@
 import { Button as MuiButton, ButtonProps } from "@material-ui/core";
 import React from "react";
+import { testIds } from "_tu/testIds";
 import { HookData } from "./useRpcSettings";
 
 export const RpcSettingsSaveButton: React.FC<{
@@ -7,7 +8,7 @@ export const RpcSettingsSaveButton: React.FC<{
   buttonProps?: ButtonProps;
 }> = props => (
   <MuiButton
-    data-testid="rpcSettingsSaveButton"
+    data-testid={testIds.rpcSettingsSaveButton}
     color="primary"
     variant="contained"
     disableElevation

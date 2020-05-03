@@ -1,6 +1,7 @@
 import { Dialog, DialogTitle } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { testIds } from "_tu/testIds";
 import { RpcSettingsInDialog } from "./RpcSettingsInDialog";
 import { ConnectionStatusReport } from "./ConnectionStatusReport";
 
@@ -17,7 +18,7 @@ export const RpcIssueDialog = () => {
   }, [hasRpcIssue]);
 
   return (
-    <Dialog open={isOpen} data-testid="rpcIssueDialog">
+    <Dialog open={isOpen} data-testid={testIds.rpcIssueDialog}>
       <DialogTitle>
         Bitcoin Core connection {enterServerDetails ? "settings" : "issue"}
       </DialogTitle>

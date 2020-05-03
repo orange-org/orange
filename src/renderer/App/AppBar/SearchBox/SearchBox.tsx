@@ -2,6 +2,7 @@ import { InputBase } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
 import { useSearchHandlers } from "./SearchBoxHooks";
 
@@ -37,6 +38,9 @@ export const SearchBox: React.FC = () => {
         <Search />
       </div>
       <InputBase
+        inputProps={{
+          "data-testid": testIds.searchInputField,
+        }}
         onChange={onChange}
         onKeyUp={onKeyUp}
         type="search"
@@ -45,7 +49,6 @@ export const SearchBox: React.FC = () => {
           root: classNames.inputRoot,
           input: classNames.inputInput,
         }}
-        inputProps={{ "aria-label": "search" }}
       />
     </div>
   );

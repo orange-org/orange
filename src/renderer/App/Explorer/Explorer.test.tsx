@@ -5,14 +5,13 @@ import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
+import { findAllByTestId } from "_tu/findByTestId";
 
 describe("Explorer view", () => {
   beforeAll(() => {
     startMockRpcServer();
-    initializeElectronCode(false);
+    initializeElectronCode();
   });
-
-  afterEach(() => {});
 
   describe("loading block list", () => {
     afterEach(() => {
@@ -22,7 +21,7 @@ describe("Explorer view", () => {
     it("starts by loading 20 blocks to display", async () => {
       await renderAppWithStore();
 
-      const blocks = await screen.findAllByTestId("blocklist-block");
+      const blocks = await findAllByTestId("blockListBlock");
 
       expect(blocks.length).toBe(20);
     });

@@ -7,6 +7,7 @@ import {
   useAtomicCss,
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
 } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 import { Block } from "./Block";
 
 const BLOCK_HORIZONTAL_MARGIN = 5;
@@ -42,7 +43,7 @@ export const BlockList: React.FC = () => {
         "overflowXHidden",
         "scrollbarWidth0",
       )}
-      data-testid="scrollable-blocks-container"
+      data-testid={testIds.scrollableBlockContainer}
     >
       <div className={a("marginY10", "marginX05")}>
         {explorerBlockList?.map(block => (

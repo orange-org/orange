@@ -16,12 +16,10 @@ import {
   startMockErroringRpcServer,
   startMockRpcServer,
 } from "_tu/startMockRpcServer";
-import { pageElements as searchBoxPageElements } from "_r/App/AppBar/SearchBox/tests/SearchBox.testUtils";
-import { pageElements } from "./RpcIssueDialog.testUtils";
+import { findByTestId } from "_tu/findByTestId";
 
 describe("RpcIssueDialog", () => {
   beforeAll(async () => {
-    // jest.spyOn(React, "useEffect").mockImplementation(React.useLayoutEffect);
     startMockRpcServer();
     initializeElectronCode();
     await renderAppWithStore();
@@ -44,17 +42,17 @@ describe("RpcIssueDialog", () => {
   it("brings up the RpcIssueDialog when an RPC request to Bitcoin Core fails", async () => {
     startMockErroringRpcServer();
 
-    fireEvent.change(await searchBoxPageElements.search(), {
+    fireEvent.change(await findByTestId("searchInputField"), {
       target: { value: blockFixtures.blockFixture3.hash },
     });
 
-    fireEvent.keyUp(await searchBoxPageElements.search(), { keyCode: 13 });
+    fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-    expect(await pageElements.rpcIssueDialog()).toBeInTheDocument();
+    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
   });
 
   it("starts with the connection status report page", async () => {
-    expect(await pageElements.connectionStatusReport()).toBeVisible();
+    expect(await findByTestId("connectionStatusReport")).toBeVisible();
   });
 
   it("tells the user when the credentials are not accepted by the RPC server", async () => {
@@ -64,17 +62,17 @@ describe("RpcIssueDialog", () => {
 
     jest.advanceTimersByTime(2000);
 
-    expect(await pageElements.unauthorizedMessage()).toBeVisible();
+    expect(await findByTestId("unauthorizedMessage")).toBeVisible();
   });
 
   it("switches to server settings form when the user clicks on that button", async () => {
-    fireEvent.click(await pageElements.enterServerDetails());
+    fireEvent.click(await findByTestId("enterServerDetails"));
 
-    expect(await pageElements.rpcSettingsInDialog()).toBeVisible();
+    expect(await findByTestId("rpcSettingsInDialog")).toBeVisible();
   });
 
   it("checks the default RPC configurations", async () => {
-    expect(await pageElements.useDefaultSettings()).toBeChecked();
+    expect(await findByTestId("useDefaultSettings")).toBeChecked();
 
     jest.spyOn(makeRpcRequestModule, "makeRpcRequest");
 
@@ -93,19 +91,19 @@ describe("RpcIssueDialog", () => {
   });
 
   it("can turn off use of default settings", async () => {
-    userEvent.click(await pageElements.useDefaultSettings());
+    userEvent.click(await findByTestId("useDefaultSettings"));
 
     await wait(async () =>
-      expect(await pageElements.useDefaultSettings()).not.toBeChecked(),
+      expect(await findByTestId("useDefaultSettings")).not.toBeChecked(),
     );
   });
 
   it("shows a checkbox for using cookie authentication when use default settings is unchecked", async () => {
-    expect(await await pageElements.useCookieAuthentication()).toBeChecked();
+    expect(await await findByTestId("useCookieAuthentication")).toBeChecked();
   });
 
   it("shows an empty text field for entering cookie file", async () => {
-    expect(await pageElements.cookieFile()).toBeEmpty();
+    expect(await findByTestId("rpcSettingsFormCookieFile")).toBeEmpty();
   });
 
   it("doesn't make RPC requests in this case", () => {
@@ -124,11 +122,11 @@ describe("RpcIssueDialog", () => {
     });
 
     await userEvent.type(
-      await pageElements.cookieFile(),
+      await findByTestId("rpcSettingsFormCookieFile"),
       "/home/.bitcoin/.cookiez",
     );
 
-    expect(await pageElements.cookieFile()).toHaveValue(
+    expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
       "/home/.bitcoin/.cookiez",
     );
   });
@@ -152,8 +150,11 @@ describe("RpcIssueDialog", () => {
   });
 
   it("stops checking with the RPC server when an invalid URL is given", async () => {
-    userEvent.clear(await pageElements.serverUrl());
-    await userEvent.type(await pageElements.serverUrl(), "http");
+    userEvent.clear(await findByTestId("rpcSettingsFormServerUrl"));
+    await userEvent.type(
+      await findByTestId("rpcSettingsFormServerUrl"),
+      "http",
+    );
 
     // @ts-ignore
     makeRpcRequestModule.makeRpcRequest.mockClear();
@@ -168,10 +169,13 @@ describe("RpcIssueDialog", () => {
   });
 
   it("supports saving the settings to the configurations file", async () => {
-    userEvent.clear(await pageElements.serverUrl());
-    await userEvent.type(await pageElements.serverUrl(), SERVER_URL);
+    userEvent.clear(await findByTestId("rpcSettingsFormServerUrl"));
+    await userEvent.type(
+      await findByTestId("rpcSettingsFormServerUrl"),
+      SERVER_URL,
+    );
 
-    userEvent.click(await pageElements.rpcSettingsSaveButton());
+    userEvent.click(await findByTestId("rpcSettingsSaveButton"));
 
     await wait(() => {
       expect(vol.toJSON()).toEqual(
@@ -193,37 +197,37 @@ describe("RpcIssueDialog", () => {
 
   it("goes back to the connection status report page when the user clicks save", async () => {
     await wait(async () => {
-      expect(await pageElements.connectionStatusReport()).toBeVisible();
+      expect(await findByTestId("connectionStatusReport")).toBeVisible();
     });
   });
 
   it("supports going back to the RPC settings page again", async () => {
-    userEvent.click(await pageElements.enterServerDetails());
+    userEvent.click(await findByTestId("enterServerDetails"));
 
-    expect(await pageElements.rpcSettingsInDialog()).toBeVisible();
+    expect(await findByTestId("rpcSettingsInDialog")).toBeVisible();
   });
 
   it("supports entering a username and password manually", async () => {
     await wait(async () =>
-      expect(await pageElements.useDefaultSettings()).not.toBeChecked(),
+      expect(await findByTestId("useDefaultSettings")).not.toBeChecked(),
     );
 
-    userEvent.click(await pageElements.useCookieAuthentication());
+    userEvent.click(await findByTestId("useCookieAuthentication"));
 
     await wait(async () => {
-      expect(await pageElements.useCookieAuthentication()).not.toBeChecked();
+      expect(await findByTestId("useCookieAuthentication")).not.toBeChecked();
     });
 
-    expect(await pageElements.username()).toBeEmpty();
-    expect(await pageElements.password()).toBeEmpty();
+    expect(await findByTestId("rpcSettingsFormUsername")).toBeEmpty();
+    expect(await findByTestId("rpcSettingsFormPassword")).toBeEmpty();
   });
 
   it("automatically checks the username and password", async () => {
     // @ts-ignore
     makeRpcRequestModule.makeRpcRequest.mockClear();
 
-    await userEvent.type(await pageElements.username(), "hi");
-    await userEvent.type(await pageElements.password(), "ho");
+    await userEvent.type(await findByTestId("rpcSettingsFormUsername"), "hi");
+    await userEvent.type(await findByTestId("rpcSettingsFormPassword"), "ho");
 
     jest.advanceTimersByTime(2000);
 
@@ -240,7 +244,7 @@ describe("RpcIssueDialog", () => {
   });
 
   it("supports saving the username and password", async () => {
-    userEvent.click(await pageElements.rpcSettingsSaveButton());
+    userEvent.click(await findByTestId("rpcSettingsSaveButton"));
 
     await wait(() => {
       expect(vol.toJSON()).toEqual(
@@ -262,20 +266,20 @@ describe("RpcIssueDialog", () => {
   });
 
   it("shows saved username and password when going back to the server settings page", async () => {
-    userEvent.click(await pageElements.enterServerDetails());
+    userEvent.click(await findByTestId("enterServerDetails"));
 
     await wait(async () =>
-      expect(await pageElements.username()).toHaveValue("hi"),
+      expect(await findByTestId("rpcSettingsFormUsername")).toHaveValue("hi"),
     );
   });
 
   it("supports reverting back to using the default settings", async () => {
     await wait(async () => {
-      expect(await pageElements.useDefaultSettings()).not.toBeChecked();
+      expect(await findByTestId("useDefaultSettings")).not.toBeChecked();
     });
 
-    userEvent.click(await pageElements.useDefaultSettings());
-    userEvent.click(await pageElements.rpcSettingsSaveButton());
+    userEvent.click(await findByTestId("useDefaultSettings"));
+    userEvent.click(await findByTestId("rpcSettingsSaveButton"));
 
     await wait(() => {
       expect(vol.toJSON()).toEqual(
@@ -296,7 +300,7 @@ describe("RpcIssueDialog", () => {
     jest.advanceTimersByTime(2000);
 
     expect(
-      await pageElements.connectionStatusReportCloseButton(),
+      await findByTestId("connectionStatusReportCloseButton"),
     ).toBeDisabled();
   });
 
@@ -307,13 +311,13 @@ describe("RpcIssueDialog", () => {
 
     await wait(async () => {
       expect(
-        await pageElements.connectionStatusReportCloseButton(),
+        await findByTestId("connectionStatusReportCloseButton"),
       ).toBeEnabled();
     });
   });
 
   it("let's the user close the RPC issue dialog when RPC is connected", async () => {
-    userEvent.click(await pageElements.connectionStatusReportCloseButton());
+    userEvent.click(await findByTestId("connectionStatusReportCloseButton"));
 
     act(() => {
       jest.advanceTimersByTime(2000);

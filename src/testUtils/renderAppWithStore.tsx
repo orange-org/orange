@@ -3,6 +3,7 @@ import React from "react";
 import { getApp } from "_r/App/App";
 import { resetStore } from "_r/redux/reducers/store";
 import { act } from "react-dom/test-utils";
+import { findAllByTestId } from "./findByTestId";
 
 export const renderAppWithStore = async () => {
   resetStore();
@@ -13,6 +14,6 @@ export const renderAppWithStore = async () => {
     await render(<App />);
 
     // Wait for initial load
-    await screen.findAllByTestId("blocklist-block");
+    await findAllByTestId("blockListBlock");
   });
 };

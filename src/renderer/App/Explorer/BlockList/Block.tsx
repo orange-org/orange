@@ -12,6 +12,7 @@ import {
 } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/RpcResponses";
 import { Null } from "_t/typeHelpers";
+import { testIds } from "_tu/testIds";
 import { useBlockStyles } from "./BlockStyles";
 
 const Block_: React.FC<CardProps & {
@@ -48,7 +49,7 @@ const Block_: React.FC<CardProps & {
   );
 
   return (
-    <Box className={classNames.root} data-testid="blocklist-block">
+    <Box className={classNames.root} data-testid={testIds.blockListBlock}>
       <Card
         {...props}
         variant="elevation"

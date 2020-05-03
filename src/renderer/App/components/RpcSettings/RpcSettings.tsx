@@ -34,7 +34,6 @@ export const RpcSettings = () => {
           variant="filled"
         >
           <Typography variant="h4">Saved!</Typography>
-          {/* <Typography>Saved!</Typography> */}
         </Alert>
       </Snackbar>
       <Paper className={a("marginTop02", "padding3")}>

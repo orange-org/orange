@@ -9,6 +9,7 @@ import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
+import { testIds } from "_tu/testIds";
 import { SearchBox } from "./SearchBox/SearchBox";
 
 export const AppBar: React.FC = () => {
@@ -38,7 +39,11 @@ export const AppBar: React.FC = () => {
           <Home />
         </IconButton>
 
-        <IconButton component={Link} to="/settings">
+        <IconButton
+          component={Link}
+          to="/settings"
+          data-testid={testIds.settingsButton}
+        >
           <Settings />
         </IconButton>
       </Toolbar>

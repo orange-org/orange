@@ -4,7 +4,7 @@ import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
-import { pageElements } from "./SearchBox.testUtils";
+import { findByTestId } from "_tu/findByTestId";
 
 describe("SearchBox", () => {
   /**
@@ -26,18 +26,18 @@ describe("SearchBox", () => {
       /**
        * The app loads with the search box visible
        */
-      expect(await pageElements.search()).toBeVisible();
+      expect(await findByTestId("searchInputField")).toBeVisible();
     });
 
     test("search for a block by height", async () => {
       /**
        * We will start by searching for a block by height
        */
-      fireEvent.change(await pageElements.search(), {
+      fireEvent.change(await findByTestId("searchInputField"), {
         target: { value: blockFixtures.blockFixture2.height },
       });
 
-      fireEvent.keyUp(await pageElements.search(), { keyCode: 13 });
+      fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
       /**
        * `h1` is showing the block height of `blockFixture2` because we searched
@@ -55,11 +55,11 @@ describe("SearchBox", () => {
       /**
        * We can now try searching for blockFixture3 by hash
        */
-      fireEvent.change(await pageElements.search(), {
+      fireEvent.change(await findByTestId("searchInputField"), {
         target: { value: blockFixtures.blockFixture3.hash },
       });
 
-      fireEvent.keyUp(await pageElements.search(), { keyCode: 13 });
+      fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
       expect(
         await screen.findByText(
@@ -70,11 +70,11 @@ describe("SearchBox", () => {
     });
 
     test("searching by transaction", async () => {
-      fireEvent.change(await pageElements.search(), {
+      fireEvent.change(await findByTestId("searchInputField"), {
         target: { value: blockFixtures.blockFixture3.tx[2] },
       });
 
-      fireEvent.keyUp(await pageElements.search(), { keyCode: 13 });
+      fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
       expect(
         await screen.findByText("Transaction", { selector: "h2" }),
@@ -88,11 +88,13 @@ describe("SearchBox", () => {
     });
 
     test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
-      fireEvent.change(await pageElements.search(), {
+      fireEvent.change(await findByTestId("searchInputField"), {
         target: { value: blockFixtures.blockFixture2.hash },
       });
 
-      fireEvent.keyUp(await pageElements.search(), { keyCode: 16 /* shift */ });
+      fireEvent.keyUp(await findByTestId("searchInputField"), {
+        keyCode: 16 /* shift */,
+      });
 
       /**
        * Although we searched for blockFixture2, blockFixture3 from
@@ -108,11 +110,11 @@ describe("SearchBox", () => {
     });
 
     test("it does not do anything when the search string does not return a block", async () => {
-      fireEvent.change(await pageElements.search(), {
+      fireEvent.change(await findByTestId("searchInputField"), {
         target: { value: "🕺" },
       });
 
-      fireEvent.keyUp(await pageElements.search(), { keyCode: 13 });
+      fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
       /**
        * Same block is still displayed. Search didn't cause a change.

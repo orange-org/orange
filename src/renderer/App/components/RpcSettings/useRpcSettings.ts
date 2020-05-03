@@ -7,7 +7,7 @@ import { RpcConfigurations } from "_t/IpcMessages";
 import { rpcSettingsSubmitHandler } from "./rpcSettingsSubmitHandler";
 import { rpcSettingsValidationSchema } from "./rpcSettingsValidationSchema";
 
-export const useRpcSettingsHooks = (onSuccessfulFormSubmit?: () => void) => {
+export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
   const [initialValues, setInitialValues] = useState<FormValues>({
     useDefaultSettings: true,
     useCookieAuthentication: true,

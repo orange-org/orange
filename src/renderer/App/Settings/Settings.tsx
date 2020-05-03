@@ -1,6 +1,7 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 import { RpcSettings } from "../components/RpcSettings/RpcSettings";
 
 export const Settings: React.FC = () => {
@@ -8,6 +9,7 @@ export const Settings: React.FC = () => {
 
   return (
     <div
+      data-testid={testIds.settingsPage}
       className={a(
         "topLevelComponent",
         "padding6",

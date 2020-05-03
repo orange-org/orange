@@ -10,6 +10,7 @@ import { FolderOpen } from "@material-ui/icons";
 import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 import { RpcStatus } from "../RpcStatus/RpcStatus";
 import { HookData } from "./useRpcSettings";
 
@@ -39,9 +40,6 @@ export const RpcSettingsForm: React.FC<{
       ...formik.getFieldProps(fieldName),
       error,
       helperText: error ? formik.errors[fieldName] : "",
-      inputProps: {
-        "data-testid": `rpcSettingsForm-${fieldName}`,
-      },
     };
   };
 
@@ -51,7 +49,7 @@ export const RpcSettingsForm: React.FC<{
         control={
           <Switch
             inputProps={{
-              "data-testid": "rpcSettingsForm-useDefaultSettings",
+              "data-testid": testIds.useDefaultSettings,
             }}
             checked={formik.values.useDefaultSettings}
             {...formik.getFieldProps("useDefaultSettings")}
@@ -72,7 +70,7 @@ export const RpcSettingsForm: React.FC<{
             control={
               <Switch
                 inputProps={{
-                  "data-testid": "rpcSettingsForm-useCookieAuthentication",
+                  "data-testid": testIds.useCookieAuthentication,
                 }}
                 checked={formik.values.useCookieAuthentication}
                 {...formik.getFieldProps("useCookieAuthentication")}
@@ -94,13 +92,16 @@ export const RpcSettingsForm: React.FC<{
                 className={a("displayFlex", "alignItemsCenter", "marginTop05")}
               >
                 <TextField
+                  inputProps={{
+                    "data-testid": testIds.rpcSettingsFormCookieFile,
+                  }}
                   {...getTextFieldProps("cookieFile")}
                   label="Cookie file"
                 />
 
                 <IconButton
                   onClick={setCookieFileFromDialog}
-                  data-testid="setCookieFileFromDialog"
+                  data-testid={testIds.setCookieFileFromDialog}
                 >
                   <FolderOpen />
                 </IconButton>
@@ -117,6 +118,9 @@ export const RpcSettingsForm: React.FC<{
                 className={a("displayFlex", "marginTop05", "alignItemsCenter")}
               >
                 <TextField
+                  inputProps={{
+                    "data-testid": testIds.rpcSettingsFormUsername,
+                  }}
                   label="Username"
                   {...getTextFieldProps("username")}
                 />
@@ -126,6 +130,9 @@ export const RpcSettingsForm: React.FC<{
                 </Typography>
 
                 <TextField
+                  inputProps={{
+                    "data-testid": testIds.rpcSettingsFormPassword,
+                  }}
                   label="Password"
                   className={a("marginLeft02")}
                   {...getTextFieldProps("password")}
@@ -143,6 +150,9 @@ export const RpcSettingsForm: React.FC<{
           )}
 
           <TextField
+            inputProps={{
+              "data-testid": testIds.rpcSettingsFormServerUrl,
+            }}
             className={a("marginTop05")}
             label="Server URL"
             {...getTextFieldProps("serverUrl")}

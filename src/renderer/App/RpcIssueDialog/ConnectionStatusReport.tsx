@@ -10,6 +10,7 @@ import { RpcStatus } from "_r/App/components/RpcStatus/RpcStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { setHasRpcIssue } from "_r/redux/actions";
 import { useDispatch } from "react-redux";
+import { testIds } from "_tu/testIds";
 import { useConnectionStatus } from "./useConnectionStatus";
 
 export const ConnectionStatusReport: React.FC<{
@@ -34,7 +35,7 @@ export const ConnectionStatusReport: React.FC<{
 
   return (
     <>
-      <DialogContent data-testid="connectionStatusReport">
+      <DialogContent data-testid={testIds.connectionStatusReport}>
         {(!isUnauthorized && (
           <>
             <Typography variant="h4">
@@ -53,7 +54,7 @@ export const ConnectionStatusReport: React.FC<{
             </Typography>
           </>
         )) || (
-          <Typography data-testid="unauthorizedMessage">
+          <Typography data-testid={testIds.unauthorizedMessage}>
             {productName} was not authorized to connect to Bitcoin Core. Please
             enter the correct username and password in the server details.
           </Typography>
@@ -62,7 +63,7 @@ export const ConnectionStatusReport: React.FC<{
 
       <DialogActions>
         <Button
-          data-testid="enterServerDetails"
+          data-testid={testIds.enterServerDetails}
           variant="outlined"
           className={a("marginTop05", "marginLeftAuto")}
           onClick={props.onClickEnterServerDetails}
@@ -71,7 +72,7 @@ export const ConnectionStatusReport: React.FC<{
         </Button>
 
         <Button
-          data-testid="connectionStatusReport-closeButton"
+          data-testid={testIds.connectionStatusReportCloseButton}
           onClick={props.onClickClose}
           disabled={props.disableClosing}
           color="primary"

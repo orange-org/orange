@@ -26,11 +26,8 @@ class IpcService {
       }),
     );
 
-  showError = /* istanbul ignore next */ (
-    nonce: NONCE,
-    error: ShowErrorMtM["payload"],
-  ) =>
-    extractPayload(
+  showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
+    /* istanbul ignore next */ extractPayload(
       callMain({
         nonce,
         type: "show-error",

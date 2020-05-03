@@ -30,6 +30,7 @@ export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
       );
     }
 
+    /* istanbul ignore next */
     throw error;
   }
 

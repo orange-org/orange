@@ -14,6 +14,13 @@ describe("isWhitelistedUrl", () => {
       getIsDevelopment.mockImplementation(() => true);
     });
 
+    it("allows requests to specific google domains to install extensions", () => {
+      expect(isWhitelistedUrl("https://clients2.googleusercontent.com")).toBe(
+        true,
+      );
+      expect(isWhitelistedUrl("https://clients2.google.com")).toBe(true);
+    });
+
     it("allows devtools", () => {
       expect(isWhitelistedUrl("devtools://devtools/one")).toBe(true);
     });

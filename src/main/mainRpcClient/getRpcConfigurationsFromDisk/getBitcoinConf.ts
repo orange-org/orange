@@ -8,6 +8,7 @@ export const getBitcoinConf = async (dataDir: string) => {
       encoding: "utf8",
     });
   } catch (error) {
+    /* istanbul ignore else */
     if (error.code === "ENOENT") {
       throw new ErrorWithCode(
         "Could not open `bitcoin.conf`",
@@ -15,6 +16,7 @@ export const getBitcoinConf = async (dataDir: string) => {
       );
     }
 
+    /* istanbul ignore next */
     throw error;
   }
 };

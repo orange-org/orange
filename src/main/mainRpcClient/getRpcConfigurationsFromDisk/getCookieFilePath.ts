@@ -1,9 +1,9 @@
 export const getCookieFilePath = (chain: string, dataDir: string) => {
   let networkDir: string;
 
-  if (chain === "testnet") {
+  /* istanbul ignore if */ if (chain === "testnet") {
     networkDir = `${dataDir}/testnet3/`;
-  } else if (chain === "regtest") {
+  } /* istanbul ignore if */ else if (chain === "regtest") {
     networkDir = `${dataDir}/regtest/`;
   } else {
     networkDir = `${dataDir}/`;

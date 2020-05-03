@@ -47,7 +47,7 @@ describe("isWhitelistedUrl", () => {
 
   describe("during production", () => {
     beforeAll(() => {
-      getIsDevelopment.mockImplementation(() => true);
+      getIsDevelopment.mockImplementation(() => false);
     });
 
     it("allows files from the same app directory as Orange", () => {

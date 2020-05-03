@@ -9,6 +9,16 @@ const extractPayload = async <T extends ReturnType<typeof callMain>>(
   return payload;
 };
 
+/* istanbul ignore next: can only ignore class props this way */
+const showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
+  extractPayload(
+    callMain({
+      nonce,
+      type: "show-error",
+      payload: error,
+    }),
+  );
+
 class IpcService {
   getSavedRpcConfigurations = (nonce: NONCE) =>
     extractPayload(
@@ -26,14 +36,7 @@ class IpcService {
       }),
     );
 
-  showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
-    /* istanbul ignore next */ extractPayload(
-      callMain({
-        nonce,
-        type: "show-error",
-        payload: error,
-      }),
-    );
+  showError = showError;
 
   rpcRequest = (nonce: NONCE, request: RpcRequestMtM["payload"]) =>
     extractPayload(

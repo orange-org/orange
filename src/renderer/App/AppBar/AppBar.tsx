@@ -35,7 +35,7 @@ export const AppBar: React.FC = () => {
 
         <div className={a("flexGrow1")} />
 
-        <IconButton component={Link} to="/">
+        <IconButton component={Link} to="/" data-testid={testIds.homeButton}>
           <Home />
         </IconButton>
 

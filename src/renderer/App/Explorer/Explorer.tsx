@@ -4,6 +4,7 @@ import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
 } from "_r/useAtomicCss";
 import { useTheme } from "@material-ui/core";
+import { testIds } from "_tu/testIds";
 import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { BlockList } from "./BlockList/BlockList";
 
@@ -13,6 +14,7 @@ export const Explorer: React.FC = () => {
 
   return (
     <div
+      data-testid={testIds.explorerPage}
       style={{
         gridTemplateColumns: `${theme.spacing(
           BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,

@@ -19,4 +19,6 @@ export const testIds = {
   settingsPage: "settingsPage",
   settingsButton: "settingsButton",
   settingsSavedSnackBar: "settingsSavedSnackBar",
+  homeButton: "homeButton",
+  explorerPage: "explorerPage",
 } as const;

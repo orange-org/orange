@@ -8,55 +8,38 @@ import { startMockRpcServer } from "_tu/startMockRpcServer";
 import { findAllByTestId } from "_tu/findByTestId";
 
 describe("Explorer view", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     startMockRpcServer();
     initializeElectronCode();
+    await renderAppWithStore();
   });
 
-  describe("loading block list", () => {
-    afterEach(() => {
-      cleanup();
-    });
+  it("starts by loading 20 blocks to display", async () => {
+    const blocks = await findAllByTestId("blockListBlock");
 
-    it("starts by loading 20 blocks to display", async () => {
-      await renderAppWithStore();
-
-      const blocks = await findAllByTestId("blockListBlock");
-
-      expect(blocks.length).toBe(20);
-    });
+    expect(blocks.length).toBe(20);
   });
 
-  describe("selecting a block", () => {
-    beforeAll(async () => {
-      await renderAppWithStore();
-    });
+  it("displays the highest block on initial load", async () => {
+    expect(
+      await screen.findByText(
+        `#${blockchainInfoFixture1.blocks.toLocaleString()}`,
+        { selector: "h3" },
+      ),
+    ).toBeVisible();
+  });
 
-    afterAll(() => {
-      cleanup();
-    });
+  it("can select another block", async () => {
+    const secondFromTopHeading = `#${blockFixtures.blockFixture2.height.toLocaleString()}`;
 
-    it("displays the highest block on initial load", async () => {
-      expect(
-        await screen.findByText(
-          `#${blockchainInfoFixture1.blocks.toLocaleString()}`,
-          { selector: "h1" },
-        ),
-      ).toBeVisible();
-    });
+    const secondFromTop = await screen.findByText(
+      `Link to block ${blockFixtures.blockFixture2.height.toString()}`,
+    );
 
-    it("can select another block", async () => {
-      const secondFromTopHeading = `#${blockFixtures.blockFixture2.height.toLocaleString()}`;
+    fireEvent.click(secondFromTop);
 
-      const secondFromTop = await screen.findByText(
-        `Link to block ${blockFixtures.blockFixture2.height.toString()}`,
-      );
-
-      fireEvent.click(secondFromTop);
-
-      expect(
-        await screen.findByText(secondFromTopHeading, { selector: "h1" }),
-      ).toBeVisible();
-    });
+    expect(
+      await screen.findByText(secondFromTopHeading, { selector: "h3" }),
+    ).toBeVisible();
   });
 });

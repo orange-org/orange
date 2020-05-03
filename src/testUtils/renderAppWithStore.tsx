@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import React from "react";
+import { act } from "react-dom/test-utils";
 import { getApp } from "_r/App/App";
 import { resetStore } from "_r/redux/reducers/store";
-import { act } from "react-dom/test-utils";
 import { findAllByTestId } from "./findByTestId";
 
 export const renderAppWithStore = async () => {

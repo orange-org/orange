@@ -1,11 +1,10 @@
 import { screen } from "@testing-library/dom";
-import { cleanup, fireEvent } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
+import { findByTestId } from "_tu/findByTestId";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
-import { findByTestId } from "_tu/findByTestId";
-import { printElement } from "_tu/smallUtils";
 
 describe("SearchBox", () => {
   describe("Search flow", () => {

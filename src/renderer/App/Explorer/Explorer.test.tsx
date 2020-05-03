@@ -1,11 +1,11 @@
 import { screen } from "@testing-library/dom";
-import { cleanup, fireEvent } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
+import { findAllByTestId } from "_tu/findByTestId";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
-import { findAllByTestId } from "_tu/findByTestId";
 
 describe("Explorer view", () => {
   beforeAll(async () => {

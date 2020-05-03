@@ -1,16 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 import { matches } from "lodash";
 import nock from "nock";
-import {
-  PASSWORD,
-  SERVER_URL,
-  USERNAME,
-} from "_m/startMainProcess.testHelpers";
+import { NODE_ERROR } from "_c/constants";
+import { SERVER_URL } from "_m/startMainProcess.testHelpers";
 import { Block, RawTransaction } from "_t/RpcResponses";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import * as transactionFixtures from "_tu/fixtures/transactionFixtures";
-import { NODE_ERROR } from "_c/constants";
 
 const findFixture = <Fixture extends RawTransaction | Block>(
   cb: (fixture: Fixture) => boolean,

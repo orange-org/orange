@@ -1,16 +1,9 @@
-import { wait, screen } from "@testing-library/dom";
-import { fireEvent, act } from "@testing-library/react";
+import { act } from "@testing-library/react";
 import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
-import { pageElements as searchBoxPageElements } from "_r/App/AppBar/SearchBox/tests/SearchBox.testUtils";
-import * as blockFixtures from "_tu/fixtures/blockFixtures";
+import { findByTestId, queryByTestId } from "_tu/findByTestId";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { userEvent } from "_tu/smallUtils";
-import { findByTestId, queryByTestId } from "_tu/findByTestId";
-import {
-  startMockErroringRpcServer,
-  startMockRpcServer,
-} from "_tu/startMockRpcServer";
-import { dialog } from "__mocks__/electron";
+import { startMockRpcServer } from "_tu/startMockRpcServer";
 
 describe("Settings", () => {
   beforeAll(async () => {

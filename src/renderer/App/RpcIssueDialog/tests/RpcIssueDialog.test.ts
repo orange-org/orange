@@ -118,7 +118,8 @@ describe("RpcIssueDialog", () => {
   it("supports specifying a cookie file path", async () => {
     vol.fromJSON({
       ...vol.toJSON(),
-      "/home/.bitcoin/.cookiez": `__cookie__:1234`,
+      "/home/.bitcoin/.cookiez": `mecookies?`,
+      "/home/.bitcoin/.my-cookie": "__cookie__:1234",
     });
 
     await userEvent.type(
@@ -131,9 +132,33 @@ describe("RpcIssueDialog", () => {
     );
   });
 
+  it('does not check with the RPC server when the cookie file contains invalid data, like "mecookies?"', async () => {
+    // @ts-ignore
+    makeRpcRequestModule.makeRpcRequest.mockClear();
+
+    jest.advanceTimersByTime(2000);
+
+    await wait(() => {
+      expect(makeRpcRequestModule.makeRpcRequest).not.toHaveBeenCalledWith();
+    });
+  });
+
   it("starts checking with the RPC server when it has a valid cookie file with good credentials", async () => {
     // @ts-ignore
     makeRpcRequestModule.makeRpcRequest.mockClear();
+
+    fireEvent.change(await findByTestId("rpcSettingsFormCookieFile"), {
+      target: { value: "" },
+    });
+
+    await userEvent.type(
+      await findByTestId("rpcSettingsFormCookieFile"),
+      "/home/.bitcoin/.my-cookie",
+    );
+
+    expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
+      "/home/.bitcoin/.my-cookie",
+    );
 
     jest.advanceTimersByTime(2000);
 
@@ -183,7 +208,7 @@ describe("RpcIssueDialog", () => {
           "/platform-specific/app-path/Orange.json": JSON.stringify(
             {
               rpc: {
-                cookieFile: "/home/.bitcoin/.cookiez",
+                cookieFile: "/home/.bitcoin/.my-cookie",
                 serverUrl: SERVER_URL,
               },
             },

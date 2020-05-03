@@ -8,7 +8,7 @@ type SubmitHandler = (
 ) => void | Promise<any>;
 
 export const rpcSettingsSubmitHandler = (
-  onSuccess: () => void = () => null,
+  onSuccess: () => void,
 ): SubmitHandler => async values => {
   if (values.useDefaultSettings) {
     await ipcService.saveRpcConfigurations(__NONCE__, null);

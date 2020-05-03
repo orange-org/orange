@@ -92,6 +92,7 @@ export const handleRpcRequest = async (
       }
     }
 
+    /* istanbul ignore if */
     if (!couldHandleError) {
       throw error;
     }

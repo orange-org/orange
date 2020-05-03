@@ -1,3 +1,4 @@
+/* istanbul ignore file: the handlers are what needs to be tested. This doesn't. */
 import { ipcMain } from "electron";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { showErrorDialog } from "../showErrorDialog";

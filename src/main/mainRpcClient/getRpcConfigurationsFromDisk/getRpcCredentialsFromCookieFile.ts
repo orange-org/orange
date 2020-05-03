@@ -17,6 +17,7 @@ export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
       throw new ErrorWithCode("", "NOTCOOKIEFILE");
     }
   } catch (error) {
+    /* istanbul ignore else */
     if (
       error.code === "ENOENT" ||
       error.code === "EACCES" ||

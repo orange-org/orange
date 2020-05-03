@@ -98,7 +98,10 @@ export const RpcSettingsForm: React.FC<{
                   label="Cookie file"
                 />
 
-                <IconButton onClick={setCookieFileFromDialog}>
+                <IconButton
+                  onClick={setCookieFileFromDialog}
+                  data-testid="setCookieFileFromDialog"
+                >
                   <FolderOpen />
                 </IconButton>
               </div>

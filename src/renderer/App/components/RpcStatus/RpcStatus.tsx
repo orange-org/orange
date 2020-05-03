@@ -13,7 +13,7 @@ export const RpcStatus: React.FC<{
   const status = !props.issue
     ? "connected"
     : props.issue === "serverWarmingUp"
-    ? "waiting for server to warm up..."
+    ? /* istanbul ignore next */ "waiting for server to warm up..."
     : props.issue === "newConfig"
     ? "checking new configurations..."
     : "unable to connect. Retrying...";

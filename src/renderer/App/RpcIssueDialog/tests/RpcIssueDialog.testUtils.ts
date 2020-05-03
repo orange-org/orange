@@ -1,9 +1,7 @@
 import { screen } from "@testing-library/dom";
 
 export const pageElements = {
-  rpcIssueDialogOpen: () => screen.findByTestId("rpcIssueDialog-open"),
-
-  rpcIssueDialogClosed: () => screen.findByTestId("rpcIssueDialog-closed"),
+  rpcIssueDialog: () => screen.findByTestId("rpcIssueDialog"),
 
   connectionStatusReport: () => screen.findByTestId("connectionStatusReport"),
 
@@ -31,4 +29,6 @@ export const pageElements = {
     screen.findByTestId("connectionStatusReport-closeButton"),
 
   serverUrl: () => screen.findByTestId("rpcSettingsForm-serverUrl"),
+
+  setCookieFileFromDialog: () => screen.findByTestId("setCookieFileFromDialog"),
 };

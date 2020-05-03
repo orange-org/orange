@@ -19,14 +19,7 @@ import {
 import { pageElements as searchBoxPageElements } from "_r/App/AppBar/SearchBox/tests/SearchBox.testUtils";
 import { pageElements } from "./RpcIssueDialog.testUtils";
 
-jest.setTimeout(10000);
-
 describe("RpcIssueDialog", () => {
-  /**
-   * WARNING: the test cases in this block depend on each other and must
-   * run sequentially
-   */
-
   beforeAll(async () => {
     // jest.spyOn(React, "useEffect").mockImplementation(React.useLayoutEffect);
     startMockRpcServer();
@@ -57,7 +50,7 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.keyUp(await searchBoxPageElements.search(), { keyCode: 13 });
 
-    expect(await pageElements.rpcIssueDialogOpen()).toBeInTheDocument();
+    expect(await pageElements.rpcIssueDialog()).toBeInTheDocument();
   });
 
   it("starts with the connection status report page", async () => {
@@ -322,8 +315,14 @@ describe("RpcIssueDialog", () => {
   it("let's the user close the RPC issue dialog when RPC is connected", async () => {
     userEvent.click(await pageElements.connectionStatusReportCloseButton());
 
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
     await wait(async () =>
-      expect(await pageElements.rpcIssueDialogClosed()).toBeInTheDocument(),
+      expect(
+        await screen.queryByTestId("rpcIssueDialog"),
+      ).not.toBeInTheDocument(),
     );
   });
 });

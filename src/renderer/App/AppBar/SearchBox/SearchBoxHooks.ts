@@ -61,6 +61,7 @@ export const useSearchHandlers = () => {
         rpcService.requestRawTransaction(__NONCE__, searchValue),
       );
 
+      /* istanbul ignore else: until we add UX for a "no results" search */
       if (transaction) {
         block = await rpcService.requestBlock(__NONCE__, transaction.blockhash);
         history.push(`/explorer/${block.height}/${transaction.txid}`);

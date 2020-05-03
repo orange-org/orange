@@ -18,4 +18,5 @@ export const testIds = {
   scrollableBlockContainer: "scrollableBlockContainer",
   settingsPage: "settingsPage",
   settingsButton: "settingsButton",
+  settingsSavedSnackBar: "settingsSavedSnackBar",
 } as const;

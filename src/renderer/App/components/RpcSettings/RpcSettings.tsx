@@ -5,6 +5,7 @@ import { RpcSettingsForm } from "_r/App/components/RpcSettings/RpcSettingsForm";
 import { RpcSettingsSaveButton } from "_r/App/components/RpcSettings/RpcSettingsSaveButton";
 import { useRpcSettingsHooks } from "_r/App/components/RpcSettings/useRpcSettings";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 
 export const RpcSettings = () => {
   const a = useAtomicCss();
@@ -12,6 +13,7 @@ export const RpcSettings = () => {
   const onFormSubmitSuccess = () => setOpenSnackbar(true);
   const hookData = useRpcSettingsHooks(onFormSubmitSuccess);
   const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
+    /* istanbul ignore if */
     if (reason === "clickaway") {
       return;
     }
@@ -22,6 +24,7 @@ export const RpcSettings = () => {
   return (
     <>
       <Snackbar
+        data-testid={testIds.settingsSavedSnackBar}
         autoHideDuration={6000}
         open={openSnackbar}
         onClose={handleClose}

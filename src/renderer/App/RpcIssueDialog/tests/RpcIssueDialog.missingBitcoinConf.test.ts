@@ -1,7 +1,5 @@
-import { fireEvent } from "@testing-library/react";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { findByTestId } from "_tu/findByTestId";
-import * as blockFixtures from "_tu/fixtures/blockFixtures";
+import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
 

@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/dom";
 import { fireEvent } from "@testing-library/react";
-import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
+import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { findAllByTestId } from "_tu/findByTestId";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";

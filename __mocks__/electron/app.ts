@@ -9,7 +9,3 @@ class App extends EventEmitter {
 }
 
 export const app = new App();
-
-export const resetApp = () => {
-  app.removeAllListeners();
-};

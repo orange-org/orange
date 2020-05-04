@@ -2,7 +2,7 @@ import { merge } from "lodash";
 import waitForExpect from "wait-for-expect";
 import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { app, BrowserWindow, dialog, WebContents } from "__mocks__/electron";
-import { initializeElectronCode } from "./startMainProcess.testHelpers";
+import { initializeElectronCode } from "../testUtils/initializeElectronCode";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
 const currentGlobalProcess = getGlobalProcess_();

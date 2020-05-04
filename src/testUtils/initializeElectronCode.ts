@@ -1,11 +1,12 @@
 import { vol } from "memfs";
 import { app, BrowserWindow } from "__mocks__/electron";
-import { startMainProcess } from "./startMainProcess";
-import { startPreloadProcess } from "./startPreloadProcess";
+import { DEFAULT_SERVER_URL } from "_c/constants";
+import { startMainProcess } from "../main/startMainProcess";
+import { startPreloadProcess } from "../main/startPreloadProcess";
 
 export const USERNAME = "__cookie__";
 export const PASSWORD = "1337";
-export const SERVER_URL = "http://localhost:8332";
+export const SERVER_URL = DEFAULT_SERVER_URL;
 
 export const initializeElectronCode = (
   options: {

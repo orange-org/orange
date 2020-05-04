@@ -1,10 +1,6 @@
 import { defaults, matches } from "lodash";
 import nock from "nock";
-import {
-  PASSWORD,
-  SERVER_URL,
-  USERNAME,
-} from "_m/startMainProcess.testHelpers";
+import { PASSWORD, SERVER_URL, USERNAME } from "_tu/initializeElectronCode";
 import { RpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
 

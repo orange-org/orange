@@ -3,7 +3,3 @@ export const dialog = {
 
   showOpenDialog: jest.fn(),
 };
-
-export const resetDialog = () => {
-  dialog.showMessageBoxSync.mockReset();
-};

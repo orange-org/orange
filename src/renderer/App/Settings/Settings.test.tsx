@@ -1,6 +1,6 @@
 import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
 import { act, wait } from "@testing-library/react";
-import { initializeElectronCode } from "_m/startMainProcess.testHelpers";
+import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { findByTestId, queryByTestId } from "_tu/findByTestId";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { userEvent } from "_tu/smallUtils";

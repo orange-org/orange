@@ -8,7 +8,7 @@ import {
   PASSWORD,
   SERVER_URL,
   USERNAME,
-} from "_m/startMainProcess.testHelpers";
+} from "_tu/initializeElectronCode";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { userEvent } from "_tu/smallUtils";

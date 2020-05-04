@@ -1,23 +1,32 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { app, globalShortcut } from "electron";
 import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
-import { registerIpcListener } from "./registerIpcListener";
-import { processes } from "./processes";
-import { getStore } from "./getStore";
-import { parseCommandLineArgs } from "./parseCommandLineArgs";
+import { getMainWindow } from "./getMainWindow";
 import { handleSquirrelEvents } from "./handleSquirrelEvents";
-import { productName } from "../../package.json";
+import { processes } from "./processes";
+import { registerErrorHandling } from "./registerErrorHandling";
+import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
+
+let startMainProcessHasBeenCalled = false;
 
 export const startMainProcess = () => {
+  /* istanbul ignore if */
+  if (startMainProcessHasBeenCalled) {
+    throw new Error(
+      "`startMainProcess` is meant to be called only once per Node.js process",
+    );
+  }
+
+  startMainProcessHasBeenCalled = true;
+
+  registerErrorHandling();
+
   app.enableSandbox();
 
-  let mainWindow: BrowserWindow;
-
-  const store = getStore();
-  store.args = parseCommandLineArgs();
-
   function createWindow() {
+    const mainWindow = getMainWindow();
+
     /* istanbul ignore if: this is both hard to test and non-critical. */
     if (handleSquirrelEvents(app)) {
       return;
@@ -29,48 +38,21 @@ export const startMainProcess = () => {
       require("_m/installExtensions");
     }
 
-    mainWindow = new BrowserWindow({
-      webPreferences: {
-        // The below configurations are set to achieve the maximum
-        // security possible in Electron
-        contextIsolation: true,
-        webSecurity: true,
-        enableRemoteModule: false,
-        nodeIntegration: false,
-        nodeIntegrationInSubFrames: false,
-        nodeIntegrationInWorker: false,
-        allowRunningInsecureContent: false,
-        sandbox: true,
-
-        preload: `${__dirname}/preload.js`,
-      },
-
-      center: true,
-      title: productName,
-      minWidth: 800,
-      minHeight: 600,
-      width: 1000,
-      height: 800,
-    });
-
-    preventNetworkAndResourceRequests(mainWindow);
+    preventNetworkAndResourceRequests();
 
     mainWindow.loadFile(processes.renderer);
 
-    mainWindow.webContents.once("did-finish-load", () => {
-      registerIpcListener(mainWindow);
-    });
+    mainWindow.webContents.once("did-finish-load", registerIpcListener);
 
-    /* istanbul ignore if */
-    if (getIsDevelopment()) {
-      mainWindow.maximize();
-      mainWindow.webContents.openDevTools();
-    } else {
-      globalShortcut.register(
-        "CmdOrCtrl+R",
-        /* istanbul ignore next */ () => null,
-      );
-    }
+    /* istanbul ignore next */
+    mainWindow.webContents.once("did-frame-finish-load", () => {
+      if (getIsDevelopment()) {
+        mainWindow.maximize();
+        mainWindow.webContents.openDevTools();
+      } else {
+        globalShortcut.register("CmdOrCtrl+R", () => null);
+      }
+    });
   }
 
   // Disable web view creation

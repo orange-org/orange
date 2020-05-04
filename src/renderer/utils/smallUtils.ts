@@ -2,21 +2,14 @@
 /* eslint-disable no-param-reassign */
 import moment from "moment";
 
-export const secondsTimestampToFormattedDate = (momentInput: number) => {
-  return moment(momentInput * 1000).format("llll");
-};
+export const secondsTimestampToFormattedDate = (momentInput: number) =>
+  moment(momentInput * 1000).format("llll");
 
-export const fromNow = (momentInput: number) => {
-  return moment(momentInput * 1000).fromNow();
-};
+export const fromNow = (momentInput: number) =>
+  moment(momentInput * 1000).fromNow();
 
-export const pluralize = (
-  quantity: number,
-  singular: string,
-  plural: string,
-) => {
-  return quantity === 1 ? /* istanbul ignore next */ singular : plural;
-};
+export const pluralize = (quantity: number, singular: string, plural: string) =>
+  quantity === 1 ? /* istanbul ignore next */ singular : plural;
 
 export const generateUuid = (a: string = ""): string =>
   a
@@ -44,4 +37,15 @@ export const humanFileSize = (bytes: number) => {
   );
 
   return `${bytes.toFixed(1)} ${units[u]}`;
+};
+
+export const isValidUrl = (url: string) => {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(url);
+
+    return true;
+  } catch (e) {
+    return false;
+  }
 };

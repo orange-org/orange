@@ -27,7 +27,7 @@ import {
   pluralize,
 } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
-import { Block as TBlock } from "_t/bitcoindRpcResponses";
+import { Block as TBlock } from "_t/RpcResponses";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 
@@ -86,13 +86,13 @@ const dummyBlockData: TBlock = {
 
 export const BLOCK_DETAILS_PADDING = 6;
 
-const BlockDetails_ = () => {
+export const BlockDetails = () => {
   const { url, path } = useRouteMatch();
   const a = useAtomicCss();
   const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
   const [isLoading, setIsLoading] = useState(true);
   const theme = useTheme();
-  const selectedExplorerBlock = useSelector(s => s.misc.selectedExplorerBlock);
+  const selectedExplorerBlock = useSelector(s => s.selectedExplorerBlock);
 
   useEffect(() => {
     let isMounted = true;
@@ -174,8 +174,8 @@ const BlockDetails_ = () => {
         )}
       </Typography>
 
-      <Paper variant="outlined" className={a("marginTop02")}>
-        <AutoSizer disableHeight>
+      <Paper className={a("marginTop02")}>
+        <AutoSizer disableHeight nonce={(__NONCE__ as unknown) as string}>
           {({ width }) => (
             <FixedSizeList
               key={blockData.hash}
@@ -337,5 +337,3 @@ const BlockDetails_ = () => {
     </div>
   );
 };
-
-export const BlockDetails = BlockDetails_;

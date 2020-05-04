@@ -10,8 +10,9 @@ import {
   secondsTimestampToFormattedDate,
   humanFileSize,
 } from "_r/utils/smallUtils";
-import { RawTransaction } from "_t/bitcoindRpcResponses";
+import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
+import { testIds } from "_tu/testIds";
 import { OtherDetails } from "../OtherDetails";
 
 const SVG_ICON_WIDTH = 24;
@@ -43,9 +44,9 @@ export const TransactionDetails: React.FC<{
   const Typography = useLoadingAwareTypography(props.isLoading);
   const { transactionId } = useParams();
   const dispatch = useDispatch();
-  const transaction = useSelector(s => s.misc.selectedExplorerTransaction);
+  const transaction = useSelector(s => s.selectedExplorerTransaction);
   const transactionInputValues = useSelector(
-    s => s.misc.selectedExplorerTransactionInputValues,
+    s => s.selectedExplorerTransactionInputValues,
   );
 
   useEffect(() => {
@@ -182,9 +183,7 @@ export const TransactionDetails: React.FC<{
       </Paper>
       <Typography className={a("marginTop02", "textAlignCenter")}>
         Total:{" "}
-        {transaction.vout.reduce((total, output) => {
-          return output.value + total;
-        }, 0)}{" "}
+        {transaction.vout.reduce((total, output) => output.value + total, 0)}{" "}
         BTC
       </Typography>
     </>
@@ -218,7 +217,10 @@ export const TransactionDetails: React.FC<{
   );
 
   return (
-    <div className={a("padding2", "overflowXHidden")}>
+    <div
+      className={a("padding2", "overflowXHidden")}
+      data-testid={testIds.transactionDetails}
+    >
       {heading}
       {breakdown}
       {otherDetails}

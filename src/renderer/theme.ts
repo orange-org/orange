@@ -15,10 +15,9 @@ export const theme: ThemeOptions = {
 
     primary: {
       light: "#ffffff",
-      main: "#ffffff",
-      dark: "#c7c7c7",
-      contrastText: "#000000",
+      main: "#1976d2",
     },
+
     secondary: {
       light: "#ffa040",
       main: "#ff6f00",
@@ -71,10 +70,6 @@ export const theme: ThemeOptions = {
   },
 
   props: {
-    MuiPaper: {
-      variant: "outlined",
-    },
-
     MuiButtonBase: {
       disableRipple: true,
       disableTouchRipple: true,

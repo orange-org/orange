@@ -26,9 +26,8 @@ import { last, range } from "lodash";
  * Given the above three values, compute DISPLAYED_BLOCKS according to the requirements
  * described earlier.
  */
-export const generateList = (start: number, end: number) => {
-  return range(start, end - 1);
-};
+export const generateList = (start: number, end: number) =>
+  range(start, end - 1);
 
 const WINDOW_SIZE = 20;
 export const calculateExplorerBlockListHeights = (

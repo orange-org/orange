@@ -1,38 +1,59 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import React from "react";
+import {
+  // @ts-ignore
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  CssBaseline,
+  ThemeProvider,
+} from "@material-ui/core";
+import React, { StrictMode } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
-import { createStore } from "_r/redux/reducers/store";
+import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
+import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
+import { Settings } from "./Settings/Settings";
 
-export const getApp = (
-  /* istanbul ignore next */
-  store: ReturnType<typeof createStore> = createStore(),
-) => () => {
+export const Routes = () => {
+  const appBar = <AppBar />;
+
   return (
+    <Router>
+      <RpcIssueDialog />
+
+      <Switch>
+        <Route exact path="/">
+          {appBar}
+          <RedirectToHighestBlock />
+        </Route>
+
+        <Route path="/explorer/:blockHeightAsId">
+          {appBar}
+          <Explorer />
+        </Route>
+
+        <Route path="/settings">
+          {appBar}
+          <Settings />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+const App = () => (
+  <StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
-
-        <Router>
-          <Switch>
-            <Route exact path="/">
-              <RedirectToHighestBlock />
-            </Route>
-
-            <Route path="/explorer/:blockHeightAsId">
-              <AppBar />
-              <Explorer />
-            </Route>
-          </Switch>
-        </Router>
+        <Routes />
       </ThemeProvider>
     </Provider>
-  );
-};
+  </StrictMode>
+);
+
+export const getApp = () => App;

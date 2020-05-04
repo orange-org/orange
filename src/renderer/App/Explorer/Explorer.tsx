@@ -4,15 +4,17 @@ import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
 } from "_r/useAtomicCss";
 import { useTheme } from "@material-ui/core";
+import { testIds } from "_tu/testIds";
 import { BlockDetails } from "./BlockDetails/BlockDetails";
-import { ListOfBlocks } from "./BlockList/BlockList";
+import { BlockList } from "./BlockList/BlockList";
 
-export const Explorer_: React.FC = () => {
+export const Explorer: React.FC = () => {
   const a = useAtomicCss();
   const theme = useTheme();
 
   return (
     <div
+      data-testid={testIds.explorerPage}
       style={{
         gridTemplateColumns: `${theme.spacing(
           BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
@@ -20,10 +22,8 @@ export const Explorer_: React.FC = () => {
       }}
       className={a("topLevelComponent", "displayGrid")}
     >
-      <ListOfBlocks />
+      <BlockList />
       <BlockDetails />
     </div>
   );
 };
-
-export const Explorer = Explorer_;

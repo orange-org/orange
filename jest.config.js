@@ -17,12 +17,14 @@ module.exports = {
   }),
   testPathIgnorePatterns: [
     "<rootDir>[/\\\\](artifacts|node_modules|scripts)[/\\\\]",
+    "<rootDir>/artifacts/webpack/package.json",
   ],
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!src/typings/**/*",
-    "!src/renderer/testUtils/**/*",
+    "!**/*.testUtils.{ts,tsx}",
+    "!**/testUtils/**",
   ],
   coverageThreshold: {
     global: {

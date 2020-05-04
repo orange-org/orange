@@ -1,29 +1,79 @@
-import { RpcRequest } from "./bitcoindRpcRequests";
-import { RpcResponse } from "./bitcoindRpcResponses";
+import { RpcRequest } from "./RpcRequests";
+import { RpcResponse } from "./RpcResponses";
 
-type Message<S, T, M> = {
+export type Message<T, P> = {
   nonce: NONCE;
-  source: S;
   type: T;
-  message: M;
+  payload: P;
 };
 
-// type MessageNoPayload<S, T> = {
-//   nonce: NONCE;
-//   source: S;
-//   type: T;
-//   message?: null;
-// };
+export type MessageWithoutPayload<T> = Omit<Message<T, undefined>, "payload">;
 
-type MtR = "@orange/main";
-type MtM = "@orange/renderer";
+export type MtR = "@orange/main";
+export type MtM = "@orange/renderer";
 
-export type RpcResponseMtR = Message<MtR, "rpc-response", RpcResponse>;
+export type RpcRequestMtM = Message<"rpc-request", RpcRequest>;
+export type RpcResponseMtR = Message<RpcRequestMtM["type"], RpcResponse>;
 
-export type MessageToRenderer = RpcResponseMtR;
+export type ShowErrorMtM = Message<"show-error", string>;
+export type ShowErrorMtR = Message<ShowErrorMtM["type"], string>;
 
-export type RpcRequestMtM = Message<MtM, "rpc-request", RpcRequest>;
+export type GetCookiePathFromOpenDialogMtM = MessageWithoutPayload<
+  "get-cookie-path-from-open-dialog"
+>;
+export type GetCookiePathFromOpenDialogMtR = Message<
+  GetCookiePathFromOpenDialogMtM["type"],
+  string | null
+>;
 
-export type showErrorMtM = Message<MtM, "show-error", string>;
+export type GetSavedRpcConfigurationsMtM = MessageWithoutPayload<
+  "get-saved-rpc-configurations"
+>;
 
-export type MessageToMain = RpcRequestMtM | showErrorMtM;
+export type RpcConfigurations = (
+  | { cookiePath: string }
+  | {
+      username: string;
+      password: string;
+    }
+) & {
+  serverUrl: string;
+};
+
+export type GetSavedRpcConfigurationsMtR = Message<
+  GetSavedRpcConfigurationsMtM["type"],
+  RpcConfigurations | null
+>;
+
+export type SaveRpcConfigurationsMtM = Message<
+  "save-rpc-configurations",
+  RpcConfigurations | null
+>;
+
+export type SaveRpcConfigurationsMtR = Message<
+  SaveRpcConfigurationsMtM["type"],
+  null
+>;
+
+export type MessageToMain =
+  | RpcRequestMtM
+  | ShowErrorMtM
+  | GetCookiePathFromOpenDialogMtM
+  | GetSavedRpcConfigurationsMtM
+  | SaveRpcConfigurationsMtM;
+export type MessageToRenderer =
+  | RpcResponseMtR
+  | ShowErrorMtR
+  | GetCookiePathFromOpenDialogMtR
+  | GetSavedRpcConfigurationsMtR
+  | SaveRpcConfigurationsMtR;
+
+export type SendableMessageToRenderer = {
+  source: MtR;
+  messageId: string;
+} & MessageToRenderer;
+
+export type SendableMessageToMain = {
+  source: MtM;
+  messageId: string;
+} & MessageToMain;

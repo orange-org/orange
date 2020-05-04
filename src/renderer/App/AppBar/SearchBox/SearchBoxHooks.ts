@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { rpcService } from "_r/rpcClient/rpcService";
-import { RPC_SERVER_ERROR_CODES } from "_c/constants";
+import { BITCOIN_CORE_RPC_ERROR } from "_c/constants";
 
 const hashRegex = /[0-9a-fA-F]{64}/;
 
 export const useSearchHandlers = () => {
   const [searchValue, setSearchValue] = useState("");
+  const history = useHistory();
 
   const onChange: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -15,8 +16,6 @@ export const useSearchHandlers = () => {
 
     setSearchValue(value);
   };
-
-  const history = useHistory();
 
   const onKeyUp: (
     event: React.KeyboardEvent<HTMLInputElement>,
@@ -32,9 +31,9 @@ export const useSearchHandlers = () => {
         } catch (error) {
           /* istanbul ignore if */
           if (
-            error.code !== RPC_SERVER_ERROR_CODES.rpcInvalidParameter &&
-            error.code !== RPC_SERVER_ERROR_CODES.rpcMiscError &&
-            error.code !== RPC_SERVER_ERROR_CODES.blockNotFound
+            error.code !== BITCOIN_CORE_RPC_ERROR.invalidParameter &&
+            error.code !== BITCOIN_CORE_RPC_ERROR.miscError &&
+            error.code !== BITCOIN_CORE_RPC_ERROR.blockNotFound
           ) {
             throw error;
           }
@@ -62,6 +61,7 @@ export const useSearchHandlers = () => {
         rpcService.requestRawTransaction(__NONCE__, searchValue),
       );
 
+      /* istanbul ignore else: until we add UX for a "no results" search */
       if (transaction) {
         block = await rpcService.requestBlock(__NONCE__, transaction.blockhash);
         history.push(`/explorer/${block.height}/${transaction.txid}`);

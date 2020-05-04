@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
 
     "module": "esnext",
@@ -38,6 +38,7 @@
       "_a/*": ["src/assets/*"],
       "_t/*": ["src/typings/*"],
       "_c/*": ["src/common/*"],
+      "_tu/*": ["src/testUtils/*"],
       "__mocks__/*": ["__mocks__/*"]
     }
   },

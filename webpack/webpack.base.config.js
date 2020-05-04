@@ -1,5 +1,5 @@
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const { DefinePlugin } = require("webpack");
+const { DefinePlugin, SourceMapDevToolPlugin } = require("webpack");
 const { resolve } = require("path");
 const globalConstants = require("./globalConstants");
 const getIsDevelopment = require("./getIsDevelopment");
@@ -31,13 +31,22 @@ module.exports = {
       },
     ],
   },
-  devtool: "source-map",
+  devtool: false,
   plugins: [
     new DefinePlugin({
       ...globalConstants,
       "process.env.NODE_ENV": JSON.stringify(
         process.env.NODE_ENV || "development",
       ),
+    }),
+    /**
+     * Electron drops the `preload.js` file into the browser before launching
+     * the app. And it ends up looking for preload.js.map inside
+     * artifacts/webpack/renderer and cannot find it. To solve that we
+     * disable source map generation for the preload process, for now.
+     */
+    new SourceMapDevToolPlugin({
+      exclude: ["preload.js"],
     }),
   ],
 };

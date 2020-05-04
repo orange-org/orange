@@ -15,9 +15,8 @@ class RpcService {
     verbosity: Verbosity = 1,
   ) => rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
 
-  requestBlockHash = (nonce: NONCE, blockHeight: number) => {
-    return rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
-  };
+  requestBlockHash = (nonce: NONCE, blockHeight: number) =>
+    rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
 
   requestBlockByHeight = async (
     nonce: NONCE,
@@ -34,12 +33,11 @@ class RpcService {
     nonce: NONCE,
     transactionId: string,
     verbose: boolean = true,
-  ) => {
-    return rpcClient(nonce, {
+  ) =>
+    rpcClient(nonce, {
       method: "getrawtransaction",
       params: [transactionId, verbose],
     });
-  };
 }
 
 export const rpcService = new RpcService();

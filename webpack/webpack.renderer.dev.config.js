@@ -20,5 +20,9 @@ module.exports = merge.smart(baseRendererConfig, {
       verbose: true,
       disableDotRule: false,
     },
+    watchOptions: {
+      poll: 1000,
+      ignored: ["node_modules"],
+    },
   },
 });

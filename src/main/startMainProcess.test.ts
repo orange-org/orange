@@ -1,17 +1,8 @@
-import { vol } from "memfs";
-import nock from "nock";
-import {
-  app,
-  BrowserWindow,
-  resetStateOfElectronMock,
-  WebContents,
-  dialog,
-} from "__mocks__/electron";
-import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
 import { merge } from "lodash";
 import waitForExpect from "wait-for-expect";
-import { startMainProcess } from "./startMainProcess";
-import { startPreloadProcess } from "./startPreloadProcess";
+import { getGlobalProcess as getGlobalProcess_ } from "_m/getGlobalProcess";
+import { app, BrowserWindow, dialog, WebContents } from "__mocks__/electron";
+import { initializeElectronCode } from "../testUtils/initializeElectronCode";
 
 const getGlobalProcess = getGlobalProcess_ as jest.Mock;
 const currentGlobalProcess = getGlobalProcess_();
@@ -20,88 +11,21 @@ getGlobalProcess.mockImplementation(() =>
   merge(currentGlobalProcess, { argv: ["--datadir=some/data/dir/"] }),
 );
 
-const initializeMainProcess = () => {
-  app.emit("ready");
-
-  const { value: mainWindow } = BrowserWindow.instances.find(
-    instance => instance.name === "Orange",
-  )!;
-
-  mainWindow.webContents.emit("did-finish-load");
-
-  vol.fromJSON({
-    "home/.bitcoin/bitcoin.conf": "",
-    "home/.bitcoin/.cookie": "__cookie__:1337",
-  });
-
-  nock("http://localhost:8332")
-    .post("/")
-    .reply(200, {});
-
-  return mainWindow;
-};
-
-let cleanPreloadProcess: () => any;
-
 describe("main", () => {
-  beforeEach(() => {
-    startMainProcess();
-    cleanPreloadProcess = startPreloadProcess();
-  });
+  let mainWindow: BrowserWindow;
 
-  afterEach(() => {
-    nock.cleanAll();
-    resetStateOfElectronMock();
-    cleanPreloadProcess();
+  beforeAll(() => {
+    mainWindow = initializeElectronCode();
   });
 
   describe("general integration", () => {
-    test("IPC RPC requests between main and renderer through preload", done => {
-      initializeMainProcess();
-
-      window.postMessage(
-        {
-          nonce: __NONCE__,
-          type: "rpc-request",
-          source: "@orange/renderer",
-          message: {
-            method: "getblock",
-            requestId: 123,
-          },
-        },
-        "*",
-      );
-
-      const eventListener = (event: MessageEvent) => {
-        const { data } = event;
-
-        if (data && data.source === "@orange/main") {
-          expect(data).toEqual({
-            source: "@orange/main",
-            nonce: __NONCE__,
-            type: "rpc-response",
-            message: {
-              method: "getblock",
-              requestId: 123,
-            },
-          });
-
-          window.removeEventListener("message", eventListener);
-          done();
-        }
-      };
-      window.addEventListener("message", eventListener);
-    });
-
     test('"show-error" IPC event', () => {
-      initializeMainProcess();
-
       window.postMessage(
         {
           nonce: __NONCE__,
           type: "show-error",
           source: "@orange/renderer",
-          message: "stuff",
+          payload: "stuff",
         },
         "*",
       );
@@ -114,11 +38,43 @@ describe("main", () => {
           title: "An error occurred",
           type: "warning",
         });
+
+        dialog.showMessageBoxSync.mockReset();
+      });
+    });
+
+    test("catching generic errors", () => {
+      jest.spyOn(console, "log").mockImplementation(jest.fn);
+
+      // @ts-ignore
+      process.emit("unhandledRejection", "hello");
+      // @ts-ignore
+      process.emit("unhandledRejection", new Error("happened"));
+
+      jest.spyOn(console, "log").mockRestore();
+
+      return waitForExpect(() => {
+        expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(2);
+
+        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(1, {
+          message:
+            'This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\n"hello"',
+          title: "An error occurred",
+          type: "warning",
+        });
+
+        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(2, {
+          message:
+            "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nError: happened",
+          title: "An error occurred",
+          type: "warning",
+        });
+
+        dialog.showMessageBoxSync.mockReset();
       });
     });
 
     test("wiring of mainWindow.webContents.session.webRequest.onBeforeRequest", () => {
-      const mainWindow = initializeMainProcess();
       const spy = jest.fn();
 
       mainWindow.webContents.session.webRequest.emit(

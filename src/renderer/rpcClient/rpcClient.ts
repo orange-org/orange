@@ -1,64 +1,47 @@
-import { callMain } from "_r/callMain";
-import { generateUuid } from "_r/utils/smallUtils";
-import { RpcRequest, UnsentRpcRequest } from "_t/bitcoindRpcRequests";
-import { RpcResponse } from "_t/bitcoindRpcResponses";
-import { RpcResponseMtR } from "_t/IpcMessages";
+import { ipcService } from "_r/ipc/ipcService";
+import { isRpcIssue } from "_r/utils/rpcIssueHelpers";
+import { RpcRequest } from "_t/RpcRequests";
+import { RpcResponse } from "_t/RpcResponses";
+import { checkIfRpcIssueHasBeenSolved } from "./checkIfRpcIssueHasBeenSolved";
 import { rpcClientCache } from "./rpcClientCache";
 
-const isRpcResponse = (
-  response: any,
-  requestId: string,
-): response is RpcResponseMtR => {
-  return (
-    response?.message?.requestId === requestId &&
-    response?.source === "@orange/main"
-  );
-};
-
-export type RpcClientReturnType<T extends UnsentRpcRequest> = Extract<
+export type RpcClientReturnType<T extends RpcRequest> = Extract<
   RpcResponse["result"],
   Extract<RpcResponse, { method: T["method"]; error: null }>["result"]
 >;
 
-export const rpcClient = <TRpcRequest extends UnsentRpcRequest>(
+export const rpcClient = async <TRpcRequest extends RpcRequest>(
   nonce: NONCE,
   rpcRequest: TRpcRequest,
   cacheTtl?: number,
 ): Promise<RpcClientReturnType<TRpcRequest>> => {
-  // eslint-disable-next-line consistent-return
-  return new Promise((resolve, reject) => {
-    if (cacheTtl) {
-      const cacheResult = rpcClientCache.get(rpcRequest);
+  if (cacheTtl) {
+    const cacheResult = rpcClientCache.get(rpcRequest);
 
-      if (cacheResult) {
-        return resolve(cacheResult.result as RpcClientReturnType<TRpcRequest>);
-      }
+    if (cacheResult) {
+      return cacheResult.result as RpcClientReturnType<TRpcRequest>;
+    }
+  }
+
+  const response = await ipcService.rpcRequest(__NONCE__, rpcRequest);
+
+  if (response.error) {
+    if (isRpcIssue(response.error)) {
+      /**
+       * If the reason we got an error is a fixable Bitcoin Core connection
+       * issue, then we will try to fix it and re-try the call again.
+       */
+      await checkIfRpcIssueHasBeenSolved();
+
+      return rpcClient(nonce, rpcRequest, cacheTtl);
     }
 
-    const requestId = generateUuid();
-    const windowMessageEventHandler = (event: MessageEvent) => {
-      const { data: response } = event;
+    throw response.error;
+  }
 
-      if (isRpcResponse(response, requestId)) {
-        window.removeEventListener("message", windowMessageEventHandler);
+  if (cacheTtl) {
+    rpcClientCache.add(rpcRequest, response, cacheTtl);
+  }
 
-        if (response.message.error) {
-          reject(response.message.error);
-        } else {
-          if (cacheTtl) {
-            rpcClientCache.add(rpcRequest, response.message, cacheTtl);
-          }
-
-          resolve(response.message.result as RpcClientReturnType<TRpcRequest>);
-        }
-      }
-    };
-    window.addEventListener("message", windowMessageEventHandler);
-
-    callMain({
-      nonce,
-      type: "rpc-request",
-      message: { ...rpcRequest, requestId } as RpcRequest,
-    });
-  });
+  return response.result as RpcClientReturnType<TRpcRequest>;
 };

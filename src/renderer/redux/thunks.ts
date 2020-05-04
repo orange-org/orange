@@ -9,7 +9,7 @@ export const populateBlockList = (
   nonce: NONCE,
   selectedHeight: number,
 ) => async (dispatch: Dispatch, getState: GetState) => {
-  const { explorerBlockList } = getState().misc;
+  const { explorerBlockList } = getState();
   const blockList = calculateExplorerBlockListHeights(
     selectedHeight,
     explorerBlockList ? explorerBlockList.map(block => block.height) : [],

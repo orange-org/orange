@@ -1,5 +1,5 @@
+const React = require("react");
 const { merge } = require("lodash");
-const { getStore } = require("_m/getStore");
 const { getGlobalProcess } = require("_m/getGlobalProcess");
 
 /**
@@ -11,24 +11,18 @@ const { getGlobalProcess } = require("_m/getGlobalProcess");
  */
 window.HTMLElement.prototype.scrollIntoView = () => null;
 
+jest.useFakeTimers(); // Tests are a not the place to have real setTimeouts and setIntervals
+
 require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");
-jest.mock("_r/rpcClient/rpcClient");
+// jest.mock("_r/rpcClient/rpcClient");
 jest.mock("_m/installExtensions");
-jest.mock("_m/getStore", () => ({
-  getStore: jest.fn(),
-}));
 jest.mock("_m/getGlobalProcess", () => ({
   getGlobalProcess: jest.fn(),
 }));
 
 const setMockImplementations = () => {
-  /**
-   * Reset `store` of the `main` process between tests.
-   */
-  getStore.mockImplementation(() => ({}));
-
   /**
    * Set some consistent values for Node `process` variable
    */
@@ -37,8 +31,8 @@ const setMockImplementations = () => {
       { ...process },
       {
         env: {
-          APPDATA: "appData",
-          HOME: "home",
+          APPDATA: "/appData",
+          HOME: "/home",
         },
         platform: "linux",
       },
@@ -47,3 +41,10 @@ const setMockImplementations = () => {
 };
 
 setMockImplementations();
+
+// `useEffect` can be problematic in testing with React Testing Library and
+// Jest. The hack below helps. See https://github.com/testing-library/react-testing-library/issues/215
+beforeAll(() =>
+  jest.spyOn(React, "useEffect").mockImplementation(React.useLayoutEffect),
+);
+afterAll(() => React.useEffect.mockRestore());

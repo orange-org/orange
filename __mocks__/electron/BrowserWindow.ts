@@ -14,7 +14,3 @@ export class BrowserWindow {
 
   isDestroyed = () => false;
 }
-
-export const resetBrowserWindow = () => {
-  BrowserWindow.instances = [];
-};

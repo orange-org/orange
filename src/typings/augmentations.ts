@@ -1,5 +1,7 @@
+/* eslint-disable import/no-default-export */
 import { Action, AnyAction, Store } from "redux";
-import { State } from "_r/redux/reducers/store";
+import { State } from "_r/redux/reducers/reducer";
+import { SwitchProps } from "@material-ui/core";
 import { GetState } from "./typeHelpers";
 
 declare module "react-redux" {
@@ -27,4 +29,12 @@ declare module "redux" {
       ? ReturnType<T["thunk"]>
       : T;
   }
+}
+
+declare module "@material-ui/core/Switch" {
+  export default function Switch(
+    props: SwitchProps & {
+      inputProps: SwitchProps["inputProps"] & { "data-testid"?: string };
+    },
+  ): JSX.Element;
 }

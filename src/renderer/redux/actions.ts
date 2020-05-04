@@ -5,10 +5,10 @@ import {
   MempoolInfo,
   NetworkInfo,
   PeerInfo,
+  RawTransaction,
   RpcInfo,
   Uptime,
-  RawTransaction,
-} from "_t/bitcoindRpcResponses";
+} from "_t/RpcResponses";
 
 export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
@@ -43,3 +43,7 @@ export const setSelectedExplorerTransaction = createAction(
 export const setSelectedExplorerTransactionInputValues = createAction(
   "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
 )<RawTransaction["vout"][number]["value"][]>();
+
+export const setHasRpcIssue = createAction(
+  "SET_HAS_BITCOIN_CORE_CONNECTION_ISSUE",
+)<boolean>();

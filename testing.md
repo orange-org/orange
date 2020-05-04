@@ -1,29 +1,45 @@
 # Testing
 
-## Notes on testing
+The tests at Orange are mostly integration tests. The tools we use are Jest and
+React Testing Library.
 
-### Testing React components
+Each test mounts the entire `<App />` component with the full Redux store and
+makes assertions against it.
 
-We use `@testing-library/react`. We try to always mount the top level component,
-`App.tsx`, regardless of which section of the app we want to test. For example,
-if we want to test the search box, we would still mount `App.tsx` and then
-interact and make assertions against the search box. We do this to most closely
-simulate end-user behavior.
+For example, to test the Settings page, we mount `<App />` and navigate to the
+Settings page, interact with it, and make assertions about the results.
 
-### Testing Electron main process code
+Since `<App />` represents the entire application, it needs the Electron `main`
+process to be running as well as the Bitcoin Core server. We use Jest's mocking
+system to [mock Electron's internals](./__mocks__/electron). But our
+[`main`](./src/main) process code does get exercised in these tests because the
+mocked Electron internals do provide a working glue with the `main` process. As
+for the Bitcoin Core server, we use `nock` as you can see
+[here](./src/testUtils/startMockRpcServer.ts).
 
-To test the Electron main process code, we mock almost everything in the
-`electron` package (see [`__mocks__/electron`](./__mocks__/electron)). One of
-the challenges in those tests is that they are stateful. For example, they
-register listeners against `window`, `process` and other global objects. That
-makes it hard to start with a fresh environment for each test. Fortunately, we
-use the Jest testing framework which runs each test file in an isolated Node.js
-process. So while the tests in a single file share a common environment, tests
-in different files don't.
+## Advantages and disadvantages
 
-In testing Electron main process, we try to always start from the main entry
-point of the app and then simulate the events that will cause our targeted test
-path to be executed. For example, if we're testing an IPC event handler, we
-would execute the main entry point which will register the event handler. We
-then dispatch events that will run the event handler We do this to most closely
-simulate real life behavior of the code.
+This kind of testing has great advantages but also significant disadvantages.
+
+One of the main advantages is that the tests very closely resemble the real life
+execution of the app. It's a hybrid between unit tests and full end-to-end
+tests. They are much easier to work with and are faster than end-to-end tests.
+
+Another advantage is that as a result of testing at the entry-point of the
+application while not mocking the dependencies is that we get realistic and
+comprehensive test coverage. For example, we only test UI interactions but as a
+result all the code that the UI components depend on, such as Redux, `main`
+process, etc, get indirectly covered and tested. If any of these components
+malfunction, the tests would fail. Just like what would happen in a production
+environment.
+
+The main disadvantage of these tests is that they are extremely difficult to
+write and debug because you are mounting the entire application, interacting
+with it, and making assertions against it without being able to visually see
+what's happening. Combine this with the quirks of Jest, React Testing Library,
+and React itself, and you'll have a pretty challenging situation.
+
+In the end, however, if we're going to spend time writing tests, I would rather
+have tests that actually give a high amount of confidence that the software is
+working as intended. And this kind of testing is great at that, despite its
+disadvantages.

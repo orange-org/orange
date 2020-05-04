@@ -54,5 +54,3 @@ export const BlockList: React.FC = () => {
     </div>
   );
 };
-
-BlockList.displayName = "BlockList";

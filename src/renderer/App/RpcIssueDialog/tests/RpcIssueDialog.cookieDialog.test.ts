@@ -16,7 +16,6 @@ describe("RpcIssueDialog cookie dialog", () => {
     startMockRpcServer();
     initializeElectronCode();
     await renderAppWithStore();
-    jest.useFakeTimers();
   });
 
   test("bringing up the RPC issue dialog", async () => {

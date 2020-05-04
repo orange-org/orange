@@ -1,5 +1,7 @@
 # Orange
 
+![Master](https://github.com/orange-org/orange/workflows/Master/badge.svg)
+
 Orange is a Bitcoin blockchain explorer for Bitcoin Core. It's built with
 Electron, TypeScript and React.
 

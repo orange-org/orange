@@ -3,10 +3,10 @@ import { getMainWindow } from "_m/getMainWindow";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { respondToRenderer } from "_m/respondToRenderer";
 
-export const handleGetCookieFileFromOpenDialog = async (
+export const handleGetCookiePathFromOpenDialog = async (
   data: Extract<
     SendableMessageToMain,
-    { type: "get-cookie-file-from-open-dialog" }
+    { type: "get-cookie-path-from-open-dialog" }
   >,
 ) => {
   const mainWindow = getMainWindow();
@@ -17,7 +17,7 @@ export const handleGetCookieFileFromOpenDialog = async (
 
   respondToRenderer({
     nonce: __NONCE__,
-    type: "get-cookie-file-from-open-dialog",
+    type: "get-cookie-path-from-open-dialog",
     messageId: data.messageId,
     payload: cookie.filePaths?.[0] || null,
   });

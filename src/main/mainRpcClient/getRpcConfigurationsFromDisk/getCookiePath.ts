@@ -1,4 +1,4 @@
-export const getCookieFilePath = (chain: string, dataDir: string) => {
+export const getCookiePath = (chain: string, dataDir: string) => {
   let networkDir: string;
 
   /* istanbul ignore if */ if (chain === "testnet") {

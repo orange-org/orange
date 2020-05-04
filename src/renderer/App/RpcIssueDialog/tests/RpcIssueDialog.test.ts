@@ -103,7 +103,7 @@ describe("RpcIssueDialog", () => {
   });
 
   it("shows an empty text field for entering cookie file", async () => {
-    expect(await findByTestId("rpcSettingsFormCookieFile")).toBeEmpty();
+    expect(await findByTestId("rpcSettingsFromCookiePath")).toBeEmpty();
   });
 
   it("doesn't make RPC requests in this case", () => {
@@ -123,11 +123,11 @@ describe("RpcIssueDialog", () => {
     });
 
     await userEvent.type(
-      await findByTestId("rpcSettingsFormCookieFile"),
+      await findByTestId("rpcSettingsFromCookiePath"),
       "/home/.bitcoin/.cookiez",
     );
 
-    expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
+    expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
       "/home/.bitcoin/.cookiez",
     );
   });
@@ -147,16 +147,16 @@ describe("RpcIssueDialog", () => {
     // @ts-ignore
     makeRpcRequestModule.makeRpcRequest.mockClear();
 
-    fireEvent.change(await findByTestId("rpcSettingsFormCookieFile"), {
+    fireEvent.change(await findByTestId("rpcSettingsFromCookiePath"), {
       target: { value: "" },
     });
 
     await userEvent.type(
-      await findByTestId("rpcSettingsFormCookieFile"),
+      await findByTestId("rpcSettingsFromCookiePath"),
       "/home/.bitcoin/.my-cookie",
     );
 
-    expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
+    expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
       "/home/.bitcoin/.my-cookie",
     );
 

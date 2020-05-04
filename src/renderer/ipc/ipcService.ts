@@ -28,11 +28,11 @@ class IpcService {
       }),
     );
 
-  getCookieFileFromOpenDialog = (nonce: NONCE) =>
+  getCookiePathFromOpenDialog = (nonce: NONCE) =>
     extractPayload(
       callMain({
         nonce,
-        type: "get-cookie-file-from-open-dialog",
+        type: "get-cookie-path-from-open-dialog",
       }),
     );
 

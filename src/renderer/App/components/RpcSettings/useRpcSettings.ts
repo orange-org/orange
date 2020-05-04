@@ -62,8 +62,8 @@ export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
   return {
     formik,
     connectionStatus,
-    setCookieFileFromDialog: async () => {
-      const response = await ipcService.getCookieFileFromOpenDialog(__NONCE__);
+    setCookiePathFromDialog: async () => {
+      const response = await ipcService.getCookiePathFromOpenDialog(__NONCE__);
 
       /* istanbul ignore else: hard to test since it has no visual representation */
       if (response !== null) {

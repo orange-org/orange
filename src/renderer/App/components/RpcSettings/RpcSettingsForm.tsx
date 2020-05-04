@@ -20,7 +20,7 @@ export const RpcSettingsForm: React.FC<{
   const a = useAtomicCss();
   const {
     formik,
-    setCookieFileFromDialog,
+    setCookiePathFromDialog,
     connectionStatus: { connectionIssue },
   } = props.hookData;
   const getTextFieldProps = (fieldName: keyof typeof formik.values) => {
@@ -93,15 +93,15 @@ export const RpcSettingsForm: React.FC<{
               >
                 <TextField
                   inputProps={{
-                    "data-testid": testIds.rpcSettingsFormCookieFile,
+                    "data-testid": testIds.rpcSettingsFromCookiePath,
                   }}
                   {...getTextFieldProps("cookiePath")}
                   label="Cookie file"
                 />
 
                 <IconButton
-                  onClick={setCookieFileFromDialog}
-                  data-testid={testIds.setCookieFileFromDialog}
+                  onClick={setCookiePathFromDialog}
+                  data-testid={testIds.setCookiePathFromDialog}
                 >
                   <FolderOpen />
                 </IconButton>

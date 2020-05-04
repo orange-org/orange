@@ -52,7 +52,7 @@ describe("Settings", () => {
       });
 
       await userEvent.type(
-        await findByTestId("rpcSettingsFormCookieFile"),
+        await findByTestId("rpcSettingsFromCookiePath"),
         "/home/.bitcoin/.my-cookie",
       );
 

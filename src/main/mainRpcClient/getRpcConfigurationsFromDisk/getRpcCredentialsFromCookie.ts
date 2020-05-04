@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
 import { ErrorWithCode } from "_c/ErrorWithCode";
 
-export const getRpcCredentialsFromCookieFile = async (cookiePath: string) => {
+export const getRpcCredentialsFromCookie = async (cookiePath: string) => {
   let cookie: string;
 
   try {

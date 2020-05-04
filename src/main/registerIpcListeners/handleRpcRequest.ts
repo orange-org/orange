@@ -1,7 +1,7 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { respondToRenderer } from "_m/respondToRenderer";
 import { getRpcConfigurationsFromDisk } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcConfigurationsFromDisk";
-import { getRpcCredentialsFromCookieFile } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcCredentialsFromCookieFile";
+import { getRpcCredentialsFromCookie } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcCredentialsFromCookie";
 import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
@@ -26,7 +26,7 @@ export const handleRpcRequest = async (
         password = defaultRpcConfigurations.password;
         serverUrl = defaultRpcConfigurations.serverUrl;
       } else if ("cookiePath" in rpcConfigurations) {
-        const cookieCredentials = await getRpcCredentialsFromCookieFile(
+        const cookieCredentials = await getRpcCredentialsFromCookie(
           rpcConfigurations.cookiePath,
         );
 

@@ -18,11 +18,11 @@ export type RpcResponseMtR = Message<RpcRequestMtM["type"], RpcResponse>;
 export type ShowErrorMtM = Message<"show-error", string>;
 export type ShowErrorMtR = Message<ShowErrorMtM["type"], string>;
 
-export type GetCookieFileFromOpenDialogMtM = MessageWithoutPayload<
-  "get-cookie-file-from-open-dialog"
+export type GetCookiePathFromOpenDialogMtM = MessageWithoutPayload<
+  "get-cookie-path-from-open-dialog"
 >;
-export type GetCookieFileFromOpenDialogMtR = Message<
-  GetCookieFileFromOpenDialogMtM["type"],
+export type GetCookiePathFromOpenDialogMtR = Message<
+  GetCookiePathFromOpenDialogMtM["type"],
   string | null
 >;
 
@@ -58,13 +58,13 @@ export type SaveRpcConfigurationsMtR = Message<
 export type MessageToMain =
   | RpcRequestMtM
   | ShowErrorMtM
-  | GetCookieFileFromOpenDialogMtM
+  | GetCookiePathFromOpenDialogMtM
   | GetSavedRpcConfigurationsMtM
   | SaveRpcConfigurationsMtM;
 export type MessageToRenderer =
   | RpcResponseMtR
   | ShowErrorMtR
-  | GetCookieFileFromOpenDialogMtR
+  | GetCookiePathFromOpenDialogMtR
   | GetSavedRpcConfigurationsMtR
   | SaveRpcConfigurationsMtR;
 

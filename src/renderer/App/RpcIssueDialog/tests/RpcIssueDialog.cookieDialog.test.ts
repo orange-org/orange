@@ -52,12 +52,12 @@ describe("RpcIssueDialog cookie dialog", () => {
       filePaths: ["/cookie-location/.cookie"],
     });
 
-    userEvent.click(await findByTestId("setCookieFileFromDialog"));
+    userEvent.click(await findByTestId("setCookiePathFromDialog"));
 
     jest.advanceTimersByTime(2000);
 
     await wait(async () => {
-      expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
+      expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
         "/cookie-location/.cookie",
       );
     });
@@ -66,12 +66,12 @@ describe("RpcIssueDialog cookie dialog", () => {
   test("then another time opening the file dialog but not selecting anything", async () => {
     dialog.showOpenDialog.mockReturnValueOnce({ filePaths: null });
 
-    userEvent.click(await findByTestId("setCookieFileFromDialog"));
+    userEvent.click(await findByTestId("setCookiePathFromDialog"));
 
     jest.advanceTimersByTime(2000);
 
     await wait(async () => {
-      expect(await findByTestId("rpcSettingsFormCookieFile")).toHaveValue(
+      expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
         "/cookie-location/.cookie",
       );
     });

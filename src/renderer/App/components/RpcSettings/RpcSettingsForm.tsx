@@ -95,7 +95,7 @@ export const RpcSettingsForm: React.FC<{
                   inputProps={{
                     "data-testid": testIds.rpcSettingsFormCookieFile,
                   }}
-                  {...getTextFieldProps("cookieFile")}
+                  {...getTextFieldProps("cookiePath")}
                   label="Cookie file"
                 />
 

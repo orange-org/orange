@@ -16,9 +16,9 @@ export const handleGetSavedRpcConfigurations = async (
 
   if (!configurations.rpc) {
     payload = null;
-  } else if ("cookieFile" in configurations.rpc) {
+  } else if ("cookiePath" in configurations.rpc) {
     payload = {
-      cookieFile: configurations.rpc.cookieFile,
+      cookiePath: configurations.rpc.cookiePath,
       serverUrl: configurations.rpc.serverUrl,
     };
   } else {

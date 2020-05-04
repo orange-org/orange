@@ -6,16 +6,16 @@ export const getRpcConfigurationsFromDisk = async () => {
   const configurations = await readConfigurations();
 
   if (configurations.rpc) {
-    if ("cookieFile" in configurations.rpc) {
+    if ("cookiePath" in configurations.rpc) {
       const { username, password } = await getRpcCredentialsFromCookieFile(
-        configurations.rpc.cookieFile,
+        configurations.rpc.cookiePath,
       );
 
       return {
         username,
         password,
         serverUrl: configurations.rpc.serverUrl,
-        cookieFile: configurations.rpc.cookieFile,
+        cookiePath: configurations.rpc.cookiePath,
       };
     }
 
@@ -30,8 +30,8 @@ export const getRpcConfigurationsFromDisk = async () => {
     username,
     password,
     serverUrl,
-    cookieFile,
+    cookiePath,
   } = await getDefaultRpcConfigurations();
 
-  return { username, password, serverUrl, cookieFile };
+  return { username, password, serverUrl, cookiePath };
 };

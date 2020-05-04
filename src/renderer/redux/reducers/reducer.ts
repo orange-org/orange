@@ -14,7 +14,7 @@ export type State = StateConfig<{
 }> & {
   mainProcessData: NullableProperties<{
     serverUrl: string;
-    cookieFile: string;
+    cookiePath: string;
     username: string;
     password: string;
   }>;
@@ -30,7 +30,7 @@ export const initialState: State = {
   hasRpcIssue: null,
   mainProcessData: {
     serverUrl: null,
-    cookieFile: null,
+    cookiePath: null,
     username: null,
     password: null,
   },

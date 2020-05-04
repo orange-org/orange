@@ -11,9 +11,9 @@ export const handleSaveRpcConfigurations = async (
   await writeConfigurations(currentConfigurations => {
     if (!rpcConfigurations) {
       currentConfigurations.rpc = null;
-    } else if ("cookieFile" in rpcConfigurations) {
+    } else if ("cookiePath" in rpcConfigurations) {
       currentConfigurations.rpc = {
-        cookieFile: rpcConfigurations.cookieFile,
+        cookiePath: rpcConfigurations.cookiePath,
         serverUrl: rpcConfigurations.serverUrl,
       };
     } else {

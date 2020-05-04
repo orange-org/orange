@@ -25,9 +25,9 @@ export const handleRpcRequest = async (
         username = defaultRpcConfigurations.username;
         password = defaultRpcConfigurations.password;
         serverUrl = defaultRpcConfigurations.serverUrl;
-      } else if ("cookieFile" in rpcConfigurations) {
+      } else if ("cookiePath" in rpcConfigurations) {
         const cookieCredentials = await getRpcCredentialsFromCookieFile(
-          rpcConfigurations.cookieFile,
+          rpcConfigurations.cookiePath,
         );
 
         username = cookieCredentials.username;

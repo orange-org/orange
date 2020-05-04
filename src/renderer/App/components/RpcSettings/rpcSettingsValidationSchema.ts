@@ -24,7 +24,7 @@ export const rpcSettingsValidationSchema = yup.object().shape({
   password: ifUseDefaultSettingsIsFalse(
     requireIfUseCookieAuthenticationIs(false),
   ),
-  cookieFile: ifUseDefaultSettingsIsFalse(
+  cookiePath: ifUseDefaultSettingsIsFalse(
     requireIfUseCookieAuthenticationIs(true),
   ),
   serverUrl: ifUseDefaultSettingsIsFalse(

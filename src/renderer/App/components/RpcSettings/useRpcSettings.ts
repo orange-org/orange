@@ -11,7 +11,7 @@ export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
   const [initialValues, setInitialValues] = useState<FormValues>({
     useDefaultSettings: true,
     useCookieAuthentication: true,
-    cookieFile: "",
+    cookiePath: "",
     username: "",
     password: "",
     serverUrl: DEFAULT_SERVER_URL,
@@ -25,13 +25,13 @@ export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
         useDefaultSettings: !response,
         username: response && "username" in response ? response.username : "",
         password: response && "password" in response ? response.password : "",
-        cookieFile:
-          response && "cookieFile" in response ? response.cookieFile : "",
+        cookiePath:
+          response && "cookiePath" in response ? response.cookiePath : "",
         serverUrl:
           response && "serverUrl" in response
             ? response.serverUrl
             : DEFAULT_SERVER_URL,
-        useCookieAuthentication: !response || "cookieFile" in response,
+        useCookieAuthentication: !response || "cookiePath" in response,
       });
     };
 
@@ -48,7 +48,7 @@ export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
   const rpcConfigurations: RpcConfigurations = {
     serverUrl: formik.values.serverUrl,
     ...(formik.values.useCookieAuthentication
-      ? { cookieFile: formik.values.cookieFile }
+      ? { cookiePath: formik.values.cookiePath }
       : {
           username: formik.values.username,
           password: formik.values.password,
@@ -67,7 +67,7 @@ export const useRpcSettingsHooks = (onSuccessfulFormSubmit: () => void) => {
 
       /* istanbul ignore else: hard to test since it has no visual representation */
       if (response !== null) {
-        formik.setFieldValue("cookieFile", response);
+        formik.setFieldValue("cookiePath", response);
       }
     },
   };
@@ -78,7 +78,7 @@ export type FormValues = {
   useCookieAuthentication: boolean;
   password: string;
   username: string;
-  cookieFile: string;
+  cookiePath: string;
   serverUrl: string;
 };
 

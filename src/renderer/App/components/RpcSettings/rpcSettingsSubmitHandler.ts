@@ -14,7 +14,7 @@ export const rpcSettingsSubmitHandler = (
     await ipcService.saveRpcConfigurations(__NONCE__, null);
   } else if (values.useCookieAuthentication) {
     await ipcService.saveRpcConfigurations(__NONCE__, {
-      cookieFile: values.cookieFile,
+      cookiePath: values.cookiePath,
       serverUrl: values.serverUrl,
     });
   } else {

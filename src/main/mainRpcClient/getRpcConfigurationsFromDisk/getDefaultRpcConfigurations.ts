@@ -9,11 +9,11 @@ export const getDefaultRpcConfigurations = async () => {
   const dataDir = getDataDir();
   const bitcoinConf = await getBitcoinConf(dataDir);
   const chainName = getActiveChain(bitcoinConf);
-  const cookieFile = getCookieFilePath(chainName, dataDir);
+  const cookiePath = getCookieFilePath(chainName, dataDir);
   const { username, password } = await getRpcCredentialsFromCookieFile(
-    cookieFile,
+    cookiePath,
   );
   const serverUrl = getServerUrl(chainName);
 
-  return { username, password, serverUrl, cookieFile };
+  return { username, password, serverUrl, cookiePath };
 };

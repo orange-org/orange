@@ -31,7 +31,7 @@ export type GetSavedRpcConfigurationsMtM = MessageWithoutPayload<
 >;
 
 export type RpcConfigurations = (
-  | { cookieFile: string }
+  | { cookiePath: string }
   | {
       username: string;
       password: string;

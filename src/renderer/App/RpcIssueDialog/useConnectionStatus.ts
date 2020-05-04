@@ -11,7 +11,7 @@ export const useConnectionStatus = (
   const [connectionIssue, setConnectionIssue] = useState<
     RpcIssue | "newConfig" | null
   >("newConfig");
-  const { username, password, serverUrl, cookieFile } =
+  const { username, password, serverUrl, cookiePath } =
     rpcConfigurations || ({} as any);
 
   // Every time we pass new connectionConfigurations we run the effect below
@@ -53,7 +53,7 @@ export const useConnectionStatus = (
       isMounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [username, password, serverUrl, cookieFile]);
+  }, [username, password, serverUrl, cookiePath]);
 
   const isUnauthorized = connectionIssue === "unauthorized";
   const isServerWarmingUp = connectionIssue === "serverWarmingUp";

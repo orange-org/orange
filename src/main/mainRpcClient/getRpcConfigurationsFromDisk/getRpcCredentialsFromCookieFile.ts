@@ -2,11 +2,11 @@ import { promises as fs } from "fs";
 import { RPC_ERROR } from "_c/constants";
 import { ErrorWithCode } from "_c/ErrorWithCode";
 
-export const getRpcCredentialsFromCookieFile = async (cookieFile: string) => {
+export const getRpcCredentialsFromCookieFile = async (cookiePath: string) => {
   let cookie: string;
 
   try {
-    cookie = await fs.readFile(cookieFile, {
+    cookie = await fs.readFile(cookiePath, {
       encoding: "utf8",
     });
 

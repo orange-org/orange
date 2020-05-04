@@ -208,7 +208,7 @@ describe("RpcIssueDialog", () => {
           "/platform-specific/app-path/Orange.json": JSON.stringify(
             {
               rpc: {
-                cookieFile: "/home/.bitcoin/.my-cookie",
+                cookiePath: "/home/.bitcoin/.my-cookie",
                 serverUrl: SERVER_URL,
               },
             },

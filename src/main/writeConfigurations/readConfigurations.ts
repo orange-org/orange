@@ -1,17 +1,17 @@
 import fs from "fs-extra";
 import { DeepPartial } from "redux";
 import { Configurations } from "_t/Configurations";
-import { getConfigurationsFile } from "./getConfigurationsFile";
+import { getConfigurationsFilePath } from "./getConfigurationsFilePath";
 
 export const readConfigurations = async (): Promise<DeepPartial<
   Configurations
 >> => {
-  const configurationsFile = getConfigurationsFile();
+  const configurationsFilePath = getConfigurationsFilePath();
 
-  await fs.ensureFile(configurationsFile);
+  await fs.ensureFile(configurationsFilePath);
 
   const currentConfigurationsFileContent = await fs.readFile(
-    configurationsFile,
+    configurationsFilePath,
     {
       encoding: "utf8",
     },

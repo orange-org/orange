@@ -2,7 +2,7 @@ import { ipcService } from "_r/ipc/ipcService";
 import { isRpcIssue } from "_r/utils/rpcIssueHelpers";
 import { RpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";
-import { fixingRpcIssue } from "./fixingRpcIssue";
+import { checkIfRpcIssueHasBeenSolved } from "./checkIfRpcIssueHasBeenSolved";
 import { rpcClientCache } from "./rpcClientCache";
 
 export type RpcClientReturnType<T extends RpcRequest> = Extract<
@@ -31,7 +31,7 @@ export const rpcClient = async <TRpcRequest extends RpcRequest>(
        * If the reason we got an error is a fixable Bitcoin Core connection
        * issue, then we will try to fix it and re-try the call again.
        */
-      await fixingRpcIssue();
+      await checkIfRpcIssueHasBeenSolved();
 
       return rpcClient(nonce, rpcRequest, cacheTtl);
     }

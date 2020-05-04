@@ -7,7 +7,7 @@ import { store } from "_r/redux/reducers/store";
  * It also sets Redux store states that prompt the user to fix Bitcoin Core
  * connection issue.
  */
-export const fixingRpcIssue = () => {
+export const checkIfRpcIssueHasBeenSolved = () => {
   store.dispatch(setHasRpcIssue(true));
 
   return new Promise(resolve => {

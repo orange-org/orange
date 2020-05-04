@@ -16,15 +16,4 @@ const composeEnhancers = reduxDevToolsCompose || compose;
 const createStore = () =>
   createStore_(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-let store: Store<State>;
-
-store = createStore();
-
-/**
- * This is needed for testing only
- */
-export const resetStore = () => {
-  store = createStore();
-};
-
-export { store };
+export const store: Store<State> = createStore();

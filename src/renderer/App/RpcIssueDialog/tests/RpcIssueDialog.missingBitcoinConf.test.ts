@@ -13,14 +13,6 @@ describe("RpcIssueDialog - missing `bitcoin.conf`", () => {
   });
 
   it("brings up the RPC issue dialog because there is no `bitcoin.conf`", async () => {
-    fireEvent.change(await findByTestId("searchInputField"), {
-      target: { value: blockFixtures.blockFixture3.hash },
-    });
-
-    fireEvent.keyUp(await findByTestId("searchInputField"), {
-      keyCode: 13,
-    });
-
     expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
   });
 });

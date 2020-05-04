@@ -67,10 +67,3 @@ export const requestRawTransactionToDisplay = (
 
   return transaction;
 };
-
-// export const askUserToFixConnectionError = (errorCode: ErrorCode) => async (
-//   dispatch: Dispatch,
-// ) => {
-//   dispatch(setCurrentConnectionError(errorCode));
-//   dispatch(push("/fix-connection-error"));
-// };

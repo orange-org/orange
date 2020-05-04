@@ -23,11 +23,6 @@ describe("RpcIssueDialog", () => {
     startMockRpcServer();
     initializeElectronCode();
     await renderAppWithStore();
-    jest.useFakeTimers();
-  });
-
-  afterAll(() => {
-    cleanup();
   });
 
   /**
@@ -99,7 +94,7 @@ describe("RpcIssueDialog", () => {
   });
 
   it("shows a checkbox for using cookie authentication when use default settings is unchecked", async () => {
-    expect(await await findByTestId("useCookieAuthentication")).toBeChecked();
+    expect(await findByTestId("useCookieAuthentication")).toBeChecked();
   });
 
   it("shows an empty text field for entering cookie file", async () => {

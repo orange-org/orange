@@ -15,7 +15,6 @@ const useAtomicStyles = makeStyles(
 
     /* eslint sort-keys: "error" */
     const atomicCss = {
-      // return {
       alignItemsCenter: c("alignItems", "center"),
 
       backgroundColorBlackFade01: c(

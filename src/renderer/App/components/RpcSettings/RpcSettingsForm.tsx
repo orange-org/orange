@@ -160,7 +160,7 @@ export const RpcSettingsForm: React.FC<{
 
           <Typography className={a("helperText")}>
             Bitcoin Core server is usually reachable at{" "}
-            <code>http://localhost:8332</code>.If you have different
+            <code>http://localhost:8332</code>. If you have different
             configurations, you can enter your server URL here manually.
           </Typography>
         </>

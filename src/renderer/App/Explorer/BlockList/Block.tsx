@@ -11,7 +11,7 @@ import {
   humanFileSize,
 } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/RpcResponses";
-import { Null } from "_t/typeHelpers";
+import { Null, TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
 import { useAtomicCss } from "_r/useAtomicCss";
 
@@ -40,9 +40,31 @@ const Block_: React.FC<CardProps & {
 
   const a = useAtomicCss();
   const classNames = useBlockStyles();
+  const scrollIntoViewElement = useRef<HTMLDivElement>(null);
   const { blockHeightAsId } = useParams();
 
   const isActive = blockHeightAsId === data.height.toString();
+
+  useEffect(() => {
+    let timeoutId: TimeoutId;
+
+    if (isActive) {
+      /**
+       * Wait for all the elements in the block list to be painted by the
+       * browser. I couldn't find a more sophisticated way to know when the
+       * painting operation has completed, so I'm using `setTimeout`, like
+       * a peasant...
+       */
+      timeoutId = setTimeout(() => {
+        scrollIntoViewElement.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [blockHeightAsId, isActive]);
 
   const Typography = useLoadingAwareTypography(false);
 
@@ -86,7 +108,7 @@ const Block_: React.FC<CardProps & {
          * look good.
          */}
         <div
-          id={`blockListBlock-${data.height}`}
+          ref={scrollIntoViewElement}
           className={a(
             "positionAbsolute",
             "left0",

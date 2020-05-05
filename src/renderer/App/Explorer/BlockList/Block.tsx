@@ -40,19 +40,9 @@ const Block_: React.FC<CardProps & {
 
   const a = useAtomicCss();
   const classNames = useBlockStyles();
-  const scrollIntoViewElement = useRef<HTMLDivElement>(null);
   const { blockHeightAsId } = useParams();
 
   const isActive = blockHeightAsId === data.height.toString();
-
-  useEffect(() => {
-    if (isActive) {
-      scrollIntoViewElement.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
-    }
-  }, [blockHeightAsId, isActive]);
 
   const Typography = useLoadingAwareTypography(false);
 
@@ -89,14 +79,14 @@ const Block_: React.FC<CardProps & {
         )}
       >
         {/**
-         * CSS is used to give this element a size that extends slightly
+         * CSS is used to give this element a size that extends somewhat
          * from the top and bottom of its parent. That way when it is
          * scrolled into view it adds a little bit of padding, instead
          * of having the scrolling be touching the border, which doesn't
          * look good.
          */}
         <div
-          ref={scrollIntoViewElement}
+          id={`blockListBlock-${data.height}`}
           className={a(
             "positionAbsolute",
             "left0",

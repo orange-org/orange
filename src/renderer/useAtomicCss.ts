@@ -215,7 +215,7 @@ const useAtomicStyles = makeStyles(
         ...atomicCss.marginTop01,
       },
       topLevelComponent: {
-        ...atomicCss["height100%"],
+        height: `calc(100% - ${theme.spacing(16)}px)`,
         ...atomicCss.marginTop16, // compensate for AppBar
       },
     };

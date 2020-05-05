@@ -8,6 +8,7 @@ import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
 } from "_r/useAtomicCss";
 import { testIds } from "_tu/testIds";
+import { TimeoutId } from "_t/typeHelpers";
 import { Block } from "./Block";
 
 const BLOCK_HORIZONTAL_MARGIN = 5;
@@ -21,6 +22,32 @@ export const BlockList: React.FC = () => {
   const theme = useTheme();
   const a = useAtomicCss();
   const { blockHeightAsId } = useParams();
+  const explorerBlockList = useSelector(s => s.explorerBlockList);
+  const selectedBlock = useSelector(s => s.selectedExplorerBlock);
+
+  useEffect(() => {
+    let timeoutId: TimeoutId;
+
+    if (
+      explorerBlockList?.length &&
+      explorerBlockList.length === 20 &&
+      selectedBlock
+    ) {
+      timeoutId = setTimeout(() => {
+        const selectedBlockElement = document.getElementById(
+          `blockListBlock-${selectedBlock.height}`,
+        );
+
+        selectedBlockElement?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [explorerBlockList?.[0]?.hash, selectedBlock?.hash]);
 
   useEffect(() => {
     dispatch(

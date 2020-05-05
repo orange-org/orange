@@ -130,6 +130,7 @@ export const TransactionDetails: React.FC<{
             "overflowXHidden",
             "whiteSpaceNoWrap",
             "textOverflowEllipsis",
+            "directionRtl",
           )}
         >
           {cellChildren}

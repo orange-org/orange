@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box, Card, CardProps, SvgIcon } from "@material-ui/core";
+import { Box, Card, CardProps, SvgIcon, makeStyles } from "@material-ui/core";
 import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { memo, ReactText, useEffect, useRef } from "react";
@@ -13,13 +13,32 @@ import {
 import { Block as TBlock } from "_t/RpcResponses";
 import { Null } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
-import { useBlockStyles } from "./BlockStyles";
+import { useAtomicCss } from "_r/useAtomicCss";
+
+const useBlockStyles = makeStyles(theme => ({
+  root: {
+    "&::before": {
+      width: "20px",
+      marginBottom: "-4px", // This is to compensate for an added margin of unknown source
+      marginLeft: theme.spacing(10),
+      borderLeft: `3px dashed ${theme.palette.secondary.main}`,
+      height: theme.spacing(4),
+      display: "inline-block",
+      content: "''",
+    },
+
+    "&:nth-child(1)::before": {
+      display: "none",
+    },
+  },
+}));
 
 const Block_: React.FC<CardProps & {
   data: TBlock;
 }> = props_ => {
   const { data, ...props } = props_;
 
+  const a = useAtomicCss();
   const classNames = useBlockStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);
   const { blockHeightAsId } = useParams();
@@ -38,11 +57,20 @@ const Block_: React.FC<CardProps & {
   const Typography = useLoadingAwareTypography(false);
 
   const renderMetaDataItem = (Icon: typeof SvgIcon, text: ReactText | Null) => (
-    <div className={classNames.metaDataItem}>
-      <div className={classNames.icon}>
+    <div
+      className={a(
+        "width100%",
+        "displayFlex",
+        "paddingTop2",
+        "alignItemsCenter",
+        "flexGrow0",
+        "flexBasis50%",
+      )}
+    >
+      <div className={a("lineHeight0", "colorHint")}>
         <Icon fontSize="small" />
       </div>
-      <div className={classNames.value}>
+      <div className={a("marginLeft01")}>
         <Typography>{text}</Typography>
       </div>
     </div>
@@ -53,9 +81,12 @@ const Block_: React.FC<CardProps & {
       <Card
         {...props}
         variant="elevation"
-        className={clsx(classNames.blockContainer, {
-          [classNames.activeCard]: isActive,
-        })}
+        className={clsx(
+          a("padding2", "borderRadius0", "positionRelative", "overflowVisible"),
+          {
+            [a("marginLeft08", "marginRightNegative08")]: isActive,
+          },
+        )}
       >
         {/**
          * CSS is used to give this element a size that extends slightly
@@ -66,27 +97,44 @@ const Block_: React.FC<CardProps & {
          */}
         <div
           ref={scrollIntoViewElement}
-          className={classNames.scrollIntoView}
+          className={a(
+            "positionAbsolute",
+            "left0",
+            "right0",
+            "topNegative10",
+            "bottomNegative10",
+            "pointerEventsNone",
+          )}
         />
         <Link
           to={`/explorer/${data.height.toString()}`}
-          className={classNames.link}
+          className={a(
+            "positionAbsolute",
+            "top0",
+            "bottom0",
+            "left0",
+            "right0",
+            "colorTransparent",
+          )}
         >
           Link to block {data.height.toString()}
         </Link>
-        <div className={classNames.topRow}>
-          <div className={classNames.height}>
+        <div className={a("displayFlex", "alignItemsCenter")}>
+          <div className={a("colorSecondary")}>
             <Typography variant="h3">
               #{data.height.toLocaleString()}
             </Typography>
           </div>
           <div>
-            <Typography variant="body2" className={classNames.date}>
+            <Typography
+              variant="body2"
+              className={a("fontSize95%", "colorHint", "marginLeft02")}
+            >
               {data.time && secondsTimestampToFormattedDate(data.time)}
             </Typography>
           </div>
         </div>
-        <div className={classNames.metaData}>
+        <div className={a("displayFlex", "flexWrapWrap", "marginTop02")}>
           {renderMetaDataItem(QueryBuilder, data.time && fromNow(data.time))}
           {renderMetaDataItem(
             SaveOutlined,
@@ -94,8 +142,17 @@ const Block_: React.FC<CardProps & {
           )}
           {renderMetaDataItem(Repeat, data.nTx.toLocaleString())}
         </div>
-        <div className={classNames.hash}>
-          <Typography variant="body2" className={classNames.hashText}>
+        <div className={a("marginTop05", "colorHint")}>
+          <Typography
+            variant="body2"
+            className={a(
+              "textOverflowEllipsis",
+              "directionRtl",
+              "overflowHidden",
+              "width40",
+              "whiteSpaceNoWrap",
+            )}
+          >
             {data.hash}
           </Typography>
         </div>

@@ -40,6 +40,8 @@ const useAtomicStyles = makeStyles(
 
       borderLeftStyleSolid: c("borderLeftStyle", "solid"),
 
+      borderRadius0: c("borderRadius", 0),
+
       borderRadiusShape: c("borderRadius", theme.shape.borderRadius),
 
       borderRightStyleSolid: c("borderRightStyle", "solid"),
@@ -52,11 +54,18 @@ const useAtomicStyles = makeStyles(
       borderWidth2: c("borderWidth", 2),
       borderWidth4: c("borderWidth", 4),
 
+      bottom0: c("bottom", 0),
+      bottomNegative10: c("bottom", theme.spacing(-10)),
+
       colorActionActive: c("color", theme.palette.action.active),
       colorDivider: c("color", theme.palette.divider),
       colorHint: c("color", theme.palette.text.hint),
       colorPrimary: c("color", theme.palette.text.primary),
       "colorPrimaryFade50%": c("color", fade(theme.palette.text.primary, 0.5)),
+      colorSecondary: c("color", theme.palette.text.secondary),
+      colorTransparent: c("color", "transparent"),
+
+      directionRtl: c("direction", "rtl"),
 
       displayFlex: c("display", "flex"),
       displayGrid: c("display", "grid"),
@@ -69,8 +78,10 @@ const useAtomicStyles = makeStyles(
       displayTableRow: c("display", "table-row"),
 
       flex1: c("flex", 1),
+      "flexBasis50%": c("flexBasis", "50%"),
       flexDirectionColumn: c("flexDirection", "column"),
       flexDirectionRowReverse: c("flexDirection", "row-reverse"),
+      flexGrow0: c("flexGrow", 0),
       flexGrow1: c("flexGrow", 1),
       flexShrink0: c("flexShrink", 0),
       flexWrapWrap: c("flexWrap", "wrap"),
@@ -79,6 +90,7 @@ const useAtomicStyles = makeStyles(
 
       "fontSize0.8Rem": c("fontSize", "0.8rem"),
       "fontSize130%": c("fontSize", "130%"),
+      "fontSize95%": c("fontSize", "95%"),
 
       fontStyleItalic: c("fontStyle", "italic"),
 
@@ -96,6 +108,8 @@ const useAtomicStyles = makeStyles(
       justifyContentCenter: c("justifyContent", "center"),
       justifyContentFlexEnd: c("justifyContent", "flex-end"),
 
+      left0: c("left", 0),
+
       letterSpacing2px: c("letterSpacing", "2px"),
 
       lineHeight0: c("lineHeight", 0),
@@ -105,17 +119,19 @@ const useAtomicStyles = makeStyles(
       marginLeft01: c("marginLeft", theme.spacing(1)),
       marginLeft02: c("marginLeft", theme.spacing(2)),
       marginLeft04: c("marginLeft", theme.spacing(4)),
+      marginLeft08: c("marginLeft", theme.spacing(8)),
       marginLeft10: c("marginLeft", theme.spacing(10)),
 
       marginLeftAuto: c("marginLeft", "auto"),
 
       marginRight02: c("marginRight", theme.spacing(2)),
-
       marginRightAuto: c("marginRight", "auto"),
+      marginRightNegative08: c("marginRight", theme.spacing(-8)),
 
       marginTop01: c("marginTop", theme.spacing(1)),
       marginTop02: c("marginTop", theme.spacing(2)),
       marginTop05: c("marginTop", theme.spacing(5)),
+      marginTop16: c("marginTop", theme.spacing(16)),
 
       marginX04: {
         marginLeft: theme.spacing(4),
@@ -140,7 +156,9 @@ const useAtomicStyles = makeStyles(
       "minWidth100%": c("minWidth", "100%"),
       minWidthUnset: c("minWidth", "unset"),
 
+      overflowHidden: c("overflow", "hidden"),
       overflowScroll: c("overflow", "scroll"),
+      overflowVisible: c("overflow", "visible"),
       overflowXHidden: c("overflowX", "hidden"),
       overflowYScroll: c("overflowY", "scroll"),
 
@@ -165,6 +183,8 @@ const useAtomicStyles = makeStyles(
       positionAbsolute: c("position", "absolute"),
       positionRelative: c("position", "relative"),
 
+      right0: c("right", 0),
+
       scrollbarWidth0: {
         "&::-webkit-scrollbar": c("width", 0),
       },
@@ -173,15 +193,15 @@ const useAtomicStyles = makeStyles(
 
       textOverflowEllipsis: c("textOverflow", "ellipsis"),
 
-      topLevelComponent: {
-        height: "100%",
-        marginTop: "64px", // compensate for AppBar
-      },
+      top0: c("top", 0),
+
+      topNegative10: c("top", theme.spacing(-10)),
 
       whiteSpaceNoWrap: c("whiteSpace", "nowrap"),
 
       "width100%": c("width", "100%"),
       width11: c("width", theme.spacing(11)),
+      width40: c("width", theme.spacing(40)),
       widthAuto: c("width", "auto"),
 
       zIndex2: c("zIndex", 2),
@@ -193,6 +213,10 @@ const useAtomicStyles = makeStyles(
         ...atomicCss["colorPrimaryFade50%"],
         ...atomicCss["fontSize0.8Rem"],
         ...atomicCss.marginTop01,
+      },
+      topLevelComponent: {
+        ...atomicCss["height100%"],
+        ...atomicCss.marginTop16, // compensate for AppBar
       },
     };
     /* eslint-disable sort-keys */

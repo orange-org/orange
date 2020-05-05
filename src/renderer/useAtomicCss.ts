@@ -61,9 +61,17 @@ const useAtomicStyles = makeStyles(
       colorDivider: c("color", theme.palette.divider),
       colorHint: c("color", theme.palette.text.hint),
       colorPrimary: c("color", theme.palette.text.primary),
-      "colorPrimaryFade50%": c("color", fade(theme.palette.text.primary, 0.5)),
+      "colorPrimary50%Opaque": c(
+        "color",
+        fade(theme.palette.text.primary, 0.5),
+      ),
+      "colorPrimary70%Opaque": c(
+        "color",
+        fade(theme.palette.text.primary, 0.7),
+      ),
       colorSecondary: c("color", theme.palette.text.secondary),
       colorTransparent: c("color", "transparent"),
+      colorWhite: c("color", theme.palette.common.white),
 
       directionRtl: c("direction", "rtl"),
 
@@ -89,6 +97,7 @@ const useAtomicStyles = makeStyles(
       fontFamilyMonospace: c("fontFamily", "monospace"),
 
       "fontSize0.8Rem": c("fontSize", "0.8rem"),
+      "fontSize110%": c("fontSize", "110%"),
       "fontSize130%": c("fontSize", "130%"),
       "fontSize95%": c("fontSize", "95%"),
 
@@ -206,11 +215,12 @@ const useAtomicStyles = makeStyles(
 
       zIndex2: c("zIndex", 2),
       zIndex3: c("zIndex", 3),
+      zIndexDrawerPlus1: c("zIndex", theme.zIndex.drawer + 1),
     } as const;
 
     const styleGroups = {
       helperText: {
-        ...atomicCss["colorPrimaryFade50%"],
+        ...atomicCss["colorPrimary50%Opaque"],
         ...atomicCss["fontSize0.8Rem"],
         ...atomicCss.marginTop01,
       },

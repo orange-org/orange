@@ -1,12 +1,13 @@
 import { createReducer } from "typesafe-actions";
 import * as actions from "_r/redux/actions";
-import { Block, RawTransaction } from "_t/RpcResponses";
+import { Block, RawTransaction, BlockchainInfo } from "_t/RpcResponses";
 import { NullableProperties, StateConfig } from "_t/typeHelpers";
 
 export type State = StateConfig<{
   bestBlock: Block;
   selectedExplorerBlock: Block;
   explorerBlockList: Block[];
+  blockchainInfo: BlockchainInfo;
   selectedExplorerTransaction: RawTransaction;
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
   newRpcConfigurationsSaved: boolean;
@@ -23,6 +24,7 @@ export type State = StateConfig<{
 export const initialState: State = {
   bestBlock: null,
   selectedExplorerBlock: null,
+  blockchainInfo: null,
   explorerBlockList: null,
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
@@ -56,6 +58,10 @@ export const reducer = createReducer(initialState)
       selectedExplorerTransactionInputValues: action.payload,
     }),
   )
+  .handleAction(actions.setBlockchainInfo, (state, action) => ({
+    ...state,
+    blockchainInfo: action.payload,
+  }))
   .handleAction(actions.setHasRpcIssue, (state, action) => ({
     ...state,
     hasRpcIssue: action.payload,

@@ -5,6 +5,20 @@ import { GetState } from "_t/typeHelpers";
 import * as actions from "./actions";
 import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
 
+export const requestBlockchainInfo = (
+  nonce: NONCE,
+  cacheDuration?: number,
+) => async (dispatch: Dispatch) => {
+  const blockchainInfo = await rpcService.requestBlockchainInfo(
+    nonce,
+    cacheDuration,
+  );
+
+  dispatch(actions.setBlockchainInfo(blockchainInfo));
+
+  return blockchainInfo;
+};
+
 export const populateBlockList = (
   nonce: NONCE,
   selectedHeight: number,

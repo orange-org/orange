@@ -13,9 +13,9 @@ export type RpcClientReturnType<T extends RpcRequest> = Extract<
 export const rpcClient = async <TRpcRequest extends RpcRequest>(
   nonce: NONCE,
   rpcRequest: TRpcRequest,
-  cacheTtl?: number,
+  cacheDuration?: number,
 ): Promise<RpcClientReturnType<TRpcRequest>> => {
-  if (cacheTtl) {
+  if (cacheDuration) {
     const cacheResult = rpcClientCache.get(rpcRequest);
 
     if (cacheResult) {
@@ -33,14 +33,14 @@ export const rpcClient = async <TRpcRequest extends RpcRequest>(
        */
       await checkIfRpcIssueHasBeenSolved();
 
-      return rpcClient(nonce, rpcRequest, cacheTtl);
+      return rpcClient(nonce, rpcRequest, cacheDuration);
     }
 
     throw response.error;
   }
 
-  if (cacheTtl) {
-    rpcClientCache.add(rpcRequest, response, cacheTtl);
+  if (cacheDuration) {
+    rpcClientCache.add(rpcRequest, response, cacheDuration);
   }
 
   return response.result as RpcClientReturnType<TRpcRequest>;

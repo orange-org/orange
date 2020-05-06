@@ -102,7 +102,7 @@ export const TransactionDetails: React.FC<{
         a(
           "alignItemsCenter",
           "borderColorDivider",
-          "borderWidth1",
+          "borderWidth1px",
           "displayFlex",
           "flex1",
           "padding2",

@@ -12,6 +12,7 @@ export type State = StateConfig<{
   selectedExplorerTransactionInputValues: RawTransaction["vout"][number]["value"][];
   newRpcConfigurationsSaved: boolean;
   hasRpcIssue: boolean;
+  requestSearchBoxFocus: boolean;
 }> & {
   mainProcessData: NullableProperties<{
     serverUrl: string;
@@ -29,6 +30,7 @@ export const initialState: State = {
   selectedExplorerTransaction: null,
   selectedExplorerTransactionInputValues: null,
   newRpcConfigurationsSaved: null,
+  requestSearchBoxFocus: null,
   hasRpcIssue: null,
   mainProcessData: {
     serverUrl: null,
@@ -61,6 +63,10 @@ export const reducer = createReducer(initialState)
   .handleAction(actions.setBlockchainInfo, (state, action) => ({
     ...state,
     blockchainInfo: action.payload,
+  }))
+  .handleAction(actions.requestSearchBoxFocus, (state, action) => ({
+    ...state,
+    requestSearchBoxFocus: action.payload,
   }))
   .handleAction(actions.setHasRpcIssue, (state, action) => ({
     ...state,

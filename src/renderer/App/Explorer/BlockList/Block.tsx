@@ -15,8 +15,8 @@ import { Null, TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
 import { useAtomicCss } from "_r/useAtomicCss";
 
-const useBlockStyles = makeStyles(theme => ({
-  root: {
+export const useChainLinkStyles = makeStyles(theme => ({
+  class: {
     "&::before": {
       width: "20px",
       marginBottom: "-4px", // This is to compensate for an added margin of unknown source
@@ -25,10 +25,6 @@ const useBlockStyles = makeStyles(theme => ({
       height: theme.spacing(4),
       display: "inline-block",
       content: "''",
-    },
-
-    "&:nth-child(1)::before": {
-      display: "none",
     },
   },
 }));
@@ -39,7 +35,7 @@ const Block_: React.FC<CardProps & {
   const { data, ...props } = props_;
 
   const a = useAtomicCss();
-  const classNames = useBlockStyles();
+  const classNames = useChainLinkStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);
   const { blockHeightAsId } = useParams();
 
@@ -89,7 +85,7 @@ const Block_: React.FC<CardProps & {
   );
 
   return (
-    <Box className={classNames.root} data-testid={testIds.blockListBlock}>
+    <Box className={classNames.class} data-testid={testIds.blockListBlock}>
       <Card
         {...props}
         variant="elevation"

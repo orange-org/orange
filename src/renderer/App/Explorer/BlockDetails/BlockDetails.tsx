@@ -279,7 +279,7 @@ export const BlockDetails = () => {
   const transactionDetailsContainer = (
     <div
       className={a(
-        "borderWidth4",
+        "borderWidth4px",
         "borderColorDividerFade06",
         "borderLeftStyleSolid",
         "marginTop02",

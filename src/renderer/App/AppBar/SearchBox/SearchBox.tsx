@@ -1,15 +1,27 @@
-import { InputBase } from "@material-ui/core";
+import { InputBase, makeStyles } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import React from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "_r/redux/actions";
+import { useAtomicCss, getAtomicCssAndStyleGroups } from "_r/useAtomicCss";
 import { testIds } from "_tu/testIds";
-import { useSearchBoxStyles } from "./SearchBoxStyles";
 import { useSearchHandlers } from "./SearchBoxHooks";
+import { useSearchBoxStyles } from "./SearchBoxStyles";
 
 export const SearchBox: React.FC = () => {
   const classNames = useSearchBoxStyles();
   const a = useAtomicCss();
   const { onKeyUp, onChange } = useSearchHandlers();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const focusRequested = useSelector(state => state.requestSearchBoxFocus);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (focusRequested) {
+      inputRef.current?.focus();
+      dispatch(actions.requestSearchBoxFocus(null));
+    }
+  });
 
   return (
     <div
@@ -42,6 +54,7 @@ export const SearchBox: React.FC = () => {
           "data-testid": testIds.searchInputField,
         }}
         onChange={onChange}
+        inputRef={inputRef}
         onKeyUp={onKeyUp}
         type="search"
         placeholder="Search block height or block hash..."

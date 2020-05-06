@@ -14,6 +14,8 @@ import { Block as TBlock } from "_t/RpcResponses";
 import { Null, TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { MetaDataItem } from "../common/MetaDataItem";
+import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
 export const useChainLinkStyles = makeStyles(theme => ({
   class: {
@@ -63,26 +65,6 @@ const Block_: React.FC<CardProps & {
   }, [blockHeightAsId, isActive]);
 
   const Typography = useLoadingAwareTypography(false);
-
-  const renderMetaDataItem = (Icon: typeof SvgIcon, text: ReactText | Null) => (
-    <div
-      className={a(
-        "width100%",
-        "displayFlex",
-        "paddingTop2",
-        "alignItemsCenter",
-        "flexGrow0",
-        "flexBasis50%",
-      )}
-    >
-      <div className={a("lineHeight0", "colorHint")}>
-        <Icon fontSize="small" />
-      </div>
-      <div className={a("marginLeft01")}>
-        <Typography>{text}</Typography>
-      </div>
-    </div>
-  );
 
   return (
     <Box className={classNames.class} data-testid={testIds.blockListBlock}>
@@ -142,14 +124,20 @@ const Block_: React.FC<CardProps & {
             </Typography>
           </div>
         </div>
-        <div className={a("displayFlex", "flexWrapWrap", "marginTop02")}>
-          {renderMetaDataItem(QueryBuilder, data.time && fromNow(data.time))}
-          {renderMetaDataItem(
-            SaveOutlined,
-            data.size && humanFileSize(data.size),
-          )}
-          {renderMetaDataItem(Repeat, data.nTx.toLocaleString())}
-        </div>
+
+        <MetaDataItemsContainer>
+          <MetaDataItem
+            icon={QueryBuilder}
+            text={data.time && fromNow(data.time)}
+            otherClasses={["width100%"]}
+          />
+          <MetaDataItem icon={Repeat} text={data.nTx.toLocaleString()} />
+          <MetaDataItem
+            icon={SaveOutlined}
+            text={data.size && humanFileSize(data.size)}
+          />
+        </MetaDataItemsContainer>
+
         <div className={a("marginTop05", "colorHint")}>
           <Typography
             variant="body2"

@@ -1,9 +1,9 @@
-import { InputBase, makeStyles } from "@material-ui/core";
+import { InputBase } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "_r/redux/actions";
-import { useAtomicCss, getAtomicCssAndStyleGroups } from "_r/useAtomicCss";
+import { useAtomicCss } from "_r/useAtomicCss";
 import { testIds } from "_tu/testIds";
 import { useSearchHandlers } from "./SearchBoxHooks";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
@@ -28,8 +28,8 @@ export const SearchBox: React.FC = () => {
       className={a(
         "positionRelative",
         "borderRadiusShape",
-        "backgroundColorBlackFade01",
-        "hoverBackgroundColorBlackFade012",
+        "backgroundColorBlack10%Opaque",
+        "hoverBackgroundColorBlack12%Opaque",
         "marginRight02",
         "marginLeft10",
         "widthAuto",

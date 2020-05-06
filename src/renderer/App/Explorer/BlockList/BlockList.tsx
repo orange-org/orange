@@ -12,7 +12,8 @@ import {
 import { poll } from "_r/utils/poll";
 import { pluralize } from "_r/utils/smallUtils";
 import { testIds } from "_tu/testIds";
-import { Block, useChainLinkStyles } from "./Block";
+import { Block, useChainLinkStyles } from "./Block/Block";
+import { Mempool } from "./Mempool/Mempool";
 
 const BLOCK_HORIZONTAL_MARGIN = 5;
 const BLOCK_SCROLLABLE_CONTAINER = BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH - 5;
@@ -131,8 +132,10 @@ export const BlockList: React.FC = () => {
         )}
         data-testid={testIds.scrollableBlockContainer}
       >
-        <div className={a("marginY10", "marginX05")}>
-          {getDepthTopLink()}
+        <div className={a("marginX05", "marginY05")}>
+          <Mempool />
+
+          <div className={a("marginTop05")}>{getDepthTopLink()}</div>
 
           <div className={a("marginTop02")} />
 

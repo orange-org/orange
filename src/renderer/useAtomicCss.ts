@@ -16,13 +16,17 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
   const atomicCss = {
     alignItemsCenter: c("alignItems", "center"),
 
-    backgroundColorBlackFade01: c(
+    "backgroundColorBlack10%Opaque": c(
       "backgroundColor",
       fade(theme.palette.common.black, 0.1),
     ),
     backgroundColorDefault: c(
       "backgroundColor",
       theme.palette.background.default,
+    ),
+    "backgroundColorPaper90%Opaque": c(
+      "backgroundColor",
+      fade(theme.palette.background.paper, 0.9),
     ),
     backgroundColorWhite: c("backgroundColor", theme.palette.common.white),
 
@@ -71,6 +75,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
 
     displayFlex: c("display", "flex"),
     displayGrid: c("display", "grid"),
+    displayInline: c("display", "inline"),
     displayTable: {
       borderSpacing: `${theme.spacing(3)}px`,
       display: "table",
@@ -104,7 +109,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
     },
-    hoverBackgroundColorBlackFade012: {
+    "hoverBackgroundColorBlack12%Opaque": {
       "&:hover": c("backgroundColor", fade(theme.palette.common.black, 0.12)),
     },
 
@@ -116,6 +121,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     letterSpacing2px: c("letterSpacing", "2px"),
 
     lineHeight0: c("lineHeight", 0),
+    lineHeightNormal: c("lineHeight", "normal"),
 
     marginBottom10: c("marginBottom", theme.spacing(10)),
 
@@ -149,6 +155,10 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
       marginBottom: theme.spacing(2),
       marginTop: theme.spacing(2),
     },
+    marginY05: {
+      marginBottom: theme.spacing(5),
+      marginTop: theme.spacing(5),
+    },
     marginY10: {
       marginBottom: theme.spacing(10),
       marginTop: theme.spacing(10),
@@ -157,6 +167,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     maxWidth800: c("maxWidth", 800),
 
     "minWidth100%": c("minWidth", "100%"),
+    "minWidth50%": c("minWidth", "50%"),
     minWidthUnset: c("minWidth", "unset"),
 
     overflowHidden: c("overflow", "hidden"),
@@ -166,6 +177,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     overflowYScroll: c("overflowY", "scroll"),
 
     padding0: c("padding", 0),
+    padding1: c("padding", theme.spacing(1)),
     padding2: c("padding", theme.spacing(2)),
     padding3: c("padding", theme.spacing(3)),
     padding6: c("padding", theme.spacing(6)),
@@ -206,6 +218,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     width11: c("width", theme.spacing(11)),
     width40: c("width", theme.spacing(40)),
     widthAuto: c("width", "auto"),
+    widthFitContent: c("width", "fit-content"),
 
     zIndex2: c("zIndex", 2),
     zIndex3: c("zIndex", 3),

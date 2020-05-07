@@ -9,6 +9,7 @@ import {
   secondsTimestampToFormattedDate,
   fromNow,
   humanFileSize,
+  isDummyBlockData,
 } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/RpcResponses";
 import { Null, TimeoutId } from "_t/typeHelpers";
@@ -16,6 +17,7 @@ import { testIds } from "_tu/testIds";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
+import { dummyBlockData } from "../../common/dummyBlockData";
 
 export const useChainLinkStyles = makeStyles(theme => ({
   class: {
@@ -33,8 +35,9 @@ export const useChainLinkStyles = makeStyles(theme => ({
 
 const Block_: React.FC<CardProps & {
   data: TBlock;
+  isBlockListLoading: boolean;
 }> = props_ => {
-  const { data, ...props } = props_;
+  const { data = dummyBlockData, isBlockListLoading, ...props } = props_;
 
   const a = useAtomicCss();
   const classNames = useChainLinkStyles();
@@ -64,7 +67,9 @@ const Block_: React.FC<CardProps & {
     return () => clearTimeout(timeoutId);
   }, [blockHeightAsId, isActive]);
 
-  const Typography = useLoadingAwareTypography(false);
+  const isLoading = isDummyBlockData(data.merkleroot) || isBlockListLoading;
+
+  const Typography = useLoadingAwareTypography(isLoading);
 
   return (
     <Box className={classNames.class} data-testid={testIds.blockListBlock}>
@@ -130,11 +135,17 @@ const Block_: React.FC<CardProps & {
             icon={QueryBuilder}
             text={data.time && fromNow(data.time)}
             otherClasses={["width100%"]}
+            isLoading={isLoading}
           />
-          <MetaDataItem icon={Repeat} text={data.nTx.toLocaleString()} />
+          <MetaDataItem
+            icon={Repeat}
+            text={data.nTx.toLocaleString()}
+            isLoading={isLoading}
+          />
           <MetaDataItem
             icon={SaveOutlined}
             text={data.size && humanFileSize(data.size)}
+            isLoading={isLoading}
           />
         </MetaDataItemsContainer>
 
@@ -160,5 +171,7 @@ const Block_: React.FC<CardProps & {
 export const Block = memo(
   Block_,
   /* istanbul ignore next */
-  (p1, p2) => p1.data.height === p2.data.height,
+  (p1, p2) =>
+    p1.data.height === p2.data.height &&
+    p1.isBlockListLoading === p2.isBlockListLoading,
 );

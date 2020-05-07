@@ -135,7 +135,6 @@ export const BlockList: React.FC = () => {
 
   return (
     <>
-      {/* <Backdrop open={isLoading} /> */}
       <div
         style={{
           gridTemplateColumns: `${theme.spacing(

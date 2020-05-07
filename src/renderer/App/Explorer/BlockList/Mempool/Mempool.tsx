@@ -2,30 +2,26 @@ import {
   lighten,
   LinearProgress,
   Paper,
-  withStyles,
   Tooltip,
+  withStyles,
 } from "@material-ui/core";
 import {
   BubbleChartOutlined,
-  ConfirmationNumberOutlined,
+  ComputerOutlined,
   PersonOutlined,
   Repeat,
   SaveOutlined,
-  Memory,
-  MemoryOutlined,
-  DesktopMac,
-  ComputerOutlined,
 } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
-import * as thunks from "_r/redux/thunks";
 import { useDispatch, useSelector } from "react-redux";
-import { poll } from "_r/utils/poll";
-import { humanFileSize, convertBitcoinToSatoshi } from "_r/utils/smallUtils";
-import { MempoolInfo } from "_t/RpcResponses";
 import { useLoadingAwareTypography } from "_r/hooks";
-import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
+import * as thunks from "_r/redux/thunks";
+import { useAtomicCss } from "_r/useAtomicCss";
+import { poll } from "_r/utils/poll";
+import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
+import { MempoolInfo } from "_t/RpcResponses";
 import { MetaDataItem } from "../common/MetaDataItem";
+import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
 const BorderLinearProgress = withStyles(theme => ({
   root: {

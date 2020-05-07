@@ -1,23 +1,22 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { Box, Card, CardProps, SvgIcon, makeStyles } from "@material-ui/core";
+import { Box, Card, CardProps, makeStyles } from "@material-ui/core";
 import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
 import clsx from "clsx";
-import React, { memo, ReactText, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
+import { useAtomicCss } from "_r/useAtomicCss";
 import {
-  secondsTimestampToFormattedDate,
   fromNow,
   humanFileSize,
   isDummyBlockData,
+  secondsTimestampToFormattedDate,
 } from "_r/utils/smallUtils";
 import { Block as TBlock } from "_t/RpcResponses";
-import { Null, TimeoutId } from "_t/typeHelpers";
+import { TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
-import { useAtomicCss } from "_r/useAtomicCss";
+import { dummyBlockData } from "../../common/dummyBlockData";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
-import { dummyBlockData } from "../../common/dummyBlockData";
 
 export const useChainLinkStyles = makeStyles(theme => ({
   class: {
@@ -72,7 +71,10 @@ const Block_: React.FC<CardProps & {
   const Typography = useLoadingAwareTypography(isLoading);
 
   return (
-    <Box className={classNames.class} data-testid={testIds.blockListBlock}>
+    <Box
+      className={classNames.class}
+      data-testid={isLoading ? "" : testIds.blockListBlock}
+    >
       <Card
         {...props}
         variant="elevation"

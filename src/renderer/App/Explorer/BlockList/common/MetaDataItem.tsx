@@ -1,13 +1,8 @@
+import { SvgIcon, Tooltip } from "@material-ui/core";
 import React, { ReactText } from "react";
-import {
-  SvgIcon,
-  Typography as MuiTypography,
-  Tooltip,
-} from "@material-ui/core";
-
-import { Null } from "_t/typeHelpers";
-import { useAtomicCss } from "_r/useAtomicCss";
 import { useLoadingAwareTypography } from "_r/hooks";
+import { useAtomicCss } from "_r/useAtomicCss";
+import { Null } from "_t/typeHelpers";
 
 export const MetaDataItem: React.FC<{
   icon: typeof SvgIcon;

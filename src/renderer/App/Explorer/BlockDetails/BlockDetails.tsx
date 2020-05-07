@@ -240,7 +240,7 @@ export const BlockDetails = () => {
           <Button
             component={Link}
             to={`/explorer/${definition.nextHeight.toString()}`}
-            disabled={isWaitingForData || definition.cantMove}
+            disabled={isLoading || definition.cantMove}
             key={definition.text}
           >
             <span className={a("alignItemsCenter", "displayFlex", "width100%")}>

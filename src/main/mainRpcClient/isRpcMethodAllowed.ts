@@ -6,6 +6,7 @@ export const isRpcMethodAllowed = (methodName: RpcRequest["method"]) => {
     "getblock",
     "getblockhash",
     "getrawtransaction",
+    "getmempoolinfo",
     "uptime",
   ];
 

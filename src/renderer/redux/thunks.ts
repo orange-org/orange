@@ -19,6 +19,17 @@ export const requestBlockchainInfo = (
   return blockchainInfo;
 };
 
+export const requestMempoolInfo = (
+  nonce: NONCE,
+  cacheDuration?: number,
+) => async (dispatch: Dispatch) => {
+  const mempoolInfo = await rpcService.requestMempoolInfo(nonce, cacheDuration);
+
+  dispatch(actions.setMempoolInfo(mempoolInfo));
+
+  return mempoolInfo;
+};
+
 export const populateBlockList = (
   nonce: NONCE,
   selectedHeight: number,

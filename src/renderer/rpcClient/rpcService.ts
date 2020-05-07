@@ -12,6 +12,15 @@ class RpcService {
       cacheDuration,
     );
 
+  requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) =>
+    rpcClient(
+      nonce,
+      {
+        method: "getmempoolinfo",
+      },
+      cacheDuration,
+    );
+
   requestBlock = (
     nonce: NONCE,
     blockHash: string,

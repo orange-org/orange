@@ -1,4 +1,6 @@
-export const testIds = {
+const keyEqualsValue = <T extends { [P in keyof T]: P }>(o: T) => o;
+
+export const testIds = keyEqualsValue({
   searchInputField: "searchInputField",
   rpcIssueDialog: "rpcIssueDialog",
   connectionStatusReport: "connectionStatusReport",
@@ -22,4 +24,7 @@ export const testIds = {
   homeButton: "homeButton",
   explorerPage: "explorerPage",
   transactionDetails: "transactionDetails",
-} as const;
+  depthTopLink: "depthTopLink",
+  blockDetails: "blockDetails",
+  blockDetailsH1: "blockDetailsH1",
+} as const);

@@ -34,6 +34,7 @@ import {
 } from "_r/utils/smallUtils";
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/RpcResponses";
+import { testIds } from "_tu/testIds";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 import { dummyBlockData } from "../common/dummyBlockData";
@@ -104,6 +105,7 @@ export const BlockDetails = () => {
   const heading = (
     <>
       <Typography
+        data-testid={testIds.blockDetailsH1}
         variant="h1"
         className={a("fontWeight500", "fontStyleItalic")}
       >
@@ -290,6 +292,7 @@ export const BlockDetails = () => {
 
   return (
     <div
+      data-testid={isLoading ? "" : testIds.blockDetails}
       className={a(
         "overflowScroll",
         `padding${BLOCK_DETAILS_PADDING}` as "padding6",

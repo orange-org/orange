@@ -1,10 +1,12 @@
 import { screen } from "@testing-library/dom";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, wait } from "@testing-library/react";
 import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { findByTestId } from "_tu/findByTestId";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
+import { testIds } from "_tu/testIds";
+import { waitWithTime } from "_tu/smallUtils";
 
 describe("SearchBox", () => {
   describe("Search flow", () => {
@@ -35,12 +37,11 @@ describe("SearchBox", () => {
        * `h1` is showing the block height of `blockFixture2` because we searched
        * for it
        */
-      expect(
-        await screen.findByText(
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
           `#${blockFixtures.blockFixture1665251.height.toLocaleString()}`,
-          { selector: "h3" },
         ),
-      ).toBeVisible();
+      );
     });
 
     test("searching by hash", async () => {
@@ -53,12 +54,11 @@ describe("SearchBox", () => {
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-      expect(
-        await screen.findByText(
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
           `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
-          { selector: "h3" },
         ),
-      ).toBeVisible();
+      );
     });
 
     test("searching by transaction", async () => {
@@ -85,12 +85,11 @@ describe("SearchBox", () => {
        * the previous test is still showing. Pressing shift didn't
        * trigger the search.
        */
-      expect(
-        await screen.findByText(
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
           `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
-          { selector: "h3" },
         ),
-      ).toBeVisible();
+      );
     });
 
     test("it does not do anything when the search string does not return a block", async () => {
@@ -103,12 +102,11 @@ describe("SearchBox", () => {
       /**
        * Same block is still displayed. Search didn't cause a change.
        */
-      expect(
-        await screen.findByText(
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
           `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
-          { selector: "h3" },
         ),
-      ).toBeVisible();
+      );
     });
   });
 });

@@ -22,7 +22,7 @@ describe("RpcIssueDialog cookie dialog", () => {
     startMockErroringRpcServer();
 
     fireEvent.change(await findByTestId("searchInputField"), {
-      target: { value: blockFixtures.blockFixture3.hash },
+      target: { value: blockFixtures.blockFixture1665250.hash },
     });
 
     fireEvent.keyUp(await findByTestId("searchInputField"), {

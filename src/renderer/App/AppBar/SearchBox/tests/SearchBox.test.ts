@@ -26,7 +26,7 @@ describe("SearchBox", () => {
        * We will start by searching for a block by height
        */
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture2.height },
+        target: { value: blockFixtures.blockFixture1665251.height },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
@@ -37,7 +37,7 @@ describe("SearchBox", () => {
        */
       expect(
         await screen.findByText(
-          `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
+          `#${blockFixtures.blockFixture1665251.height.toLocaleString()}`,
           { selector: "h3" },
         ),
       ).toBeVisible();
@@ -48,14 +48,14 @@ describe("SearchBox", () => {
        * We can now try searching for blockFixture3 by hash
        */
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture3.hash },
+        target: { value: blockFixtures.blockFixture1665250.hash },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
       expect(
         await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
           { selector: "h3" },
         ),
       ).toBeVisible();
@@ -63,7 +63,7 @@ describe("SearchBox", () => {
 
     test("searching by transaction", async () => {
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture3.tx[2] },
+        target: { value: blockFixtures.blockFixture1665250.tx[2] },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
@@ -73,7 +73,7 @@ describe("SearchBox", () => {
 
     test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture2.hash },
+        target: { value: blockFixtures.blockFixture1665251.hash },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), {
@@ -87,7 +87,7 @@ describe("SearchBox", () => {
        */
       expect(
         await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
           { selector: "h3" },
         ),
       ).toBeVisible();
@@ -105,7 +105,7 @@ describe("SearchBox", () => {
        */
       expect(
         await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
+          `#${blockFixtures.blockFixture1665250.height.toLocaleString()}`,
           { selector: "h3" },
         ),
       ).toBeVisible();

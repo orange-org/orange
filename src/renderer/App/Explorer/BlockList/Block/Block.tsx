@@ -14,7 +14,6 @@ import {
 import { Block as TBlock } from "_t/RpcResponses";
 import { TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
-import { dummyBlockData } from "../../common/dummyBlockData";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 

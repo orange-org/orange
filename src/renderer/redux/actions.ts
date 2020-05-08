@@ -44,6 +44,10 @@ export const setSelectedExplorerTransactionInputValues = createAction(
   "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
 )<RawTransaction["vout"][number]["value"][]>();
 
-export const setHasRpcIssue = createAction(
-  "SET_HAS_BITCOIN_CORE_CONNECTION_ISSUE",
-)<boolean>();
+export const setHasRpcIssue = createAction("SET_HAS_RPC_CONNECTION_ISSUE")<
+  boolean
+>();
+
+export const requestSearchBoxFocus = createAction("REQUEST_SEARCH_BOX_FOCUS")<
+  boolean
+>();

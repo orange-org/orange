@@ -1,10 +1,11 @@
-import { screen } from "@testing-library/dom";
 import { fireEvent } from "@testing-library/react";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { findByTestId } from "_tu/findByTestId";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
+import { initializeElectronCode } from "_tu/initializeElectronCode";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
+import { waitWithTime } from "_tu/smallUtils";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
+import { testIds } from "_tu/testIds";
 
 describe("SearchBox", () => {
   describe("Search flow", () => {
@@ -26,7 +27,7 @@ describe("SearchBox", () => {
        * We will start by searching for a block by height
        */
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture2.height },
+        target: { value: blockFixtures.blockFixture19.height },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
@@ -35,12 +36,11 @@ describe("SearchBox", () => {
        * `h1` is showing the block height of `blockFixture2` because we searched
        * for it
        */
-      expect(
-        await screen.findByText(
-          `#${blockFixtures.blockFixture2.height.toLocaleString()}`,
-          { selector: "h3" },
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
+          `#${blockFixtures.blockFixture19.height.toLocaleString()}`,
         ),
-      ).toBeVisible();
+      );
     });
 
     test("searching by hash", async () => {
@@ -48,22 +48,21 @@ describe("SearchBox", () => {
        * We can now try searching for blockFixture3 by hash
        */
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture3.hash },
+        target: { value: blockFixtures.blockFixture18.hash },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-      expect(
-        await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h3" },
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
+          `#${blockFixtures.blockFixture18.height.toLocaleString()}`,
         ),
-      ).toBeVisible();
+      );
     });
 
     test("searching by transaction", async () => {
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture3.tx[2] },
+        target: { value: blockFixtures.blockFixture18.tx[2] },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
@@ -73,7 +72,7 @@ describe("SearchBox", () => {
 
     test("it does not do anything if we modify the search field but try to submit with a key other than enter, like shift", async () => {
       fireEvent.change(await findByTestId("searchInputField"), {
-        target: { value: blockFixtures.blockFixture2.hash },
+        target: { value: blockFixtures.blockFixture19.hash },
       });
 
       fireEvent.keyUp(await findByTestId("searchInputField"), {
@@ -85,12 +84,11 @@ describe("SearchBox", () => {
        * the previous test is still showing. Pressing shift didn't
        * trigger the search.
        */
-      expect(
-        await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h3" },
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
+          `#${blockFixtures.blockFixture18.height.toLocaleString()}`,
         ),
-      ).toBeVisible();
+      );
     });
 
     test("it does not do anything when the search string does not return a block", async () => {
@@ -103,12 +101,11 @@ describe("SearchBox", () => {
       /**
        * Same block is still displayed. Search didn't cause a change.
        */
-      expect(
-        await screen.findByText(
-          `#${blockFixtures.blockFixture3.height.toLocaleString()}`,
-          { selector: "h3" },
+      await waitWithTime(async () =>
+        expect(await findByTestId(testIds.blockDetailsH1)).toHaveTextContent(
+          `#${blockFixtures.blockFixture18.height.toLocaleString()}`,
         ),
-      ).toBeVisible();
+      );
     });
   });
 });

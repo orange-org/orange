@@ -21,7 +21,7 @@ export const AppBar: React.FC = () => {
       elevation={1}
       color="inherit"
       className={a(
-        "borderWidth2",
+        "borderWidth2px",
         "borderTopStyleSolid",
         "borderColorSecondaryMain",
       )}

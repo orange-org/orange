@@ -7,6 +7,7 @@ import { Block, RawTransaction } from "_t/RpcResponses";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import * as transactionFixtures from "_tu/fixtures/transactionFixtures";
+import { mempoolFixture01 } from "./fixtures/mempoolFixtures";
 
 const findFixture = <Fixture extends RawTransaction | Block>(
   cb: (fixture: Fixture) => boolean,
@@ -163,6 +164,9 @@ export const startMockRpcServer = () => {
     .reply(200, { error: null, result: 1234 })
 
     // //////////////////
+
+    .post("/", matches({ method: "getmempoolinfo" }))
+    .reply(200, { error: null, result: mempoolFixture01 })
 
     .persist();
 };

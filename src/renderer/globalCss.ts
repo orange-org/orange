@@ -24,7 +24,7 @@ export const GlobalCss = withStyles({
       cursor: "default",
     },
 
-    "a h1, a h2, a h3, a h4, a h5, a h6, a p": {
+    "a h1, a h2, a h3, a h4, a h5, a h6, a p, a": {
       cursor: "pointer",
     },
 

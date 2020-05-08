@@ -4,14 +4,14 @@ import { RpcResponse } from "_t/RpcResponses";
 class RpcClientCache {
   results: { [stringifiedRpcRequest: string]: RpcResponse } = {};
 
-  add = (rpcRequest: RpcRequest, result: RpcResponse, ttl: number) => {
+  add = (rpcRequest: RpcRequest, result: RpcResponse, duration: number) => {
     const stringifiedRpcRequest = JSON.stringify(rpcRequest);
 
     this.results[stringifiedRpcRequest] = result;
 
     setTimeout(() => {
       delete this.results[stringifiedRpcRequest];
-    }, ttl);
+    }, duration);
   };
 
   get = (rpcRequest: RpcRequest) => this.results[JSON.stringify(rpcRequest)];

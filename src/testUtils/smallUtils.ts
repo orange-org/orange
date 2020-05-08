@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { prettyDOM } from "@testing-library/dom";
-import { act } from "@testing-library/react";
+import { act, wait } from "@testing-library/react";
 import userEvent_ from "@testing-library/user-event";
 
 export const printElement = (element: Element | HTMLDocument) =>
@@ -15,4 +15,17 @@ export const userEvent = {
 
   clear: (element: Element | Window) =>
     act(() => (userEvent_ as any).clear(element)),
+};
+
+export const waitWithTime = async (...args: Parameters<typeof wait>) => {
+  const [callback, ...rest] = args;
+
+  if (!callback) {
+    throw TypeError("callback has to be a function");
+  }
+
+  return wait(async () => {
+    jest.advanceTimersByTime(1000);
+    return callback();
+  }, ...rest);
 };

@@ -11,7 +11,7 @@ import { delay } from "bluebird";
  * than a second.
  */
 export const withDelay = async <T>(val: T, ms: number = 500) => {
-  await delay(ms);
+  const values = await Promise.all([val, delay(ms)]);
 
-  return val;
+  return values[0];
 };

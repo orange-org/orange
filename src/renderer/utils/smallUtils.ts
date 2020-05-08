@@ -11,14 +11,20 @@ export const fromNow = (momentInput: number) =>
 export const pluralize = (quantity: number, singular: string, plural: string) =>
   quantity === 1 ? /* istanbul ignore next */ singular : plural;
 
+export const convertBitcoinToSatoshi = (amount: number) =>
+  amount * 1000 * 1000 * 100;
+
 export const generateUuid = (a: string = ""): string =>
   a
     ? /* eslint-disable no-bitwise */
       ((Number(a) ^ (Math.random() * 16)) >> (Number(a) / 4)).toString(16)
     : `${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`.replace(/[018]/g, generateUuid);
 
+export const isDummyBlockData = (merkleRoot: string) =>
+  merkleRoot.match(/^0{64}$/) !== null;
+
 // https://stackoverflow.com/a/14919494/604296
-const thresh = 1024;
+const thresh = 1000;
 const units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 export const humanFileSize = (bytes: number) => {
   /* istanbul ignore next */

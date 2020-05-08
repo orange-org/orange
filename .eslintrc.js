@@ -68,6 +68,15 @@ module.exports = {
     "react/jsx-curly-newline": "off",
     "react/jsx-wrap-multilines": "off",
     "react/jsx-indent": "off",
+
+    /**
+     * I found it very difficult to style a button as an anchor link. It's much
+     * easier to use an `a` element with an `onClick` handler. Does using
+     * `role="button"` on the element solve the accessibility problem?
+     *
+     * I'd like to hear from someone who knows about this stuff.
+     */
+    "jsx-a11y/anchor-is-valid": "off",
   },
   settings: {
     react: {

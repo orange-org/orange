@@ -2,6 +2,8 @@ import { State } from "_r/redux/reducers/reducer";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
 
+export type TimeoutId = ReturnType<typeof setTimeout>;
+
 export type NullableProperties<TypeWithKeys> = {
   [Key in keyof TypeWithKeys]: TypeWithKeys[Key] | null;
 };

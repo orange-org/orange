@@ -30,10 +30,10 @@ describe("Explorer view", () => {
   });
 
   it("can select another block", async () => {
-    const secondFromTopHeading = `#${blockFixtures.blockFixture2.height.toLocaleString()}`;
+    const secondFromTopHeading = `#${blockFixtures.blockFixture19.height.toLocaleString()}`;
 
     const secondFromTop = await screen.findByText(
-      `Link to block ${blockFixtures.blockFixture2.height.toString()}`,
+      `Link to block ${blockFixtures.blockFixture19.height.toString()}`,
     );
 
     fireEvent.click(secondFromTop);

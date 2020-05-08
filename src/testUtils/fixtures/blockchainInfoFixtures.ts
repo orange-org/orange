@@ -2,8 +2,8 @@ import { BlockchainInfo } from "_t/RpcResponses";
 
 export const blockchainInfoFixture1: BlockchainInfo = {
   chain: "test",
-  blocks: 1665252,
-  headers: 1665252,
+  blocks: 20,
+  headers: 20,
   bestblockhash:
     "00000000000000daf54a28b5ddff93a8ab735effeee8b917a2d0ec72ac02dc66",
   difficulty: 10474471.99230249,

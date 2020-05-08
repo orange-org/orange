@@ -3,10 +3,23 @@ import { rpcClient } from "./rpcClient";
 type Verbosity = 0 | 1 | 2;
 
 class RpcService {
-  requestBlockchainInfo = (nonce: NONCE) =>
-    rpcClient(nonce, {
-      method: "getblockchaininfo",
-    });
+  requestBlockchainInfo = (nonce: NONCE, cacheDuration?: number) =>
+    rpcClient(
+      nonce,
+      {
+        method: "getblockchaininfo",
+      },
+      cacheDuration,
+    );
+
+  requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) =>
+    rpcClient(
+      nonce,
+      {
+        method: "getmempoolinfo",
+      },
+      cacheDuration,
+    );
 
   requestBlock = (
     nonce: NONCE,

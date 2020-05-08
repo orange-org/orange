@@ -6,6 +6,8 @@ const [, , version] = process.argv;
 const semverRegExp = /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/;
 const repoUrl = "git@github.com:orange-org/orange.git";
 
+cd(resolve(__dirname, ".."));
+
 if (!version.match(semverRegExp)) {
   echo(`"${version}" is not a valid semantic version`);
   exit(1);
@@ -25,8 +27,6 @@ if (currentBranch.stdout !== "master") {
   echo("Error: you must be on `master` to trigger a release");
   exit(1);
 }
-
-cd(resolve(__dirname, ".."));
 
 echo(`Creating git tag ${version}...`);
 if (exec(`git tag ${version}`).code !== 0) {

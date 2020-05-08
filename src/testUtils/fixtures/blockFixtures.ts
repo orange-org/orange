@@ -1,12 +1,12 @@
 import { Block } from "_t/RpcResponses";
 
-export const blockFixture1665252: Block = {
+export const blockFixture20: Block = {
   hash: "00000000000000daf54a28b5ddff93a8ab735effeee8b917a2d0ec72ac02dc66",
   confirmations: 2,
   strippedsize: 86887,
   size: 137405,
   weight: 398066,
-  height: 1665252,
+  height: 20,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -484,13 +484,13 @@ export const blockFixture1665252: Block = {
     "000000000000005c6ed59bd1ad45e9f3d93b7ff2b2cc341235980c0a62d4c0d8",
 };
 
-export const blockFixture1665251: Block = {
+export const blockFixture19: Block = {
   hash: "00000000a7c0b0d9a09bf073f270103e285b965d566cf9bf18dc824be4f104e6",
   confirmations: 25,
   strippedsize: 51803,
   size: 84258,
   weight: 239667,
-  height: 1665251,
+  height: 19,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -757,13 +757,13 @@ export const blockFixture1665251: Block = {
     "00000000000000daf54a28b5ddff93a8ab735effeee8b917a2d0ec72ac02dc66",
 };
 
-export const blockFixture1665250: Block = {
+export const blockFixture18: Block = {
   hash: "000000000000000096cd6c9c1a3b88242dd8646d0c3da6a819b49da9868a5efc",
   confirmations: 26,
   strippedsize: 41978,
   size: 65617,
   weight: 191551,
-  height: 1665250,
+  height: 18,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -1011,13 +1011,13 @@ export const blockFixture1665250: Block = {
     "00000000a7c0b0d9a09bf073f270103e285b965d566cf9bf18dc824be4f104e6",
 };
 
-export const blockFixture1665249: Block = {
+export const blockFixture17: Block = {
   hash: "00000000627b5e3eb15a42b39687572e3fa5832786b5c15e46c6164fdedcb1af",
   confirmations: 27,
   strippedsize: 59826,
   size: 118502,
   weight: 297980,
-  height: 1665249,
+  height: 17,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -1291,13 +1291,13 @@ export const blockFixture1665249: Block = {
     "000000000000000096cd6c9c1a3b88242dd8646d0c3da6a819b49da9868a5efc",
 };
 
-export const blockFixture1665248: Block = {
+export const blockFixture16: Block = {
   hash: "000000001c60e550db1a1434624be6f726d2705f0baaff6ae1bfdd00be7b07e0",
   confirmations: 28,
   strippedsize: 62794,
   size: 118795,
   weight: 307177,
-  height: 1665248,
+  height: 16,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -1571,13 +1571,13 @@ export const blockFixture1665248: Block = {
     "00000000627b5e3eb15a42b39687572e3fa5832786b5c15e46c6164fdedcb1af",
 };
 
-export const blockFixture1665247: Block = {
+export const blockFixture15: Block = {
   hash: "00000000000316679de8cf05b9d69e308b2cec62f7be3d1258d752a7b34b99fc",
   confirmations: 29,
   strippedsize: 64385,
   size: 106893,
   weight: 300048,
-  height: 1665247,
+  height: 15,
   version: 541065216,
   versionHex: "20400000",
   merkleroot:
@@ -1960,13 +1960,13 @@ export const blockFixture1665247: Block = {
     "000000001c60e550db1a1434624be6f726d2705f0baaff6ae1bfdd00be7b07e0",
 };
 
-export const blockFixture1665246: Block = {
+export const blockFixture14: Block = {
   hash: "00000000000000fffffd90b4b05b02f71abe6f63d4fc47f28fa9cc89e9d9aec7",
   confirmations: 30,
   strippedsize: 8266,
   size: 13966,
   weight: 38764,
-  height: 1665246,
+  height: 14,
   version: 545259520,
   versionHex: "20800000",
   merkleroot:
@@ -2035,13 +2035,13 @@ export const blockFixture1665246: Block = {
     "00000000000316679de8cf05b9d69e308b2cec62f7be3d1258d752a7b34b99fc",
 };
 
-export const blockFixture1665245: Block = {
+export const blockFixture13: Block = {
   hash: "000000000000001ca0fe80c5cea47fbd2495d87e29c773d5a20c51248d815a34",
   confirmations: 31,
   strippedsize: 34542,
   size: 57996,
   weight: 161622,
-  height: 1665245,
+  height: 13,
   version: 541065216,
   versionHex: "20400000",
   merkleroot:
@@ -2259,13 +2259,13 @@ export const blockFixture1665245: Block = {
     "00000000000000fffffd90b4b05b02f71abe6f63d4fc47f28fa9cc89e9d9aec7",
 };
 
-export const blockFixture1665244: Block = {
+export const blockFixture12: Block = {
   hash: "0000000000000160fae98cd485de66dabf306e92d6e362a7c338a935a9c08da4",
   confirmations: 32,
   strippedsize: 20283,
   size: 33658,
   weight: 94507,
-  height: 1665244,
+  height: 12,
   version: 541065216,
   versionHex: "20400000",
   merkleroot:
@@ -2400,13 +2400,13 @@ export const blockFixture1665244: Block = {
     "000000000000001ca0fe80c5cea47fbd2495d87e29c773d5a20c51248d815a34",
 };
 
-export const blockFixture1665243: Block = {
+export const blockFixture11: Block = {
   hash: "00000000000281f26522c1fc95e2dea14f89877499f16140fc59de8dc5fa977e",
   confirmations: 33,
   strippedsize: 70019,
   size: 117133,
   weight: 327190,
-  height: 1665243,
+  height: 11,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:
@@ -2791,13 +2791,13 @@ export const blockFixture1665243: Block = {
     "0000000000000160fae98cd485de66dabf306e92d6e362a7c338a935a9c08da4",
 };
 
-export const blockFixture1665242: Block = {
+export const blockFixture10: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d452db924df09aea",
   confirmations: 34,
   difficulty: 1,
   hash: "00000000ee658557901f82e8e0f32cc1f59c3aaaedb89b09e48db91be6b3c60c",
-  height: 1665242,
+  height: 10,
   mediantime: 1581089108,
   merkleroot:
     "7adaee1c9590e1ece0e3bc05fe66b3d39f1c14d431201410cb37e8132d6e07ad",
@@ -3080,13 +3080,13 @@ export const blockFixture1665242: Block = {
   weight: 214176,
 };
 
-export const blockFixture1665241: Block = {
+export const blockFixture9: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d452db914def9ae9",
   confirmations: 35,
   difficulty: 1,
   hash: "00000000000047b04208e4c65af616efc92434cbe7f32493e2a283c6fa425e3c",
-  height: 1665241,
+  height: 9,
   mediantime: 1581087902,
   merkleroot:
     "e35d93612e45449b40e52a33cdf318b91d97f38301a110c313444cf97111cae0",
@@ -3396,13 +3396,13 @@ export const blockFixture1665241: Block = {
   weight: 303661,
 };
 
-export const blockFixture1665240: Block = {
+export const blockFixture8: Block = {
   bits: "1a019a09",
   chainwork: "000000000000000000000000000000000000000000000141d452db904dee9ae8",
   confirmations: 36,
   difficulty: 10474471.99230249,
   hash: "00000000000000f71ae712d565e8a40256751d08dd007291a0b22aba8fc1ca03",
-  height: 1665240,
+  height: 8,
   mediantime: 1581087697,
   merkleroot:
     "b23106265231a0527f421cc51ed99988e2ec7a9971facc3737f82c259868e13a",
@@ -3733,13 +3733,13 @@ export const blockFixture1665240: Block = {
   weight: 293222,
 };
 
-export const blockFixture1665239: Block = {
+export const blockFixture7: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d3b307087b5f3f26",
   confirmations: 37,
   difficulty: 1,
   hash: "000000001a10a8e0b811254ff2e7f40e2031e244978ae71b96fd08799a2f7d5e",
-  height: 1665239,
+  height: 7,
   mediantime: 1581086496,
   merkleroot:
     "8c3b4b3891e4427f6ac9e57959d86b97874d819319b672435876907ab126c76a",
@@ -3991,13 +3991,13 @@ export const blockFixture1665239: Block = {
   weight: 252515,
 };
 
-export const blockFixture1665238: Block = {
+export const blockFixture6: Block = {
   bits: "1a019a09",
   chainwork: "000000000000000000000000000000000000000000000141d3b307077b5e3f25",
   confirmations: 38,
   difficulty: 10474471.99230249,
   hash: "000000000000016c78fdfb2e0de446a148c5137e729c67a0821c80b129e5fa94",
-  height: 1665238,
+  height: 6,
   mediantime: 1581085470,
   merkleroot:
     "3a43015769678989f9efbd353829f1aecc3f9a42014acbb55ac0665149fbe139",
@@ -4215,13 +4215,13 @@ export const blockFixture1665238: Block = {
   weight: 151643,
 };
 
-export const blockFixture1665237: Block = {
+export const blockFixture5: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d313327fa8cee363",
   confirmations: 39,
   difficulty: 1,
   hash: "00000000000358b7ce9799e3eedc7e18e3404a204a40a6749fdfa81ce5a247b2",
-  height: 1665237,
+  height: 5,
   mediantime: 1581085289,
   merkleroot:
     "1a441718865d6eac708c2643f6b4fe364b820588ac5adc98f7862e1d69cfc4de",
@@ -4562,13 +4562,13 @@ export const blockFixture1665237: Block = {
   weight: 261146,
 };
 
-export const blockFixture1665236: Block = {
+export const blockFixture4: Block = {
   bits: "1a019a09",
   chainwork: "000000000000000000000000000000000000000000000141d313327ea8cde362",
   confirmations: 40,
   difficulty: 10474471.99230249,
   hash: "0000000000000084c537b960fdf3cf1ec2344090920c6a7e9ffa64641b0972b3",
-  height: 1665236,
+  height: 4,
   mediantime: 1581084084,
   merkleroot:
     "6457c3da18092eb2924bed52f14154a958d4ba110ff71551b284569661228bd9",
@@ -4701,13 +4701,13 @@ export const blockFixture1665236: Block = {
   weight: 131608,
 };
 
-export const blockFixture1665235: Block = {
+export const blockFixture3: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d2735df6d63e87a0",
   confirmations: 41,
   difficulty: 1,
   hash: "000000000003d9ca1e9400226422fa57d7c738210fe8042f751b612e62544436",
-  height: 1665235,
+  height: 3,
   mediantime: 1581081820,
   merkleroot:
     "be9f6e53446ab76022c79ef4fe92d23a1d4521d048e034cb02cfd57065371874",
@@ -5161,13 +5161,13 @@ export const blockFixture1665235: Block = {
   weight: 355760,
 };
 
-export const blockFixture1665234: Block = {
+export const blockFixture2: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d2735df5d63d879f",
   confirmations: 42,
   difficulty: 1,
   hash: "000000008a591853e0114525f7d6c41f63bd6929c6893bf634c8d7d7b16bb25c",
-  height: 1665234,
+  height: 2,
   mediantime: 1581080619,
   merkleroot:
     "83aceee52a0b39fc5d8d669d52c0b25cb785154a77bfb0a1d050c636d17e0714",
@@ -5537,13 +5537,13 @@ export const blockFixture1665234: Block = {
   weight: 302813,
 };
 
-export const blockFixture1665233: Block = {
+export const blockFixture1: Block = {
   bits: "1d00ffff",
   chainwork: "000000000000000000000000000000000000000000000141d2735df4d63c879e",
   confirmations: 43,
   difficulty: 1,
   hash: "000000000001f1bc107ac924d0dbb860f6e4bb970f70134a9396f6fb9ea917cc",
-  height: 1665233,
+  height: 1,
   mediantime: 1581080524,
   merkleroot:
     "a32f4e3a0eab349229b338aec5e7561fa6b9fc96d75297992c0115e8789ac5be",
@@ -6067,13 +6067,13 @@ export const blockFixture1665233: Block = {
   weight: 451488,
 };
 
-export const blockFixture1665232 = {
+export const blockFixture0 = {
   hash: "000000000000008bbde0b9ceb6b7a0f9d14ade82a75027449a6d126c662b60a3",
   confirmations: 58023,
   strippedsize: 56868,
   size: 98486,
   weight: 269090,
-  height: 1665232,
+  height: 0,
   version: 536870912,
   versionHex: "20000000",
   merkleroot:

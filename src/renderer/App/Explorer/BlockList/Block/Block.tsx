@@ -36,7 +36,7 @@ const Block_: React.FC<CardProps & {
   data: TBlock;
   isBlockListLoading: boolean;
 }> = props_ => {
-  const { data = dummyBlockData, isBlockListLoading, ...props } = props_;
+  const { data, isBlockListLoading, ...props } = props_;
 
   const a = useAtomicCss();
   const classNames = useChainLinkStyles();

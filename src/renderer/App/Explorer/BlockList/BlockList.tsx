@@ -84,7 +84,12 @@ export const BlockList: React.FC = () => {
     }
 
     return (
-      <Typography className={a("colorPrimary70%Opaque")}>{content}</Typography>
+      <Typography
+        className={a("colorPrimary70%Opaque")}
+        data-testid={testIds.depthTopLink}
+      >
+        {content}
+      </Typography>
     );
   };
 
@@ -94,8 +99,8 @@ export const BlockList: React.FC = () => {
     if (isLoading) {
       content = <>This is still loading</>;
     } else {
-      const depthBottom =
-        explorerBlockList![explorerBlockList!.length - 1].height - 1;
+      const depthBottom = explorerBlockList![explorerBlockList!.length - 1]
+        .height;
 
       if (depthBottom > 0) {
         content = (
@@ -114,12 +119,16 @@ export const BlockList: React.FC = () => {
 
     return (
       <>
-        <Typography className={a("colorPrimary70%Opaque")}>
+        <Typography
+          data-testid={testIds.depthBottomLink}
+          className={a("colorPrimary70%Opaque")}
+        >
           {content}
         </Typography>
 
         <Typography className={a("colorPrimary70%Opaque")}>
           <Link
+            data-testid={testIds.depthBottomLinkSearchButton}
             onClick={() => dispatch(actions.requestSearchBoxFocus(true))}
             className={a("fontWeight500")}
           >

@@ -60,5 +60,6 @@ module.exports = merge.smart(baseConfig, {
       resourceRegExp: /^\.\/locale$/,
       contextRegExp: /moment$/,
     }),
+    new IgnorePlugin(/^\.\/wordlists\/(?!english)/, /bip39\/src$/),
   ],
 });

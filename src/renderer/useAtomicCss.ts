@@ -76,6 +76,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     displayFlex: c("display", "flex"),
     displayGrid: c("display", "grid"),
     displayInline: c("display", "inline"),
+    displayInlineBlock: c("display", "inline-block"),
     displayTable: {
       borderSpacing: `${theme.spacing(3)}px`,
       display: "table",

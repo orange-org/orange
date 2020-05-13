@@ -124,6 +124,7 @@
   },
   "dependencies": {
     "@material-ui/lab": "^4.0.0-alpha.50",
+    "bip39": "^3.0.2",
     "bluebird": "^3.7.2",
     "clsx": "^1.0.4",
     "electron": "^8.2.4",

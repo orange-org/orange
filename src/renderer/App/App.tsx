@@ -14,30 +14,35 @@ import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
-import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
+import { RedirectFromHomepage } from "./RedirectFromHomepage/RedirectFromHomepage";
 import { Settings } from "./Settings/Settings";
+import { Wallet } from "./Wallet/Wallet";
 
 export const Routes = () => {
   const appBar = <AppBar />;
 
   return (
     <Router>
-      <RpcIssueDialog />
-
       <Switch>
         <Route exact path="/">
           {appBar}
-          <RedirectToHighestBlock />
+          <RedirectFromHomepage />
         </Route>
 
         <Route path="/explorer/:blockHeightAsId">
           {appBar}
           <Explorer />
+          <RpcIssueDialog />
         </Route>
 
         <Route path="/settings">
           {appBar}
           <Settings />
+        </Route>
+
+        <Route path="/wallet">
+          {appBar}
+          <Wallet />
         </Route>
       </Switch>
     </Router>

@@ -17,6 +17,7 @@ import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectFromHomepage } from "./RedirectFromHomepage/RedirectFromHomepage";
 import { Settings } from "./Settings/Settings";
 import { Wallet } from "./Wallet/Wallet";
+import { Frame } from "./Frame/Frame";
 
 export const Routes = () => {
   const appBar = <AppBar />;
@@ -41,8 +42,9 @@ export const Routes = () => {
         </Route>
 
         <Route path="/wallet">
-          {appBar}
-          <Wallet />
+          <Frame>
+            <Wallet />
+          </Frame>
         </Route>
       </Switch>
     </Router>

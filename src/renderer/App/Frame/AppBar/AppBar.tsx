@@ -18,12 +18,13 @@ export const AppBar: React.FC = () => {
   return (
     <MuiAppBar
       variant="elevation"
-      elevation={1}
+      elevation={0}
       color="inherit"
       className={a(
         "borderWidth2px",
         "borderTopStyleSolid",
         "borderColorSecondaryMain",
+        "zIndexDrawerPlus1",
       )}
     >
       <Toolbar>
@@ -35,7 +36,19 @@ export const AppBar: React.FC = () => {
 
         <div className={a("flexGrow1")} />
 
-        <IconButton component={Link} to="/" data-testid={testIds.homeButton}>
+        <IconButton
+          component={Link}
+          to="/explorer/300000"
+          data-testid={testIds.homeButton}
+        >
+          <Home />
+        </IconButton>
+
+        <IconButton
+          component={Link}
+          to="/wallet"
+          data-testid={testIds.homeButton}
+        >
           <Home />
         </IconButton>
 

@@ -116,7 +116,7 @@ const Block_: React.FC<CardProps & {
           Link to block {data.height.toString()}
         </Link>
         <div className={a("displayFlex", "alignItemsCenter")}>
-          <div className={a("colorSecondary")}>
+          <div className={a("colorTextSecondary")}>
             <Typography variant="h3">
               #{data.height.toLocaleString()}
             </Typography>
@@ -124,7 +124,7 @@ const Block_: React.FC<CardProps & {
           <div>
             <Typography
               variant="body2"
-              className={a("fontSize95%", "colorHint", "marginLeft02")}
+              className={a("fontSize95%", "colorTextHint", "marginLeft02")}
             >
               {data.time && secondsTimestampToFormattedDate(data.time)}
             </Typography>
@@ -150,7 +150,7 @@ const Block_: React.FC<CardProps & {
           />
         </MetaDataItemsContainer>
 
-        <div className={a("marginTop05", "colorHint")}>
+        <div className={a("marginTop05", "colorTextHint")}>
           <Typography
             variant="body2"
             className={a(

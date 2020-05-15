@@ -12,7 +12,7 @@ import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/reducers/store";
 import { theme } from "_r/theme";
-import { AppBar } from "./AppBar/AppBar";
+import { AppBar } from "./Frame/AppBar/AppBar";
 import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectFromHomepage } from "./RedirectFromHomepage/RedirectFromHomepage";
 import { Settings } from "./Settings/Settings";
@@ -24,6 +24,8 @@ export const Routes = () => {
 
   return (
     <Router>
+      <RpcIssueDialog />
+
       <Switch>
         <Route exact path="/">
           {appBar}
@@ -31,9 +33,9 @@ export const Routes = () => {
         </Route>
 
         <Route path="/explorer/:blockHeightAsId">
-          {appBar}
-          <Explorer />
-          <RpcIssueDialog />
+          <Frame>
+            <Explorer />
+          </Frame>
         </Route>
 
         <Route path="/settings">

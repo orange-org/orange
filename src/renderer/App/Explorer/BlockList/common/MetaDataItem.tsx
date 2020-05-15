@@ -18,7 +18,7 @@ export const MetaDataItem: React.FC<{
 
   const content = (
     <div className={a("displayFlex", "alignItemsCenter", "widthFitContent")}>
-      <div className={a("lineHeight0", "colorHint")}>
+      <div className={a("lineHeight0", "colorTextHint")}>
         <props.icon fontSize="small" />
       </div>
       <div className={a("marginLeft01")}>

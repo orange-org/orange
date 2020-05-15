@@ -63,7 +63,9 @@ export const TransactionDetails: React.FC<{
         Transaction
       </Typography>
 
-      <Typography className={a("marginTop01", "fontStyleItalic", "colorHint")}>
+      <Typography
+        className={a("marginTop01", "fontStyleItalic", "colorTextHint")}
+      >
         {transactionId}
       </Typography>
     </div>

@@ -85,7 +85,7 @@ export const BlockList: React.FC = () => {
 
     return (
       <Typography
-        className={a("colorPrimary70%Opaque")}
+        className={a("colorTextPrimary70%Opaque")}
         data-testid={testIds.depthTopLink}
       >
         {content}
@@ -121,12 +121,12 @@ export const BlockList: React.FC = () => {
       <>
         <Typography
           data-testid={testIds.depthBottomLink}
-          className={a("colorPrimary70%Opaque")}
+          className={a("colorTextPrimary70%Opaque")}
         >
           {content}
         </Typography>
 
-        <Typography className={a("colorPrimary70%Opaque")}>
+        <Typography className={a("colorTextPrimary70%Opaque")}>
           <Link
             data-testid={testIds.depthBottomLinkSearchButton}
             onClick={() => dispatch(actions.requestSearchBoxFocus(true))}

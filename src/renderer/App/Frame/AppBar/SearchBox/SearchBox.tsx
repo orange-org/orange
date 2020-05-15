@@ -38,7 +38,7 @@ export const SearchBox: React.FC = () => {
       <div
         className={a(
           "width11",
-          "colorHint",
+          "colorTextHint",
           "height100%",
           "positionAbsolute",
           "pointerEventsNone",

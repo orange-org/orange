@@ -1,7 +1,5 @@
 import { screen } from "@testing-library/dom";
-import { testIds } from "./testIds";
-
-type TestId = keyof typeof testIds;
+import { TestId } from "./testIds";
 
 export const findByTestId = (testId: TestId) => screen.findByTestId(testId);
 

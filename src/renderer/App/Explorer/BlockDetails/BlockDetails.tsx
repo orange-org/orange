@@ -113,7 +113,7 @@ export const BlockDetails = () => {
       </Typography>
       <Typography
         variant="h4"
-        className={a("marginTop01", "colorHint", "fontStyleItalic")}
+        className={a("marginTop01", "colorTextHint", "fontStyleItalic")}
       >
         {blockData.hash}
       </Typography>
@@ -166,7 +166,7 @@ export const BlockDetails = () => {
             >
               {({ index, data, style }) => (
                 <Link
-                  className={a("colorPrimary")}
+                  className={a("colorTextPrimary")}
                   to={`${url}/${data[index]}`}
                 >
                   <Typography

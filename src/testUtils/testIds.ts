@@ -29,4 +29,7 @@ export const testIds = keyEqualsValue({
   depthTopLink: "depthTopLink",
   blockDetails: "blockDetails",
   blockDetailsH1: "blockDetailsH1",
+  navigateToWallet: "navigateToWallet",
 } as const);
+
+export type TestId = keyof typeof testIds;

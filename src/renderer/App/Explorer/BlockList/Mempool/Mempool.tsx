@@ -70,7 +70,9 @@ export const Mempool = () => {
       variant="outlined"
       className={a("padding2", "backgroundColorPaper90%Opaque")}
     >
-      <div className={a("colorSecondary", "displayFlex", "alignItemsCenter")}>
+      <div
+        className={a("colorTextSecondary", "displayFlex", "alignItemsCenter")}
+      >
         <BubbleChartOutlined fontSize="small" />
         <Typography
           variant="h5"

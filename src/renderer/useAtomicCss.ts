@@ -1,5 +1,5 @@
 import * as CSS from "csstype";
-import { makeStyles, fade, Theme } from "@material-ui/core";
+import { makeStyles, fade, Theme, darken } from "@material-ui/core";
 import clsx from "clsx";
 
 export const BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH = 82;
@@ -24,6 +24,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
       "backgroundColor",
       theme.palette.background.default,
     ),
+    backgroundColorPaper: c("backgroundColor", theme.palette.background.paper),
     "backgroundColorPaper90%Opaque": c(
       "backgroundColor",
       fade(theme.palette.background.paper, 0.9),
@@ -34,6 +35,10 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     borderBottomStyleSolid: c("borderBottomStyle", "solid"),
     borderBottomWidth1: c("borderBottomWidth", 1),
 
+    "borderColorBlack60%Opaque": c(
+      "borderColor",
+      fade(theme.palette.common.black, 0.6),
+    ),
     borderColorDivider: c("borderColor", theme.palette.divider),
     borderColorDividerFade06: c(
       "borderColor",
@@ -54,20 +59,31 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
 
     borderTopStyleSolid: c("borderTopStyle", "solid"),
 
+    borderWidth1: c("borderWidth", theme.spacing(1)),
     borderWidth1px: c("borderWidth", 1),
+    borderWidth2: c("borderWidth", theme.spacing(2)),
     borderWidth2px: c("borderWidth", 2),
     borderWidth4px: c("borderWidth", 4),
+    borderWidth6px: c("borderWidth", 6),
 
     bottom0: c("bottom", 0),
     bottomNegative10: c("bottom", theme.spacing(-10)),
 
     colorActionActive: c("color", theme.palette.action.active),
+    "colorBlack60%Opaque": c("color", fade(theme.palette.common.black, 0.6)),
     colorDivider: c("color", theme.palette.divider),
-    colorHint: c("color", theme.palette.text.hint),
-    colorPrimary: c("color", theme.palette.text.primary),
-    "colorPrimary50%Opaque": c("color", fade(theme.palette.text.primary, 0.5)),
-    "colorPrimary70%Opaque": c("color", fade(theme.palette.text.primary, 0.7)),
-    colorSecondary: c("color", theme.palette.text.secondary),
+    colorSecondary: c("color", theme.palette.secondary.main),
+    colorTextHint: c("color", theme.palette.text.hint),
+    colorTextPrimary: c("color", theme.palette.text.primary),
+    "colorTextPrimary50%Opaque": c(
+      "color",
+      fade(theme.palette.text.primary, 0.5),
+    ),
+    "colorTextPrimary70%Opaque": c(
+      "color",
+      fade(theme.palette.text.primary, 0.7),
+    ),
+    colorTextSecondary: c("color", theme.palette.text.secondary),
     colorTransparent: c("color", "transparent"),
     colorWhite: c("color", theme.palette.common.white),
 
@@ -106,6 +122,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     fontWeight500: c("fontWeight", 500),
 
     "height100%": c("height", "100%"),
+    height100vh: c("height", "100vh"),
 
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
@@ -181,9 +198,11 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     padding1: c("padding", theme.spacing(1)),
     padding2: c("padding", theme.spacing(2)),
     padding3: c("padding", theme.spacing(3)),
+    padding4: c("padding", theme.spacing(4)),
     padding6: c("padding", theme.spacing(6)),
 
     paddingLeft0: c("paddingLeft", 0),
+    paddingLeft1: c("paddingLeft", theme.spacing(1)),
     paddingLeft2: c("paddingLeft", theme.spacing(2)),
 
     paddingTop1: c("paddingTop", theme.spacing(1)),
@@ -227,11 +246,29 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
   } as const;
 
   const styleGroups = {
+    disableHoverBackground: {
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+    },
+
+    elevationRight1: {
+      boxShadow:
+        "2px 0px 1px -1px rgba(0,0,0,0.2), 1px 0px 1px 0px rgba(0,0,0,0.14), 1px 0px 3px 0px rgba(0,0,0,0.12)",
+    },
+
     helperText: {
-      ...atomicCss["colorPrimary50%Opaque"],
+      ...atomicCss["colorTextPrimary50%Opaque"],
       ...atomicCss["fontSize0.8Rem"],
       ...atomicCss.marginTop01,
     },
+
+    "hoverColorBlack60%Opaque": {
+      "&:hover": {
+        ...atomicCss["colorBlack60%Opaque"],
+      },
+    },
+
     topLevelComponent: {
       height: `calc(100% - ${theme.spacing(16)}px)`,
       ...atomicCss.marginTop16, // compensate for AppBar

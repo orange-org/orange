@@ -1,51 +1,41 @@
-import { TextField } from "@material-ui/core";
+import { TextField, TextFieldProps } from "@material-ui/core";
 import { useFormik } from "formik";
-import React from "react";
-import { getOrdinal } from "_r/utils/smallUtils";
+import React, { useEffect, useState } from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-
-const initialValues = {
-  "0": "",
-  "1": "",
-  "2": "",
-  "3": "",
-  "4": "",
-  "5": "",
-  "6": "",
-  "7": "",
-  "8": "",
-  "9": "",
-  "10": "",
-  "11": "",
-  "12": "",
-  "13": "",
-  "14": "",
-  "15": "",
-  "16": "",
-  "17": "",
-  "18": "",
-  "19": "",
-  "20": "",
-  "21": "",
-  "22": "",
-  "23": "",
-} as const;
+import { TimeoutId } from "_t/typeHelpers";
+import { getErrorInfo } from "./getErrorInfo";
+import { validateSeedPhrase } from "./validateSeedPhrase";
+import { useDetectTyping } from "./useDetectTyping";
 
 export const SeedPhraseField = () => {
-  const a = useAtomicCss();
   const formik = useFormik({
+    initialValues: {
+      seedPhrase: "",
+    },
     onSubmit: () => undefined,
-    initialValues,
   });
+  const { isTyping, setIsTyping } = useDetectTyping();
+  const a = useAtomicCss();
+  const onChange: TextFieldProps["onChange"] = event => {
+    setIsTyping(true);
+    formik.handleChange(event);
+  };
+  const errors = validateSeedPhrase(formik.values.seedPhrase, !isTyping);
+  const { showError, helperText } = getErrorInfo(
+    errors,
+    !!formik.touched.seedPhrase,
+  );
 
   return (
     <div className={a("padding3")}>
       <TextField
+        {...formik.getFieldProps("seedPhrase")}
+        error={showError}
+        helperText={helperText}
+        onChange={onChange}
         className={a("width100%")}
         multiline
         rows="3"
-        error
-        helperText="Unrecognized word: absdf"
         variant="outlined"
       />
     </div>

@@ -7,14 +7,7 @@ export const AccessExistingWallet = () => {
   const a = useAtomicCss();
 
   return (
-    <div
-      className={a(
-        "padding6",
-        "maxWidth800",
-        "marginLeftAuto",
-        "marginRightAuto",
-      )}
-    >
+    <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
       <Typography className={a("marginTop05")} variant="h2">
         Access a wallet
       </Typography>

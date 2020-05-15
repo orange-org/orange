@@ -12,6 +12,7 @@ import {
 import { poll } from "_r/utils/poll";
 import { pluralize } from "_r/utils/smallUtils";
 import { testIds } from "_tu/testIds";
+import { CompensateToolbarHeight } from "_r/App/components/CompensateToolbarHeight/CompensateToolbarHeight";
 import { dummyBlockList } from "../common/dummyBlockData";
 import { Block, useChainLinkStyles } from "./Block/Block";
 import { Mempool } from "./Mempool/Mempool";
@@ -143,41 +144,37 @@ export const BlockList: React.FC = () => {
   const blockList = explorerBlockList || dummyBlockList;
 
   return (
-    <>
-      <div
-        style={{
-          gridTemplateColumns: `${theme.spacing(
-            BLOCK_SCROLLABLE_CONTAINER,
-          )}px auto`,
-        }}
-        className={a(
-          "displayGrid",
-          "overflowYScroll",
-          "overflowXHidden",
-          "scrollbarWidth0",
-        )}
-        data-testid={testIds.scrollableBlockContainer}
-      >
-        <div className={a("marginX05", "marginY05")}>
-          <Mempool />
+    <div
+      style={{
+        gridTemplateColumns: `${theme.spacing(
+          BLOCK_SCROLLABLE_CONTAINER,
+        )}px auto`,
+      }}
+      className={a(
+        "displayGrid",
+        "overflowYScroll",
+        "overflowXHidden",
+        "scrollbarWidth0",
+      )}
+      data-testid={testIds.scrollableBlockContainer}
+    >
+      <div className={a("marginX05", "marginY05")}>
+        <CompensateToolbarHeight />
 
-          <div className={a("marginTop05")}>{getDepthTopLink()}</div>
+        <Mempool />
 
-          <div className={a("marginTop02")} />
+        <div className={a("marginTop05")}>{getDepthTopLink()}</div>
 
-          {blockList.map(block => (
-            <Block
-              isBlockListLoading={isLoading}
-              key={block.hash}
-              data={block}
-            />
-          ))}
+        <div className={a("marginTop02")} />
 
-          <div className={chainLinkStyles.class}>
-            <div className={a("marginTop02")}>{getDepthBottomLink()}</div>
-          </div>
+        {blockList.map(block => (
+          <Block isBlockListLoading={isLoading} key={block.hash} data={block} />
+        ))}
+
+        <div className={chainLinkStyles.class}>
+          <div className={a("marginTop02")}>{getDepthBottomLink()}</div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

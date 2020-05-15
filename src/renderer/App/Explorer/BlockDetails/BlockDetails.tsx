@@ -35,6 +35,7 @@ import {
 import { withDelay } from "_r/utils/withDelay";
 import { Block as TBlock } from "_t/RpcResponses";
 import { testIds } from "_tu/testIds";
+import { CompensateToolbarHeight } from "_r/App/components/CompensateToolbarHeight/CompensateToolbarHeight";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 import { dummyBlockData } from "../common/dummyBlockData";
@@ -300,6 +301,8 @@ export const BlockDetails = () => {
       )}
     >
       <div className={a("marginBottom10")}>
+        <CompensateToolbarHeight />
+
         {heading}
         {subHeading}
 

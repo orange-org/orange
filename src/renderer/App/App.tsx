@@ -39,8 +39,9 @@ export const Routes = () => {
         </Route>
 
         <Route path="/settings">
-          {appBar}
-          <Settings />
+          <Frame>
+            <Settings />
+          </Frame>
         </Route>
 
         <Route path="/wallet">

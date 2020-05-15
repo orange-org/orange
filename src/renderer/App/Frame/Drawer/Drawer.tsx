@@ -1,4 +1,4 @@
-import { IconButton, Divider, SvgIcon } from "@material-ui/core";
+import { IconButton, Divider, SvgIcon, Paper } from "@material-ui/core";
 import {
   ExploreOutlined,
   SettingsOutlined,
@@ -23,11 +23,11 @@ export const Drawer = () => {
 
     return (
       <div
-        className={clsx(a("padding1"), {
+        className={clsx(a("padding2"), {
           [a(
-            "borderWidth1",
+            "borderWidth2",
             "borderLeftStyleSolid",
-            "borderColorBlack60%Opaque",
+            "borderColorSecondaryMain",
             "paddingLeft0",
           )]: isActive,
         })}
@@ -44,7 +44,7 @@ export const Drawer = () => {
           )}
           data-testid={testId}
         >
-          <Icon />
+          <Icon className={a("fontSize110%")} />
         </IconButton>
       </div>
     );
@@ -52,22 +52,16 @@ export const Drawer = () => {
   const divider = <div className={a("marginTop02")} />;
 
   return (
-    <div
+    <Paper
+      elevation={2}
       className={a(
-        "backgroundColorPaper",
-        "height100vh",
-        "elevationRight1",
         "displayFlex",
         "flexDirectionColumn",
+        "marginLeftNegative01",
+        "marginTopNegative01",
+        "height95vh",
       )}
     >
-      {divider}
-      {renderIcon(
-        ExploreOutlined,
-        "Block chain explorer",
-        "/explorer/300000",
-        testIds.homeButton,
-      )}
       {divider}
       {renderIcon(
         AccountBalanceWalletOutlined,
@@ -77,11 +71,18 @@ export const Drawer = () => {
       )}
       {divider}
       {renderIcon(
+        ExploreOutlined,
+        "Block chain explorer",
+        "/explorer/300000",
+        testIds.homeButton,
+      )}
+      {divider}
+      {renderIcon(
         SettingsOutlined,
         "Settings",
         "/settings",
         testIds.settingsButton,
       )}
-    </div>
+    </Paper>
   );
 };

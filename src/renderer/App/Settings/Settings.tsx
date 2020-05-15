@@ -3,6 +3,7 @@ import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { testIds } from "_tu/testIds";
 import { RpcSettings } from "../components/RpcSettings/RpcSettings";
+import { CompensateToolbarHeight } from "../components/CompensateToolbarHeight/CompensateToolbarHeight";
 
 export const Settings: React.FC = () => {
   const a = useAtomicCss();
@@ -18,6 +19,7 @@ export const Settings: React.FC = () => {
         "marginRightAuto",
       )}
     >
+      <CompensateToolbarHeight />
       <Typography variant="h1">Settings</Typography>
 
       <div>

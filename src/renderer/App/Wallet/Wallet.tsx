@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { AccessExistingWallet } from "./AccessExistingWallet/AccessExistingWallet";
+import { CompensateToolbarHeight } from "../components/CompensateToolbarHeight/CompensateToolbarHeight";
 
 export const Wallet = () => {
   const history = useHistory();
@@ -13,6 +14,7 @@ export const Wallet = () => {
 
   return (
     <div className={a("topLevelComponent")}>
+      <CompensateToolbarHeight />
       <Switch>
         <Route path="/wallet/import">
           <AccessExistingWallet />

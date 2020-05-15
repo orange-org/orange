@@ -29,6 +29,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
       "backgroundColor",
       fade(theme.palette.background.paper, 0.9),
     ),
+    backgroundColorTransparent: c("backgroundColor", "transparent"),
     backgroundColorWhite: c("backgroundColor", theme.palette.common.white),
 
     borderBottomColorDivider: c("borderBottomColor", theme.palette.divider),
@@ -64,7 +65,6 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     borderWidth2: c("borderWidth", theme.spacing(2)),
     borderWidth2px: c("borderWidth", 2),
     borderWidth4px: c("borderWidth", 4),
-    borderWidth6px: c("borderWidth", 6),
 
     bottom0: c("bottom", 0),
     bottomNegative10: c("bottom", theme.spacing(-10)),
@@ -122,7 +122,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     fontWeight500: c("fontWeight", 500),
 
     "height100%": c("height", "100%"),
-    height100vh: c("height", "100vh"),
+    height95vh: c("height", "95vh"),
 
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
@@ -151,6 +151,8 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
 
     marginLeftAuto: c("marginLeft", "auto"),
 
+    marginLeftNegative01: c("marginLeft", theme.spacing(-1)),
+
     marginRight02: c("marginRight", theme.spacing(2)),
     marginRightAuto: c("marginRight", "auto"),
     marginRightNegative08: c("marginRight", theme.spacing(-8)),
@@ -159,6 +161,8 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     marginTop02: c("marginTop", theme.spacing(2)),
     marginTop05: c("marginTop", theme.spacing(5)),
     marginTop16: c("marginTop", theme.spacing(16)),
+
+    marginTopNegative01: c("marginTop", theme.spacing(-1)),
 
     marginX04: {
       marginLeft: theme.spacing(4),
@@ -198,7 +202,6 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     padding1: c("padding", theme.spacing(1)),
     padding2: c("padding", theme.spacing(2)),
     padding3: c("padding", theme.spacing(3)),
-    padding4: c("padding", theme.spacing(4)),
     padding6: c("padding", theme.spacing(6)),
 
     paddingLeft0: c("paddingLeft", 0),
@@ -216,6 +219,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     pointerEventsNone: c("pointerEvents", "none"),
 
     positionAbsolute: c("position", "absolute"),
+    positionFixed: c("position", "fixed"),
     positionRelative: c("position", "relative"),
 
     right0: c("right", 0),
@@ -252,11 +256,6 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
       },
     },
 
-    elevationRight1: {
-      boxShadow:
-        "2px 0px 1px -1px rgba(0,0,0,0.2), 1px 0px 1px 0px rgba(0,0,0,0.14), 1px 0px 3px 0px rgba(0,0,0,0.12)",
-    },
-
     helperText: {
       ...atomicCss["colorTextPrimary50%Opaque"],
       ...atomicCss["fontSize0.8Rem"],
@@ -270,8 +269,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     },
 
     topLevelComponent: {
-      height: `calc(100% - ${theme.spacing(16)}px)`,
-      ...atomicCss.marginTop16, // compensate for AppBar
+      ...atomicCss["height100%"],
     },
   } as const;
   /* eslint-disable sort-keys */

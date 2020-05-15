@@ -1,9 +1,9 @@
+import { useTheme } from "@material-ui/core";
 import React from "react";
 import {
-  useAtomicCss,
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
+  useAtomicCss,
 } from "_r/useAtomicCss";
-import { useTheme } from "@material-ui/core";
 import { testIds } from "_tu/testIds";
 import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { BlockList } from "./BlockList/BlockList";

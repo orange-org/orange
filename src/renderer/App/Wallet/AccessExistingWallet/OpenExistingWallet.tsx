@@ -3,13 +3,13 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Typography, Paper } from "@material-ui/core";
 import { SeedPhraseField } from "./SeedPhraseField/SeedPhraseField";
 
-export const AccessExistingWallet = () => {
+export const OpenExistingWallet = () => {
   const a = useAtomicCss();
 
   return (
     <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
-      <Typography className={a("marginTop05")} variant="h2">
-        Access a wallet
+      <Typography className={a("marginTop05")} variant="h1">
+        Access an existing wallet
       </Typography>
 
       <Paper className={a("marginTop02", "padding3")}>

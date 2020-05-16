@@ -76,7 +76,7 @@ const Block_: React.FC<CardProps & {
     >
       <Card
         {...props}
-        variant="elevation"
+        variant="outlined"
         className={clsx(
           a("padding2", "borderRadius0", "positionRelative", "overflowVisible"),
           {

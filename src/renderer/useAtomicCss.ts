@@ -47,6 +47,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     ),
     borderColorSecondaryMain: c("borderColor", theme.palette.secondary.main),
 
+    borderLeftNone: c("borderLeft", "none"),
     borderLeftStyleSolid: c("borderLeftStyle", "solid"),
 
     borderRadius0: c("borderRadius", 0),
@@ -54,10 +55,12 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
 
     borderRadiusShape: c("borderRadius", theme.shape.borderRadius),
 
+    borderRightNone: c("borderRight", "none"),
     borderRightStyleSolid: c("borderRightStyle", "solid"),
 
     borderStyleSolid: c("borderStyle", "solid"),
 
+    borderTopNone: c("borderTop", "none"),
     borderTopStyleSolid: c("borderTopStyle", "solid"),
 
     borderWidth1: c("borderWidth", theme.spacing(1)),
@@ -122,7 +125,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     fontWeight500: c("fontWeight", 500),
 
     "height100%": c("height", "100%"),
-    height95vh: c("height", "95vh"),
+    height100vh: c("height", "100vh"),
 
     hoverBackgroundColor: {
       "&:hover": c("backgroundColor", theme.palette.action.hover),
@@ -142,6 +145,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     lineHeightNormal: c("lineHeight", "normal"),
 
     marginBottom10: c("marginBottom", theme.spacing(10)),
+    marginBottomNegative01: c("marginBottom", theme.spacing(-1)),
 
     marginLeft01: c("marginLeft", theme.spacing(1)),
     marginLeft02: c("marginLeft", theme.spacing(2)),

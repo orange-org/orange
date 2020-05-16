@@ -9,6 +9,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Link, useLocation, matchPath } from "react-router-dom";
 import { TestId, testIds } from "_tu/testIds";
 import clsx from "clsx";
+import { CompensateToolbarHeight } from "_r/App/components/CompensateToolbarHeight/CompensateToolbarHeight";
 
 export const Drawer = () => {
   const a = useAtomicCss();
@@ -25,10 +26,10 @@ export const Drawer = () => {
       <div
         className={clsx(a("padding2"), {
           [a(
-            "borderWidth2",
+            "borderWidth1",
             "borderLeftStyleSolid",
             "borderColorSecondaryMain",
-            "paddingLeft0",
+            "paddingLeft1",
           )]: isActive,
         })}
       >
@@ -52,16 +53,18 @@ export const Drawer = () => {
   const divider = <div className={a("marginTop02")} />;
 
   return (
-    <Paper
-      elevation={2}
+    <div
       className={a(
         "displayFlex",
         "flexDirectionColumn",
-        "marginLeftNegative01",
-        "marginTopNegative01",
-        "height95vh",
+        "height100vh",
+        "backgroundColorPaper",
+        "borderColorDivider",
+        "borderRightStyleSolid",
+        "borderWidth1px",
       )}
     >
+      <CompensateToolbarHeight />
       {divider}
       {renderIcon(
         AccountBalanceWalletOutlined,
@@ -83,6 +86,6 @@ export const Drawer = () => {
         "/settings",
         testIds.settingsButton,
       )}
-    </Paper>
+    </div>
   );
 };

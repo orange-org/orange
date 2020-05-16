@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { AccessExistingWallet } from "./AccessExistingWallet/AccessExistingWallet";
+import { OpenExistingWallet } from "./AccessExistingWallet/OpenExistingWallet";
 import { CompensateToolbarHeight } from "../components/CompensateToolbarHeight/CompensateToolbarHeight";
 
 export const Wallet = () => {
@@ -17,7 +17,7 @@ export const Wallet = () => {
       <CompensateToolbarHeight />
       <Switch>
         <Route path="/wallet/import">
-          <AccessExistingWallet />
+          <OpenExistingWallet />
         </Route>
       </Switch>
     </div>

@@ -15,11 +15,8 @@ export const useSearchBoxStyles = makeStyles(theme => {
       width: 300,
       "&:focus": {
         width: 600,
-        ...atomicCss.borderWidth1px,
-        ...atomicCss.borderRadius4px,
-        ...atomicCss.borderColorSecondaryMain,
-        ...atomicCss.borderStyleSolid,
       },
+      ...atomicCss["fontSize110%"],
     },
   };
 });

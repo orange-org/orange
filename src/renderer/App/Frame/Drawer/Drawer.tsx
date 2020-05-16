@@ -76,7 +76,7 @@ export const Drawer = () => {
       {renderIcon(
         ExploreOutlined,
         "Block chain explorer",
-        "/explorer/300000",
+        "/explorer",
         testIds.homeButton,
       )}
       {divider}

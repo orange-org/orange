@@ -32,7 +32,7 @@ export const Routes = () => {
           <RedirectFromHomepage />
         </Route>
 
-        <Route path="/explorer/:blockHeightAsId">
+        <Route path="/explorer/:blockHeightAsId?">
           <Frame>
             <Explorer />
           </Frame>

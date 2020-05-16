@@ -18,6 +18,7 @@ import { RedirectFromHomepage } from "./RedirectFromHomepage/RedirectFromHomepag
 import { Settings } from "./Settings/Settings";
 import { Wallet } from "./Wallet/Wallet";
 import { Frame } from "./Frame/Frame";
+import { DebugLocation } from "./DebugLocation";
 
 export const Routes = () => {
   const appBar = <AppBar />;
@@ -25,6 +26,7 @@ export const Routes = () => {
   return (
     <Router>
       <RpcIssueDialog />
+      <DebugLocation />
 
       <Switch>
         <Route exact path="/">

@@ -245,6 +245,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     "width100%": c("width", "100%"),
     width11: c("width", theme.spacing(11)),
     width40: c("width", theme.spacing(40)),
+    width80: c("width", theme.spacing(80)),
     widthAuto: c("width", "auto"),
     widthFitContent: c("width", "fit-content"),
 

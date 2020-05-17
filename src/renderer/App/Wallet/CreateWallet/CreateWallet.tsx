@@ -4,6 +4,7 @@ import { Typography, Button } from "@material-ui/core";
 import { Link, Route, Switch } from "react-router-dom";
 import { CreateWalletWithExistingKey } from "./CreateWalletWithExistingKey/CreateWalletWithExistingKey";
 import { ChooseCreateWalletType } from "./ChooseCreateWalletType/ChooseCreateWalletType";
+import { CreateWalletWithNewKey } from "./CreateWalletWithNewKey/CreateWalletWithNewKey";
 
 export const CreateWallet = () => {
   const a = useAtomicCss();
@@ -12,11 +13,11 @@ export const CreateWallet = () => {
     <div className={a("height100%")}>
       <Switch>
         <Route path="/wallet/create/withNewKey">
-          {/* <CreateWalletWithNewKey /> */}
+          <CreateWalletWithNewKey />
         </Route>
 
         <Route path="/wallet/create/withExistingKey">
-          <CreateWalletWithExistingKey />
+          {/* <CreateWalletWithExistingKey /> */}
         </Route>
 
         <Route path="/wallet/create">

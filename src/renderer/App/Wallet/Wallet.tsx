@@ -9,7 +9,7 @@ export const Wallet = () => {
   const a = useAtomicCss();
 
   useEffect(() => {
-    history.push("/wallet/create");
+    history.push("/wallet/create/withNewKey");
   }, [history]);
 
   return (

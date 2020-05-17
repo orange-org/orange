@@ -1,7 +1,10 @@
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { Typography, Paper } from "@material-ui/core";
-import { SeedPhraseField } from "./SeedPhraseField/SeedPhraseField";
+import { Typography, Paper, Button } from "@material-ui/core";
+import {
+  SeedPhraseField,
+  useSeedPhraseField,
+} from "./SeedPhraseField/SeedPhraseField";
 
 // import * as bip32 from "bip32";
 // import * as bip39 from "bip39";
@@ -16,6 +19,8 @@ import { SeedPhraseField } from "./SeedPhraseField/SeedPhraseField";
 
 export const CreateWalletWithExistingKey = () => {
   const a = useAtomicCss();
+  const seedPhraseFieldProps = useSeedPhraseField();
+  const { errors } = seedPhraseFieldProps;
 
   return (
     <div
@@ -31,8 +36,12 @@ export const CreateWalletWithExistingKey = () => {
       </Typography>
 
       <Paper className={a("marginTop05", "padding3")}>
-        <SeedPhraseField />
+        <SeedPhraseField {...seedPhraseFieldProps} />
       </Paper>
+
+      <Button color="primary" variant="contained" disabled={errors !== null}>
+        Create
+      </Button>
     </div>
   );
 };

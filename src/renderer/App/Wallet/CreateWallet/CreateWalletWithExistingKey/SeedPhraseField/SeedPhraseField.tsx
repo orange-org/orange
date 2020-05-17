@@ -1,13 +1,12 @@
 import { TextField, TextFieldProps } from "@material-ui/core";
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { TimeoutId } from "_t/typeHelpers";
 import { getErrorInfo } from "./getErrorInfo";
-import { validateSeedPhrase } from "./validateSeedPhrase";
 import { useDetectTyping } from "./useDetectTyping";
+import { validateSeedPhrase } from "./validateSeedPhrase";
 
-export const SeedPhraseField = () => {
+export const useSeedPhraseField = () => {
   const formik = useFormik({
     initialValues: {
       seedPhrase: "",
@@ -15,16 +14,29 @@ export const SeedPhraseField = () => {
     onSubmit: () => undefined,
   });
   const { isTyping, setIsTyping } = useDetectTyping();
-  const a = useAtomicCss();
-  const onChange: TextFieldProps["onChange"] = event => {
-    setIsTyping(true);
-    formik.handleChange(event);
-  };
   const errors = validateSeedPhrase(formik.values.seedPhrase, !isTyping);
   const { showError, helperText } = getErrorInfo(
     errors,
     !!formik.touched.seedPhrase,
   );
+
+  return {
+    formik,
+    showError,
+    helperText,
+    setIsTyping,
+    errors,
+  };
+};
+
+export const SeedPhraseField: React.FC<ReturnType<
+  typeof useSeedPhraseField
+>> = ({ formik, showError, helperText, setIsTyping }) => {
+  const a = useAtomicCss();
+  const onChange: TextFieldProps["onChange"] = event => {
+    setIsTyping(true);
+    formik.handleChange(event);
+  };
 
   return (
     <div className={a("padding3")}>
@@ -36,6 +48,7 @@ export const SeedPhraseField = () => {
         className={a("width100%")}
         multiline
         rows="3"
+        placeholder="Enter your secret 12 to 24 word seed phrase"
         variant="outlined"
       />
     </div>

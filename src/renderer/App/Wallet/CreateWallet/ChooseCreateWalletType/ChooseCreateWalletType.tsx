@@ -35,7 +35,7 @@ export const ChooseCreateWalletType = () => {
 
         <div className={a("marginTop02")} />
 
-        {renderButton("With a new key", "withNewKey")}
+        {renderButton("With a new key", "create/withNewKey")}
         {renderButton("With an existing key", "create/withExistingKey", true)}
         <Typography className={a("colorTextPrimary50%Opaque")}>
           (Not available yet)

@@ -81,6 +81,8 @@ export const theme: ThemeOptions = {
 
     MuiButton: {
       disableFocusRipple: true,
+      disableElevation: true,
+      variant: "contained",
     },
   },
 };

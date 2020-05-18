@@ -1,6 +1,5 @@
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { Toolbar } from "@material-ui/core";
 import { AppBar } from "./AppBar/AppBar";
 import { Drawer } from "./Drawer/Drawer";
 
@@ -11,9 +10,9 @@ export const Frame: React.FC = ({ children }) => {
     <div className={a("displayFlex", "height100%")}>
       <Drawer />
 
-      <div className={a("height100%", "flexGrow1")}>
+      <div className={a("flexGrow1")}>
         <AppBar />
-        {children}
+        <div className={a("height100%", "overflowScroll")}>{children}</div>
       </div>
     </div>
   );

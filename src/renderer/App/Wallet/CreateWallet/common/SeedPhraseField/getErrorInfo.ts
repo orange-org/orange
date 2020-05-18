@@ -10,7 +10,7 @@ export const getErrorInfo = (
   let helperText: string = "";
 
   if (errors !== null) {
-    if (errors.error === SeedPhraseErrors.INVALID_WORDS) {
+    if (errors.error === SeedPhraseErrors.invalidWords) {
       showError = true;
       invalidWords = errors.invalidBip39Words!;
 
@@ -24,13 +24,13 @@ export const getErrorInfo = (
     } else if (isSeedPhraseFieldTouched) {
       showError = true;
 
-      if (errors.error === SeedPhraseErrors.INVALID_CHECKSUM) {
+      if (errors.error === SeedPhraseErrors.invalidChecksum) {
         helperText = "The seed words don't add up (invalid checksum)";
-      } else if (errors.error === SeedPhraseErrors.MISSING) {
+      } else if (errors.error === SeedPhraseErrors.missing) {
         helperText = "Required";
-      } else if (errors.error === SeedPhraseErrors.TOO_LONG) {
+      } else if (errors.error === SeedPhraseErrors.tooLong) {
         helperText = "A seed phrase should not be longer than 24 words";
-      } else if (errors.error === SeedPhraseErrors.TOO_SHORT) {
+      } else if (errors.error === SeedPhraseErrors.tooShort) {
         helperText = "A seed phrase should not be shorter than 12 words";
       }
     }

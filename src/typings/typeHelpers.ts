@@ -14,8 +14,6 @@ export type NonNullableProperties<T> = {
   [Key in keyof T]: NonNullable<T[Key]>;
 };
 
-export type ValuesOf<T extends any[]> = T[number];
-
 export type AllKeys<T> = T extends T ? keyof T : never;
 
 export type ObjectValues<T> = T[keyof T];

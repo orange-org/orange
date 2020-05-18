@@ -1,15 +1,14 @@
-import { IconButton, Divider, SvgIcon, Paper } from "@material-ui/core";
+import { IconButton, SvgIcon } from "@material-ui/core";
 import {
+  AccountBalanceWalletOutlined,
   ExploreOutlined,
   SettingsOutlined,
-  AccountBalanceWalletOutlined,
 } from "@material-ui/icons";
-import React from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
-import { Link, useLocation, matchPath } from "react-router-dom";
-import { TestId, testIds } from "_tu/testIds";
 import clsx from "clsx";
-import { CompensateToolbarHeight } from "_r/App/components/CompensateToolbarHeight/CompensateToolbarHeight";
+import React from "react";
+import { Link, matchPath, useLocation } from "react-router-dom";
+import { useAtomicCss } from "_r/useAtomicCss";
+import { TestId, testIds } from "_tu/testIds";
 
 export const Drawer = () => {
   const a = useAtomicCss();
@@ -55,16 +54,15 @@ export const Drawer = () => {
   return (
     <div
       className={a(
+        "topLevelComponent",
         "displayFlex",
         "flexDirectionColumn",
-        "height100vh",
         "backgroundColorPaper",
         "borderColorDivider",
         "borderRightStyleSolid",
         "borderWidth1px",
       )}
     >
-      <CompensateToolbarHeight />
       {divider}
       {renderIcon(
         AccountBalanceWalletOutlined,

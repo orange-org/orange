@@ -1,8 +1,9 @@
-import * as CSS from "csstype";
-import { makeStyles, fade, Theme, darken } from "@material-ui/core";
+import { fade, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
+import * as CSS from "csstype";
 
 export const BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH = 82;
+const APPBAR_HEIGHT = 67;
 
 export const getAtomicCssAndStyleGroups = (theme: Theme) => {
   const c = (
@@ -164,6 +165,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     marginTop01: c("marginTop", theme.spacing(1)),
     marginTop02: c("marginTop", theme.spacing(2)),
     marginTop05: c("marginTop", theme.spacing(5)),
+    marginTop08: c("marginTop", theme.spacing(8)),
     marginTop16: c("marginTop", theme.spacing(16)),
 
     marginTopNegative01: c("marginTop", theme.spacing(-1)),
@@ -274,7 +276,8 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     },
 
     topLevelComponent: {
-      ...atomicCss["height100%"],
+      height: "100%",
+      paddingTop: `${APPBAR_HEIGHT}px`, // Compensate for AppBar
     },
   } as const;
   /* eslint-disable sort-keys */

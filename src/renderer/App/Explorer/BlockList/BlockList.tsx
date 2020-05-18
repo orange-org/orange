@@ -12,7 +12,6 @@ import {
 import { poll } from "_r/utils/poll";
 import { pluralize } from "_r/utils/smallUtils";
 import { testIds } from "_tu/testIds";
-import { CompensateToolbarHeight } from "_r/App/components/CompensateToolbarHeight/CompensateToolbarHeight";
 import { dummyBlockList } from "../common/dummyBlockData";
 import { Block, useChainLinkStyles } from "./Block/Block";
 import { Mempool } from "./Mempool/Mempool";
@@ -159,8 +158,6 @@ export const BlockList: React.FC = () => {
       data-testid={testIds.scrollableBlockContainer}
     >
       <div className={a("marginX05", "marginY05")}>
-        <CompensateToolbarHeight />
-
         <Mempool />
 
         <div className={a("marginTop05")}>{getDepthTopLink()}</div>

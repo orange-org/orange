@@ -31,20 +31,18 @@ export const getNextStepLink = (stepName: typeof steps[number]) => {
   return `/wallet/create/withNewKey/#${steps[nextStepIndex]}`;
 };
 
-export const NextButton: React.FC<ButtonProps<"button"> & StepName> = ({
-  stepName,
-  ...props
-}) => {
+export const NextButton: React.FC<ButtonProps<"button"> &
+  StepName & { to?: string }> = ({ stepName, ...props }) => {
   const a = useAtomicCss();
 
   const getProps = () =>
     props.onClick
       ? props
       : {
-          ...props,
           component: Link,
           to: getNextStepLink(stepName),
           replace: true,
+          ...props,
         };
 
   return (

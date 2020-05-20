@@ -12,16 +12,12 @@ export const OpenWallet = () => {
       <Typography>Your wallet has been created.</Typography>
 
       <Typography className={paragraphClasses}>
-        Your secret key will be completely removed from this computers memory.
-      </Typography>
-
-      <Typography className={paragraphClasses}>
-        You will be asked for your secret key again when performing actions that
-        require it.
+        You will be asked for your secret key again when performing certain
+        actions.
       </Typography>
 
       <StepButtons>
-        <NextButton stepName="openWallet" onClick={() => console.log("done")}>
+        <NextButton stepName="openWallet" to="/wallet">
           Open wallet
         </NextButton>
       </StepButtons>

@@ -8,6 +8,8 @@ export const isRpcMethodAllowed = (methodName: RpcRequest["method"]) => {
     "getrawtransaction",
     "getmempoolinfo",
     "uptime",
+    "createwallet",
+    "listwallets",
   ];
 
   return allowedMethods.includes(methodName);

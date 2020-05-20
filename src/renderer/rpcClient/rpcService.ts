@@ -3,6 +3,8 @@ import { rpcClient } from "./rpcClient";
 type Verbosity = 0 | 1 | 2;
 
 class RpcService {
+  listWallets = (nonce: NONCE) => rpcClient(nonce, { method: "listwallets" });
+
   requestBlockchainInfo = (nonce: NONCE, cacheDuration?: number) =>
     rpcClient(
       nonce,
@@ -50,6 +52,31 @@ class RpcService {
     rpcClient(nonce, {
       method: "getrawtransaction",
       params: [transactionId, verbose],
+    });
+
+  createWallet = async (
+    nonce: NONCE,
+    walletName: string,
+    disablePrivateKeys: boolean,
+    blank: boolean,
+    passphrase: string,
+    avoidReuse: boolean,
+  ) =>
+    rpcClient(nonce, {
+      method: "createwallet",
+      params: [walletName, disablePrivateKeys, blank, passphrase, avoidReuse],
+    });
+
+  setHdSeed = (
+    nonce: NONCE,
+    walletName: string,
+    newKeyPool: boolean,
+    seed: string,
+  ) =>
+    rpcClient(nonce, {
+      method: "sethdseed",
+      params: [newKeyPool, seed],
+      walletName,
     });
 }
 

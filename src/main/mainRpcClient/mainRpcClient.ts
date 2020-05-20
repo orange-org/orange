@@ -10,7 +10,7 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
   rpcConfigurations: { username: string; password: string; serverUrl: string },
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
-  const { method, params = [] } = rpcRequest;
+  const { method, params = [], walletName } = rpcRequest;
   const { username, password, serverUrl } = rpcConfigurations;
 
   if (!isRpcMethodAllowed(method)) {
@@ -27,7 +27,13 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   };
   const body = { jsonrpc: "1.0", id: "N/A", method, params };
 
-  const response = await makeRpcRequest({ url: serverUrl, options, body });
+  const response = await makeRpcRequest({
+    url: `${serverUrl}${
+      walletName ? `/${encodeURIComponent(walletName)}` : ""
+    }`,
+    options,
+    body,
+  });
 
   if (response.statusCode === 401 || response.statusCode === 403) {
     throw new ErrorWithCode(

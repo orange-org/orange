@@ -32,8 +32,8 @@ export const ConfirmKey: React.FC<{
 
       return {};
     },
-    onSubmit: () => {
-      dispatch(thunks.createWallet(__NONCE__, selectedMnemonic));
+    onSubmit: async () => {
+      await dispatch(thunks.createWallet(__NONCE__, selectedMnemonic));
       history.replace(getNextStepLink("confirmKey"));
     },
   });

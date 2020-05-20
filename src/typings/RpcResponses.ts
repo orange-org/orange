@@ -12,6 +12,7 @@ import {
   RawTransactionRpcRequest,
   RpcInfoRpcRequest,
   UptimeRpcRequest,
+  ListWalletsRpcRequest,
 } from "_t/RpcRequests";
 import { ObjectValues } from "./typeHelpers";
 
@@ -324,6 +325,13 @@ export type RawTransactionRpcResponse = CreateRpcResponse<
   RawTransaction
 >;
 
+export type WalletList = string[];
+
+export type ListWalletsRpcResponse = CreateRpcResponse<
+  ListWalletsRpcRequest["method"],
+  WalletList
+>;
+
 export type RpcResponse =
   | NetworkInfoRpcResponse
   | BlockchainInfoRpcResponse
@@ -335,7 +343,8 @@ export type RpcResponse =
   | ChainTipsRpcResponse
   | BlockHeaderRpcResponse
   | BlockHashRpcResponse
-  | RawTransactionRpcResponse;
+  | RawTransactionRpcResponse
+  | ListWalletsRpcResponse;
 
 export type RawRpcResponse = {
   result: RpcResponse["result"];

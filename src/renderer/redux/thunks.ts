@@ -4,6 +4,7 @@ import { rpcService } from "_r/rpcClient/rpcService";
 import { GetState } from "_t/typeHelpers";
 import * as actions from "./actions";
 import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
+import { getWalletName, getOrangeWalletList } from "./walletDataHelpers";
 
 export const requestBlockchainInfo = (
   nonce: NONCE,
@@ -91,4 +92,19 @@ export const requestRawTransactionToDisplay = (
   dispatch(actions.setSelectedExplorerTransactionInputValues(inputValues));
 
   return transaction;
+};
+
+export const createWallet = (
+  nonce: NONCE,
+  selectedMnemonic: string,
+) => async () => {
+  const walletsList = await rpcService.listWallets(nonce);
+  const orangeWalletsList = getOrangeWalletList(walletsList);
+  const walletName = getWalletName(orangeWalletsList);
+
+  await rpcService.createWallet(nonce, walletName, true, true, "", true);
+
+  await rpcService.setHdSeed(nonce, walletName, true, selectedMnemonic);
+
+  return walletName;
 };

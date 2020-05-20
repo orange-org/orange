@@ -51,40 +51,26 @@ export const CreateWalletWithNewKey = () => {
         orientation="vertical"
         className={a("marginTop05")}
       >
-        <Step>
-          <StepLabel>Start</StepLabel>
-
-          <StepContent>
-            <Start />
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Create key</StepLabel>
-
-          <StepContent>
+        {([
+          ["Start", <Start />],
+          [
+            "Create key",
             <CreateKey
               mnemonic={selectedMnemonic}
               generateNewMnemonic={generateNewMnemonic}
-            />
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Confirm your key</StepLabel>
-
-          <StepContent>
-            <ConfirmKey selectedMnemonic={selectedMnemonic} />
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Open the wallet</StepLabel>
-
-          <StepContent>
-            <OpenWallet />
-          </StepContent>
-        </Step>
+            />,
+          ],
+          [
+            "Confirm your key",
+            <ConfirmKey selectedMnemonic={selectedMnemonic} />,
+          ],
+          ["Open the wallet", <OpenWallet />],
+        ] as const).map(([title, content]) => (
+          <Step key={title}>
+            <StepLabel>{title}</StepLabel>
+            <StepContent>{content}</StepContent>
+          </Step>
+        ))}
       </Stepper>
     </div>
   );

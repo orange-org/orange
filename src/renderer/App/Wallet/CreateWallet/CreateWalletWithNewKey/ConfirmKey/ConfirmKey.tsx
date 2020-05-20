@@ -1,18 +1,15 @@
-import { Typography, TextField, Button } from "@material-ui/core";
-import React, { useState } from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
+import { TextField, Typography } from "@material-ui/core";
 import { useFormik } from "formik";
-import { error } from "shelljs";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import { useAtomicCss } from "_r/useAtomicCss";
+import * as thunks from "_r/redux/thunks";
+import { useDispatch } from "react-redux";
 import {
-  SeedPhraseField,
-  useSeedPhraseField,
-} from "../../common/SeedPhraseField/SeedPhraseField";
-import {
-  StepButtons,
-  NextButton,
   BackButton,
   getNextStepLink,
+  NextButton,
+  StepButtons,
 } from "../../common/StepButtons";
 
 export const ConfirmKey: React.FC<{
@@ -20,6 +17,7 @@ export const ConfirmKey: React.FC<{
 }> = ({ selectedMnemonic }) => {
   const a = useAtomicCss();
   const history = useHistory();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       confirmedKey: "",
@@ -35,6 +33,7 @@ export const ConfirmKey: React.FC<{
       return {};
     },
     onSubmit: () => {
+      dispatch(thunks.createWallet(__NONCE__, selectedMnemonic));
       history.replace(getNextStepLink("confirmKey"));
     },
   });
@@ -62,7 +61,7 @@ export const ConfirmKey: React.FC<{
         <BackButton stepName="confirmKey" />
 
         <NextButton stepName="confirmKey" onClick={() => formik.handleSubmit()}>
-          Confirm key
+          Confirm key and create wallet
         </NextButton>
       </StepButtons>
     </>

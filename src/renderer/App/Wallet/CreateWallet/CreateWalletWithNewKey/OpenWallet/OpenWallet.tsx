@@ -12,11 +12,11 @@ export const OpenWallet = () => {
       <Typography>Your wallet has been created.</Typography>
 
       <Typography className={paragraphClasses}>
-        Your secret key has been completely removed from this computers memory.
+        Your secret key will be completely removed from this computers memory.
       </Typography>
 
       <Typography className={paragraphClasses}>
-        You will be asked for your key again when performing actions that
+        You will be asked for your secret key again when performing actions that
         require it.
       </Typography>
 

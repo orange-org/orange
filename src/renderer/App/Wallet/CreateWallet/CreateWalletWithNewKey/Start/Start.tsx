@@ -1,14 +1,7 @@
-import {
-  Button,
-  Typography,
-  Step,
-  StepLabel,
-  StepContent,
-} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import React from "react";
-import { Link } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { StepButtons, NextButton } from "../../common/StepButtons";
+import { NextButton, StepButtons } from "../../common/StepButtons";
 
 export const Start: React.FC = () => {
   const a = useAtomicCss();

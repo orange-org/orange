@@ -55,12 +55,24 @@ export type SaveRpcConfigurationsMtR = Message<
   null
 >;
 
+export type CreateWalletAndSetSeedPayload = {
+  walletName: string;
+  mnemonic: string;
+};
+
+export type CreateWalletAndSetSeedMtM = Message<
+  "createWalletAndSetSeed",
+  CreateWalletAndSetSeedPayload
+>;
+
 export type MessageToMain =
   | RpcRequestMtM
   | ShowErrorMtM
   | GetCookiePathFromOpenDialogMtM
   | GetSavedRpcConfigurationsMtM
+  | CreateWalletAndSetSeedMtM
   | SaveRpcConfigurationsMtM;
+
 export type MessageToRenderer =
   | RpcResponseMtR
   | ShowErrorMtR

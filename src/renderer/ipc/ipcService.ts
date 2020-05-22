@@ -2,7 +2,7 @@ import { PromiseType } from "_t/typeHelpers";
 import { ShowErrorMtM, RpcRequestMtM, RpcConfigurations } from "_t/IpcMessages";
 import { callMain } from "./callMain";
 
-const extractPayload = async <T extends ReturnType<typeof callMain>>(
+export const extractPayload = async <T extends ReturnType<typeof callMain>>(
   message: T,
 ): Promise<PromiseType<T>["payload"]> => {
   const { payload } = await message;

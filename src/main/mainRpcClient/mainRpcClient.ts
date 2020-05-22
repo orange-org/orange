@@ -9,11 +9,12 @@ import { makeRpcRequest } from "./makeRpcRequest";
 export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
   rpcConfigurations: { username: string; password: string; serverUrl: string },
+  onlyExecuteWhitelistedMethods = true,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   const { method, params = [], walletName } = rpcRequest;
   const { username, password, serverUrl } = rpcConfigurations;
 
-  if (!isRpcMethodAllowed(method)) {
+  if (onlyExecuteWhitelistedMethods && !isRpcMethodAllowed(method)) {
     throw new ErrorWithCode(
       "RPC method not allowed by main process",
       RPC_ERROR.methodNotAllowedByMainProcess,

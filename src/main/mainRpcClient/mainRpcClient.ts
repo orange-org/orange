@@ -3,24 +3,14 @@ import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
 import { ErrorWithCode } from "_c/ErrorWithCode";
-import { isRpcMethodAllowed } from "./isRpcMethodAllowed";
 import { makeRpcRequest } from "./makeRpcRequest";
 
 export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
   rpcRequest: TRpcRequest,
   rpcConfigurations: { username: string; password: string; serverUrl: string },
-  onlyExecuteWhitelistedMethods = true,
 ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
   const { method, params = [], walletName } = rpcRequest;
   const { username, password, serverUrl } = rpcConfigurations;
-
-  if (onlyExecuteWhitelistedMethods && !isRpcMethodAllowed(method)) {
-    throw new ErrorWithCode(
-      "RPC method not allowed by main process",
-      RPC_ERROR.methodNotAllowedByMainProcess,
-    );
-  }
-
   const options = {
     method: "POST",
     auth: `${username}:${password}`,
@@ -43,7 +33,10 @@ export const mainRpcClient = async <TRpcRequest extends RpcRequest>(
     );
   }
 
-  const { result, error }: RawRpcResponse = JSON.parse(response.data);
+  const { result, error }: RawRpcResponse =
+    response.data.length > 0
+      ? JSON.parse(response.data)
+      : { result: "", error: null };
 
   return { result, error, method } as ExtractedRpcResponse<TRpcRequest>;
 };

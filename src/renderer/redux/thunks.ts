@@ -2,7 +2,6 @@ import { map } from "bluebird";
 import { Dispatch } from "redux";
 import { rpcService } from "_r/rpcClient/rpcService";
 import { GetState } from "_t/typeHelpers";
-import { bcoreWorkflowService } from "_r/ipc/bcoreWorkflowService";
 import * as actions from "./actions";
 import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
 import { getWalletName, getOrangeWalletList } from "./walletDataHelpers";
@@ -100,13 +99,20 @@ export const createWallet = (
   selectedMnemonic: string,
 ) => async () => {
   const walletsList = await rpcService.listWallets(nonce);
+
   const orangeWalletsList = getOrangeWalletList(walletsList);
   const walletName = getWalletName(orangeWalletsList);
 
-  await bcoreWorkflowService.createWalletAndSetSeed(nonce, {
+  await rpcService.createWallet(
+    nonce,
     walletName,
-    mnemonic: selectedMnemonic,
-  });
+    false,
+    true,
+    selectedMnemonic,
+    true,
+  );
+
+  await rpcService.setHdSeed(nonce, walletName, true, selectedMnemonic);
 
   return walletName;
 };

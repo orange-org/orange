@@ -19,8 +19,6 @@ export const registerIpcListener = () => {
       await handleGetSavedRpcConfigurations(data);
     } else if (data.type === "save-rpc-configurations") {
       await handleSaveRpcConfigurations(data);
-    } else if (data.type === "createWalletAndSetSeed") {
-      await handleCreateWalletAndSetSeed(data);
     }
   });
 };

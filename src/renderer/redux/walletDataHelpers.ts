@@ -3,8 +3,7 @@ import { WalletList } from "_t/RpcResponses";
 export const orangeWalletNamePrefix = "o75c";
 
 export const orangeWalletNameRegExp = new RegExp(
-  // eslint-disable-next-line no-useless-escape
-  `^${orangeWalletNamePrefix}-\d+$`,
+  `^${orangeWalletNamePrefix}-\\d+$`,
 );
 
 export const isOrangeWalletName = (walletName: string) =>

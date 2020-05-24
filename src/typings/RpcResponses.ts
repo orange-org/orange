@@ -134,7 +134,6 @@ export type Block = Readonly<{
   bits: string;
   difficulty: number;
   chainwork: string;
-  nTx: number;
   previousblockhash?: string;
   nextblockhash?: string;
 }>;

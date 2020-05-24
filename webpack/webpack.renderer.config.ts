@@ -15,7 +15,7 @@ export default merge.smart(baseConfig, {
   },
   target: "web",
   entry: {
-    app: `${root}/${buildConstants.rendererTs}`,
+    app: `${root}/${buildConstants.rendererTsx}`,
   },
   output: {
     path: `${root}/${buildConstants.artifactsWebpackRenderer}`,

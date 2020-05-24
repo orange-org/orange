@@ -37,6 +37,10 @@ const Block_: React.FC<CardProps & {
 }> = props_ => {
   const { data, isBlockListLoading, ...props } = props_;
 
+  if (data.nTx === undefined) {
+    console.log("data", data);
+  }
+
   const a = useAtomicCss();
   const classNames = useChainLinkStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);
@@ -124,7 +128,7 @@ const Block_: React.FC<CardProps & {
           <div>
             <Typography
               variant="body2"
-              className={a("fontSize95%", "colorHint", "marginLeft02")}
+              className={a("fontSize95%", "colorTextHint", "marginLeft02")}
             >
               {data.time && secondsTimestampToFormattedDate(data.time)}
             </Typography>

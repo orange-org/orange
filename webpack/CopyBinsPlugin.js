@@ -5,16 +5,16 @@ const buildConstants = require("./buildConstants");
 const { platform, arch } = process;
 
 const rootDir = getRootDir();
+const rootDirSrc = `${rootDir}/${buildConstants.src}`;
+const btcdSrcPath = `${rootDirSrc}/${buildConstants.btcd(platform, arch)}`;
+const btcdDestinationPath = `${rootDirSrc}/${buildConstants.artifactsWebpackBinPlatformBtcd(
+  platform,
+  arch,
+)}`;
 
 class CopyBinsPlugin {
   apply = compiler => {
     compiler.hooks.emit.tapPromise("CopyBins", async () => {
-      const btcdSrcPath = `${rootDir}/${buildConstants.btcd(platform, arch)}`;
-      const btcdDestinationPath = `${rootDir}/${buildConstants.artifactsWebpackBinPlatformBtcd(
-        platform,
-        arch,
-      )}`;
-
       const btcdDestinationExists = await fs.pathExists(btcdDestinationPath);
 
       if (btcdDestinationExists) {

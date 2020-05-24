@@ -45,8 +45,12 @@ export const handleRpcRequest = async (
         serverUrl,
       });
     } else {
-      const rpcConfigurations = await getRpcConfigurationsFromDisk();
-      response = await mainRpcClient(data.payload, rpcConfigurations);
+      // const rpcConfigurations = await getRpcConfigurationsFromDisk();
+      response = await mainRpcClient(data.payload, {
+        username: "111",
+        password: "111",
+        serverUrl: "https://127.0.0.1:18334",
+      });
     }
   } catch (error) {
     const errorResponse = {

@@ -144,7 +144,7 @@ const Block_: React.FC<CardProps & {
           />
           <MetaDataItem
             icon={Repeat}
-            text={data.nTx.toLocaleString()}
+            text={data.tx.length.toLocaleString()}
             isLoading={isLoading}
           />
           <MetaDataItem

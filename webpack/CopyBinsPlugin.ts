@@ -1,19 +1,15 @@
 import fs from "fs-extra";
 import Webpack from "webpack";
 import getRootDir from "./getRootDir";
-import { buildConstants } from "./buildConstants";
 
 const { platform, arch } = process;
 
 const rootDir = getRootDir();
-const rootDirSrc = `${rootDir}/${buildConstants.src}`;
-const btcdSrcPath = `${rootDirSrc}/${buildConstants.btcd(platform, arch)}`;
-const btcdDestinationPath = `${rootDirSrc}/${buildConstants.artifactsWebpackBinPlatformBtcd(
-  platform,
-  arch,
-)}`;
+const rootDirSrc = `${rootDir}/src`;
+const btcdSrcPath = `${rootDirSrc}/bin/${platform}-${arch}/btcd`;
+const btcdDestinationPath = `${rootDir}/artifacts/webpack/bin/${platform}-${arch}/btcd`;
 
-class CopyBinsPlugin {
+export class CopyBinsPlugin {
   apply = (compiler: Webpack.Compiler) => {
     compiler.hooks.emit.tapPromise("CopyBins", async () => {
       const btcdDestinationExists = await fs.pathExists(btcdDestinationPath);
@@ -23,15 +19,10 @@ class CopyBinsPlugin {
       }
 
       await fs.ensureDir(
-        `${rootDir}/${buildConstants.artifactsWebpackBinPlatform(
-          platform,
-          arch,
-        )}`,
+        `${rootDir}/artifacts/webpack/bin/${platform}-${arch}`,
       );
 
       await fs.copy(btcdSrcPath, btcdDestinationPath);
     });
   };
 }
-
-module.exports = CopyBinsPlugin;

@@ -10,6 +10,10 @@ jobs:
       fail-fast: false
       matrix:
         command:
+          - 'npm run check:lint'
+          - 'npm run check:typescript'
+          - 'npm run check:coverage'
+          - 'npm run check:npm-audit'
           - 'npm run check:depcheck'
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +26,7 @@ jobs:
         with:
           command: '${{ matrix.command }}'
   create-executable:
-    if: false
+    if: true
     name: Create executable
     strategy:
       fail-fast: false
@@ -41,7 +45,7 @@ jobs:
         with:
           task: create-executable
   draft-release:
-    if: false
+    if: true
     name: Draft release
     needs: create-executable
     runs-on: ubuntu-latest

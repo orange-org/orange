@@ -6,8 +6,8 @@
 import * as core from "@actions/core";
 import * as artifact from "@actions/artifact";
 import fs from "fs-extra";
-import * as packager from "electron-packager";
-import * as archiver from "archiver";
+import packager from "electron-packager";
+import archiver from "archiver";
 import { basename } from "path";
 import * as electronInstaller from "electron-winstaller";
 import bluebird from "bluebird";
@@ -39,6 +39,11 @@ export const createExecutable = async () => {
   await execWithErrorMessage("npm run build", "`npm run build` failed");
 
   const os = process.platform;
+
+  if (os !== "win32" && os !== "linux" && os !== "darwin") {
+    throw new Error("This platform is not supported");
+  }
+
   const { archiveName } = platformDefinitions[os];
 
   console.log(`Creating Electron package on ${os}...`);
@@ -97,8 +102,10 @@ export const createExecutable = async () => {
       electronPackagerArtifactDir,
     );
   }
+
+  console.log("Done.");
 };
 
-if (process.env.FILENAME === "createExecutable") {
+if (process.env.createExecutable === "true") {
   bluebird.try(createExecutable).catch(console.error);
 }

@@ -9,7 +9,7 @@ export const execWithErrorMessage = async (
   message: string,
 ) => {
   if (isOnGithubActions) {
-    if ((await exec(command, null, { ignoreReturnCode: true })) > 0) {
+    if ((await exec(command, undefined, { ignoreReturnCode: true })) > 0) {
       core.setFailed(message);
     }
   } else {

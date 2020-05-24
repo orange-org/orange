@@ -10,8 +10,10 @@
     "SCROLLABLE",
     "Satoshi",
     "bitcoind",
+    "btcd",
     "clsx",
     "formik",
+    "start",
     "testid"
   ],
   "editor.formatOnSave": true,

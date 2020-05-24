@@ -5,6 +5,7 @@ import { resolve } from "path";
 import nonce from "./nonce";
 import baseConfig from "./webpack.base.config";
 import getContentSecurityPolicy from "./getContentSecurityPolicy";
+import {buildConstants} from './buildConstants'
 
 const root = resolve(__dirname, "..");
 
@@ -14,10 +15,10 @@ export default merge.smart(baseConfig, {
   },
   target: "web",
   entry: {
-    app: `${root}/src/renderer/renderer.tsx`,
+    app: `${root}/${buildConstants.rendererTs}`,
   },
   output: {
-    path: `${root}/artifacts/webpack/renderer`,
+    path: `${root}/${buildConstants.artifactsWebpackRenderer}`,
     filename: "[name].js",
   },
   module: {
@@ -49,7 +50,7 @@ export default merge.smart(baseConfig, {
     new NamedModulesPlugin(),
     new HtmlWebpackPlugin({
       title: "Orange",
-      template: `${root}/src/renderer/index.html`,
+      template: `${root}/${buildConstants.rendererIndexHtml}`,
       templateParameters: {
         contentSecurityPolicy: getContentSecurityPolicy(nonce),
         nonce,

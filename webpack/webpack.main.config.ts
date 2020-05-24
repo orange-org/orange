@@ -6,6 +6,7 @@ import CopyPlugin from "copy-webpack-plugin";
 import { resolve } from "path";
 import getIsDevelopment from "./getIsDevelopment";
 import baseConfig from "./webpack.base.config";
+import { buildConstants } from './buildConstants';
 
 const root = resolve(__dirname, "..");
 const isDevelopment = getIsDevelopment();
@@ -13,11 +14,11 @@ const isDevelopment = getIsDevelopment();
 export default merge.smart(baseConfig, {
   target: "electron-main",
   entry: {
-    main: `${root}/src/main/main.ts`,
-    preload: `${root}/src/main/preload.ts`,
+    main: `${root}/${buildConstants.mainTs}`,
+    preload: `${root}/${buildConstants.preloadTs}`,
   },
   output: {
-    path: `${root}/artifacts/webpack/main`,
+    path: `${root}/${buildConstants.artifactsWebpackMain}`,
     filename: "[name].js",
   },
   module: {
@@ -34,9 +35,10 @@ export default merge.smart(baseConfig, {
     isDevelopment ? null : new IgnorePlugin(/electron-devtools-installer/),
     new CopyPlugin([
       {
-        from: `${root}/package.json`,
-        to: `${root}/artifacts/webpack/package.json`,
+        from: `${root}/${buildConstants.packageJson}`,
+        to: `${root}/${buildConstants.artifactsWebpackPackageJson}`,
       },
     ]),
+    new CopyBins(),
   ]),
 });

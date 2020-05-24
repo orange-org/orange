@@ -1,6 +1,7 @@
-const fs = require("fs-extra");
-const getRootDir = require("./getRootDir");
-const buildConstants = require("./buildConstants");
+import fs from "fs-extra";
+import Webpack from "webpack";
+import getRootDir from "./getRootDir";
+import { buildConstants } from "./buildConstants";
 
 const { platform, arch } = process;
 
@@ -13,7 +14,7 @@ const btcdDestinationPath = `${rootDirSrc}/${buildConstants.artifactsWebpackBinP
 )}`;
 
 class CopyBinsPlugin {
-  apply = compiler => {
+  apply = (compiler: Webpack.Compiler) => {
     compiler.hooks.emit.tapPromise("CopyBins", async () => {
       const btcdDestinationExists = await fs.pathExists(btcdDestinationPath);
 

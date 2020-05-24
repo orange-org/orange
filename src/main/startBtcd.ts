@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 import { dialog, app } from "electron";
-import * as buildConstants from "_m/../../webpack/buildConstants";
+import { buildConstants } from "_m/../../webpack/buildConstants";
 import { getAppRoot } from "./getAppRoot";
 import { getGlobalProcess } from "./getGlobalProcess";
 

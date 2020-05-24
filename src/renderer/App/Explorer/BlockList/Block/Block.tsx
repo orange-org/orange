@@ -128,7 +128,7 @@ const Block_: React.FC<CardProps & {
           <div>
             <Typography
               variant="body2"
-              className={a("fontSize95%", "colorTextHint", "marginLeft02")}
+              className={a("fontSize95%", "colorHint", "marginLeft02")}
             >
               {data.time && secondsTimestampToFormattedDate(data.time)}
             </Typography>

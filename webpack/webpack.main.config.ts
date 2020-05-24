@@ -1,17 +1,16 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-const { compact } = require("lodash");
-const { IgnorePlugin } = require("webpack");
-const merge = require("webpack-merge");
-const CopyPlugin = require("copy-webpack-plugin");
-const { resolve } = require("path");
-
-const getIsDevelopment = require("./getIsDevelopment");
-const baseConfig = require("./webpack.base.config");
+import { compact } from "lodash";
+import { IgnorePlugin } from "webpack";
+import merge from "webpack-merge";
+import CopyPlugin from "copy-webpack-plugin";
+import { resolve } from "path";
+import getIsDevelopment from "./getIsDevelopment";
+import baseConfig from "./webpack.base.config";
 
 const root = resolve(__dirname, "..");
 const isDevelopment = getIsDevelopment();
 
-module.exports = merge.smart(baseConfig, {
+export default merge.smart(baseConfig, {
   target: "electron-main",
   entry: {
     main: `${root}/src/main/main.ts`,

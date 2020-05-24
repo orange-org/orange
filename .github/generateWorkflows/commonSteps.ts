@@ -1,4 +1,4 @@
-module.exports.commonSteps = [
+export const commonSteps = [
   {
     name: "Checkout repo",
     uses: "actions/checkout@v2",

@@ -1,14 +1,16 @@
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
-const { DefinePlugin, SourceMapDevToolPlugin } = require("webpack");
-const { resolve } = require("path");
-const globalConstants = require("./globalConstants");
-const getIsDevelopment = require("./getIsDevelopment");
+import { Configuration, DefinePlugin, SourceMapDevToolPlugin } from "webpack";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import { resolve } from "path";
+import globalConstants from "./globalConstants";
+import getIsDevelopment from "./getIsDevelopment";
+
+delete process.env.TS_NODE_PROJECT;
 
 const root = resolve(__dirname, "..");
 
 const isDevelopment = getIsDevelopment();
 
-module.exports = {
+const configuration: Configuration = {
   mode: isDevelopment ? "development" : "production",
   node: {
     __dirname: false,
@@ -32,6 +34,7 @@ module.exports = {
     ],
   },
   devtool: false,
+
   plugins: [
     new DefinePlugin({
       ...globalConstants,
@@ -50,3 +53,5 @@ module.exports = {
     }),
   ],
 };
+
+export default configuration;

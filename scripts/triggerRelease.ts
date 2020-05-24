@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const { echo, exit, exec, cd } = require("shelljs");
-const { resolve } = require("path");
+import { echo, exit, exec, cd } from "shelljs";
+import { resolve } from "path";
 
 const [, , version] = process.argv;
 const semverRegExp = /^([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)\.([0-9]|[1-9][0-9]*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/;

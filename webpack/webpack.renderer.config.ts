@@ -1,15 +1,14 @@
-const { NamedModulesPlugin, IgnorePlugin } = require("webpack");
-const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { resolve } = require("path");
-const nonce = require("./nonce");
-
-const baseConfig = require("./webpack.base.config");
-const getContentSecurityPolicy = require("./getContentSecurityPolicy");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { NamedModulesPlugin, IgnorePlugin } from "webpack";
+import merge from "webpack-merge";
+import { resolve } from "path";
+import nonce from "./nonce";
+import baseConfig from "./webpack.base.config";
+import getContentSecurityPolicy from "./getContentSecurityPolicy";
 
 const root = resolve(__dirname, "..");
 
-module.exports = merge.smart(baseConfig, {
+export default merge.smart(baseConfig, {
   performance: {
     hints: false,
   },

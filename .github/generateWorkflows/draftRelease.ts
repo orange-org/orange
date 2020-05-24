@@ -1,8 +1,8 @@
-const masterWorkflow = require("./master");
-const { isDevelop } = require("./isDevelop");
-const { commonSteps } = require("./commonSteps");
+import masterWorkflow from "./master";
+import { isDevelop } from "./isDevelop";
+import { commonSteps } from "./commonSteps";
 
-module.exports = {
+export default {
   name: "Draft Release",
 
   on: {

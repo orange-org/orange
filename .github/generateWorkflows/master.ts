@@ -1,8 +1,8 @@
-const { compact } = require("lodash");
-const { isDevelop } = require("./isDevelop");
-const { commonSteps } = require("./commonSteps");
+import { compact } from "lodash";
+import { isDevelop } from "./isDevelop";
+import { commonSteps } from "./commonSteps";
 
-module.exports = {
+export default {
   name: "Master",
 
   on: {

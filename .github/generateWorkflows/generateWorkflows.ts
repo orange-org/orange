@@ -8,7 +8,7 @@ const workflowsDir = resolve(__dirname, "..", "workflows");
   // ["master"].forEach(workflow => {
   fs.writeFileSync(
     resolve(workflowsDir, `${workflow}.yml`),
-    jsYaml.safeDump(require(`./${workflow}`), { noRefs: true }),
+    jsYaml.safeDump(require(`./${workflow}`).default, { noRefs: true }),
     { encoding: "utf8" },
   );
 });

@@ -1,8 +1,8 @@
-const getIsDevelopment = require("./getIsDevelopment");
+import getIsDevelopment from "./getIsDevelopment";
 
 const isDevelopment = getIsDevelopment();
 
-module.exports = nonce =>
+export default (nonce: string) =>
   [
     ["style-src-elem", `'self' 'nonce-${nonce}'`],
     [

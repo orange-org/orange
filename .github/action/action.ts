@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import * as bluebird from "bluebird";
+import bluebird from "bluebird";
 import { createExecutable } from "./createExecutable";
 import { execWithErrorMessage } from "./utils";
 import { draftRelease } from "./draftRelease";

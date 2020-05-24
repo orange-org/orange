@@ -39,6 +39,6 @@ export default merge.smart(baseConfig, {
         to: `${root}/${buildConstants.artifactsWebpackPackageJson}`,
       },
     ]),
-    new CopyBins(),
+    new CopyBinsPlugin(),
   ]),
 });

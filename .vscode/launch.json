@@ -13,6 +13,11 @@
       "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
       "sourceMaps": true,
       "args": ["./artifacts/webpack"],
+      // "args": [
+      //   "./artifacts/webpack",
+      //   "--args",
+      //   "--testnet"
+      // ],
       "outputCapture": "std",
       "preLaunchTask": "_webpack-build-main",
       "env": {

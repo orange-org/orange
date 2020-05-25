@@ -6,52 +6,48 @@ import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
 import { getDefaultRpcConfigurations } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getDefaultRpcConfigurations";
+import { featureFlags } from "src/featureFlags/featureFlags";
+import { PromiseType } from "_t/typeHelpers";
+import { getBtcdRpcConfigurations } from "_m/mainRpcClient/getBtcdRpcConfigurations";
 
 export const handleRpcRequest = async (
   data: Extract<SendableMessageToMain, { type: "rpc-request" }>,
 ) => {
   let response!: RpcResponse;
+  let rpcConfigurations: PromiseType<ReturnType<
+    typeof getRpcConfigurationsFromDisk
+  >>;
 
   try {
-    if (data.payload.connectionConfigurations !== undefined) {
-      const { connectionConfigurations: rpcConfigurations } = data.payload;
+    if (
+      data.payload.connectionConfigurations !== undefined &&
+      featureFlags.useBcore
+    ) {
+      const { connectionConfigurations } = data.payload;
 
-      let username: string;
-      let password: string;
-      let serverUrl: string;
-      if (rpcConfigurations === null) {
+      if (connectionConfigurations === null) {
         const defaultRpcConfigurations = await getDefaultRpcConfigurations();
 
-        username = defaultRpcConfigurations.username;
-        password = defaultRpcConfigurations.password;
-        serverUrl = defaultRpcConfigurations.serverUrl;
-      } else if ("cookiePath" in rpcConfigurations) {
+        rpcConfigurations = defaultRpcConfigurations;
+      } else if ("cookiePath" in connectionConfigurations) {
         const cookieCredentials = await getRpcCredentialsFromCookie(
-          rpcConfigurations.cookiePath,
+          connectionConfigurations.cookiePath,
         );
 
-        username = cookieCredentials.username;
-        password = cookieCredentials.password;
-        serverUrl = rpcConfigurations.serverUrl;
+        rpcConfigurations = {
+          ...connectionConfigurations,
+          ...cookieCredentials,
+        };
       } else {
-        username = rpcConfigurations.username;
-        password = rpcConfigurations.password;
-        serverUrl = rpcConfigurations.serverUrl;
+        rpcConfigurations = connectionConfigurations;
       }
-
-      response = await mainRpcClient(data.payload, {
-        username,
-        password,
-        serverUrl,
-      });
+    } else if (featureFlags.useBcore) {
+      rpcConfigurations = await getRpcConfigurationsFromDisk();
     } else {
-      // const rpcConfigurations = await getRpcConfigurationsFromDisk();
-      response = await mainRpcClient(data.payload, {
-        username: "111",
-        password: "111",
-        serverUrl: "https://127.0.0.1:18334",
-      });
+      rpcConfigurations = await getBtcdRpcConfigurations();
     }
+
+    response = await mainRpcClient(data.payload, rpcConfigurations);
   } catch (error) {
     const errorResponse = {
       result: null,

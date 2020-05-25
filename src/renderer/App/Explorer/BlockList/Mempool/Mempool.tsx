@@ -5,20 +5,14 @@ import {
   Tooltip,
   withStyles,
 } from "@material-ui/core";
-import {
-  BubbleChartOutlined,
-  ComputerOutlined,
-  PersonOutlined,
-  Repeat,
-  SaveOutlined,
-} from "@material-ui/icons";
+import { BubbleChartOutlined, Repeat, SaveOutlined } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoadingAwareTypography } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
-import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
+import { humanFileSize } from "_r/utils/smallUtils";
 import { MempoolInfo } from "_t/RpcResponses";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
@@ -91,22 +85,6 @@ export const Mempool = () => {
           icon={SaveOutlined}
           text={humanFileSize(data!.bytes)}
           tooltipTitle="Required block space"
-          isLoading={isLoading}
-        />
-        <MetaDataItem
-          icon={ComputerOutlined}
-          text={`${convertBitcoinToSatoshi(
-            data!.mempoolminfee,
-          ).toLocaleString()} sat/kB`}
-          tooltipTitle="Computed minimum fee"
-          isLoading={isLoading}
-        />
-        <MetaDataItem
-          icon={PersonOutlined}
-          text={`${convertBitcoinToSatoshi(
-            data!.minrelaytxfee,
-          ).toLocaleString()} sat/kB`}
-          tooltipTitle="Your configured minimum fee"
           isLoading={isLoading}
         />
       </MetaDataItemsContainer>

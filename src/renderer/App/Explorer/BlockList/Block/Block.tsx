@@ -37,10 +37,6 @@ const Block_: React.FC<CardProps & {
 }> = props_ => {
   const { data, isBlockListLoading, ...props } = props_;
 
-  if (data.nTx === undefined) {
-    console.log("data", data);
-  }
-
   const a = useAtomicCss();
   const classNames = useChainLinkStyles();
   const scrollIntoViewElement = useRef<HTMLDivElement>(null);

@@ -11,6 +11,6 @@ describe("RpcIssueDialog - missing `bitcoin.conf`", () => {
   });
 
   it("brings up the RPC issue dialog because there is no `bitcoin.conf`", async () => {
-    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
+    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
   });
 });

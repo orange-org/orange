@@ -29,7 +29,7 @@ describe("RpcIssueDialog cookie dialog", () => {
       keyCode: 13,
     });
 
-    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
+    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
   });
 
   test("then navigating to the server settings page", async () => {

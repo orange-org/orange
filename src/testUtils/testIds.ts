@@ -1,10 +1,11 @@
 const keyEqualsValue = <T extends { [P in keyof T]: P }>(o: T) => o;
 
 export const testIds = keyEqualsValue({
+  awaitBtcdDialog: "awaitBtcdDialog",
   depthBottomLinkSearchButton: "depthBottomLinkSearchButton",
   depthBottomLink: "depthBottomLink",
   searchInputField: "searchInputField",
-  rpcIssueDialog: "rpcIssueDialog",
+  fixBcoreConnectionDialog: "fixBcoreConnectionDialog",
   connectionStatusReport: "connectionStatusReport",
   unauthorizedMessage: "unauthorizedMessage",
   rpcSettingsInDialog: "rpcSettingsInDialog",

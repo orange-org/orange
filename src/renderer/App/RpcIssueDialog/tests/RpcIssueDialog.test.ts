@@ -43,7 +43,7 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
+    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
   });
 
   it("starts with the connection status report page", async () => {

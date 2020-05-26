@@ -62,7 +62,7 @@ export type BlockHashRpcRequest = {
 
 export type RawTransactionRpcRequest = {
   method: "getrawtransaction";
-  params: [string, boolean?];
+  params: [string, number?];
 };
 
 export type RpcRequest = {

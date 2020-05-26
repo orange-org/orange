@@ -11,7 +11,6 @@ export const dummyBlockData: Block = {
   mediantime: 1580599789,
   merkleroot:
     "0000000000000000000000000000000000000000000000000000000000000000", // use isDummyBlockData to detect
-  nTx: 58,
   nonce: 3247988372,
   previousblockhash:
     "000000000000014da63868cd0618f76cd7b46aee4baec51e5f1b7b5c21a74540",

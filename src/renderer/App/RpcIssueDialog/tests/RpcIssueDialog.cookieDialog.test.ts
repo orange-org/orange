@@ -11,6 +11,13 @@ import {
 import { dialog } from "__mocks__/electron";
 import { findByTestId } from "_tu/findByTestId";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("RpcIssueDialog cookie dialog", () => {
   beforeAll(async () => {
     startMockRpcServer();

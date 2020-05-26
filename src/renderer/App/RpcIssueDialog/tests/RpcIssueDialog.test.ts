@@ -18,6 +18,13 @@ import {
   startMockRpcServer,
 } from "_tu/startMockRpcServer";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("RpcIssueDialog", () => {
   beforeAll(async () => {
     startMockRpcServer();

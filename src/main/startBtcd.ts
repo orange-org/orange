@@ -19,13 +19,18 @@ export const startBtcd = () => {
     `--txindex`,
     `--rpclisten=${hostname}`,
   ];
+  const btcd =
+    platform === "win32" ? /* istanbul ignore next */ "btcd.exe" : "btcd";
 
   /* istanbul ignore if */
   if (commandLineArgs.testnet) {
     btcdArgs.push("--testnet");
   }
 
-  const btcdProcess = spawn(`${root}/bin/${platform}-${arch}/btcd`, btcdArgs);
+  const btcdProcess = spawn(
+    `${root}/bin/${platform}-${arch}/${btcd}`,
+    btcdArgs,
+  );
 
   btcdProcess.on(
     "error",

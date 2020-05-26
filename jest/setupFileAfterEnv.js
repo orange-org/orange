@@ -13,6 +13,12 @@ window.HTMLElement.prototype.scrollIntoView = () => null;
 
 jest.useFakeTimers(); // Tests are a not the place to have real setTimeouts and setIntervals
 
+/**
+ * Increase Jest tests timeout from 5 to 8 seconds because sometimes they do
+ * take longer
+ */
+jest.setTimeout(8000);
+
 require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");

@@ -1,9 +1,9 @@
-import { screen, wait } from "@testing-library/dom";
+import { wait } from "@testing-library/dom";
 import { act, fireEvent } from "@testing-library/react";
 import { vol } from "memfs";
 import { RPC_ERROR } from "_c/constants";
 import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
-import { findByTestId } from "_tu/findByTestId";
+import { findByTestId, queryByTestId } from "_tu/findByTestId";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import {
   initializeElectronCode,
@@ -352,7 +352,7 @@ describe("RpcIssueDialog", () => {
 
     await wait(async () =>
       expect(
-        await screen.queryByTestId("rpcIssueDialog"),
+        await queryByTestId("fixBcoreConnectionDialog"),
       ).not.toBeInTheDocument(),
     );
   });

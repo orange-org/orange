@@ -1,3 +1,5 @@
+import { featureFlags } from "_f/featureFlags";
+
 export const BITCOIN_CORE_RPC_ERROR = {
   /**
    * The below codes map to:
@@ -25,4 +27,6 @@ export const ERROR = {
   general: 5001,
 } as const;
 
-export const DEFAULT_SERVER_URL = "http://localhost:8332";
+export const DEFAULT_SERVER_URL = featureFlags.useBcore
+  ? "http://127.0.0.1:8332"
+  : "http://127.0.0.1:8334";

@@ -113,7 +113,7 @@ export const Mempool = () => {
               isLoading={isLoading}
             />
           </>
-        ) : null}
+        ) : /* istanbul ignore next */ null}
       </MetaDataItemsContainer>
 
       <div className={a("padding1")}>

@@ -20,21 +20,25 @@ export const startBtcd = () => {
     `--rpclisten=${hostname}`,
   ];
 
+  /* istanbul ignore if */
   if (commandLineArgs.testnet) {
     btcdArgs.push("--testnet");
   }
 
   const btcdProcess = spawn(`${root}/bin/${platform}-${arch}/btcd`, btcdArgs);
 
-  btcdProcess.on("error", error => {
-    if ((error as any).code === "ENOENT") {
-      dialog.showMessageBoxSync({
-        message: "We're sorry, but your operating system is not supported.",
-      });
+  btcdProcess.on(
+    "error",
+    /* istanbul ignore next */ error => {
+      if ((error as any).code === "ENOENT") {
+        dialog.showMessageBoxSync({
+          message: "We're sorry, but your operating system is not supported.",
+        });
 
-      app.exit(0);
-    } else {
-      throw error;
-    }
-  });
+        app.exit(0);
+      } else {
+        throw error;
+      }
+    },
+  );
 };

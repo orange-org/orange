@@ -1,15 +1,9 @@
-import {
-  Dialog,
-  Typography,
-  DialogTitle,
-  DialogContent,
-  LinearProgress,
-} from "@material-ui/core";
-import { setHasRpcIssue } from "_r/redux/actions";
+import { Dialog, LinearProgress, Typography } from "@material-ui/core";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { testIds } from "_tu/testIds";
+import { useDispatch, useSelector } from "react-redux";
+import { setHasRpcIssue } from "_r/redux/actions";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { testIds } from "_tu/testIds";
 import { useConnectionStatus } from "../useConnectionStatus";
 
 export const AwaitBtcd = () => {
@@ -29,7 +23,15 @@ export const AwaitBtcd = () => {
   return (
     <Dialog
       open={isOpen}
-      data-testid={testIds.awaitBtcdDialog}
+      /**
+       * Not sure why when `isOpen` is `false`, the dialog would remain in the DOM, which
+       * is making it hard in the tests to detect when the dialog has been closed.
+       *
+       * It works correctly in the production environment, just not in the tests.
+       *
+       * So the following logic helps us fix this in the tests.
+       */
+      data-testid={`${testIds.awaitBtcdDialog}${isOpen ? "" : "-closed"}`}
       fullWidth
       maxWidth="sm"
     >

@@ -44,7 +44,7 @@ export const handleRpcRequest = async (
     } else if (featureFlags.useBcore) {
       rpcConfigurations = await getRpcConfigurationsFromDisk();
     } else {
-      rpcConfigurations = await getBtcdRpcConfigurations();
+      rpcConfigurations = getBtcdRpcConfigurations();
     }
 
     response = await mainRpcClient(data.payload, rpcConfigurations);

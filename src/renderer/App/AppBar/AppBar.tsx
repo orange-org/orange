@@ -10,6 +10,7 @@ import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
 import { testIds } from "_tu/testIds";
+import { featureFlags } from "src/featureFlags/featureFlags";
 import { SearchBox } from "./SearchBox/SearchBox";
 
 export const AppBar: React.FC = () => {
@@ -39,13 +40,15 @@ export const AppBar: React.FC = () => {
           <Home />
         </IconButton>
 
-        <IconButton
-          component={Link}
-          to="/settings"
-          data-testid={testIds.settingsButton}
-        >
-          <Settings />
-        </IconButton>
+        {featureFlags.useBcore ? (
+          <IconButton
+            component={Link}
+            to="/settings"
+            data-testid={testIds.settingsButton}
+          >
+            <Settings />
+          </IconButton>
+        ) : null}
       </Toolbar>
     </MuiAppBar>
   );

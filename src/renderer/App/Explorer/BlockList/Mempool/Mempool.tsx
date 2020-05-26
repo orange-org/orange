@@ -5,15 +5,22 @@ import {
   Tooltip,
   withStyles,
 } from "@material-ui/core";
-import { BubbleChartOutlined, Repeat, SaveOutlined } from "@material-ui/icons";
+import {
+  BubbleChartOutlined,
+  ComputerOutlined,
+  PersonOutlined,
+  Repeat,
+  SaveOutlined,
+} from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoadingAwareTypography } from "_r/hooks";
 import * as thunks from "_r/redux/thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
-import { humanFileSize } from "_r/utils/smallUtils";
+import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
 import { MempoolInfo } from "_t/RpcResponses";
+import { featureFlags } from "src/featureFlags/featureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
@@ -87,6 +94,26 @@ export const Mempool = () => {
           tooltipTitle="Required block space"
           isLoading={isLoading}
         />
+        {featureFlags.useBcore ? (
+          <>
+            <MetaDataItem
+              icon={ComputerOutlined}
+              text={`${convertBitcoinToSatoshi(
+                data!.mempoolminfee,
+              ).toLocaleString()} sat/kB`}
+              tooltipTitle="Computed minimum fee"
+              isLoading={isLoading}
+            />
+            <MetaDataItem
+              icon={PersonOutlined}
+              text={`${convertBitcoinToSatoshi(
+                data!.minrelaytxfee,
+              ).toLocaleString()} sat/kB`}
+              tooltipTitle="Your configured minimum fee"
+              isLoading={isLoading}
+            />
+          </>
+        ) : null}
       </MetaDataItemsContainer>
 
       <div className={a("padding1")}>

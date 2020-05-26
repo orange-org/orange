@@ -1,9 +1,9 @@
-import { screen, wait } from "@testing-library/dom";
+import { wait } from "@testing-library/dom";
 import { act, fireEvent } from "@testing-library/react";
 import { vol } from "memfs";
 import { RPC_ERROR } from "_c/constants";
 import * as makeRpcRequestModule from "_m/mainRpcClient/makeRpcRequest";
-import { findByTestId } from "_tu/findByTestId";
+import { findByTestId, queryByTestId } from "_tu/findByTestId";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import {
   initializeElectronCode,
@@ -17,6 +17,13 @@ import {
   startMockErroringRpcServer,
   startMockRpcServer,
 } from "_tu/startMockRpcServer";
+
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
 
 describe("RpcIssueDialog", () => {
   beforeAll(async () => {
@@ -43,7 +50,7 @@ describe("RpcIssueDialog", () => {
 
     fireEvent.keyUp(await findByTestId("searchInputField"), { keyCode: 13 });
 
-    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
+    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
   });
 
   it("starts with the connection status report page", async () => {
@@ -345,7 +352,7 @@ describe("RpcIssueDialog", () => {
 
     await wait(async () =>
       expect(
-        await screen.queryByTestId("rpcIssueDialog"),
+        await queryByTestId("fixBcoreConnectionDialog"),
       ).not.toBeInTheDocument(),
     );
   });

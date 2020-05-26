@@ -6,6 +6,7 @@ import CopyPlugin from "copy-webpack-plugin";
 import { resolve } from "path";
 import getIsDevelopment from "./getIsDevelopment";
 import baseConfig from "./webpack.base.config";
+import { CopyBinsPlugin } from "./CopyBinsPlugin";
 
 const root = resolve(__dirname, "..");
 const isDevelopment = getIsDevelopment();
@@ -38,5 +39,6 @@ export default merge.smart(baseConfig, {
         to: `${root}/artifacts/webpack/package.json`,
       },
     ]),
+    new CopyBinsPlugin(),
   ]),
 });

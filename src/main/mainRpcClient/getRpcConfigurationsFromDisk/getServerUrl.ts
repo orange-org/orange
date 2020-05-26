@@ -7,5 +7,5 @@ export const getServerUrl = (chainName?: string) => {
       ? /* istanbul ignore next */ 18443
       : 8332;
 
-  return `http://localhost:${port}`;
+  return `http://127.0.0.1:${port}`;
 };

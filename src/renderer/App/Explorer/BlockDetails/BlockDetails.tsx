@@ -49,7 +49,6 @@ const blockDataFormatters = {
 
 const excludedBlockData = [
   "height",
-  "nTx",
   "previousblockhash",
   "nextblockhash",
   "tx",
@@ -145,10 +144,10 @@ export const BlockDetails = () => {
   const transactionList = (
     <div className={a("marginTop05")}>
       <Typography variant="h2">
-        {blockData.nTx && (
+        {blockData.tx.length && (
           <>
-            {blockData.nTx.toLocaleString()}{" "}
-            {pluralize(blockData.nTx, "transaction", "transactions")}
+            {blockData.tx.length.toLocaleString()}{" "}
+            {pluralize(blockData.tx.length, "transaction", "transactions")}
           </>
         )}
       </Typography>

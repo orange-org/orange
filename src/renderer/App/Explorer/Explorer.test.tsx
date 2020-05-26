@@ -7,6 +7,13 @@ import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { renderAppWithStore } from "_tu/renderAppWithStore";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("Explorer view", () => {
   beforeAll(async () => {
     startMockRpcServer();

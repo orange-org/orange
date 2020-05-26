@@ -7,6 +7,13 @@ import { waitWithTime } from "_tu/smallUtils";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
 import { testIds } from "_tu/testIds";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("SearchBox", () => {
   describe("Search flow", () => {
     beforeAll(async () => {

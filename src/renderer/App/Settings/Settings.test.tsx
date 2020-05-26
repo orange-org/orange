@@ -7,6 +7,13 @@ import { userEvent } from "_tu/smallUtils";
 import { startMockRpcServer } from "_tu/startMockRpcServer";
 import { vol } from "memfs";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("Settings", () => {
   beforeAll(async () => {
     startMockRpcServer();

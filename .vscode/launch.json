@@ -10,11 +10,10 @@
       "windows": {
         "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
       },
-      // "program": "${workspaceRoot}/src/main/main.ts",
       "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
       "sourceMaps": true,
-      "args": ["./artifacts/webpack"],
-      // "args": ["."],
+      // "args": ["./artifacts/webpack"],
+      "args": ["./artifacts/webpack", "--args", "--testnet"],
       "outputCapture": "std",
       "preLaunchTask": "_webpack-build-main",
       "env": {

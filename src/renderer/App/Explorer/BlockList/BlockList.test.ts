@@ -7,6 +7,13 @@ import { userEvent, waitWithTime } from "_tu/smallUtils";
 import { fireEvent, wait } from "@testing-library/react";
 import { testIds } from "_tu/testIds";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("BlockList", () => {
   beforeAll(async () => {
     startMockRpcServer();

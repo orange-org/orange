@@ -11,6 +11,13 @@ import {
 import { dialog } from "__mocks__/electron";
 import { findByTestId } from "_tu/findByTestId";
 
+jest.mock("_f/featureFlags", () => ({
+  __esModule: true,
+  featureFlags: {
+    useBcore: true,
+  },
+}));
+
 describe("RpcIssueDialog cookie dialog", () => {
   beforeAll(async () => {
     startMockRpcServer();
@@ -29,7 +36,7 @@ describe("RpcIssueDialog cookie dialog", () => {
       keyCode: 13,
     });
 
-    expect(await findByTestId("rpcIssueDialog")).toBeInTheDocument();
+    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
   });
 
   test("then navigating to the server settings page", async () => {

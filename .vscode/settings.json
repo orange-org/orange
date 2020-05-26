@@ -4,14 +4,17 @@
     "coverage": true
   },
   "cSpell.words": [
+    "Bcore",
     "Erroring",
     "Executables",
     "Mempool",
     "SCROLLABLE",
     "Satoshi",
     "bitcoind",
+    "btcd",
     "clsx",
     "formik",
+    "start",
     "testid"
   ],
   "editor.formatOnSave": true,

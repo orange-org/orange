@@ -45,7 +45,7 @@ class RpcService {
   requestRawTransaction = async (
     nonce: NONCE,
     transactionId: string,
-    verbose: boolean = true,
+    verbose = 1,
   ) =>
     rpcClient(nonce, {
       method: "getrawtransaction",

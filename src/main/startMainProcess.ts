@@ -2,11 +2,13 @@ import { app, globalShortcut } from "electron";
 import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
+import { featureFlags } from "_f/featureFlags";
 import { getMainWindow } from "./getMainWindow";
 import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { processes } from "./processes";
 import { registerErrorHandling } from "./registerErrorHandling";
 import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
+import { startBtcd } from "./startBtcd";
 
 let startMainProcessHasBeenCalled = false;
 
@@ -25,6 +27,10 @@ export const startMainProcess = () => {
   app.enableSandbox();
 
   function createWindow() {
+    if (!featureFlags.useBcore) {
+      startBtcd();
+    }
+
     const mainWindow = getMainWindow();
 
     /* istanbul ignore if: this is both hard to test and non-critical. */

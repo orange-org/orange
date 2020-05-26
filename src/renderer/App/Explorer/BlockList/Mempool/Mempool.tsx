@@ -20,6 +20,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
 import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
 import { MempoolInfo } from "_t/RpcResponses";
+import { featureFlags } from "_f/featureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
@@ -93,22 +94,26 @@ export const Mempool = () => {
           tooltipTitle="Required block space"
           isLoading={isLoading}
         />
-        <MetaDataItem
-          icon={ComputerOutlined}
-          text={`${convertBitcoinToSatoshi(
-            data!.mempoolminfee,
-          ).toLocaleString()} sat/kB`}
-          tooltipTitle="Computed minimum fee"
-          isLoading={isLoading}
-        />
-        <MetaDataItem
-          icon={PersonOutlined}
-          text={`${convertBitcoinToSatoshi(
-            data!.minrelaytxfee,
-          ).toLocaleString()} sat/kB`}
-          tooltipTitle="Your configured minimum fee"
-          isLoading={isLoading}
-        />
+        {featureFlags.useBcore ? (
+          <>
+            <MetaDataItem
+              icon={ComputerOutlined}
+              text={`${convertBitcoinToSatoshi(
+                data!.mempoolminfee,
+              ).toLocaleString()} sat/kB`}
+              tooltipTitle="Computed minimum fee"
+              isLoading={isLoading}
+            />
+            <MetaDataItem
+              icon={PersonOutlined}
+              text={`${convertBitcoinToSatoshi(
+                data!.minrelaytxfee,
+              ).toLocaleString()} sat/kB`}
+              tooltipTitle="Your configured minimum fee"
+              isLoading={isLoading}
+            />
+          </>
+        ) : /* istanbul ignore next */ null}
       </MetaDataItemsContainer>
 
       <div className={a("padding1")}>

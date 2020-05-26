@@ -1,4 +1,4 @@
-import { featureFlags } from "src/featureFlags/featureFlags";
+import { featureFlags } from "_f/featureFlags";
 import { AwaitBtcd } from "./AwaitBtcd/AwaitBtcd";
 import { FixBcoreConnection } from "./FixBcoreConnection/FixBcoreConnection";
 

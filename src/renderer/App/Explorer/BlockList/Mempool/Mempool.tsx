@@ -20,7 +20,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
 import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
 import { MempoolInfo } from "_t/RpcResponses";
-import { featureFlags } from "src/featureFlags/featureFlags";
+import { featureFlags } from "_f/featureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 

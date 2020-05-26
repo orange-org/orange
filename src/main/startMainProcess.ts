@@ -2,6 +2,7 @@ import { app, globalShortcut } from "electron";
 import { getIsDevelopment } from "_m/getIsDevelopment";
 import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
 import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
+import { featureFlags } from "_f/featureFlags";
 import { getMainWindow } from "./getMainWindow";
 import { handleSquirrelEvents } from "./handleSquirrelEvents";
 import { processes } from "./processes";
@@ -26,7 +27,9 @@ export const startMainProcess = () => {
   app.enableSandbox();
 
   function createWindow() {
-    startBtcd();
+    if (!featureFlags.useBcore) {
+      startBtcd();
+    }
 
     const mainWindow = getMainWindow();
 

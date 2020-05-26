@@ -16,7 +16,7 @@ jest.useFakeTimers(); // Tests are a not the place to have real setTimeouts and 
 require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");
-// jest.mock("_r/rpcClient/rpcClient");
+jest.mock("child_process");
 jest.mock("_m/installExtensions");
 jest.mock("_m/getGlobalProcess", () => ({
   getGlobalProcess: jest.fn(),

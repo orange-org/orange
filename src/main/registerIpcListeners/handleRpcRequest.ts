@@ -6,7 +6,7 @@ import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
 import { getDefaultRpcConfigurations } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getDefaultRpcConfigurations";
-import { featureFlags } from "src/featureFlags/featureFlags";
+import { featureFlags } from "_f/featureFlags";
 import { PromiseType } from "_t/typeHelpers";
 import { getBtcdRpcConfigurations } from "_m/mainRpcClient/getBtcdRpcConfigurations";
 

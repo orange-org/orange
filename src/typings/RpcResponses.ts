@@ -128,7 +128,6 @@ export type Block = Readonly<{
   versionHex: string;
   merkleroot: string;
   tx: string[];
-  nTx: number;
   time: number;
   mediantime: number;
   nonce: number;

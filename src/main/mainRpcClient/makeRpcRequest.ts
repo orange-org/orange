@@ -12,7 +12,7 @@ export const makeRpcRequest = (
   const { url, options, body } = requestParams;
 
   return new Promise((resolve, reject) => {
-    const nodeRequest = http.request(url, { ...options }, response => {
+    const nodeRequest = http.request(url, options, response => {
       response.setEncoding("utf8");
 
       let data = "";

@@ -1,67 +1,74 @@
-import { app, globalShortcut } from "electron";
-import { getIsDevelopment } from "_m/getIsDevelopment";
-import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
-import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
-import { featureFlags } from "_f/featureFlags";
-import { getMainWindow } from "./getMainWindow";
-import { handleSquirrelEvents } from "./handleSquirrelEvents";
-import { processes } from "./processes";
-import { registerErrorHandling } from "./registerErrorHandling";
-import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
-import { startBtcd } from "./startBtcd";
+// import { app, globalShortcut } from "electron";
+// import { getIsDevelopment } from "_m/getIsDevelopment";
+// import { preventNetworkAndResourceRequests } from "_m/preventNetworkAndResourceRequests";
+// import { preventNewWebViewsAndWindows } from "_m/preventNewWebViewsAndWindows";
+// import { featureFlags } from "_f/featureFlags";
+// import { getMainWindow } from "./getMainWindow";
+// import { handleSquirrelEvents } from "./handleSquirrelEvents";
+// import { processes } from "./processes";
+// import { registerErrorHandling } from "./registerErrorHandling";
+// import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
+// import { startBtcd } from "./Btcd";
+// import { MainWindow } from "./MainWindow";
 
-let startMainProcessHasBeenCalled = false;
+// const startMainProcessHasBeenCalled = false;
 
-export const startMainProcess = () => {
-  /* istanbul ignore if */
-  if (startMainProcessHasBeenCalled) {
-    throw new Error(
-      "`startMainProcess` is meant to be called only once per Node.js process",
-    );
-  }
+// export class MainProcess {
+//   isInitialized = false;
+// }
 
-  startMainProcessHasBeenCalled = true;
+// export const startMainProcess = () => {
+//   // /* istanbul ignore if */
+//   // if (startMainProcessHasBeenCalled) {
+//   //   throw new Error(
+//   //     "`startMainProcess` is meant to be called only once per Node.js process",
+//   //   );
+//   // }
 
-  registerErrorHandling();
+//   // startMainProcessHasBeenCalled = true;
 
-  app.enableSandbox();
+//   // registerErrorHandling();
 
-  function createWindow() {
-    if (!featureFlags.useBcore) {
-      startBtcd();
-    }
+//   // app.enableSandbox();
 
-    const mainWindow = getMainWindow();
+//   function createWindow() {
+//     // if (!featureFlags.useBcore) {
+//     //   startBtcd();
+//     // }
 
-    /* istanbul ignore if: this is both hard to test and non-critical. */
-    if (handleSquirrelEvents(app)) {
-      return;
-    }
+//     // const mainWindow = getMainWindow();
 
-    /* istanbul ignore if */
-    if (getIsDevelopment()) {
-      // eslint-disable-next-line global-require
-      require("_m/installExtensions");
-    }
+//     /* istanbul ignore if: this is both hard to test and non-critical. */
+//     if (handleSquirrelEvents(app)) {
+//       return;
+//     }
 
-    preventNetworkAndResourceRequests();
+//     /* istanbul ignore if */
+//     if (getIsDevelopment()) {
+//       // eslint-disable-next-line global-require
+//       require("_m/installExtensions");
+//     }
 
-    mainWindow.loadFile(processes.renderer);
+//     const mainWindow = new MainWindow();
 
-    mainWindow.webContents.once("did-finish-load", registerIpcListener);
+//     preventNetworkAndResourceRequests();
 
-    /* istanbul ignore next */
-    mainWindow.webContents.once("did-frame-finish-load", () => {
-      if (getIsDevelopment()) {
-        mainWindow.maximize();
-        mainWindow.webContents.openDevTools();
-      } else {
-        globalShortcut.register("CmdOrCtrl+R", () => null);
-      }
-    });
-  }
+//     mainWindow.loadFile(processes.renderer);
 
-  // Disable web view creation
-  app.on("web-contents-created", preventNewWebViewsAndWindows);
-  app.on("ready", createWindow);
-};
+//     mainWindow.webContents.once("did-finish-load", registerIpcListener);
+
+//     /* istanbul ignore next */
+//     mainWindow.webContents.once("did-frame-finish-load", () => {
+//       if (getIsDevelopment()) {
+//         mainWindow.maximize();
+//         mainWindow.webContents.openDevTools();
+//       } else {
+//         globalShortcut.register("CmdOrCtrl+R", () => null);
+//       }
+//     });
+//   }
+
+//   // Disable web view creation
+//   app.on("web-contents-created", preventNewWebViewsAndWindows);
+//   app.on("ready", createWindow);
+// };

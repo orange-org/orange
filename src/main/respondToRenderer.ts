@@ -1,10 +1,10 @@
 import { SendableMessageToRenderer } from "_t/IpcMessages";
-import { getMainWindow } from "./getMainWindow";
+import { windowManager } from "./WindowManager";
 
 export const respondToRenderer = (
   payload: Omit<SendableMessageToRenderer, "source">,
 ) => {
-  const mainWindow = getMainWindow();
+  const mainWindow = windowManager.getMainWindow();
 
   /* istanbul ignore else */
   if (!mainWindow.isDestroyed()) {

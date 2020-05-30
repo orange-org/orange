@@ -1,7 +1,7 @@
-import { getGlobalProcess } from "_m/getGlobalProcess";
+import { Utils } from "_m/Utils";
 
 export const getDataDir = () => {
-  const globalProcess = getGlobalProcess();
+  const globalProcess = Utils.getGlobalProcess();
 
   let dataDirRoot;
 

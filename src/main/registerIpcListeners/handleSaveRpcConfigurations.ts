@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
-import { writeConfigurations } from "_m/writeConfigurations/writeConfigurations";
+import { settings } from "_m/Settings/Settings";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { respondToRenderer } from "_m/respondToRenderer";
+import { windowManager } from "_m/WindowManager";
 
 export const handleSaveRpcConfigurations = async (
   data: Extract<SendableMessageToMain, { type: "save-rpc-configurations" }>,
 ) => {
   const { payload: rpcConfigurations } = data;
 
-  await writeConfigurations(currentConfigurations => {
+  await settings.write(currentConfigurations => {
     if (!rpcConfigurations) {
       currentConfigurations.rpc = null;
     } else if ("cookiePath" in rpcConfigurations) {
@@ -27,7 +27,7 @@ export const handleSaveRpcConfigurations = async (
     return currentConfigurations;
   });
 
-  respondToRenderer({
+  windowManager.sendMessageToMainWindow({
     nonce: __NONCE__,
     type: "save-rpc-configurations",
     payload: null,

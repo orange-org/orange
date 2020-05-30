@@ -1,9 +1,9 @@
-import { readConfigurations } from "_m/writeConfigurations/readConfigurations";
+import { settings } from "_m/Settings/Settings";
 import { getRpcCredentialsFromCookie } from "./getRpcCredentialsFromCookie";
 import { getDefaultRpcConfigurations } from "./getDefaultRpcConfigurations";
 
 export const getRpcConfigurationsFromDisk = async () => {
-  const configurations = await readConfigurations();
+  const configurations = await settings.read();
 
   if (configurations.rpc) {
     if ("cookiePath" in configurations.rpc) {

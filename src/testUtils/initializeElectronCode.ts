@@ -3,7 +3,7 @@ import { app, BrowserWindow } from "__mocks__/electron";
 import { DEFAULT_SERVER_URL } from "_c/constants";
 // import { startMainProcess } from "../main/startMainProcess";
 import { Main } from "_m/main";
-import { startPreloadProcess } from "../main/startPreloadProcess";
+import { Preload } from "../main/preload";
 
 export const USERNAME = "__cookie__";
 export const PASSWORD = "1337";
@@ -16,8 +16,9 @@ export const initializeElectronCode = (
 ) => {
   const main = new Main();
   main.start();
-  // startMainProcess();
-  startPreloadProcess();
+
+  const preload = new Preload();
+  preload.start();
 
   app.emit("ready");
 

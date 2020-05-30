@@ -1,7 +1,6 @@
 import { dialog } from "electron";
 import { windowManager } from "_m/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { respondToRenderer } from "_m/respondToRenderer";
 
 export const handleGetCookiePathFromOpenDialog = async (
   data: Extract<
@@ -15,7 +14,7 @@ export const handleGetCookiePathFromOpenDialog = async (
     properties: ["openFile", "showHiddenFiles"],
   });
 
-  respondToRenderer({
+  windowManager.sendMessageToMainWindow({
     nonce: __NONCE__,
     type: "get-cookie-path-from-open-dialog",
     messageId: data.messageId,

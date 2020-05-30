@@ -1,14 +1,14 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { respondToRenderer } from "_m/respondToRenderer";
+import { featureFlags } from "_f/featureFlags";
+import { getBtcdRpcConfigurations } from "_m/mainRpcClient/getBtcdRpcConfigurations";
+import { getDefaultRpcConfigurations } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getDefaultRpcConfigurations";
 import { getRpcConfigurationsFromDisk } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcConfigurationsFromDisk";
 import { getRpcCredentialsFromCookie } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getRpcCredentialsFromCookie";
 import { mainRpcClient } from "_m/mainRpcClient/mainRpcClient";
+import { windowManager } from "_m/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
-import { getDefaultRpcConfigurations } from "_m/mainRpcClient/getRpcConfigurationsFromDisk/getDefaultRpcConfigurations";
-import { featureFlags } from "_f/featureFlags";
 import { PromiseType } from "_t/typeHelpers";
-import { getBtcdRpcConfigurations } from "_m/mainRpcClient/getBtcdRpcConfigurations";
 
 export const handleRpcRequest = async (
   data: Extract<SendableMessageToMain, { type: "rpc-request" }>,
@@ -98,7 +98,7 @@ export const handleRpcRequest = async (
     }
   }
 
-  respondToRenderer({
+  windowManager.sendMessageToMainWindow({
     nonce: __NONCE__,
     type: "rpc-request",
     payload: response,

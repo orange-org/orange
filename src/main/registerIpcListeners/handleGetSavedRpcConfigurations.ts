@@ -1,5 +1,5 @@
-import { respondToRenderer } from "_m/respondToRenderer";
-import { readConfigurations } from "_m/writeConfigurations/readConfigurations";
+import { windowManager } from "_m/WindowManager";
+import { settings } from "_m/Settings/Settings";
 import {
   GetSavedRpcConfigurationsMtR,
   SendableMessageToMain,
@@ -11,7 +11,7 @@ export const handleGetSavedRpcConfigurations = async (
     { type: "get-saved-rpc-configurations" }
   >,
 ) => {
-  const configurations = await readConfigurations();
+  const configurations = await settings.read();
   let payload: GetSavedRpcConfigurationsMtR["payload"];
 
   if (!configurations.rpc) {
@@ -29,7 +29,7 @@ export const handleGetSavedRpcConfigurations = async (
     };
   }
 
-  respondToRenderer({
+  windowManager.sendMessageToMainWindow({
     nonce: __NONCE__,
     type: "get-saved-rpc-configurations",
     messageId: data.messageId,

@@ -38,6 +38,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
+    "no-restricted-syntax": "off",
     "import/extensions": [
       "error",
       {

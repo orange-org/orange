@@ -1,9 +1,8 @@
 import { BrowserWindow, globalShortcut } from "electron";
 import { productName } from "_m/../../package.json";
-import { getIsDevelopment } from "./getIsDevelopment";
-import { isWhitelistedUrl } from "./isWhitelistedUrl/isWhitelistedUrl";
+import { Utils } from "_m/Utils";
+import { UrlGuard } from "./UrlGuard/UrlGuard";
 import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
-import { processes } from "./processes";
 
 export class MainWindow extends BrowserWindow {
   constructor() {
@@ -38,14 +37,14 @@ export class MainWindow extends BrowserWindow {
      * the `renderer` process
      */
     this.webContents.session.webRequest.onBeforeRequest((details, response) => {
-      response({ cancel: !isWhitelistedUrl(details.url) });
+      response({ cancel: !UrlGuard.isAllowed(details.url) });
     });
 
     this.webContents.once("did-finish-load", registerIpcListener);
 
     /* istanbul ignore next */
     this.webContents.once("did-frame-finish-load", () => {
-      if (getIsDevelopment()) {
+      if (Utils.getIsDevelopment()) {
         this.maximize();
         this.webContents.openDevTools();
       } else {
@@ -53,6 +52,6 @@ export class MainWindow extends BrowserWindow {
       }
     });
 
-    this.loadFile(processes.renderer);
+    this.loadFile(`${Utils.getAppRoot()}/renderer/index.html`);
   }
 }

@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { commandLineArgs } from "_m/commandLineArgs";
+import { commandLineArgs } from "_m/CommandLineArgs";
 
 const username = randomBytes(16).toString("hex");
 const password = randomBytes(16).toString("hex");

@@ -1,15 +1,64 @@
 /* istanbul ignore file: `startMainProcess` is tested */
-import { app } from "electron";
+import { app, WebContents } from "electron";
 import { featureFlags } from "_f/featureFlags";
 import { btcd } from "./Btcd";
-import { getIsDevelopment } from "./getIsDevelopment";
-import { handleSquirrelEvents } from "./handleSquirrelEvents";
-import { preventNewWebViewsAndWindows } from "./preventNewWebViewsAndWindows";
-import { registerErrorHandling } from "./registerErrorHandling";
+import { ErrorDialog } from "./ErrorDialog";
+import { squirrelEvents } from "./SquirrelEvents";
 import { windowManager } from "./WindowManager";
+import { Utils } from "./Utils";
+import { chromeExtensions } from "./ChromeExtensions";
 
 export class Main {
   isStarted = false;
+
+  private preventNewWebViewsAndWindows = (
+    _event: Event,
+    contents: WebContents,
+  ) => {
+    contents.on("will-attach-webview", contentEvent => {
+      contentEvent.preventDefault();
+    });
+
+    contents.on("new-window", contentEvent => {
+      contentEvent.preventDefault();
+    });
+  };
+
+  private onAppReady = () => {
+    /* istanbul ignore if: this is both hard to test and non-critical. */
+    if (squirrelEvents.handle()) {
+      return;
+    }
+
+    if (!featureFlags.useBcore) {
+      btcd.spawn();
+    }
+
+    /* istanbul ignore if */
+    if (Utils.getIsDevelopment()) {
+      chromeExtensions.install();
+    }
+
+    windowManager.createMainWindow();
+  };
+
+  private registerErrorHandling = () => {
+    const globalErrorHandler = (error: Error | {} | null | undefined) => {
+      /* istanbul ignore else */
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        ErrorDialog.show(
+          error instanceof Error
+            ? error.toString()
+            : JSON.stringify(error, null, 2),
+        );
+      }
+    };
+
+    process.on("uncaughtException", globalErrorHandler);
+    process.on("unhandledRejection", globalErrorHandler);
+  };
 
   start = () => {
     /* istanbul ignore if */
@@ -21,29 +70,11 @@ export class Main {
 
     this.isStarted = true;
 
-    registerErrorHandling();
+    this.registerErrorHandling();
+
     app.enableSandbox();
-    app.on("web-contents-created", preventNewWebViewsAndWindows);
+    app.on("web-contents-created", this.preventNewWebViewsAndWindows);
     app.on("ready", this.onAppReady);
-  };
-
-  onAppReady = () => {
-    /* istanbul ignore if: this is both hard to test and non-critical. */
-    if (handleSquirrelEvents(app)) {
-      return;
-    }
-
-    if (!featureFlags.useBcore) {
-      btcd.spawn();
-    }
-
-    /* istanbul ignore if */
-    if (getIsDevelopment()) {
-      // eslint-disable-next-line global-require
-      require("_m/installExtensions");
-    }
-
-    windowManager.createMainWindow();
   };
 }
 

@@ -1,7 +1,7 @@
 /* istanbul ignore file: the handlers are what needs to be tested. This doesn't. */
 import { ipcMain } from "electron";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { showErrorDialog } from "../showErrorDialog";
+import { ErrorDialog } from "../ErrorDialog";
 import { handleRpcRequest } from "./handleRpcRequest";
 import { handleGetCookiePathFromOpenDialog } from "./handleGetCookiePathFromOpenDialog";
 import { handleGetSavedRpcConfigurations } from "./handleGetSavedRpcConfigurations";
@@ -12,7 +12,7 @@ export const registerIpcListener = () => {
     if (data.type === "rpc-request") {
       await handleRpcRequest(data);
     } else if (data.type === "show-error") {
-      await showErrorDialog(data.payload);
+      await ErrorDialog.show(data.payload);
     } else if (data.type === "get-cookie-path-from-open-dialog") {
       await handleGetCookiePathFromOpenDialog(data);
     } else if (data.type === "get-saved-rpc-configurations") {

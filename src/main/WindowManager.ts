@@ -1,7 +1,8 @@
+import { SendableMessageToRenderer } from "_t/IpcMessages";
 import { MainWindow } from "./MainWindow";
 
 class WindowManager {
-  mainWindow: MainWindow | null = null;
+  private mainWindow: MainWindow | null = null;
 
   getMainWindow = () => {
     if (!this.mainWindow) {
@@ -12,6 +13,17 @@ class WindowManager {
   };
 
   createMainWindow = this.getMainWindow;
+
+  sendMessageToMainWindow = (
+    payload: Omit<SendableMessageToRenderer, "source">,
+  ) => {
+    if (!this.mainWindow?.isDestroyed()) {
+      this.mainWindow?.webContents.send("message-to-renderer", {
+        source: "@orange/main",
+        ...payload,
+      });
+    }
+  };
 }
 
 export const windowManager = new WindowManager();

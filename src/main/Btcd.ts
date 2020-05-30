@@ -1,12 +1,11 @@
 import { spawn } from "child_process";
 import { dialog, app } from "electron";
-import { getAppRoot } from "./getAppRoot";
-import { getGlobalProcess } from "./getGlobalProcess";
 import {
   hostname,
   getBtcdRpcConfigurations,
 } from "./mainRpcClient/getBtcdRpcConfigurations";
-import { commandLineArgs } from "./commandLineArgs";
+import { commandLineArgs } from "./CommandLineArgs";
+import { Utils } from "./Utils";
 
 class Btcd {
   private process: ReturnType<typeof spawn> | null = null;
@@ -34,8 +33,8 @@ class Btcd {
   };
 
   private getPath = () => {
-    const { platform, arch } = getGlobalProcess();
-    const root = getAppRoot();
+    const { platform, arch } = Utils.getGlobalProcess();
+    const root = Utils.getAppRoot();
     const btcd =
       platform === "win32" ? /* istanbul ignore next */ "btcd.exe" : "btcd";
 

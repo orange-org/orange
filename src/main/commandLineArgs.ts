@@ -1,26 +1,23 @@
-import { getGlobalProcess } from "./getGlobalProcess";
+import { Utils } from "./Utils";
 
-export type Arguments = {
-  datadir?: string;
-  testnet?: string;
-};
+class CommandLineArgs {
+  public dataDir: string | null = null;
 
-const parseCommandLineArgs = () => {
-  const globalProcess = getGlobalProcess();
-  const args = globalProcess.argv;
-  const argsObj = args.reduce<Arguments>((obj, arg) => {
-    const [name, value] = arg.split("=");
+  public testnet: string | null = null;
 
-    /* istanbul ignore if */
-    if (name.substr(0, 2) === "--") {
-      // eslint-disable-next-line no-param-reassign
-      obj[name.substr(2) as keyof Arguments] = value || "true";
+  constructor() {
+    const globalProcess = Utils.getGlobalProcess();
+    const args = globalProcess.argv;
+
+    for (const arg of args) {
+      const [name, value] = arg.split("=");
+
+      /* istanbul ignore if */
+      if (name.substr(0, 2) === "--") {
+        this[name.substr(2) as keyof CommandLineArgs] = value || "true";
+      }
     }
+  }
+}
 
-    return obj;
-  }, {});
-
-  return argsObj;
-};
-
-export const commandLineArgs = parseCommandLineArgs();
+export const commandLineArgs = new CommandLineArgs();

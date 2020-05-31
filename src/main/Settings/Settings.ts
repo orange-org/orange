@@ -1,7 +1,7 @@
 import { productName } from "_m/../../package.json";
 import fs from "fs-extra";
 import { merge } from "lodash";
-import { Configurations } from "_t/Configurations";
+import { Settings as TSettings } from "_t/Settings";
 import { DeepPartial } from "redux";
 import { app } from "electron";
 
@@ -9,9 +9,7 @@ class Settings {
   configurationsFilePath = `${app.getPath("userData")}/${productName}.json`;
 
   write = async (
-    getNewConfigurations: (
-      currentConfigurations: Configurations,
-    ) => Configurations,
+    getNewConfigurations: (currentConfigurations: TSettings) => TSettings,
   ) => {
     const currentConfigurations = await this.read();
     const newConfigurations = getNewConfigurations(currentConfigurations);
@@ -28,7 +26,7 @@ class Settings {
     );
   };
 
-  read = async (): Promise<DeepPartial<Configurations>> => {
+  read = async (): Promise<DeepPartial<TSettings>> => {
     await fs.ensureFile(this.configurationsFilePath);
 
     const currentConfigurationsFileContent = await fs.readFile(

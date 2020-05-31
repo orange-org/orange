@@ -1,8 +1,8 @@
 import { dialog } from "electron";
 
 export class ErrorDialog {
-  static show = (message: string) => {
-    dialog.showMessageBoxSync({
+  static show = (message: string) =>
+    dialog.showMessageBox({
       type: "warning",
       title: "An error occurred",
       message: [
@@ -10,5 +10,4 @@ export class ErrorDialog {
         message,
       ].join("\n"),
     });
-  };
 }

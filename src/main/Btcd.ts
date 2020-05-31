@@ -1,9 +1,6 @@
 import { spawn } from "child_process";
 import { dialog, app } from "electron";
-import {
-  hostname,
-  getBtcdRpcConfigurations,
-} from "./mainRpcClient/getBtcdRpcConfigurations";
+import { btcdRpcConfigurations } from "./common/BtcdRpcConfigurations";
 import { commandLineArgs } from "./CommandLineArgs";
 import { Utils } from "./Utils";
 
@@ -15,13 +12,12 @@ class Btcd {
   private path: string;
 
   private getArgs = () => {
-    const btcdRpcConfigurations = getBtcdRpcConfigurations();
     const args = [
       `--rpcuser=${btcdRpcConfigurations.username}`,
       `--rpcpass=${btcdRpcConfigurations.password}`,
       `--notls`,
       `--txindex`,
-      `--rpclisten=${hostname}`,
+      `--rpclisten=${btcdRpcConfigurations.hostname}`,
     ];
 
     /* istanbul ignore if */

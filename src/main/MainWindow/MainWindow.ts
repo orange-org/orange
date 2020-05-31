@@ -1,10 +1,34 @@
-import { BrowserWindow, globalShortcut } from "electron";
+import { BrowserWindow, globalShortcut, ipcMain } from "electron";
 import { productName } from "_m/../../package.json";
 import { Utils } from "_m/Utils";
-import { UrlGuard } from "./UrlGuard/UrlGuard";
-import { registerIpcListener } from "./registerIpcListeners/registerIpcListeners";
+import { SendableMessageToMain } from "_t/IpcMessages";
+import { UrlGuard } from "../UrlGuard/UrlGuard";
+import { ErrorDialog } from "../ErrorDialog";
+import { RpcRequestIpcEvent } from "./RpcRequestIpcEvent/RpcRequestIpcEvent";
+import { GetCookiePathFromOpenDialogIpcEvent } from "./GetCookiePathFromOpenDialogIpcEvent/GetCookiePathFromOpenDialogIpcEvent";
+import { GetSavedRpcConfigurationsIpcEvent } from "./GetSavedRpcConfigurationsIpcEvent/GetSavedRpcConfigurationsIpcEvent";
+import { SaveRpcConfigurationsIpcEvent } from "./SaveRpcConfigurationsIpcEvent/SaveRpcConfigurationsIpcEvent";
 
 export class MainWindow extends BrowserWindow {
+  private registerIpcListener = () => {
+    ipcMain.on(
+      "message-to-main",
+      async (_event, data: SendableMessageToMain) => {
+        if (data.type === "rpc-request") {
+          await RpcRequestIpcEvent.handle(data);
+        } else if (data.type === "show-error") {
+          await ErrorDialog.show(data.payload);
+        } else if (data.type === "get-cookie-path-from-open-dialog") {
+          await GetCookiePathFromOpenDialogIpcEvent.handle(data);
+        } else if (data.type === "get-saved-rpc-configurations") {
+          await GetSavedRpcConfigurationsIpcEvent.handle(data);
+        } else if (data.type === "save-rpc-configurations") {
+          await SaveRpcConfigurationsIpcEvent.handle(data);
+        }
+      },
+    );
+  };
+
   constructor() {
     super({
       webPreferences: {
@@ -40,7 +64,7 @@ export class MainWindow extends BrowserWindow {
       response({ cancel: !UrlGuard.isAllowed(details.url) });
     });
 
-    this.webContents.once("did-finish-load", registerIpcListener);
+    this.webContents.once("did-finish-load", this.registerIpcListener);
 
     /* istanbul ignore next */
     this.webContents.once("did-frame-finish-load", () => {

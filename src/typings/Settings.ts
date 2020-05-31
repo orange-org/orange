@@ -1,6 +1,6 @@
 import { DeepPartial } from "redux";
 import { RpcConfigurations } from "./IpcMessages";
 
-export type Configurations = DeepPartial<{
+export type Settings = DeepPartial<{
   rpc: RpcConfigurations | null;
 }>;

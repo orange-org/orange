@@ -1,5 +1,5 @@
 import { SendableMessageToRenderer } from "_t/IpcMessages";
-import { MainWindow } from "./MainWindow";
+import { MainWindow } from "./MainWindow/MainWindow";
 
 class WindowManager {
   private mainWindow: MainWindow | null = null;

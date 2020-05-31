@@ -1,4 +1,4 @@
-import { windowManager } from "_m/WindowManager";
+import { windowManager } from "_m/WindowManager/WindowManager";
 import { settings } from "_m/Settings/Settings";
 import {
   GetSavedRpcConfigurationsMtR,

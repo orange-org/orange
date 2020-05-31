@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { commandLineArgs } from "_m/CommandLineArgs";
+import { commandLineArgs } from "_m/common/CommandLineArgs";
 
 export class BtcdRpcConfigurations {
   hostname = "127.0.0.1";

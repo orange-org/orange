@@ -1,5 +1,5 @@
 import { dialog } from "electron";
-import { windowManager } from "_m/WindowManager";
+import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 
 export class GetCookiePathFromOpenDialogIpcEvent {

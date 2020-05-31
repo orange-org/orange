@@ -1,8 +1,8 @@
 import { spawn } from "child_process";
 import { dialog, app } from "electron";
-import { btcdRpcConfigurations } from "./common/BtcdRpcConfigurations";
-import { commandLineArgs } from "./CommandLineArgs";
-import { Utils } from "./Utils";
+import { btcdRpcConfigurations } from "../common/BtcdRpcConfigurations";
+import { commandLineArgs } from "../common/CommandLineArgs";
+import { Utils } from "../common/Utils";
 
 class Btcd {
   private process: ReturnType<typeof spawn> | null = null;

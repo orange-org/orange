@@ -4,7 +4,7 @@ cumbersome to test, so it's not being tested. */
 import { spawn } from "child_process";
 import { app, dialog } from "electron";
 import { dirname, resolve } from "path";
-import { productName } from "../../package.json";
+import { productName } from "../../../package.json";
 
 export class SquirrelEvents {
   cmd = process.argv[1];

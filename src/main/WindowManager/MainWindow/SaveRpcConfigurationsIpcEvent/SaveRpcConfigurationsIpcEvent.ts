@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { settings } from "_m/Settings/Settings";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { windowManager } from "_m/WindowManager";
+import { windowManager } from "_m/WindowManager/WindowManager";
 
 export class SaveRpcConfigurationsIpcEvent {
   static handle = async (

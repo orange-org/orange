@@ -1,9 +1,9 @@
 import { BrowserWindow, globalShortcut, ipcMain } from "electron";
 import { productName } from "_m/../../package.json";
-import { Utils } from "_m/Utils";
+import { Utils } from "_m/common/Utils";
 import { SendableMessageToMain } from "_t/IpcMessages";
-import { UrlGuard } from "../UrlGuard/UrlGuard";
-import { ErrorDialog } from "../ErrorDialog";
+import { UrlGuard } from "./UrlGuard/UrlGuard";
+import { ErrorDialog } from "../../common/ErrorDialog";
 import { RpcRequestIpcEvent } from "./RpcRequestIpcEvent/RpcRequestIpcEvent";
 import { GetCookiePathFromOpenDialogIpcEvent } from "./GetCookiePathFromOpenDialogIpcEvent/GetCookiePathFromOpenDialogIpcEvent";
 import { GetSavedRpcConfigurationsIpcEvent } from "./GetSavedRpcConfigurationsIpcEvent/GetSavedRpcConfigurationsIpcEvent";

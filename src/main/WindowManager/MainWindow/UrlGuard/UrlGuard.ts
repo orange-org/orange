@@ -1,5 +1,5 @@
 import { dirname, normalize } from "path";
-import { Utils } from "_m/Utils";
+import { Utils } from "_m/common/Utils";
 
 export class UrlGuard {
   static isAllowed = (url: string) => {

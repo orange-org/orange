@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-cond-assign */
-import { Utils } from "_m/Utils";
+import { Utils } from "_m/common/Utils";
 import { promises as fs } from "fs";
 import { ErrorWithCode } from "_c/ErrorWithCode";
 import { RPC_ERROR } from "_c/constants";

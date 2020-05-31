@@ -1,12 +1,12 @@
 /* istanbul ignore file: `startMainProcess` is tested */
 import { app, WebContents } from "electron";
 import { featureFlags } from "_f/featureFlags";
-import { btcd } from "./Btcd";
-import { ErrorDialog } from "./ErrorDialog";
-import { squirrelEvents } from "./SquirrelEvents";
-import { windowManager } from "./WindowManager";
-import { Utils } from "./Utils";
-import { chromeExtensions } from "./ChromeExtensions";
+import { btcd } from "./Btcd/Btcd";
+import { ErrorDialog } from "./common/ErrorDialog";
+import { squirrelEvents } from "./SquirrelEvents/SquirrelEvents";
+import { windowManager } from "./WindowManager/WindowManager";
+import { Utils } from "./common/Utils";
+import { chromeExtensions } from "./ChromeExtensions/ChromeExtensions";
 
 export class Main {
   isStarted = false;

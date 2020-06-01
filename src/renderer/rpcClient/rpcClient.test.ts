@@ -1,5 +1,5 @@
 import { ipcService as ipcService_ } from "_r/IpcService/IpcService";
-import { rpcClient as rpcClient_ } from "./rpcClient";
+import { RpcClient as rpcClient_ } from "./RpcClient";
 
 const { rpcClient } = jest.requireActual("./rpcClient") as {
   rpcClient: typeof rpcClient_;

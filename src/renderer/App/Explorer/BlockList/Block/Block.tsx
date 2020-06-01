@@ -5,17 +5,13 @@ import React, { memo, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import {
-  fromNow,
-  humanFileSize,
-  isDummyBlockData,
-  secondsTimestampToFormattedDate,
-} from "_r/utils/smallUtils";
+import { Utils } from "_r/utils/Utils";
 import { Block as TBlock } from "_t/RpcResponses";
 import { TimeoutId } from "_t/typeHelpers";
 import { testIds } from "_tu/testIds";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
+import { DummyBlock } from "../../common/DummyBlock";
 
 export const useChainLinkStyles = makeStyles(theme => ({
   class: {
@@ -65,7 +61,7 @@ const Block_: React.FC<CardProps & {
     return () => clearTimeout(timeoutId);
   }, [blockHeightAsId, isActive]);
 
-  const isLoading = isDummyBlockData(data.merkleroot) || isBlockListLoading;
+  const isLoading = DummyBlock.isDummy(data.merkleroot) || isBlockListLoading;
 
   const Typography = useLoadingAwareTypography(isLoading);
 
@@ -126,7 +122,7 @@ const Block_: React.FC<CardProps & {
               variant="body2"
               className={a("fontSize95%", "colorHint", "marginLeft02")}
             >
-              {data.time && secondsTimestampToFormattedDate(data.time)}
+              {data.time && Utils.secondsTimestampToFormattedDate(data.time)}
             </Typography>
           </div>
         </div>
@@ -134,7 +130,7 @@ const Block_: React.FC<CardProps & {
         <MetaDataItemsContainer>
           <MetaDataItem
             icon={QueryBuilder}
-            text={data.time && fromNow(data.time)}
+            text={data.time && Utils.fromNow(data.time)}
             otherClasses={["width100%"]}
             isLoading={isLoading}
           />
@@ -145,7 +141,7 @@ const Block_: React.FC<CardProps & {
           />
           <MetaDataItem
             icon={SaveOutlined}
-            text={data.size && humanFileSize(data.size)}
+            text={data.size && Utils.humanFileSize(data.size)}
             isLoading={isLoading}
           />
         </MetaDataItemsContainer>

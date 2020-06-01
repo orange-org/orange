@@ -1,37 +1,18 @@
 /* eslint-disable no-await-in-loop */
 import { delay } from "bluebird";
 
-export const poll = (cb: any, timeout: number) => {
-  let keepPolling = true;
-  let pause_ = false;
+export class Poll {
+  private shouldKeepPolling = true;
 
-  /* istanbul ignore next: no current use-case */
-  function pause() {
-    pause_ = true;
-  }
+  constructor(private cb: (...args: any[]) => void, private timeout: number) {}
 
-  /* istanbul ignore next: no current use-case */
-  function resume() {
-    pause_ = false;
-  }
-
-  function stop() {
-    keepPolling = false;
-  }
-
-  async function start() {
-    while (keepPolling) {
-      /* istanbul ignore else: no current use-case */
-      if (!pause_) {
-        await Promise.all([cb(), delay(timeout)]);
-      }
-    }
-  }
-
-  return {
-    start,
-    stop,
-    pause,
-    resume,
+  stop = () => {
+    this.shouldKeepPolling = false;
   };
-};
+
+  start = async () => {
+    while (this.shouldKeepPolling) {
+      await Promise.all([this.cb(), delay(this.timeout)]);
+    }
+  };
+}

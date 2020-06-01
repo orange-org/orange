@@ -6,10 +6,7 @@ import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import {
-  secondsTimestampToFormattedDate,
-  humanFileSize,
-} from "_r/utils/smallUtils";
+import { Utils } from "_r/utils/Utils";
 import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
 import { testIds } from "_tu/testIds";
@@ -18,10 +15,10 @@ import { OtherDetails } from "../OtherDetails";
 const SVG_ICON_WIDTH = 24;
 
 const transactionDataFormatters = {
-  locktime: secondsTimestampToFormattedDate,
-  size: humanFileSize,
-  vsize: humanFileSize,
-  weight: humanFileSize,
+  locktime: Utils.secondsTimestampToFormattedDate,
+  size: Utils.humanFileSize,
+  vsize: Utils.humanFileSize,
+  weight: Utils.humanFileSize,
 };
 
 const excludedTransactionData = [

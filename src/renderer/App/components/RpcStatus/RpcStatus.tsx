@@ -3,11 +3,11 @@ import { CircularProgress, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { CheckCircleOutline } from "@material-ui/icons";
 import React from "react";
-import { RpcIssue } from "_r/utils/rpcIssueHelpers";
 import { useAtomicCss } from "_r/useAtomicCss";
+import { TRpcIssue } from "_r/RpcClient/RpcIssue";
 
 export const RpcStatus: React.FC<{
-  issue: RpcIssue | "newConfig" | null;
+  issue: TRpcIssue | "newConfig" | null;
 }> = props => {
   const a = useAtomicCss();
   const status = !props.issue

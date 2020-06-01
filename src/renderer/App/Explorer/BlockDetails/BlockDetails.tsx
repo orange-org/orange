@@ -27,24 +27,20 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import {
-  secondsTimestampToFormattedDate,
-  humanFileSize,
-  pluralize,
-} from "_r/utils/smallUtils";
-import { withDelay } from "_r/utils/withDelay";
+import { Utils } from "_r/utils/Utils";
+import { Delay } from "_r/utils/Delay";
 import { Block as TBlock } from "_t/RpcResponses";
 import { testIds } from "_tu/testIds";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
-import { dummyBlockData } from "../common/dummyBlockData";
+import { DummyBlock } from "../common/DummyBlock";
 
 const blockDataFormatters = {
-  mediantime: secondsTimestampToFormattedDate,
-  size: humanFileSize,
-  strippedsize: humanFileSize,
-  time: secondsTimestampToFormattedDate,
-  weight: humanFileSize,
+  mediantime: Utils.secondsTimestampToFormattedDate,
+  size: Utils.humanFileSize,
+  strippedsize: Utils.humanFileSize,
+  time: Utils.secondsTimestampToFormattedDate,
+  weight: Utils.humanFileSize,
 };
 
 const excludedBlockData = [
@@ -63,7 +59,7 @@ export const BLOCK_DETAILS_PADDING = 6;
 export const BlockDetails = () => {
   const { url, path } = useRouteMatch();
   const a = useAtomicCss();
-  const [blockData, setBlockData] = useState<TBlock>(dummyBlockData);
+  const [blockData, setBlockData] = useState<TBlock>(DummyBlock.data);
   const [isWaitingForData, setIsWaitingForData] = useState(true);
   const theme = useTheme();
   const selectedExplorerBlock = useSelector(s => s.selectedExplorerBlock);
@@ -73,10 +69,10 @@ export const BlockDetails = () => {
     let isMounted = true;
 
     const requestData = async () => {
-      setBlockData(dummyBlockData);
+      setBlockData(DummyBlock.data);
       setIsWaitingForData(true);
 
-      const blockData_ = await withDelay(selectedExplorerBlock);
+      const blockData_ = await Delay.add(selectedExplorerBlock);
 
       if (blockData_ && isMounted) {
         setBlockData(blockData_);
@@ -147,7 +143,11 @@ export const BlockDetails = () => {
         {blockData.tx.length && (
           <>
             {blockData.tx.length.toLocaleString()}{" "}
-            {pluralize(blockData.tx.length, "transaction", "transactions")}
+            {Utils.pluralize(
+              blockData.tx.length,
+              "transaction",
+              "transactions",
+            )}
           </>
         )}
       </Typography>

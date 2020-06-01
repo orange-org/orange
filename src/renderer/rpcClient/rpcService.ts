@@ -1,10 +1,10 @@
-import { rpcClient } from "./rpcClient";
+import { RpcClient } from "./RpcClient";
 
 type Verbosity = 0 | 1 | 2;
 
-class RpcService {
-  requestBlockchainInfo = (nonce: NONCE, cacheDuration?: number) =>
-    rpcClient(
+export class RpcService {
+  static requestBlockchainInfo = (nonce: NONCE, cacheDuration?: number) =>
+    RpcClient(
       nonce,
       {
         method: "getblockchaininfo",
@@ -12,8 +12,8 @@ class RpcService {
       cacheDuration,
     );
 
-  requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) =>
-    rpcClient(
+  static requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) =>
+    RpcClient(
       nonce,
       {
         method: "getmempoolinfo",
@@ -21,36 +21,34 @@ class RpcService {
       cacheDuration,
     );
 
-  requestBlock = (
+  static requestBlock = (
     nonce: NONCE,
     blockHash: string,
     /* istanbul ignore next */
     verbosity: Verbosity = 1,
-  ) => rpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
+  ) => RpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
 
-  requestBlockHash = (nonce: NONCE, blockHeight: number) =>
-    rpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
+  static requestBlockHash = (nonce: NONCE, blockHeight: number) =>
+    RpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
 
-  requestBlockByHeight = async (
+  static requestBlockByHeight = async (
     nonce: NONCE,
     blockHeight: number,
     verbosity: Verbosity = 1,
   ) => {
-    const blockHash = await this.requestBlockHash(nonce, blockHeight);
-    const block = await this.requestBlock(nonce, blockHash, verbosity);
+    const blockHash = await RpcService.requestBlockHash(nonce, blockHeight);
+    const block = await RpcService.requestBlock(nonce, blockHash, verbosity);
 
     return block;
   };
 
-  requestRawTransaction = async (
+  static requestRawTransaction = async (
     nonce: NONCE,
     transactionId: string,
     verbose = 1,
   ) =>
-    rpcClient(nonce, {
+    RpcClient(nonce, {
       method: "getrawtransaction",
       params: [transactionId, verbose],
     });
 }
-
-export const rpcService = new RpcService();

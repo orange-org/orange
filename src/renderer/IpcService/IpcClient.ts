@@ -3,7 +3,7 @@ import {
   MessageToRenderer,
   SendableMessageToMain,
 } from "_t/IpcMessages";
-import { generateUuid } from "_r/utils/smallUtils";
+import { Utils } from "_r/utils/Utils";
 
 type SendToMainReturnType<TMessageToMain extends MessageToMain> = Extract<
   MessageToRenderer,
@@ -17,7 +17,7 @@ export class IpcClient {
     const messageToMain = {
       ...message,
       source: "@orange/renderer",
-      messageId: generateUuid(),
+      messageId: Utils.generateUuid(),
     } as SendableMessageToMain;
 
     return new Promise(resolve => {

@@ -10,8 +10,10 @@ import { delay } from "bluebird";
  * actual data, which improves performance. The delay is intended to be less
  * than a second.
  */
-export const withDelay = async <T>(val: T, ms: number = 500) => {
-  const values = await Promise.all([val, delay(ms)]);
+export class Delay {
+  static add = async <T>(val: T, ms: number = 500) => {
+    const values = await Promise.all([val, delay(ms)]);
 
-  return values[0];
-};
+    return values[0];
+  };
+}

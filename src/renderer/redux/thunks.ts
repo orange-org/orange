@@ -1,6 +1,6 @@
 import { map } from "bluebird";
 import { Dispatch } from "redux";
-import { rpcService } from "_r/rpcClient/rpcService";
+import { RpcService } from "_r/RpcClient/RpcService";
 import { GetState } from "_t/typeHelpers";
 import { Actions } from "./Actions";
 import { ExplorerBlockListHeights } from "./ExplorerBlockListHeights";
@@ -10,7 +10,7 @@ export class Thunks {
     nonce: NONCE,
     cacheDuration?: number,
   ) => async (dispatch: Dispatch) => {
-    const blockchainInfo = await rpcService.requestBlockchainInfo(
+    const blockchainInfo = await RpcService.requestBlockchainInfo(
       nonce,
       cacheDuration,
     );
@@ -23,7 +23,7 @@ export class Thunks {
   static requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) => async (
     dispatch: Dispatch,
   ) => {
-    const mempoolInfo = await rpcService.requestMempoolInfo(
+    const mempoolInfo = await RpcService.requestMempoolInfo(
       nonce,
       cacheDuration,
     );
@@ -53,7 +53,7 @@ export class Thunks {
           return block;
         }
 
-        return rpcService.requestBlockByHeight(nonce, height);
+        return RpcService.requestBlockByHeight(nonce, height);
       },
       { concurrency: 2 },
     );
@@ -72,7 +72,7 @@ export class Thunks {
     nonce: NONCE,
     transactionId: string,
   ) => async (dispatch: Dispatch) => {
-    const transaction = await rpcService.requestRawTransaction(
+    const transaction = await RpcService.requestRawTransaction(
       nonce,
       transactionId,
     );
@@ -82,7 +82,7 @@ export class Thunks {
     const inputValues = await map(
       transaction.vin,
       async input => {
-        const inputSourceTransaction = await rpcService.requestRawTransaction(
+        const inputSourceTransaction = await RpcService.requestRawTransaction(
           nonce,
           input.txid,
         );

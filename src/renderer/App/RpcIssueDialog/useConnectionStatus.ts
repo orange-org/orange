@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { ipcService } from "_r/IpcService/IpcService";
-import { RpcIssue, determineRpcIssue } from "_r/utils/rpcIssueHelpers";
-import { poll } from "_r/utils/poll";
-import { isValidUrl } from "_r/utils/smallUtils";
+import { Poll } from "_r/utils/Poll";
+import { Utils } from "_r/utils/Utils";
 import { RpcConfigurations } from "_t/IpcMessages";
+import { TRpcIssue, RpcIssue } from "_r/RpcClient/RpcIssue";
 
 export const useConnectionStatus = (
   rpcConfigurations?: RpcConfigurations | null,
 ) => {
   const [connectionIssue, setConnectionIssue] = useState<
-    RpcIssue | "newConfig" | null
+    TRpcIssue | "newConfig" | null
   >("newConfig");
   const { username, password, serverUrl, cookiePath } =
     rpcConfigurations || ({} as any);
@@ -21,8 +21,8 @@ export const useConnectionStatus = (
     setConnectionIssue("newConfig");
 
     // We then declare our polling function
-    const polling = poll(async () => {
-      if (rpcConfigurations && !isValidUrl(rpcConfigurations.serverUrl)) {
+    const poll = new Poll(async () => {
+      if (rpcConfigurations && !Utils.isValidUrl(rpcConfigurations.serverUrl)) {
         setConnectionIssue("serverUnreachable");
       } else {
         const response = await ipcService.rpcRequest(__NONCE__, {
@@ -31,7 +31,7 @@ export const useConnectionStatus = (
         });
 
         if (response.error && isMounted) {
-          setConnectionIssue(determineRpcIssue(response.error));
+          setConnectionIssue(RpcIssue.determineRpcIssue(response.error));
         } else if (isMounted) {
           setConnectionIssue(null);
         }
@@ -44,12 +44,12 @@ export const useConnectionStatus = (
     // this timeout, the `polling.stop` function instead will be called, as you
     // can see in the return value a few lines below.
     const timeoutId = setTimeout(() => {
-      polling.start();
+      poll.start();
     }, 1000);
 
     return () => {
       clearTimeout(timeoutId);
-      polling.stop();
+      poll.stop();
       isMounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

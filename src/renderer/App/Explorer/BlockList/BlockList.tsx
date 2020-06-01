@@ -9,10 +9,10 @@ import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
   useAtomicCss,
 } from "_r/useAtomicCss";
-import { poll } from "_r/utils/poll";
-import { pluralize } from "_r/utils/smallUtils";
+import { Poll } from "_r/utils/Poll";
+import { Utils } from "_r/utils/Utils";
 import { testIds } from "_tu/testIds";
-import { dummyBlockList } from "../common/dummyBlockData";
+import { DummyBlock } from "../common/DummyBlock";
 import { Block, useChainLinkStyles } from "./Block/Block";
 import { Mempool } from "./Mempool/Mempool";
 
@@ -26,13 +26,13 @@ const useRequestBlockchainInfo = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const pollHandler = poll(() => {
+    const poll = new Poll(() => {
       dispatch(Thunks.requestBlockchainInfo(__NONCE__, 4000));
     }, 5000);
 
-    pollHandler.start();
+    poll.start();
 
-    return pollHandler.stop;
+    return poll.stop;
   }, [dispatch]);
 };
 
@@ -78,7 +78,7 @@ const DepthTopLink: React.FC = () => {
     if (depthTop > 0) {
       content = (
         <>
-          There {pluralize(depthTop, "is", "are")}{" "}
+          There {Utils.pluralize(depthTop, "is", "are")}{" "}
           <Link
             component={ReactRouterLink}
             className={a("fontWeight500")}
@@ -86,7 +86,7 @@ const DepthTopLink: React.FC = () => {
           >
             {depthTop.toLocaleString()} higher
           </Link>{" "}
-          {pluralize(depthTop, "block", "blocks")}
+          {Utils.pluralize(depthTop, "block", "blocks")}
         </>
       );
     } else {
@@ -122,11 +122,11 @@ const DepthBottomLink: React.FC = () => {
     if (depthBottom > 0) {
       content = (
         <>
-          There {pluralize(depthBottom, "is", "are")}{" "}
+          There {Utils.pluralize(depthBottom, "is", "are")}{" "}
           <span className={a("fontWeight500")}>
             {depthBottom.toLocaleString()}
           </span>{" "}
-          lower {pluralize(depthBottom, "block", "blocks")}
+          lower {Utils.pluralize(depthBottom, "block", "blocks")}
         </>
       );
     } else {
@@ -167,7 +167,7 @@ export const BlockList: React.FC = () => {
   useRequestBlockchainInfo();
   usePopulateBlockList();
 
-  const blockList = explorerBlockList || dummyBlockList;
+  const blockList = explorerBlockList || DummyBlock.list;
 
   return (
     <>

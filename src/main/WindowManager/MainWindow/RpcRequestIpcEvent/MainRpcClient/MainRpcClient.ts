@@ -11,8 +11,8 @@ type RequestParams = {
   body: any;
 };
 
-class MainRpcClient {
-  private httpRequest = (
+export class MainRpcClient {
+  private static httpRequest = (
     requestParams: RequestParams,
   ): Promise<http.IncomingMessage & { data: string }> => {
     const { url, options, body } = requestParams;
@@ -40,7 +40,7 @@ class MainRpcClient {
     });
   };
 
-  call = async <TRpcRequest extends RpcRequest>(
+  static call = async <TRpcRequest extends RpcRequest>(
     rpcRequest: TRpcRequest,
     rpcConfigurations: {
       username: string;
@@ -58,7 +58,11 @@ class MainRpcClient {
     };
     const body = { jsonrpc: "1.0", id: "N/A", method, params };
 
-    const response = await this.httpRequest({ url: serverUrl, options, body });
+    const response = await MainRpcClient.httpRequest({
+      url: serverUrl,
+      options,
+      body,
+    });
 
     if (response.statusCode === 401 || response.statusCode === 403) {
       throw new ErrorWithCode(
@@ -72,5 +76,3 @@ class MainRpcClient {
     return { result, error, method } as ExtractedRpcResponse<TRpcRequest>;
   };
 }
-
-export const mainRpcClient = new MainRpcClient();

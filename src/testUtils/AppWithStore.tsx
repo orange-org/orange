@@ -19,7 +19,7 @@ class AppWithStore {
     await act(async () => {
       const App = getApp();
 
-      await render(<App />);
+      render(<App />);
 
       // Wait for initial load
       try {

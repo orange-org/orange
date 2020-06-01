@@ -1,7 +1,7 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { featureFlags } from "_f/featureFlags";
 import { btcdRpcConfigurations } from "_m/common/BtcdRpcConfigurations";
-import { mainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
+import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
 import { bcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";
 import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
@@ -46,7 +46,7 @@ export class RpcRequestIpcEvent {
         rpcConfigurations = btcdRpcConfigurations;
       }
 
-      response = await mainRpcClient.call(data.payload, rpcConfigurations);
+      response = await MainRpcClient.call(data.payload, rpcConfigurations);
     } catch (error) {
       const errorResponse = {
         result: null,

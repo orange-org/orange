@@ -11,7 +11,7 @@
 //   SERVER_URL,
 //   USERNAME,
 // } from "_tu/initializeElectronCode";
-// import { renderAppWithStore } from "_tu/renderAppWithStore";
+// import { appWithStore.render } from "_tu/appWithStore.render";
 // import { userEvent } from "_tu/smallUtils";
 // import {
 //   startMockErroringRpcServer,
@@ -29,7 +29,7 @@
 //   beforeAll(async () => {
 //     startMockRpcServer();
 //     initializeElectronCode();
-//     await renderAppWithStore();
+//     await appWithStore.render();
 //   });
 
 //   /**

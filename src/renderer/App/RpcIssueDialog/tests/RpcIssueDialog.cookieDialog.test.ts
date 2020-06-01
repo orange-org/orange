@@ -1,15 +1,12 @@
 import { wait } from "@testing-library/dom";
 import { fireEvent } from "@testing-library/react";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
+import { MockElectron } from "_tu/MockElectron";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
-import { renderAppWithStore } from "_tu/renderAppWithStore";
-import { userEvent } from "_tu/smallUtils";
-import {
-  startMockErroringRpcServer,
-  startMockRpcServer,
-} from "_tu/startMockRpcServer";
+import { appWithStore } from "_tu/AppWithStore";
+import { Utils } from "_tu/Utils";
+import { MockRpcServer } from "_tu/MockRpcServer";
 import { dialog } from "__mocks__/electron";
-import { findByTestId } from "_tu/findByTestId";
+import { TestElement } from "_tu/TestElement";
 
 jest.mock("_f/featureFlags", () => ({
   __esModule: true,
@@ -20,36 +17,40 @@ jest.mock("_f/featureFlags", () => ({
 
 describe("RpcIssueDialog cookie dialog", () => {
   beforeAll(async () => {
-    startMockRpcServer();
-    initializeElectronCode();
-    await renderAppWithStore();
+    MockRpcServer.start();
+    MockElectron.start();
+    await appWithStore.render();
   });
 
   test("bringing up the RPC issue dialog", async () => {
-    startMockErroringRpcServer();
+    MockRpcServer.startErroring();
 
-    fireEvent.change(await findByTestId("searchInputField"), {
+    fireEvent.change(await TestElement.findByTestId("searchInputField"), {
       target: { value: blockFixtures.blockFixture18.hash },
     });
 
-    fireEvent.keyUp(await findByTestId("searchInputField"), {
+    fireEvent.keyUp(await TestElement.findByTestId("searchInputField"), {
       keyCode: 13,
     });
 
-    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
+    expect(
+      await TestElement.findByTestId("fixBcoreConnectionDialog"),
+    ).toBeInTheDocument();
   });
 
   test("then navigating to the server settings page", async () => {
-    fireEvent.click(await findByTestId("enterServerDetails"));
+    fireEvent.click(await TestElement.findByTestId("enterServerDetails"));
 
-    expect(await findByTestId("rpcSettingsInDialog")).toBeVisible();
+    expect(await TestElement.findByTestId("rpcSettingsInDialog")).toBeVisible();
   });
 
   test("then tuning off using default settings", async () => {
-    userEvent.click(await findByTestId("useDefaultSettings"));
+    Utils.userEvent.click(await TestElement.findByTestId("useDefaultSettings"));
 
     await wait(async () =>
-      expect(await findByTestId("useDefaultSettings")).not.toBeChecked(),
+      expect(
+        await TestElement.findByTestId("useDefaultSettings"),
+      ).not.toBeChecked(),
     );
   });
 
@@ -58,28 +59,32 @@ describe("RpcIssueDialog cookie dialog", () => {
       filePaths: ["/cookie-location/.cookie"],
     });
 
-    userEvent.click(await findByTestId("setCookiePathFromDialog"));
+    Utils.userEvent.click(
+      await TestElement.findByTestId("setCookiePathFromDialog"),
+    );
 
     jest.advanceTimersByTime(2000);
 
     await wait(async () => {
-      expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
-        "/cookie-location/.cookie",
-      );
+      expect(
+        await TestElement.findByTestId("rpcSettingsFromCookiePath"),
+      ).toHaveValue("/cookie-location/.cookie");
     });
   });
 
   test("then another time opening the file dialog but not selecting anything", async () => {
     dialog.showOpenDialog.mockReturnValueOnce({ filePaths: null });
 
-    userEvent.click(await findByTestId("setCookiePathFromDialog"));
+    Utils.userEvent.click(
+      await TestElement.findByTestId("setCookiePathFromDialog"),
+    );
 
     jest.advanceTimersByTime(2000);
 
     await wait(async () => {
-      expect(await findByTestId("rpcSettingsFromCookiePath")).toHaveValue(
-        "/cookie-location/.cookie",
-      );
+      expect(
+        await TestElement.findByTestId("rpcSettingsFromCookiePath"),
+      ).toHaveValue("/cookie-location/.cookie");
     });
   });
 });

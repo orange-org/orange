@@ -1,11 +1,11 @@
 import { screen } from "@testing-library/dom";
 import { fireEvent } from "@testing-library/react";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
-import { findAllByTestId } from "_tu/findByTestId";
+import { MockElectron } from "_tu/MockElectron";
+import { TestElement } from "_tu/TestElement";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
-import { renderAppWithStore } from "_tu/renderAppWithStore";
-import { startMockRpcServer } from "_tu/startMockRpcServer";
+import { appWithStore } from "_tu/AppWithStore";
+import { MockRpcServer } from "_tu/MockRpcServer";
 
 jest.mock("_f/featureFlags", () => ({
   __esModule: true,
@@ -16,13 +16,13 @@ jest.mock("_f/featureFlags", () => ({
 
 describe("Explorer view", () => {
   beforeAll(async () => {
-    startMockRpcServer();
-    initializeElectronCode();
-    await renderAppWithStore();
+    MockRpcServer.start();
+    MockElectron.start();
+    await appWithStore.render();
   });
 
   it("starts by loading 20 blocks to display", async () => {
-    const blocks = await findAllByTestId("blockListBlock");
+    const blocks = await TestElement.findAllByTestId("blockListBlock");
 
     expect(blocks.length).toBe(20);
   });

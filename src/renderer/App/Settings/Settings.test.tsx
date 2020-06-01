@@ -2,7 +2,7 @@
 // import { act, wait } from "@testing-library/react";
 // import { initializeElectronCode } from "_tu/initializeElectronCode";
 // import { findByTestId, queryByTestId } from "_tu/findByTestId";
-// import { renderAppWithStore } from "_tu/renderAppWithStore";
+// import { appWithStore.render } from "_tu/appWithStore.render";
 // import { userEvent } from "_tu/smallUtils";
 // import { startMockRpcServer } from "_tu/startMockRpcServer";
 // import { vol } from "memfs";
@@ -18,7 +18,7 @@
 //   beforeAll(async () => {
 //     startMockRpcServer();
 //     initializeElectronCode();
-//     await renderAppWithStore();
+//     await appWithStore.render();
 //   });
 
 //   test("navigating to the settings page", async () => {

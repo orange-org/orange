@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import { productName } from "_r/../../package.json";
 import { RpcStatus } from "_r/App/components/RpcStatus/RpcStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { setHasRpcIssue } from "_r/redux/actions";
+import { Actions } from "_r/redux/Actions";
 import { useDispatch } from "react-redux";
 import { testIds } from "_tu/testIds";
 import { useConnectionStatus } from "./useConnectionStatus";
@@ -29,7 +29,7 @@ export const ConnectionStatusReport: React.FC<{
 
   useEffect(() => {
     if (isConnected) {
-      dispatch(setHasRpcIssue(false));
+      dispatch(Actions.setHasRpcIssue(false));
     }
   }, [dispatch, isConnected]);
 

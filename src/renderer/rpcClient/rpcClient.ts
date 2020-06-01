@@ -1,4 +1,4 @@
-import { ipcService } from "_r/ipc/ipcService";
+import { ipcService } from "_r/IpcService/IpcService";
 import { isRpcIssue } from "_r/utils/rpcIssueHelpers";
 import { RpcRequest } from "_t/RpcRequests";
 import { RpcResponse } from "_t/RpcResponses";

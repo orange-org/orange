@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ipcService } from "_r/ipc/ipcService";
+import { ipcService } from "_r/IpcService/IpcService";
 import { RpcIssue, determineRpcIssue } from "_r/utils/rpcIssueHelpers";
 import { poll } from "_r/utils/poll";
 import { isValidUrl } from "_r/utils/smallUtils";

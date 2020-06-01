@@ -1,4 +1,4 @@
-import { setHasRpcIssue } from "_r/redux/actions";
+import { Actions } from "_r/redux/Actions";
 import { store } from "_r/redux/reducers/store";
 
 /**
@@ -8,7 +8,7 @@ import { store } from "_r/redux/reducers/store";
  * connection issue.
  */
 export const checkIfRpcIssueHasBeenSolved = () => {
-  store.dispatch(setHasRpcIssue(true));
+  store.dispatch(Actions.setHasRpcIssue(true));
 
   return new Promise(resolve => {
     const intervalId = setInterval(() => {

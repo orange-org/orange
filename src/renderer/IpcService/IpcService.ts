@@ -1,8 +1,8 @@
 import { PromiseType } from "_t/typeHelpers";
 import { ShowErrorMtM, RpcRequestMtM, RpcConfigurations } from "_t/IpcMessages";
-import { callMain } from "./callMain";
+import { IpcClient } from "./IpcClient";
 
-const extractPayload = async <T extends ReturnType<typeof callMain>>(
+const extractPayload = async <T extends ReturnType<typeof IpcClient.send>>(
   message: T,
 ): Promise<PromiseType<T>["payload"]> => {
   const { payload } = await message;
@@ -12,7 +12,7 @@ const extractPayload = async <T extends ReturnType<typeof callMain>>(
 /* istanbul ignore next: can only ignore class props this way */
 const showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
   extractPayload(
-    callMain({
+    IpcClient.send({
       nonce,
       type: "show-error",
       payload: error,
@@ -22,7 +22,7 @@ const showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
 class IpcService {
   getSavedRpcConfigurations = (nonce: NONCE) =>
     extractPayload(
-      callMain({
+      IpcClient.send({
         nonce,
         type: "get-saved-rpc-configurations",
       }),
@@ -30,7 +30,7 @@ class IpcService {
 
   getCookiePathFromOpenDialog = (nonce: NONCE) =>
     extractPayload(
-      callMain({
+      IpcClient.send({
         nonce,
         type: "get-cookie-path-from-open-dialog",
       }),
@@ -40,7 +40,7 @@ class IpcService {
 
   rpcRequest = (nonce: NONCE, request: RpcRequestMtM["payload"]) =>
     extractPayload(
-      callMain({
+      IpcClient.send({
         nonce,
         type: "rpc-request",
         payload: request,
@@ -52,7 +52,7 @@ class IpcService {
     rpcConfigurations: RpcConfigurations | null,
   ) =>
     extractPayload(
-      callMain({
+      IpcClient.send({
         nonce,
         type: "save-rpc-configurations",
         payload: rpcConfigurations,

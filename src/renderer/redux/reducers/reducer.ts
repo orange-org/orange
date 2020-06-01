@@ -1,5 +1,5 @@
 import { createReducer } from "typesafe-actions";
-import * as actions from "_r/redux/actions";
+import { Actions } from "_r/redux/Actions";
 import {
   Block,
   BlockchainInfo,
@@ -35,38 +35,38 @@ export const initialState: State = {
 };
 
 export const reducer = createReducer(initialState)
-  .handleAction(actions.setExplorerBlockList, (state, action) => ({
+  .handleAction(Actions.setExplorerBlockList, (state, action) => ({
     ...state,
     explorerBlockList: action.payload,
   }))
-  .handleAction(actions.setSelectedExplorerBlock, (state, action) => ({
+  .handleAction(Actions.setSelectedExplorerBlock, (state, action) => ({
     ...state,
     selectedExplorerBlock: action.payload,
   }))
-  .handleAction(actions.setSelectedExplorerTransaction, (state, action) => ({
+  .handleAction(Actions.setSelectedExplorerTransaction, (state, action) => ({
     ...state,
     selectedExplorerTransaction: action.payload,
   }))
   .handleAction(
-    actions.setSelectedExplorerTransactionInputValues,
+    Actions.setSelectedExplorerTransactionInputValues,
     (state, action) => ({
       ...state,
       selectedExplorerTransactionInputValues: action.payload,
     }),
   )
-  .handleAction(actions.setBlockchainInfo, (state, action) => ({
+  .handleAction(Actions.setBlockchainInfo, (state, action) => ({
     ...state,
     blockchainInfo: action.payload,
   }))
-  .handleAction(actions.requestSearchBoxFocus, (state, action) => ({
+  .handleAction(Actions.requestSearchBoxFocus, (state, action) => ({
     ...state,
     requestSearchBoxFocus: action.payload,
   }))
-  .handleAction(actions.setMempoolInfo, (state, action) => ({
+  .handleAction(Actions.setMempoolInfo, (state, action) => ({
     ...state,
     mempoolInfo: action.payload,
   }))
-  .handleAction(actions.setHasRpcIssue, (state, action) => ({
+  .handleAction(Actions.setHasRpcIssue, (state, action) => ({
     ...state,
     hasRpcIssue: action.payload,
   }));

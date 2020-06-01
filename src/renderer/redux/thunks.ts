@@ -2,7 +2,7 @@ import { map } from "bluebird";
 import { Dispatch } from "redux";
 import { rpcService } from "_r/rpcClient/rpcService";
 import { GetState } from "_t/typeHelpers";
-import * as actions from "./actions";
+import { Actions } from "./Actions";
 import { calculateExplorerBlockListHeights } from "./calculateExplorerBlockListHeights";
 
 export const requestBlockchainInfo = (
@@ -14,7 +14,7 @@ export const requestBlockchainInfo = (
     cacheDuration,
   );
 
-  dispatch(actions.setBlockchainInfo(blockchainInfo));
+  dispatch(Actions.setBlockchainInfo(blockchainInfo));
 
   return blockchainInfo;
 };
@@ -25,7 +25,7 @@ export const requestMempoolInfo = (
 ) => async (dispatch: Dispatch) => {
   const mempoolInfo = await rpcService.requestMempoolInfo(nonce, cacheDuration);
 
-  dispatch(actions.setMempoolInfo(mempoolInfo));
+  dispatch(Actions.setMempoolInfo(mempoolInfo));
 
   return mempoolInfo;
 };
@@ -54,11 +54,11 @@ export const populateBlockList = (
   );
 
   dispatch(
-    actions.setSelectedExplorerBlock(
+    Actions.setSelectedExplorerBlock(
       populatedBlockList.find(block => block.height === selectedHeight)!,
     ),
   );
-  dispatch(actions.setExplorerBlockList(populatedBlockList));
+  dispatch(Actions.setExplorerBlockList(populatedBlockList));
 
   return populatedBlockList;
 };
@@ -72,7 +72,7 @@ export const requestRawTransactionToDisplay = (
     transactionId,
   );
 
-  dispatch(actions.setSelectedExplorerTransaction(transaction));
+  dispatch(Actions.setSelectedExplorerTransaction(transaction));
 
   const inputValues = await map(
     transaction.vin,
@@ -88,7 +88,7 @@ export const requestRawTransactionToDisplay = (
     { concurrency: 2 },
   );
 
-  dispatch(actions.setSelectedExplorerTransactionInputValues(inputValues));
+  dispatch(Actions.setSelectedExplorerTransactionInputValues(inputValues));
 
   return transaction;
 };

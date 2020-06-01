@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { DEFAULT_SERVER_URL } from "_c/constants";
 import { useConnectionStatus } from "_r/App/RpcIssueDialog/useConnectionStatus";
-import { ipcService } from "_r/ipc/ipcService";
+import { ipcService } from "_r/IpcService/IpcService";
 import { RpcConfigurations } from "_t/IpcMessages";
 import { rpcSettingsSubmitHandler } from "./rpcSettingsSubmitHandler";
 import { rpcSettingsValidationSchema } from "./rpcSettingsValidationSchema";

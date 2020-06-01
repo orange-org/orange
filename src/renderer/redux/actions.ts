@@ -10,44 +10,46 @@ import {
   Uptime,
 } from "_t/RpcResponses";
 
-export const setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
+export class Actions {
+  static setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
-export const setBlockchainInfo = createAction("SET_BLOCKCHAIN_INFO")<
-  BlockchainInfo
->();
+  static setBlockchainInfo = createAction("SET_BLOCKCHAIN_INFO")<
+    BlockchainInfo
+  >();
 
-export const setBlock = createAction("SET_BLOCK")<Block>();
+  static setBlock = createAction("SET_BLOCK")<Block>();
 
-export const setBestBlock = createAction("SET_BEST_BLOCK")<Block>();
+  static setBestBlock = createAction("SET_BEST_BLOCK")<Block>();
 
-export const setUptime = createAction("SET_UPTIME")<Uptime>();
+  static setUptime = createAction("SET_UPTIME")<Uptime>();
 
-export const setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
+  static setPeerInfo = createAction("SET_PEER_INFO")<PeerInfo>();
 
-export const setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
+  static setMempoolInfo = createAction("SET_MEMPOOL_INFO")<MempoolInfo>();
 
-export const setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
+  static setRpcInfo = createAction("SET_RPC_INFO")<RpcInfo>();
 
-export const setSelectedExplorerBlock = createAction(
-  "SET_SELECTED_EXPLORER_BLOCK",
-)<Block>();
+  static setSelectedExplorerBlock = createAction("SET_SELECTED_EXPLORER_BLOCK")<
+    Block
+  >();
 
-export const setExplorerBlockList = createAction("SET_EXPLORER_BLOCK_LIST")<
-  Block[]
->();
+  static setExplorerBlockList = createAction("SET_EXPLORER_BLOCK_LIST")<
+    Block[]
+  >();
 
-export const setSelectedExplorerTransaction = createAction(
-  "SET_SELECTED_EXPLORER_TRANSACTION",
-)<RawTransaction>();
+  static setSelectedExplorerTransaction = createAction(
+    "SET_SELECTED_EXPLORER_TRANSACTION",
+  )<RawTransaction>();
 
-export const setSelectedExplorerTransactionInputValues = createAction(
-  "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
-)<RawTransaction["vout"][number]["value"][]>();
+  static setSelectedExplorerTransactionInputValues = createAction(
+    "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
+  )<RawTransaction["vout"][number]["value"][]>();
 
-export const setHasRpcIssue = createAction("SET_HAS_RPC_CONNECTION_ISSUE")<
-  boolean
->();
+  static setHasRpcIssue = createAction("SET_HAS_RPC_CONNECTION_ISSUE")<
+    boolean
+  >();
 
-export const requestSearchBoxFocus = createAction("REQUEST_SEARCH_BOX_FOCUS")<
-  boolean
->();
+  static requestSearchBoxFocus = createAction("REQUEST_SEARCH_BOX_FOCUS")<
+    boolean
+  >();
+}

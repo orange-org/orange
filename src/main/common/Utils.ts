@@ -12,5 +12,5 @@ export class Utils {
    */
   static getGlobalProcess = () => process;
 
-  static getIsDevelopment = () => process.env.NODE_ENV === "development";
+  static isDevelopment = () => process.env.NODE_ENV === "development";
 }

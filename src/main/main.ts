@@ -35,7 +35,7 @@ export class Main {
     }
 
     /* istanbul ignore if */
-    if (Utils.getIsDevelopment()) {
+    if (Utils.isDevelopment()) {
       chromeExtensions.install();
     }
 

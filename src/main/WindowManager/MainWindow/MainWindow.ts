@@ -68,7 +68,7 @@ export class MainWindow extends BrowserWindow {
 
     /* istanbul ignore next */
     this.webContents.once("did-frame-finish-load", () => {
-      if (Utils.getIsDevelopment()) {
+      if (Utils.isDevelopment()) {
         this.maximize();
         this.webContents.openDevTools();
       } else {

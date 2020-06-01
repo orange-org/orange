@@ -6,7 +6,7 @@ export class UrlGuard {
     const { protocol, hostname, pathname } = new URL(url);
 
     // During development
-    if (Utils.getIsDevelopment()) {
+    if (Utils.isDevelopment()) {
       // Allow installing extensions
       if (
         protocol === "https:" &&

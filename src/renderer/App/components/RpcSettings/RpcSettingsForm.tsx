@@ -10,7 +10,7 @@ import { FolderOpen } from "@material-ui/icons";
 import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { RpcStatus } from "../RpcStatus/RpcStatus";
 import { HookData } from "./useRpcSettings";
 

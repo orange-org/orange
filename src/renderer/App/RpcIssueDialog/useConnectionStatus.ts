@@ -3,7 +3,7 @@ import { ipcService } from "_r/IpcService/IpcService";
 import { Poll } from "_r/utils/Poll";
 import { Utils } from "_r/utils/Utils";
 import { RpcConfigurations } from "_t/IpcMessages";
-import { TRpcIssue, RpcIssue } from "_r/RpcClient/RpcIssue";
+import { TRpcIssue, RpcIssue } from "_r/RpcService/RpcIssue";
 
 export const useConnectionStatus = (
   rpcConfigurations?: RpcConfigurations | null,

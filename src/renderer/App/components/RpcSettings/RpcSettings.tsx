@@ -5,7 +5,7 @@ import { RpcSettingsForm } from "_r/App/components/RpcSettings/RpcSettingsForm";
 import { RpcSettingsSaveButton } from "_r/App/components/RpcSettings/RpcSettingsSaveButton";
 import { useRpcSettingsHooks } from "_r/App/components/RpcSettings/useRpcSettings";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 
 export const RpcSettings = () => {
   const a = useAtomicCss();

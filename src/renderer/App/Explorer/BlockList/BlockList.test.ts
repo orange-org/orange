@@ -5,7 +5,7 @@ import { renderAppWithStore } from "_tu/renderAppWithStore";
 import * as blockFixtures from "_tu/fixtures/blockFixtures";
 import { userEvent, waitWithTime } from "_tu/smallUtils";
 import { fireEvent, wait } from "@testing-library/react";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 
 jest.mock("_f/featureFlags", () => ({
   __esModule: true,

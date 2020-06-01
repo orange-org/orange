@@ -10,7 +10,7 @@ import { RpcStatus } from "_r/App/components/RpcStatus/RpcStatus";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Actions } from "_r/redux/Actions";
 import { useDispatch } from "react-redux";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { useConnectionStatus } from "./useConnectionStatus";
 
 export const ConnectionStatusReport: React.FC<{

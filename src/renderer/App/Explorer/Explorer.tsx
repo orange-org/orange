@@ -4,7 +4,7 @@ import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
 } from "_r/useAtomicCss";
 import { useTheme } from "@material-ui/core";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { BlockDetails } from "./BlockDetails/BlockDetails";
 import { BlockList } from "./BlockList/BlockList";
 

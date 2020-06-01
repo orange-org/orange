@@ -4,7 +4,7 @@ import { green } from "@material-ui/core/colors";
 import { CheckCircleOutline } from "@material-ui/icons";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { TRpcIssue } from "_r/RpcClient/RpcIssue";
+import { TRpcIssue } from "_r/RpcService/RpcIssue";
 
 export const RpcStatus: React.FC<{
   issue: TRpcIssue | "newConfig" | null;

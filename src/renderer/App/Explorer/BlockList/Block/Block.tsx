@@ -8,7 +8,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";
 import { Block as TBlock } from "_t/RpcResponses";
 import { TimeoutId } from "_t/typeHelpers";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 import { DummyBlock } from "../../common/DummyBlock";

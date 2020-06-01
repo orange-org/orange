@@ -11,7 +11,7 @@ import {
 } from "_r/useAtomicCss";
 import { Poll } from "_r/utils/Poll";
 import { Utils } from "_r/utils/Utils";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { DummyBlock } from "../common/DummyBlock";
 import { Block, useChainLinkStyles } from "./Block/Block";
 import { Mempool } from "./Mempool/Mempool";

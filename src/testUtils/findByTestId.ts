@@ -1,5 +1,5 @@
 import { screen } from "@testing-library/dom";
-import { testIds } from "./testIds";
+import { testIds } from "../renderer/testIds";
 
 type TestId = keyof typeof testIds;
 

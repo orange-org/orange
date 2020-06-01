@@ -1,6 +1,6 @@
 import { Button as MuiButton, ButtonProps } from "@material-ui/core";
 import React from "react";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { HookData } from "./useRpcSettings";
 
 export const RpcSettingsSaveButton: React.FC<{

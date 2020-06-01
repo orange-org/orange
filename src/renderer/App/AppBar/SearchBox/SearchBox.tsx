@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Actions } from "_r/redux/Actions";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { useSearchHandlers } from "./SearchBoxHooks";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
 

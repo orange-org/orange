@@ -9,7 +9,7 @@ import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { featureFlags } from "_f/featureFlags";
 import { SearchBox } from "./SearchBox/SearchBox";
 

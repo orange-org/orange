@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { RpcSettingsInDialog } from "../RpcSettingsInDialog";
 import { ConnectionStatusReport } from "../ConnectionStatusReport";
 

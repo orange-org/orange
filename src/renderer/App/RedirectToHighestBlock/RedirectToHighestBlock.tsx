@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { RpcService } from "_r/RpcClient/RpcService";
+import { RpcService } from "_r/RpcService/RpcService";
 
 export const RedirectToHighestBlock: React.FC = () => {
   const history = useHistory();

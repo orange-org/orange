@@ -1,6 +1,6 @@
 import { map } from "bluebird";
 import { Dispatch } from "redux";
-import { RpcService } from "_r/RpcClient/RpcService";
+import { RpcService } from "_r/RpcService/RpcService";
 import { GetState } from "_t/typeHelpers";
 import { Actions } from "./Actions";
 import { ExplorerBlockListHeights } from "./ExplorerBlockListHeights";

@@ -30,7 +30,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";
 import { Delay } from "_r/utils/Delay";
 import { Block as TBlock } from "_t/RpcResponses";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { TransactionDetails } from "./TransactionDetails/TransactionDetails";
 import { OtherDetails } from "./OtherDetails";
 import { DummyBlock } from "../common/DummyBlock";

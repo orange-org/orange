@@ -9,7 +9,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";
 import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { OtherDetails } from "../OtherDetails";
 
 const SVG_ICON_WIDTH = 24;

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Actions } from "_r/redux/Actions";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { useConnectionStatus } from "../useConnectionStatus";
 
 export const AwaitBtcd = () => {

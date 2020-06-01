@@ -29,14 +29,11 @@ import { last, range } from "lodash";
 export class ExplorerBlockListHeights {
   private static BLOCK_LIST_SIZE = 20;
 
-  private static generateList = (start: number, end: number) =>
-    range(start, end - 1);
-
   static calculate = (
     selectedHeight: number,
     currentlyDisplayedList: number[],
   ) => {
-    const { generateList, BLOCK_LIST_SIZE } = ExplorerBlockListHeights;
+    const { BLOCK_LIST_SIZE } = ExplorerBlockListHeights;
 
     if (currentlyDisplayedList.length > 0) {
       if (currentlyDisplayedList.includes(selectedHeight)) {
@@ -51,7 +48,7 @@ export class ExplorerBlockListHeights {
       if (isWithinLowerRange) {
         const end = selectedHeight;
         const start = end + BLOCK_LIST_SIZE - 1;
-        return generateList(start, end);
+        return range(start, end - 1);
       }
     }
 
@@ -59,6 +56,6 @@ export class ExplorerBlockListHeights {
     const start = lowerThanWindow ? BLOCK_LIST_SIZE - 1 : selectedHeight;
     const end = lowerThanWindow ? 0 : selectedHeight - BLOCK_LIST_SIZE + 1;
 
-    return generateList(start, end);
+    return range(start, end - 1);
   };
 }

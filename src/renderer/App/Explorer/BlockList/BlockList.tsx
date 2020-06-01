@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
 import { Actions } from "_r/redux/Actions";
-import * as thunks from "_r/redux/thunks";
+import { Thunks } from "_r/redux/Thunks";
 import {
   BLOCK_SCROLLABLE_CONTAINER_FULL_WIDTH,
   useAtomicCss,
@@ -27,7 +27,7 @@ const useRequestBlockchainInfo = () => {
 
   useEffect(() => {
     const pollHandler = poll(() => {
-      dispatch(thunks.requestBlockchainInfo(__NONCE__, 4000));
+      dispatch(Thunks.requestBlockchainInfo(__NONCE__, 4000));
     }, 5000);
 
     pollHandler.start();
@@ -42,7 +42,7 @@ const usePopulateBlockList = () => {
 
   useEffect(() => {
     dispatch(
-      thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),
+      Thunks.populateBlockList(__NONCE__, parseInt(blockHeightAsId!, 10)),
     );
   }, [blockHeightAsId, dispatch]);
 };

@@ -10,7 +10,7 @@ import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
-import { store } from "_r/redux/reducers/store";
+import { store } from "_r/redux/StoreCreator";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";

@@ -4,7 +4,7 @@ import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
-import * as thunks from "_r/redux/thunks";
+import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import {
   secondsTimestampToFormattedDate,
@@ -50,7 +50,7 @@ export const TransactionDetails: React.FC<{
   );
 
   useEffect(() => {
-    dispatch(thunks.requestRawTransactionToDisplay(__NONCE__, transactionId!));
+    dispatch(Thunks.requestRawTransactionToDisplay(__NONCE__, transactionId!));
   }, [dispatch, transactionId]);
 
   if (!transaction || !transactionInputValues) {

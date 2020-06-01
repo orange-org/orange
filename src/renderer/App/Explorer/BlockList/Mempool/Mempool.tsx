@@ -15,7 +15,7 @@ import {
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoadingAwareTypography } from "_r/hooks";
-import * as thunks from "_r/redux/thunks";
+import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { poll } from "_r/utils/poll";
 import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
@@ -51,7 +51,7 @@ export const Mempool = () => {
 
   useEffect(() => {
     const pollHandler = poll(async () => {
-      await dispatch(thunks.requestMempoolInfo(__NONCE__, 4000));
+      await dispatch(Thunks.requestMempoolInfo(__NONCE__, 4000));
     }, 5000);
 
     pollHandler.start();

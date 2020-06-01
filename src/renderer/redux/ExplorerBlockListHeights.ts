@@ -26,34 +26,39 @@ import { last, range } from "lodash";
  * Given the above three values, compute DISPLAYED_BLOCKS according to the requirements
  * described earlier.
  */
-export const generateList = (start: number, end: number) =>
-  range(start, end - 1);
+export class ExplorerBlockListHeights {
+  private static BLOCK_LIST_SIZE = 20;
 
-const BLOCK_LIST_SIZE = 20;
-export const calculateExplorerBlockListHeights = (
-  selectedHeight: number,
-  currentlyDisplayedList: number[],
-) => {
-  if (currentlyDisplayedList.length > 0) {
-    if (currentlyDisplayedList.includes(selectedHeight)) {
-      return currentlyDisplayedList;
+  private static generateList = (start: number, end: number) =>
+    range(start, end - 1);
+
+  static calculate = (
+    selectedHeight: number,
+    currentlyDisplayedList: number[],
+  ) => {
+    const { generateList, BLOCK_LIST_SIZE } = ExplorerBlockListHeights;
+
+    if (currentlyDisplayedList.length > 0) {
+      if (currentlyDisplayedList.includes(selectedHeight)) {
+        return currentlyDisplayedList;
+      }
+
+      const lastHeight = last(currentlyDisplayedList)!;
+      const isWithinLowerRange =
+        selectedHeight < lastHeight &&
+        selectedHeight > lastHeight - BLOCK_LIST_SIZE;
+
+      if (isWithinLowerRange) {
+        const end = selectedHeight;
+        const start = end + BLOCK_LIST_SIZE - 1;
+        return generateList(start, end);
+      }
     }
 
-    const lastHeight = last(currentlyDisplayedList)!;
-    const isWithinLowerRange =
-      selectedHeight < lastHeight &&
-      selectedHeight > lastHeight - BLOCK_LIST_SIZE;
+    const lowerThanWindow = selectedHeight < 20;
+    const start = lowerThanWindow ? BLOCK_LIST_SIZE - 1 : selectedHeight;
+    const end = lowerThanWindow ? 0 : selectedHeight - BLOCK_LIST_SIZE + 1;
 
-    if (isWithinLowerRange) {
-      const end = selectedHeight;
-      const start = end + BLOCK_LIST_SIZE - 1;
-      return generateList(start, end);
-    }
-  }
-
-  const lowerThanWindow = selectedHeight < 20;
-  const start = lowerThanWindow ? BLOCK_LIST_SIZE - 1 : selectedHeight;
-  const end = lowerThanWindow ? 0 : selectedHeight - BLOCK_LIST_SIZE + 1;
-
-  return generateList(start, end);
-};
+    return generateList(start, end);
+  };
+}

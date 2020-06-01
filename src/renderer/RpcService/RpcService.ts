@@ -4,7 +4,7 @@ type Verbosity = 0 | 1 | 2;
 
 export class RpcService {
   static requestBlockchainInfo = (nonce: NONCE, cacheDuration?: number) =>
-    RpcClient(
+    RpcClient.send(
       nonce,
       {
         method: "getblockchaininfo",
@@ -13,7 +13,7 @@ export class RpcService {
     );
 
   static requestMempoolInfo = (nonce: NONCE, cacheDuration?: number) =>
-    RpcClient(
+    RpcClient.send(
       nonce,
       {
         method: "getmempoolinfo",
@@ -26,10 +26,14 @@ export class RpcService {
     blockHash: string,
     /* istanbul ignore next */
     verbosity: Verbosity = 1,
-  ) => RpcClient(nonce, { method: "getblock", params: [blockHash, verbosity] });
+  ) =>
+    RpcClient.send(nonce, {
+      method: "getblock",
+      params: [blockHash, verbosity],
+    });
 
   static requestBlockHash = (nonce: NONCE, blockHeight: number) =>
-    RpcClient(nonce, { method: "getblockhash", params: [blockHeight] });
+    RpcClient.send(nonce, { method: "getblockhash", params: [blockHeight] });
 
   static requestBlockByHeight = async (
     nonce: NONCE,
@@ -47,7 +51,7 @@ export class RpcService {
     transactionId: string,
     verbose = 1,
   ) =>
-    RpcClient(nonce, {
+    RpcClient.send(nonce, {
       method: "getrawtransaction",
       params: [transactionId, verbose],
     });

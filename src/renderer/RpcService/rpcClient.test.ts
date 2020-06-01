@@ -1,13 +1,13 @@
 import { ipcService as ipcService_ } from "_r/IpcService/IpcService";
-import { RpcClient as rpcClient_ } from "./RpcClient";
+import { RpcClient as RpcClient_ } from "./RpcClient";
 
-const { rpcClient } = jest.requireActual("./rpcClient") as {
-  rpcClient: typeof rpcClient_;
+const { RpcClient } = jest.requireActual("./RpcClient") as {
+  RpcClient: typeof RpcClient_;
 };
 
 const ipcService = ipcService_ as any;
 
-jest.mock("_r/ipc/ipcService", () => ({
+jest.mock("_r/ipc/IpcService", () => ({
   ipcService: {
     rpcRequest: jest.fn(),
   },
@@ -25,7 +25,7 @@ describe("rpcClient", () => {
       error: null,
     }));
 
-    const result = await rpcClient(__NONCE__, {
+    const result = await RpcClient.send(__NONCE__, {
       method: "getblockhash",
       params: [1],
     });
@@ -40,7 +40,7 @@ describe("rpcClient", () => {
       error: null,
     }));
 
-    await rpcClient(__NONCE__, { method: "getblockhash", params: [1] }, 1);
+    await RpcClient.send(__NONCE__, { method: "getblockhash", params: [1] }, 1);
 
     ipcService.rpcRequest.mockImplementation(() => ({
       result: "this will not be returned",
@@ -48,7 +48,7 @@ describe("rpcClient", () => {
       error: null,
     }));
 
-    const result2 = await rpcClient(
+    const result2 = await RpcClient.send(
       __NONCE__,
       { method: "getblockhash", params: [1] },
       1,
@@ -63,7 +63,7 @@ describe("rpcClient", () => {
       method: "getblockhash",
       error: null,
     }));
-    await rpcClient(__NONCE__, { method: "getblockhash", params: [1] }, 1);
+    await RpcClient.send(__NONCE__, { method: "getblockhash", params: [1] }, 1);
 
     jest.advanceTimersByTime(100);
 
@@ -72,7 +72,7 @@ describe("rpcClient", () => {
       method: "getblockhash",
       error: null,
     }));
-    const result2 = await rpcClient(
+    const result2 = await RpcClient.send(
       __NONCE__,
       { method: "getblockhash", params: [1] },
       2,
@@ -90,7 +90,7 @@ describe("rpcClient", () => {
     }));
 
     try {
-      await rpcClient(__NONCE__, { method: "getblockhash", params: [1] });
+      await RpcClient.send(__NONCE__, { method: "getblockhash", params: [1] });
     } catch (e) {
       expect(e).toEqual("huh?");
     }

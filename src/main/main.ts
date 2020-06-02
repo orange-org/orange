@@ -6,7 +6,7 @@ import { ErrorDialog } from "./common/ErrorDialog";
 import { squirrelEvents } from "./SquirrelEvents/SquirrelEvents";
 import { windowManager } from "./WindowManager/WindowManager";
 import { Utils } from "./common/Utils";
-import { chromeExtensions } from "./ChromeExtensions/ChromeExtensions";
+import { ChromeExtensions } from "./ChromeExtensions/ChromeExtensions";
 
 export class Main {
   isStarted = false;
@@ -36,7 +36,7 @@ export class Main {
 
     /* istanbul ignore if */
     if (Utils.isDevelopment()) {
-      chromeExtensions.install();
+      ChromeExtensions.install();
     }
 
     windowManager.createMainWindow();

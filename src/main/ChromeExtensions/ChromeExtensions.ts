@@ -5,8 +5,8 @@ import installExtension, {
   REDUX_DEVTOOLS,
 } from "electron-devtools-installer";
 
-class ChromeExtensions {
-  install = () => {
+export class ChromeExtensions {
+  static install = () => {
     [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS].forEach(extension => {
       installExtension(extension)
         .then(name => console.log(`Added Extension:  ${name}`))
@@ -14,5 +14,3 @@ class ChromeExtensions {
     });
   };
 }
-
-export const chromeExtensions = new ChromeExtensions();

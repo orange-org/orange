@@ -29,15 +29,15 @@ describe("main", () => {
       );
 
       return waitForExpect(() => {
-        expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(1);
-        expect(dialog.showMessageBoxSync).toHaveBeenCalledWith({
+        expect(dialog.showMessageBox).toHaveBeenCalledTimes(1);
+        expect(dialog.showMessageBox).toHaveBeenCalledWith({
           message:
             "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nstuff",
           title: "An error occurred",
           type: "warning",
         });
 
-        dialog.showMessageBoxSync.mockReset();
+        dialog.showMessageBox.mockReset();
       });
     });
 
@@ -52,23 +52,23 @@ describe("main", () => {
       jest.spyOn(console, "log").mockRestore();
 
       return waitForExpect(() => {
-        expect(dialog.showMessageBoxSync).toHaveBeenCalledTimes(2);
+        expect(dialog.showMessageBox).toHaveBeenCalledTimes(2);
 
-        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(1, {
+        expect(dialog.showMessageBox).toHaveBeenNthCalledWith(1, {
           message:
             'This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\n"hello"',
           title: "An error occurred",
           type: "warning",
         });
 
-        expect(dialog.showMessageBoxSync).toHaveBeenNthCalledWith(2, {
+        expect(dialog.showMessageBox).toHaveBeenNthCalledWith(2, {
           message:
             "This dialog is for reporting unexpected errors only. Do not follow any instructions that appear in it. The reported error is below.\n\nError: happened",
           title: "An error occurred",
           type: "warning",
         });
 
-        dialog.showMessageBoxSync.mockReset();
+        dialog.showMessageBox.mockReset();
       });
     });
 

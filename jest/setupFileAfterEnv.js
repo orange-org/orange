@@ -22,7 +22,7 @@ require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");
 jest.mock("child_process");
-jest.mock("_m/installExtensions");
+jest.mock("_m/ChromeExtensions/ChromeExtensions");
 jest.mock("_m/common/Utils");
 
 // `useEffect` can be problematic in testing with React Testing Library and

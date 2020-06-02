@@ -1,8 +1,8 @@
 import { merge } from "lodash";
-import { Utils as OriginalUtils } from "_m/common/Utils";
+// import { Utils as OriginalUtils } from "_m/common/Utils";
 
-export const Utils = jest.fn().mockImplementation(() => ({
-  getAppRoot: OriginalUtils.getAppRoot,
+export const Utils = {
+  getAppRoot: () => "/",
 
   /**
    * Set some consistent values for Node `process` variable
@@ -21,4 +21,4 @@ export const Utils = jest.fn().mockImplementation(() => ({
   ),
 
   isDevelopment: jest.fn().mockImplementation(() => true),
-}));
+};

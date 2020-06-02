@@ -47,25 +47,6 @@ describe("MainRpcClient", () => {
     expect(response.error).toBe("whatever bitcoind puts in error key");
   });
 
-  it("throws for non-whitelisted RPC methods", async () => {
-    const scope = nock(RPC_SERVER_URL)
-      .post("/")
-      .reply(200, { result: "okay" });
-
-    await expect(
-      MainRpcClient.call(
-        {
-          // @ts-ignore
-          method: "submitheader",
-        },
-        rpcConfigurations,
-      ),
-    ).rejects.toThrow(ErrorWithCode);
-    expect(scope.pendingMocks().length).toBe(1);
-
-    nock.cleanAll();
-  });
-
   it("throws when statusCode is 401 or 403", async () => {
     nock(RPC_SERVER_URL)
       .post("/")

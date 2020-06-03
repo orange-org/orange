@@ -17,6 +17,7 @@ class WindowManager {
   sendMessageToMainWindow = (
     payload: Omit<SendableMessageToRenderer, "source">,
   ) => {
+    /* istanbul ignore else */
     if (!this.mainWindow?.isDestroyed()) {
       this.mainWindow?.webContents.send("message-to-renderer", {
         source: "@orange/main",

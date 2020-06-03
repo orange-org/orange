@@ -1,3 +1,5 @@
+/* istanbul ignore file: being mocked in tests, that's why it's not getting hit.
+If it becomes critical enough, we should unit test it. */
 import { resolve } from "path";
 
 export class Utils {

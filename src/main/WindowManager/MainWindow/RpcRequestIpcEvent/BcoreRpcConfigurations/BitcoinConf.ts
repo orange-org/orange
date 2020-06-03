@@ -6,7 +6,7 @@ import { ErrorWithCode } from "_c/ErrorWithCode";
 import { RPC_ERROR } from "_c/constants";
 
 export class BitcoinConf {
-  public static getDataDir = () => {
+  public static getDataDir() {
     const globalProcess = Utils.getGlobalProcess();
 
     let dataDir;
@@ -24,9 +24,10 @@ export class BitcoinConf {
     }
 
     return dataDir;
-  };
+  }
 
-  public static getChain = async () => {
+  /* istanbul ignore next: non-critical, hard to test */
+  public static async getChain() {
     const content = await BitcoinConf.getContent();
     const possibleChainNames = ["testnet", "regtest"];
 
@@ -38,25 +39,25 @@ export class BitcoinConf {
       if ((line = line.trim())) {
         const section = /^\[([^=]+)]$/.exec(line);
         const property = !section && /^([^#=]+)(={0,1})(.*)$/.exec(line);
-        /* istanbul ignore else */
+
         if (property) {
           const key = property[1].trim();
           const value = property[3].trim();
-          /* istanbul ignore else */
+
           if (possibleChainNames.includes(key) && value === "1") {
             return key;
           }
         }
-        /* istanbul ignore next */
+
         return result;
       }
       return result;
     }, "");
 
     return chain;
-  };
+  }
 
-  private static getContent = async () => {
+  private static async getContent() {
     const dataDir = BitcoinConf.getDataDir();
     let content: string;
 
@@ -78,5 +79,5 @@ export class BitcoinConf {
     }
 
     return content;
-  };
+  }
 }

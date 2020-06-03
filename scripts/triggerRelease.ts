@@ -23,7 +23,7 @@ if (currentBranch.code !== 0) {
   exit(1);
 }
 
-if (currentBranch.stdout !== "master") {
+if (currentBranch.stdout.trim() !== "master") {
   echo("Error: you must be on `master` to trigger a release");
   exit(1);
 }

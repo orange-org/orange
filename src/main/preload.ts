@@ -38,6 +38,7 @@ export class Preload {
   };
 }
 
+/* istanbul ignore if */
 if (process.env.NODE_ENV !== "test") {
   const preload = new Preload();
 

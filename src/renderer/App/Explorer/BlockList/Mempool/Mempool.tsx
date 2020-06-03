@@ -20,7 +20,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Poll } from "_r/utils/Poll";
 import { Utils } from "_r/utils/Utils";
 import { MempoolInfo } from "_t/RpcResponses";
-import { featureFlags } from "_f/featureFlags";
+import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
@@ -94,7 +94,7 @@ export const Mempool = () => {
           tooltipTitle="Required block space"
           isLoading={isLoading}
         />
-        {featureFlags.useBcore ? (
+        {FeatureFlags.useBcore ? (
           <>
             <MetaDataItem
               icon={ComputerOutlined}

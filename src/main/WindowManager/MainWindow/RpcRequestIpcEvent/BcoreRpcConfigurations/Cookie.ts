@@ -1,11 +1,11 @@
 import { promises as fs } from "fs";
 import { ErrorWithCode } from "_c/ErrorWithCode";
 import { RPC_ERROR } from "_c/constants";
-import { bitcoinConf } from "./BitcoinConf";
+import { BitcoinConf } from "./BitcoinConf";
 
 export class Cookie {
   public static getPath = async (chain: string) => {
-    const dataDir = bitcoinConf.getDataDir();
+    const dataDir = BitcoinConf.getDataDir();
 
     let networkDir: string;
 

@@ -1,5 +1,5 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { featureFlags } from "_f/featureFlags";
+import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
 import { btcdRpcConfigurations } from "_m/common/BtcdRpcConfigurations";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
 import { BcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";
@@ -7,7 +7,7 @@ import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
 import { PromiseType } from "_t/typeHelpers";
-import { bitcoinConf } from "./BcoreRpcConfigurations/BitcoinConf";
+import { BitcoinConf } from "./BcoreRpcConfigurations/BitcoinConf";
 
 export class RpcRequestIpcEvent {
   static handle = async (
@@ -19,11 +19,11 @@ export class RpcRequestIpcEvent {
     >>;
 
     try {
-      const chain = await bitcoinConf.getChain();
+      const chain = await BitcoinConf.getChain();
 
       if (
         data.payload.connectionConfigurations !== undefined &&
-        featureFlags.useBcore
+        FeatureFlags.useBcore
       ) {
         const { connectionConfigurations } = data.payload;
 
@@ -35,6 +35,7 @@ export class RpcRequestIpcEvent {
           rpcConfigurations = defaultRpcConfigurations;
         } else if ("cookiePath" in connectionConfigurations) {
           const cookieCredentials = await BcoreRpcConfigurations.fromCookie(
+            chain,
             connectionConfigurations.cookiePath,
           );
 
@@ -45,7 +46,7 @@ export class RpcRequestIpcEvent {
         } else {
           rpcConfigurations = connectionConfigurations;
         }
-      } else if (featureFlags.useBcore) {
+      } else if (FeatureFlags.useBcore) {
         rpcConfigurations = await BcoreRpcConfigurations.fromDisk(chain);
       } else {
         rpcConfigurations = btcdRpcConfigurations;

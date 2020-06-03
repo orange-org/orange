@@ -7,7 +7,7 @@ const { RpcClient } = jest.requireActual("./RpcClient") as {
 
 const ipcService = ipcService_ as any;
 
-jest.mock("_r/ipc/IpcService", () => ({
+jest.mock("_r/IpcService/IpcService", () => ({
   ipcService: {
     rpcRequest: jest.fn(),
   },

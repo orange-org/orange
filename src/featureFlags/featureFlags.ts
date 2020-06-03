@@ -1,3 +1,3 @@
-export const featureFlags = {
-  useBcore: false,
-};
+export class FeatureFlags {
+  static useBcore = false;
+}

@@ -1,7 +1,7 @@
-import { featureFlags } from "_f/featureFlags";
+import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
 import { AwaitBtcd } from "./AwaitBtcd/AwaitBtcd";
 import { FixBcoreConnection } from "./FixBcoreConnection/FixBcoreConnection";
 
-export const RpcIssueDialog = featureFlags.useBcore
+export const RpcIssueDialog = FeatureFlags.useBcore
   ? FixBcoreConnection
   : AwaitBtcd;

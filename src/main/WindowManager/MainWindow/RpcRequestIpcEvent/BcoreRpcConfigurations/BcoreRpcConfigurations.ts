@@ -1,14 +1,13 @@
 import { settings } from "_m/Settings/Settings";
-import { bitcoinConf } from "./BitcoinConf";
 import { Cookie } from "./Cookie";
 
 export class BcoreRpcConfigurations {
-  private static getServerUrl = (chainName?: string) => {
+  private static getServerUrl = (chain: string) => {
     const port =
       // eslint-disable-next-line no-nested-ternary
-      chainName === "testnet"
+      chain === "testnet"
         ? /* istanbul ignore next */ 18332
-        : chainName === "regtest"
+        : chain === "regtest"
         ? /* istanbul ignore next */ 18443
         : 8332;
 
@@ -20,7 +19,7 @@ export class BcoreRpcConfigurations {
     const { username, password } = await BcoreRpcConfigurations.fromCookie(
       chain,
     );
-    const serverUrl = BcoreRpcConfigurations.getServerUrl();
+    const serverUrl = BcoreRpcConfigurations.getServerUrl(chain);
 
     return { username, password, serverUrl, cookiePath };
   };

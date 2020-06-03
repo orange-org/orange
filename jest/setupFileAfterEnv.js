@@ -1,5 +1,4 @@
 const React = require("react");
-const { Utils } = require("_m/common/Utils");
 
 /**
  * `scrollIntoView` is not implemented in JS DOM (the environment where Jest

@@ -38,11 +38,11 @@ describe("ExplorerBlockListHeights", () => {
 
   it("works for a currently displayed list", () => {
     const list = ExplorerBlockListHeights.calculate(79, range(99, 79));
-    expect(list).toEqual(range(98, 79));
+    expect(list).toEqual(range(98, 78));
     expect(list.length).toBe(20);
 
-    const list2 = ExplorerBlockListHeights.calculate(100, range(99, 70));
-    expect(list2).toEqual(range(100, 81));
+    const list2 = ExplorerBlockListHeights.calculate(100, range(99, 79));
+    expect(list2).toEqual(range(100, 80));
     expect(list2.length).toBe(20);
 
     const list3 = ExplorerBlockListHeights.calculate(0, range(20, 0));

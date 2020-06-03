@@ -1,5 +1,5 @@
 import { FormikHelpers } from "formik";
-import { ipcService } from "_r/ipc/ipcService";
+import { ipcService } from "_r/IpcService/IpcService";
 import { FormValues } from "./useRpcSettings";
 
 type SubmitHandler = (

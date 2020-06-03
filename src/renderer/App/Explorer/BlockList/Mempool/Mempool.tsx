@@ -15,12 +15,12 @@ import {
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoadingAwareTypography } from "_r/hooks";
-import * as thunks from "_r/redux/thunks";
+import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { poll } from "_r/utils/poll";
-import { convertBitcoinToSatoshi, humanFileSize } from "_r/utils/smallUtils";
+import { Poll } from "_r/utils/Poll";
+import { Utils } from "_r/utils/Utils";
 import { MempoolInfo } from "_t/RpcResponses";
-import { featureFlags } from "_f/featureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 
@@ -50,13 +50,13 @@ export const Mempool = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const pollHandler = poll(async () => {
-      await dispatch(thunks.requestMempoolInfo(__NONCE__, 4000));
+    const poll = new Poll(async () => {
+      await dispatch(Thunks.requestMempoolInfo(__NONCE__, 4000));
     }, 5000);
 
-    pollHandler.start();
+    poll.start();
 
-    return pollHandler.stop;
+    return poll.stop;
   }, [dispatch]);
 
   const mempoolInfo = useSelector(state => state.mempoolInfo);
@@ -90,15 +90,15 @@ export const Mempool = () => {
         />
         <MetaDataItem
           icon={SaveOutlined}
-          text={humanFileSize(data!.bytes)}
+          text={Utils.humanFileSize(data!.bytes)}
           tooltipTitle="Required block space"
           isLoading={isLoading}
         />
-        {featureFlags.useBcore ? (
+        {FeatureFlags.useBcore ? (
           <>
             <MetaDataItem
               icon={ComputerOutlined}
-              text={`${convertBitcoinToSatoshi(
+              text={`${Utils.convertBitcoinToSatoshi(
                 data!.mempoolminfee,
               ).toLocaleString()} sat/kB`}
               tooltipTitle="Computed minimum fee"
@@ -106,7 +106,7 @@ export const Mempool = () => {
             />
             <MetaDataItem
               icon={PersonOutlined}
-              text={`${convertBitcoinToSatoshi(
+              text={`${Utils.convertBitcoinToSatoshi(
                 data!.minrelaytxfee,
               ).toLocaleString()} sat/kB`}
               tooltipTitle="Your configured minimum fee"
@@ -120,9 +120,9 @@ export const Mempool = () => {
         <Tooltip
           arrow
           placement="right-start"
-          title={`Local memory usage: ${humanFileSize(
+          title={`Local memory usage: ${Utils.humanFileSize(
             data!.usage,
-          )} / ${humanFileSize(data!.maxmempool)}`}
+          )} / ${Utils.humanFileSize(data!.maxmempool)}`}
         >
           <BorderLinearProgress
             className={a("marginTop02")}

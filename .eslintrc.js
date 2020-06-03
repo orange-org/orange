@@ -38,6 +38,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
+    "no-restricted-syntax": "off",
     "import/extensions": [
       "error",
       {
@@ -61,6 +62,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": 2,
     "no-unused-vars": "off",
     "no-prototype-builtins": "off",
+    "no-useless-constructor": "off",
+    "no-empty-function": "off",
 
     /**
      * The following rules conflict with Prettier

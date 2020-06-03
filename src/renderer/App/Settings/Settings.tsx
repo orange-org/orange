@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { RpcSettings } from "../components/RpcSettings/RpcSettings";
 
 export const Settings: React.FC = () => {

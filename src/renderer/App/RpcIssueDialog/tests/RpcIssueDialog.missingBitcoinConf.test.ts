@@ -1,23 +1,25 @@
-import { findByTestId } from "_tu/findByTestId";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
-import { renderAppWithStore } from "_tu/renderAppWithStore";
-import { startMockRpcServer } from "_tu/startMockRpcServer";
+import { TestElement } from "_tu/TestElement";
+import { MockElectron } from "_tu/MockElectron";
+import { appWithStore } from "_tu/AppWithStore";
+import { MockRpcServer } from "_tu/MockRpcServer";
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: true,
   },
 }));
 
 describe("RpcIssueDialog - missing `bitcoin.conf`", () => {
   beforeAll(async () => {
-    startMockRpcServer();
-    initializeElectronCode({ skipInitializingFilesystem: true }); // Don't add `bitcoin.conf` to the filesystem.
-    await renderAppWithStore();
+    MockRpcServer.start();
+    MockElectron.start({ skipInitializingFilesystem: true }); // Don't add `bitcoin.conf` to the filesystem.
+    await appWithStore.render();
   });
 
   it("brings up the RPC issue dialog because there is no `bitcoin.conf`", async () => {
-    expect(await findByTestId("fixBcoreConnectionDialog")).toBeInTheDocument();
+    expect(
+      await TestElement.findByTestId("fixBcoreConnectionDialog"),
+    ).toBeInTheDocument();
   });
 });

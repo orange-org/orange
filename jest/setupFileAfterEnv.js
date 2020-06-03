@@ -1,6 +1,4 @@
 const React = require("react");
-const { merge } = require("lodash");
-const { getGlobalProcess } = require("_m/getGlobalProcess");
 
 /**
  * `scrollIntoView` is not implemented in JS DOM (the environment where Jest
@@ -23,30 +21,8 @@ require("@testing-library/jest-dom/extend-expect");
 
 jest.mock("fs");
 jest.mock("child_process");
-jest.mock("_m/installExtensions");
-jest.mock("_m/getGlobalProcess", () => ({
-  getGlobalProcess: jest.fn(),
-}));
-
-const setMockImplementations = () => {
-  /**
-   * Set some consistent values for Node `process` variable
-   */
-  getGlobalProcess.mockImplementation(() =>
-    merge(
-      { ...process },
-      {
-        env: {
-          APPDATA: "/appData",
-          HOME: "/home",
-        },
-        platform: "linux",
-      },
-    ),
-  );
-};
-
-setMockImplementations();
+jest.mock("_m/ChromeExtensions/ChromeExtensions");
+jest.mock("_m/common/Utils");
 
 // `useEffect` can be problematic in testing with React Testing Library and
 // Jest. The hack below helps. See https://github.com/testing-library/react-testing-library/issues/215

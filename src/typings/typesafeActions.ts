@@ -5,7 +5,7 @@ import {
   ActionCreatorBuilder,
 } from "typesafe-actions";
 
-export type RootAction = ActionType<typeof import("../renderer/redux/actions")>;
+export type RootAction = ActionType<typeof import("../renderer/redux/Actions")>;
 
 declare module "typesafe-actions" {
   interface Types {

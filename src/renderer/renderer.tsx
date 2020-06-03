@@ -10,7 +10,7 @@ import * as ReactDOM from "react-dom";
 import { hot } from "react-hot-loader/root";
 import "typeface-roboto";
 import { getApp } from "_r/App/App";
-import { ipcService } from "./ipc/ipcService";
+import { ipcService } from "./IpcService/IpcService";
 
 if (process.env.NODE_ENV === "production") {
   const handleError = (event: ErrorEvent | PromiseRejectionEvent) => {

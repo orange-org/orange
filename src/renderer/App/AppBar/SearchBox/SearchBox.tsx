@@ -2,9 +2,9 @@ import { InputBase } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as actions from "_r/redux/actions";
+import { Actions } from "_r/redux/Actions";
 import { useAtomicCss } from "_r/useAtomicCss";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { useSearchHandlers } from "./SearchBoxHooks";
 import { useSearchBoxStyles } from "./SearchBoxStyles";
 
@@ -19,7 +19,7 @@ export const SearchBox: React.FC = () => {
   useEffect(() => {
     if (focusRequested) {
       inputRef.current?.focus();
-      dispatch(actions.requestSearchBoxFocus(null));
+      dispatch(Actions.requestSearchBoxFocus(null));
     }
   });
 

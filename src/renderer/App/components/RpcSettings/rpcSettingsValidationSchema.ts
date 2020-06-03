@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { isValidUrl } from "_r/utils/smallUtils";
+import { Utils } from "_r/utils/Utils";
 
 const ifUseDefaultSettingsIsFalse = (require: any) =>
   yup.string().when("useDefaultSettings", {
@@ -31,6 +31,6 @@ export const rpcSettingsValidationSchema = yup.object().shape({
     yup
       .string()
       .required("Required")
-      .test({ test: isValidUrl, message: "A valid URL is required" }),
+      .test({ test: Utils.isValidUrl, message: "A valid URL is required" }),
   ),
 });

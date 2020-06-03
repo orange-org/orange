@@ -9,8 +9,8 @@ import React from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
-import { testIds } from "_tu/testIds";
-import { featureFlags } from "_f/featureFlags";
+import { testIds } from "_r/testIds";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { SearchBox } from "./SearchBox/SearchBox";
 
 export const AppBar: React.FC = () => {
@@ -40,7 +40,7 @@ export const AppBar: React.FC = () => {
           <Home />
         </IconButton>
 
-        {featureFlags.useBcore ? (
+        {FeatureFlags.useBcore ? (
           <IconButton
             component={Link}
             to="/settings"

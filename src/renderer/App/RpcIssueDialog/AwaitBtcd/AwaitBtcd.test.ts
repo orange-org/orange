@@ -1,32 +1,31 @@
 import { wait, act } from "@testing-library/react";
-import { findByTestId, queryByTestId } from "_tu/findByTestId";
-import { initializeElectronCode } from "_tu/initializeElectronCode";
-import { renderAppWithStore } from "_tu/renderAppWithStore";
-import {
-  startMockErroringRpcServer,
-  startMockRpcServer,
-} from "_tu/startMockRpcServer";
+import { TestElement } from "_tu/TestElement";
+import { MockElectron } from "_tu/MockElectron";
+import { appWithStore } from "_tu/AppWithStore";
+import { MockRpcServer } from "_tu/MockRpcServer";
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: false,
   },
 }));
 
 describe("AwaitBtcd", () => {
   beforeAll(async () => {
-    startMockErroringRpcServer();
-    initializeElectronCode();
-    await renderAppWithStore();
+    MockRpcServer.startErroring();
+    MockElectron.start();
+    await appWithStore.render();
   });
 
   it("shows the start up dialog when btcd is not ready", async () => {
-    expect(await findByTestId("awaitBtcdDialog")).toBeInTheDocument();
+    expect(
+      await TestElement.findByTestId("awaitBtcdDialog"),
+    ).toBeInTheDocument();
   });
 
   it("hides the start up dialog when btcd is eventually ready", async () => {
-    startMockRpcServer();
+    MockRpcServer.start();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -34,7 +33,7 @@ describe("AwaitBtcd", () => {
 
     await wait(async () =>
       expect(
-        await queryByTestId("awaitBtcdDialog-closed" as any),
+        await TestElement.queryByTestId("awaitBtcdDialog-closed" as any),
       ).toBeInTheDocument(),
     );
   });

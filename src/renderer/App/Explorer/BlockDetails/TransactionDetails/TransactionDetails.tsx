@@ -4,24 +4,21 @@ import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/hooks";
-import * as thunks from "_r/redux/thunks";
+import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
-import {
-  secondsTimestampToFormattedDate,
-  humanFileSize,
-} from "_r/utils/smallUtils";
+import { Utils } from "_r/utils/Utils";
 import { RawTransaction } from "_t/RpcResponses";
 import clsx from "clsx";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 import { OtherDetails } from "../OtherDetails";
 
 const SVG_ICON_WIDTH = 24;
 
 const transactionDataFormatters = {
-  locktime: secondsTimestampToFormattedDate,
-  size: humanFileSize,
-  vsize: humanFileSize,
-  weight: humanFileSize,
+  locktime: Utils.secondsTimestampToFormattedDate,
+  size: Utils.humanFileSize,
+  vsize: Utils.humanFileSize,
+  weight: Utils.humanFileSize,
 };
 
 const excludedTransactionData = [
@@ -50,7 +47,7 @@ export const TransactionDetails: React.FC<{
   );
 
   useEffect(() => {
-    dispatch(thunks.requestRawTransactionToDisplay(__NONCE__, transactionId!));
+    dispatch(Thunks.requestRawTransactionToDisplay(__NONCE__, transactionId!));
   }, [dispatch, transactionId]);
 
   if (!transaction || !transactionInputValues) {

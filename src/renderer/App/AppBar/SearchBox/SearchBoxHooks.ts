@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { rpcService } from "_r/rpcClient/rpcService";
+import { RpcService } from "_r/RpcService/RpcService";
 import { BITCOIN_CORE_RPC_ERROR } from "_c/constants";
 
 const hashRegex = /[0-9a-fA-F]{64}/;
@@ -43,12 +43,12 @@ export const useSearchHandlers = () => {
       };
 
       let block = await ignoreExpectedRpcErrors(() =>
-        rpcService.requestBlock(__NONCE__, searchValue),
+        RpcService.requestBlock(__NONCE__, searchValue),
       );
 
       if (!block && !hashRegex.test(searchValue)) {
         block = await ignoreExpectedRpcErrors(() =>
-          rpcService.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
+          RpcService.requestBlockByHeight(__NONCE__, parseInt(searchValue, 10)),
         );
       }
 
@@ -58,12 +58,12 @@ export const useSearchHandlers = () => {
       }
 
       const transaction = await ignoreExpectedRpcErrors(() =>
-        rpcService.requestRawTransaction(__NONCE__, searchValue),
+        RpcService.requestRawTransaction(__NONCE__, searchValue),
       );
 
       /* istanbul ignore else: until we add UX for a "no results" search */
       if (transaction) {
-        block = await rpcService.requestBlock(__NONCE__, transaction.blockhash);
+        block = await RpcService.requestBlock(__NONCE__, transaction.blockhash);
         history.push(`/explorer/${block.height}/${transaction.txid}`);
       }
     }

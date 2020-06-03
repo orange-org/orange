@@ -3,7 +3,7 @@ import { DialogContent, DialogActions, Button } from "@material-ui/core";
 import { RpcSettingsForm } from "_r/App/components/RpcSettings/RpcSettingsForm";
 import { useRpcSettingsHooks } from "_r/App/components/RpcSettings/useRpcSettings";
 import { RpcSettingsSaveButton } from "_r/App/components/RpcSettings/RpcSettingsSaveButton";
-import { testIds } from "_tu/testIds";
+import { testIds } from "_r/testIds";
 
 export const RpcSettingsInDialog: React.FC<{
   navigateBackToConnectionStatusReport: () => void;

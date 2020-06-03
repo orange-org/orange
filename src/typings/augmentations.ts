@@ -1,6 +1,6 @@
 /* eslint-disable import/no-default-export */
 import { Action, AnyAction, Store } from "redux";
-import { State } from "_r/redux/reducers/reducer";
+import { State } from "_r/redux/ReducerCreator";
 import { SwitchProps } from "@material-ui/core";
 import { GetState } from "./typeHelpers";
 

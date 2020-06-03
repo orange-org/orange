@@ -2,7 +2,7 @@ import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { featureFlags } from "_f/featureFlags";
 import { btcdRpcConfigurations } from "_m/common/BtcdRpcConfigurations";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
-import { bcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";
+import { BcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";
 import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
@@ -14,7 +14,7 @@ export class RpcRequestIpcEvent {
   ) => {
     let response!: RpcResponse;
     let rpcConfigurations: PromiseType<ReturnType<
-      typeof bcoreRpcConfigurations.fromDisk
+      typeof BcoreRpcConfigurations.fromDisk
     >>;
 
     try {
@@ -25,11 +25,11 @@ export class RpcRequestIpcEvent {
         const { connectionConfigurations } = data.payload;
 
         if (connectionConfigurations === null) {
-          const defaultRpcConfigurations = await bcoreRpcConfigurations.getDefault();
+          const defaultRpcConfigurations = await BcoreRpcConfigurations.getDefault();
 
           rpcConfigurations = defaultRpcConfigurations;
         } else if ("cookiePath" in connectionConfigurations) {
-          const cookieCredentials = await bcoreRpcConfigurations.fromCookie(
+          const cookieCredentials = await BcoreRpcConfigurations.fromCookie(
             connectionConfigurations.cookiePath,
           );
 
@@ -41,7 +41,7 @@ export class RpcRequestIpcEvent {
           rpcConfigurations = connectionConfigurations;
         }
       } else if (featureFlags.useBcore) {
-        rpcConfigurations = await bcoreRpcConfigurations.fromDisk();
+        rpcConfigurations = await BcoreRpcConfigurations.fromDisk();
       } else {
         rpcConfigurations = btcdRpcConfigurations;
       }

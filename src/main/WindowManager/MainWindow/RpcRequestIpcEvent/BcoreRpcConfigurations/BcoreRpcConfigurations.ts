@@ -1,9 +1,9 @@
 import { settings } from "_m/Settings/Settings";
 import { bitcoinConf } from "./BitcoinConf";
-import { cookie } from "./Cookie";
+import { Cookie } from "./Cookie";
 
-class BcoreRpcConfigurations {
-  private getServerUrl = (chainName?: string) => {
+export class BcoreRpcConfigurations {
+  private static getServerUrl = (chainName?: string) => {
     const port =
       // eslint-disable-next-line no-nested-ternary
       chainName === "testnet"
@@ -15,22 +15,28 @@ class BcoreRpcConfigurations {
     return `http://127.0.0.1:${port}`;
   };
 
-  getDefault = async () => {
-    const cookiePath = cookie.getPath();
-    const { username, password } = await this.fromCookie();
-    const serverUrl = this.getServerUrl(await bitcoinConf.getChain());
+  static getDefault = async () => {
+    const cookiePath = Cookie.getPath();
+    const { username, password } = await BcoreRpcConfigurations.fromCookie();
+    const serverUrl = BcoreRpcConfigurations.getServerUrl(
+      await bitcoinConf.getChain(),
+    );
 
     return { username, password, serverUrl, cookiePath };
   };
 
-  fromCookie = async (cookiePath?: string) => cookie.getCredentials(cookiePath);
+  static fromCookie = async (cookiePath?: string) =>
+    Cookie.getCredentials(cookiePath);
 
-  fromDisk = async () => {
+  static fromDisk = async () => {
     const configurations = await settings.read();
 
     if (configurations.rpc) {
       if ("cookiePath" in configurations.rpc) {
-        const { username, password } = await this.fromCookie();
+        const {
+          username,
+          password,
+        } = await BcoreRpcConfigurations.fromCookie();
 
         return {
           username,
@@ -52,10 +58,8 @@ class BcoreRpcConfigurations {
       password,
       serverUrl,
       cookiePath,
-    } = await this.getDefault();
+    } = await BcoreRpcConfigurations.getDefault();
 
     return { username, password, serverUrl, cookiePath };
   };
 }
-
-export const bcoreRpcConfigurations = new BcoreRpcConfigurations();

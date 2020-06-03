@@ -8,9 +8,9 @@ import { MockRpcServer } from "_tu/MockRpcServer";
 import { dialog } from "__mocks__/electron";
 import { TestElement } from "_tu/TestElement";
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: true,
   },
 }));

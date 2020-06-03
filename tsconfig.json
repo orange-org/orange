@@ -39,7 +39,7 @@
       "_t/*": ["src/typings/*"],
       "_c/*": ["src/common/*"],
       "_tu/*": ["src/testUtils/*"],
-      "_f/*": ["src/featureFlagsx/*"],
+      "_f/*": ["src/FeatureFlags/*"],
       "__mocks__/*": ["__mocks__/*"]
     }
   },

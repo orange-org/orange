@@ -1,6 +1,6 @@
 /* istanbul ignore file: `startMainProcess` is tested */
 import { app, WebContents } from "electron";
-import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { btcd } from "./Btcd/Btcd";
 import { ErrorDialog } from "./common/ErrorDialog";
 import { squirrelEvents } from "./SquirrelEvents/SquirrelEvents";

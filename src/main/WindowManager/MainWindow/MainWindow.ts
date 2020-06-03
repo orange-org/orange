@@ -22,7 +22,9 @@ export class MainWindow extends BrowserWindow {
           await GetCookiePathFromOpenDialogIpcEvent.handle(data);
         } else if (data.type === "get-saved-rpc-configurations") {
           await GetSavedRpcConfigurationsIpcEvent.handle(data);
-        } else if (data.type === "save-rpc-configurations") {
+        } /* istanbul ignore else */ else if (
+          data.type === "save-rpc-configurations"
+        ) {
           await SaveRpcConfigurationsIpcEvent.handle(data);
         }
       },

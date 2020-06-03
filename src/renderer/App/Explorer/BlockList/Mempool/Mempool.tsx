@@ -20,7 +20,7 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Poll } from "_r/utils/Poll";
 import { Utils } from "_r/utils/Utils";
 import { MempoolInfo } from "_t/RpcResponses";
-import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { MetaDataItem } from "../common/MetaDataItem";
 import { MetaDataItemsContainer } from "../common/MetaDataItemsContainer";
 

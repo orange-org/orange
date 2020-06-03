@@ -1,5 +1,5 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { btcdRpcConfigurations } from "_m/common/BtcdRpcConfigurations";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
 import { BcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";

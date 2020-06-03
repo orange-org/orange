@@ -11,9 +11,9 @@ const MainRpcClient = (OriginalMainRpcClient as any) as {
   httpRequest: ReturnType<typeof jest.fn>;
 };
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: true,
   },
 }));

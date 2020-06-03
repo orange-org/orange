@@ -3,9 +3,9 @@ import { MockElectron } from "_tu/MockElectron";
 import { appWithStore } from "_tu/AppWithStore";
 import { MockRpcServer } from "_tu/MockRpcServer";
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: true,
   },
 }));

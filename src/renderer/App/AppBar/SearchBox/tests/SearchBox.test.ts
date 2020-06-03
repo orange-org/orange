@@ -7,9 +7,9 @@ import { Utils } from "_tu/Utils";
 import { MockRpcServer } from "_tu/MockRpcServer";
 import { testIds } from "_r/testIds";
 
-jest.mock("_f/featureFlags", () => ({
+jest.mock("_f/FeatureFlags", () => ({
   __esModule: true,
-  featureFlags: {
+  FeatureFlags: {
     useBcore: true,
   },
 }));

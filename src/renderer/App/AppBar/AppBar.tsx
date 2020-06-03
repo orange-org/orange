@@ -10,7 +10,7 @@ import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Link } from "react-router-dom";
 import { testIds } from "_r/testIds";
-import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { SearchBox } from "./SearchBox/SearchBox";
 
 export const AppBar: React.FC = () => {

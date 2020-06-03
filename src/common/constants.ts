@@ -1,4 +1,4 @@
-import { FeatureFlags } from "src/FeatureFlags/FeatureFlags";
+import { FeatureFlags } from "_f/FeatureFlags";
 
 export const BITCOIN_CORE_RPC_ERROR = {
   /**

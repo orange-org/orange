@@ -4,8 +4,7 @@ import { RPC_ERROR } from "_c/constants";
 import { bitcoinConf } from "./BitcoinConf";
 
 export class Cookie {
-  public static getPath = async () => {
-    const chain = await bitcoinConf.getChain();
+  public static getPath = async (chain: string) => {
     const dataDir = bitcoinConf.getDataDir();
 
     let networkDir: string;
@@ -21,9 +20,12 @@ export class Cookie {
     return `${networkDir}.cookie`;
   };
 
-  public static getCredentials = async (cookiePath_?: string) => {
+  public static getCredentials = async (
+    chain: string,
+    cookiePath_?: string,
+  ) => {
     let parsedContent: string[];
-    const cookiePath = cookiePath_ || (await Cookie.getPath());
+    const cookiePath = cookiePath_ || (await Cookie.getPath(chain));
 
     try {
       const cookieContent = await fs.readFile(cookiePath, {

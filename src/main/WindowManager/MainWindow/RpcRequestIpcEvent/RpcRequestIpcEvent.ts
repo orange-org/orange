@@ -7,6 +7,7 @@ import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
 import { PromiseType } from "_t/typeHelpers";
+import { bitcoinConf } from "./BcoreRpcConfigurations/BitcoinConf";
 
 export class RpcRequestIpcEvent {
   static handle = async (
@@ -18,6 +19,8 @@ export class RpcRequestIpcEvent {
     >>;
 
     try {
+      const chain = await bitcoinConf.getChain();
+
       if (
         data.payload.connectionConfigurations !== undefined &&
         featureFlags.useBcore
@@ -25,7 +28,9 @@ export class RpcRequestIpcEvent {
         const { connectionConfigurations } = data.payload;
 
         if (connectionConfigurations === null) {
-          const defaultRpcConfigurations = await BcoreRpcConfigurations.getDefault();
+          const defaultRpcConfigurations = await BcoreRpcConfigurations.getDefault(
+            chain,
+          );
 
           rpcConfigurations = defaultRpcConfigurations;
         } else if ("cookiePath" in connectionConfigurations) {
@@ -41,7 +46,7 @@ export class RpcRequestIpcEvent {
           rpcConfigurations = connectionConfigurations;
         }
       } else if (featureFlags.useBcore) {
-        rpcConfigurations = await BcoreRpcConfigurations.fromDisk();
+        rpcConfigurations = await BcoreRpcConfigurations.fromDisk(chain);
       } else {
         rpcConfigurations = btcdRpcConfigurations;
       }

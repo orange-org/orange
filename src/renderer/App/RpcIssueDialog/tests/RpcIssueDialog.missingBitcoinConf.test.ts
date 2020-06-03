@@ -2,6 +2,7 @@ import { TestElement } from "_tu/TestElement";
 import { MockElectron } from "_tu/MockElectron";
 import { appWithStore } from "_tu/AppWithStore";
 import { MockRpcServer } from "_tu/MockRpcServer";
+import { act } from "react-dom/test-utils";
 
 jest.mock("_f/featureFlags", () => ({
   __esModule: true,
@@ -12,9 +13,11 @@ jest.mock("_f/featureFlags", () => ({
 
 describe("RpcIssueDialog - missing `bitcoin.conf`", () => {
   beforeAll(async () => {
-    MockRpcServer.start();
-    MockElectron.start({ skipInitializingFilesystem: true }); // Don't add `bitcoin.conf` to the filesystem.
-    await appWithStore.render();
+    await act(async () => {
+      MockRpcServer.start();
+      MockElectron.start({ skipInitializingFilesystem: true }); // Don't add `bitcoin.conf` to the filesystem.
+      await appWithStore.render();
+    });
   });
 
   it("brings up the RPC issue dialog because there is no `bitcoin.conf`", async () => {

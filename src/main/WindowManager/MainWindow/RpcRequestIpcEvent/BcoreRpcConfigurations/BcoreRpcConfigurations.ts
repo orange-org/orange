@@ -15,28 +15,27 @@ export class BcoreRpcConfigurations {
     return `http://127.0.0.1:${port}`;
   };
 
-  static getDefault = async () => {
-    const cookiePath = Cookie.getPath();
-    const { username, password } = await BcoreRpcConfigurations.fromCookie();
-    const serverUrl = BcoreRpcConfigurations.getServerUrl(
-      await bitcoinConf.getChain(),
+  static getDefault = async (chain: string) => {
+    const cookiePath = Cookie.getPath(chain);
+    const { username, password } = await BcoreRpcConfigurations.fromCookie(
+      chain,
     );
+    const serverUrl = BcoreRpcConfigurations.getServerUrl();
 
     return { username, password, serverUrl, cookiePath };
   };
 
-  static fromCookie = async (cookiePath?: string) =>
-    Cookie.getCredentials(cookiePath);
+  static fromCookie = async (chain: string, cookiePath?: string) =>
+    Cookie.getCredentials(chain, cookiePath);
 
-  static fromDisk = async () => {
+  static fromDisk = async (chain: string) => {
     const configurations = await settings.read();
 
     if (configurations.rpc) {
       if ("cookiePath" in configurations.rpc) {
-        const {
-          username,
-          password,
-        } = await BcoreRpcConfigurations.fromCookie();
+        const { username, password } = await BcoreRpcConfigurations.fromCookie(
+          chain,
+        );
 
         return {
           username,
@@ -58,7 +57,7 @@ export class BcoreRpcConfigurations {
       password,
       serverUrl,
       cookiePath,
-    } = await BcoreRpcConfigurations.getDefault();
+    } = await BcoreRpcConfigurations.getDefault(chain);
 
     return { username, password, serverUrl, cookiePath };
   };

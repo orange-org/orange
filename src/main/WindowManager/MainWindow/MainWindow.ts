@@ -5,9 +5,6 @@ import { SendableMessageToMain } from "_t/IpcMessages";
 import { UrlGuard } from "./UrlGuard/UrlGuard";
 import { ErrorDialog } from "../../common/ErrorDialog";
 import { RpcRequestIpcEvent } from "./RpcRequestIpcEvent/RpcRequestIpcEvent";
-import { GetCookiePathFromOpenDialogIpcEvent } from "./GetCookiePathFromOpenDialogIpcEvent/GetCookiePathFromOpenDialogIpcEvent";
-import { GetSavedRpcConfigurationsIpcEvent } from "./GetSavedRpcConfigurationsIpcEvent/GetSavedRpcConfigurationsIpcEvent";
-import { SaveRpcConfigurationsIpcEvent } from "./SaveRpcConfigurationsIpcEvent/SaveRpcConfigurationsIpcEvent";
 
 export class MainWindow extends BrowserWindow {
   private registerIpcListener = () => {
@@ -18,14 +15,6 @@ export class MainWindow extends BrowserWindow {
           await RpcRequestIpcEvent.handle(data);
         } else if (data.type === "show-error") {
           await ErrorDialog.show(data.payload);
-        } else if (data.type === "get-cookie-path-from-open-dialog") {
-          await GetCookiePathFromOpenDialogIpcEvent.handle(data);
-        } else if (data.type === "get-saved-rpc-configurations") {
-          await GetSavedRpcConfigurationsIpcEvent.handle(data);
-        } /* istanbul ignore else */ else if (
-          data.type === "save-rpc-configurations"
-        ) {
-          await SaveRpcConfigurationsIpcEvent.handle(data);
         }
       },
     );

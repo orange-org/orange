@@ -1,21 +1,13 @@
 /* eslint-disable max-classes-per-file */
 import { spawn } from "child_process";
-import { dialog, app } from "electron";
-import { randomBytes } from "crypto";
+import { app, dialog } from "electron";
 import { commandLineArgs } from "_m/common/CommandLineArgs";
 import { RpcServerConfigurations } from "_m/common/RpcServerConfigurations";
 import { Settings } from "_m/Settings/Settings";
-
 import { Utils } from "../common/Utils";
 
 class Core {
-  private process: ReturnType<typeof spawn> | null = null;
-
-  private args: string[];
-
-  private path: string;
-
-  private getArgs = () => {
+  private static getArgs = () => {
     const args = [
       `--rpcuser=${RpcServerConfigurations.username}`,
       `--rpcpassword=${RpcServerConfigurations.password}`,
@@ -33,7 +25,7 @@ class Core {
     return args;
   };
 
-  private getPath = () => {
+  private static getPath = () => {
     const { platform, arch } = Utils.getGlobalProcess();
     const root = Utils.getAppRoot();
     const bitcoind =
@@ -44,13 +36,10 @@ class Core {
     return `${root}/bin/${platform}-${arch}/${bitcoind}`;
   };
 
-  constructor() {
-    this.args = this.getArgs();
-    this.path = this.getPath();
-  }
+  private process: ReturnType<typeof spawn> | null = null;
 
   spawn = () => {
-    this.process = spawn(this.path, this.args);
+    this.process = spawn(Core.getPath(), Core.getArgs());
     this.process.on(
       "error",
       /* istanbul ignore next */ error => {

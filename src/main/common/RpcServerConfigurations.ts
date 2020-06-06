@@ -19,5 +19,5 @@ export class RpcServerConfigurations {
 
   static password = randomBytes(16).toString("hex");
 
-  static url = RpcServerConfigurations.computeUrl();
+  static serverUrl = RpcServerConfigurations.computeUrl();
 }

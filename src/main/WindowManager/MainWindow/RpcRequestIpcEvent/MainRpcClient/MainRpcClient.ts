@@ -1,5 +1,4 @@
 import http from "http";
-import { RPC_ERROR } from "_c/constants";
 import { RpcRequest } from "_t/RpcRequests";
 import { RawRpcResponse } from "_t/RpcResponses";
 import { ExtractedRpcResponse } from "_t/typeHelpers";
@@ -63,13 +62,6 @@ export class MainRpcClient {
       options,
       body,
     });
-
-    if (response.statusCode === 401 || response.statusCode === 403) {
-      throw new ErrorWithCode(
-        "RPC server unauthorized request",
-        RPC_ERROR.unauthorized,
-      );
-    }
 
     const { result, error }: RawRpcResponse = JSON.parse(response.data);
 

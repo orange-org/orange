@@ -1,51 +1,21 @@
-import { CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
+import { CORE_RPC_ERROR, NODE_ERROR } from "_c/constants";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
-import { CoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/CoreRpcConfigurations/CoreRpcConfigurations";
 import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
-import { PromiseType } from "_t/typeHelpers";
-import { BitcoinConf } from "./CoreRpcConfigurations/BitcoinConf";
+import { RpcServerConfigurations } from "_m/common/RpcServerConfigurations";
 
 export class RpcRequestIpcEvent {
   static handle = async (
     data: Extract<SendableMessageToMain, { type: "rpc-request" }>,
   ) => {
     let response!: RpcResponse;
-    let rpcConfigurations: PromiseType<ReturnType<
-      typeof CoreRpcConfigurations.fromDisk
-    >>;
 
     try {
-      const chain = await BitcoinConf.getChain();
-
-      if (data.payload.connectionConfigurations !== undefined) {
-        const { connectionConfigurations } = data.payload;
-
-        if (connectionConfigurations === null) {
-          const defaultRpcConfigurations = await CoreRpcConfigurations.getDefault(
-            chain,
-          );
-
-          rpcConfigurations = defaultRpcConfigurations;
-        } else if ("cookiePath" in connectionConfigurations) {
-          const cookieCredentials = await CoreRpcConfigurations.fromCookie(
-            chain,
-            connectionConfigurations.cookiePath,
-          );
-
-          rpcConfigurations = {
-            ...connectionConfigurations,
-            ...cookieCredentials,
-          };
-        } else {
-          rpcConfigurations = connectionConfigurations;
-        }
-      } else {
-        rpcConfigurations = await CoreRpcConfigurations.fromDisk(chain);
-      }
-
-      response = await MainRpcClient.call(data.payload, rpcConfigurations);
+      response = await MainRpcClient.call(
+        data.payload,
+        RpcServerConfigurations,
+      );
     } catch (error) {
       const errorResponse = {
         result: null,
@@ -54,12 +24,6 @@ export class RpcRequestIpcEvent {
       };
 
       const errorDefinitions = [
-        {
-          condition:
-            error.code === RPC_ERROR.couldNotOpenBitcoinConf ||
-            error.code === RPC_ERROR.couldNotOpenCookieFile,
-        },
-
         {
           message: "Server is unreachable",
           condition:
@@ -70,10 +34,6 @@ export class RpcRequestIpcEvent {
         {
           message: "Server is warming up",
           condition: error.code === CORE_RPC_ERROR.warmingUp,
-        },
-
-        {
-          condition: error.code === RPC_ERROR.unauthorized,
         },
       ];
 

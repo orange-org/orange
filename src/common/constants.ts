@@ -14,13 +14,6 @@ export const NODE_ERROR = {
   ENOTFOUND: "ENOTFOUND",
 } as const;
 
-export const RPC_ERROR = {
-  methodNotAllowedByMainProcess: 5004,
-  couldNotOpenBitcoinConf: 5005,
-  couldNotOpenCookieFile: 5006,
-  unauthorized: 5007,
-} as const;
-
 export const ERROR = {
   general: 5001,
 } as const;

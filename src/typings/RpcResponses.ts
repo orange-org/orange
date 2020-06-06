@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
+import { CORE_RPC_ERROR, NODE_ERROR } from "_c/constants";
 import {
   BlockchainInfoRpcRequest,
   BlockHashRpcRequest,
@@ -16,9 +16,7 @@ import {
 import { ObjectValues } from "./typeHelpers";
 
 export type RpcError = {
-  code: ObjectValues<
-    typeof RPC_ERROR & typeof NODE_ERROR & typeof CORE_RPC_ERROR
-  >;
+  code: ObjectValues<typeof NODE_ERROR & typeof CORE_RPC_ERROR>;
   message: string;
   payload?: any;
 };

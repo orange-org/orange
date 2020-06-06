@@ -1,5 +1,5 @@
 import { windowManager } from "_m/WindowManager/WindowManager";
-import { settings } from "_m/Settings/Settings";
+import { Settings } from "_m/Settings/Settings";
 import {
   GetSavedRpcConfigurationsMtR,
   SendableMessageToMain,
@@ -12,7 +12,7 @@ export class GetSavedRpcConfigurationsIpcEvent {
       { type: "get-saved-rpc-configurations" }
     >,
   ) => {
-    const configurations = await settings.read();
+    const configurations = await Settings.read();
     let payload: GetSavedRpcConfigurationsMtR["payload"];
 
     if (!configurations.rpc) {

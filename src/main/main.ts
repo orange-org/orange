@@ -1,12 +1,11 @@
 /* istanbul ignore file: `startMainProcess` is tested */
 import { app, WebContents } from "electron";
-import { FeatureFlags } from "_f/FeatureFlags";
-import { btcd } from "./Btcd/Btcd";
 import { ErrorDialog } from "./common/ErrorDialog";
 import { squirrelEvents } from "./SquirrelEvents/SquirrelEvents";
 import { windowManager } from "./WindowManager/WindowManager";
 import { Utils } from "./common/Utils";
 import { ChromeExtensions } from "./ChromeExtensions/ChromeExtensions";
+import { core } from "./Core/Core";
 
 export class Main {
   isStarted = false;
@@ -30,9 +29,7 @@ export class Main {
       return;
     }
 
-    if (!FeatureFlags.useBcore) {
-      btcd.spawn();
-    }
+    core.spawn();
 
     /* istanbul ignore if */
     if (Utils.isDevelopment()) {

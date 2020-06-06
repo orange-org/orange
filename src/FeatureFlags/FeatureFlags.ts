@@ -1,3 +1,1 @@
-export class FeatureFlags {
-  static useBcore = false;
-}
+export class FeatureFlags {}

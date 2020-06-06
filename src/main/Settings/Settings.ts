@@ -5,13 +5,15 @@ import { Settings as TSettings } from "_t/Settings";
 import { DeepPartial } from "redux";
 import { app } from "electron";
 
-class Settings {
-  configurationsFilePath = `${app.getPath("userData")}/${productName}.json`;
+export class Settings {
+  static userDataPath = () => app.getPath("userData");
 
-  write = async (
+  static configurationsFilePath = `${Settings.userDataPath}/${productName}.json`;
+
+  static write = async (
     getNewConfigurations: (currentConfigurations: TSettings) => TSettings,
   ) => {
-    const currentConfigurations = await this.read();
+    const currentConfigurations = await Settings.read();
     const newConfigurations = getNewConfigurations(currentConfigurations);
     const finalConfigurations = merge(
       {},
@@ -20,17 +22,17 @@ class Settings {
     );
 
     await fs.writeFile(
-      this.configurationsFilePath,
+      Settings.configurationsFilePath,
       JSON.stringify(finalConfigurations, null, 2),
       { encoding: "utf8" },
     );
   };
 
-  read = async (): Promise<DeepPartial<TSettings>> => {
-    await fs.ensureFile(this.configurationsFilePath);
+  static read = async (): Promise<DeepPartial<TSettings>> => {
+    await fs.ensureFile(Settings.configurationsFilePath);
 
     const currentConfigurationsFileContent = await fs.readFile(
-      this.configurationsFilePath,
+      Settings.configurationsFilePath,
       {
         encoding: "utf8",
       },
@@ -41,5 +43,3 @@ class Settings {
       : {};
   };
 }
-
-export const settings = new Settings();

@@ -40,15 +40,13 @@ export const AppBar: React.FC = () => {
           <Home />
         </IconButton>
 
-        {FeatureFlags.useBcore ? (
-          <IconButton
-            component={Link}
-            to="/settings"
-            data-testid={testIds.settingsButton}
-          >
-            <Settings />
-          </IconButton>
-        ) : null}
+        <IconButton
+          component={Link}
+          to="/settings"
+          data-testid={testIds.settingsButton}
+        >
+          <Settings />
+        </IconButton>
       </Toolbar>
     </MuiAppBar>
   );

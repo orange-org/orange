@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { settings } from "_m/Settings/Settings";
+import { Settings } from "_m/Settings/Settings";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { windowManager } from "_m/WindowManager/WindowManager";
 
@@ -9,7 +9,7 @@ export class SaveRpcConfigurationsIpcEvent {
   ) => {
     const { payload: rpcConfigurations } = data;
 
-    await settings.write(currentConfigurations => {
+    await Settings.write(currentConfigurations => {
       if (!rpcConfigurations) {
         currentConfigurations.rpc = null;
       } else if ("cookiePath" in rpcConfigurations) {

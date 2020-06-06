@@ -1,13 +1,11 @@
 import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
-import { FeatureFlags } from "_f/FeatureFlags";
-import { btcdRpcConfigurations } from "_m/common/BtcdRpcConfigurations";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
-import { BcoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/BcoreRpcConfigurations/BcoreRpcConfigurations";
+import { CoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/CoreRpcConfigurations/CoreRpcConfigurations";
 import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
 import { RpcResponse } from "_t/RpcResponses";
 import { PromiseType } from "_t/typeHelpers";
-import { BitcoinConf } from "./BcoreRpcConfigurations/BitcoinConf";
+import { BitcoinConf } from "./CoreRpcConfigurations/BitcoinConf";
 
 export class RpcRequestIpcEvent {
   static handle = async (
@@ -15,26 +13,23 @@ export class RpcRequestIpcEvent {
   ) => {
     let response!: RpcResponse;
     let rpcConfigurations: PromiseType<ReturnType<
-      typeof BcoreRpcConfigurations.fromDisk
+      typeof CoreRpcConfigurations.fromDisk
     >>;
 
     try {
       const chain = await BitcoinConf.getChain();
 
-      if (
-        data.payload.connectionConfigurations !== undefined &&
-        FeatureFlags.useBcore
-      ) {
+      if (data.payload.connectionConfigurations !== undefined) {
         const { connectionConfigurations } = data.payload;
 
         if (connectionConfigurations === null) {
-          const defaultRpcConfigurations = await BcoreRpcConfigurations.getDefault(
+          const defaultRpcConfigurations = await CoreRpcConfigurations.getDefault(
             chain,
           );
 
           rpcConfigurations = defaultRpcConfigurations;
         } else if ("cookiePath" in connectionConfigurations) {
-          const cookieCredentials = await BcoreRpcConfigurations.fromCookie(
+          const cookieCredentials = await CoreRpcConfigurations.fromCookie(
             chain,
             connectionConfigurations.cookiePath,
           );
@@ -46,10 +41,8 @@ export class RpcRequestIpcEvent {
         } else {
           rpcConfigurations = connectionConfigurations;
         }
-      } else if (FeatureFlags.useBcore) {
-        rpcConfigurations = await BcoreRpcConfigurations.fromDisk(chain);
       } else {
-        rpcConfigurations = btcdRpcConfigurations;
+        rpcConfigurations = await CoreRpcConfigurations.fromDisk(chain);
       }
 
       response = await MainRpcClient.call(data.payload, rpcConfigurations);

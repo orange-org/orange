@@ -94,26 +94,22 @@ export const Mempool = () => {
           tooltipTitle="Required block space"
           isLoading={isLoading}
         />
-        {FeatureFlags.useBcore ? (
-          <>
-            <MetaDataItem
-              icon={ComputerOutlined}
-              text={`${Utils.convertBitcoinToSatoshi(
-                data!.mempoolminfee,
-              ).toLocaleString()} sat/kB`}
-              tooltipTitle="Computed minimum fee"
-              isLoading={isLoading}
-            />
-            <MetaDataItem
-              icon={PersonOutlined}
-              text={`${Utils.convertBitcoinToSatoshi(
-                data!.minrelaytxfee,
-              ).toLocaleString()} sat/kB`}
-              tooltipTitle="Your configured minimum fee"
-              isLoading={isLoading}
-            />
-          </>
-        ) : /* istanbul ignore next */ null}
+        <MetaDataItem
+          icon={ComputerOutlined}
+          text={`${Utils.convertBitcoinToSatoshi(
+            data!.mempoolminfee,
+          ).toLocaleString()} sat/kB`}
+          tooltipTitle="Computed minimum fee"
+          isLoading={isLoading}
+        />
+        <MetaDataItem
+          icon={PersonOutlined}
+          text={`${Utils.convertBitcoinToSatoshi(
+            data!.minrelaytxfee,
+          ).toLocaleString()} sat/kB`}
+          tooltipTitle="Your configured minimum fee"
+          isLoading={isLoading}
+        />
       </MetaDataItemsContainer>
 
       <div className={a("padding1")}>

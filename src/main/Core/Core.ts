@@ -36,12 +36,12 @@ class Core {
   private getPath = () => {
     const { platform, arch } = Utils.getGlobalProcess();
     const root = Utils.getAppRoot();
-    const btcd =
+    const bitcoind =
       platform === "win32"
         ? /* istanbul ignore next */ "bitcoind.exe"
         : "bitcoind";
 
-    return `${root}/bin/${platform}-${arch}/${btcd}`;
+    return `${root}/bin/${platform}-${arch}/${bitcoind}`;
   };
 
   constructor() {

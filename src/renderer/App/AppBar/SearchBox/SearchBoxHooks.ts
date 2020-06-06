@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { RpcService } from "_r/RpcService/RpcService";
-import { BITCOIN_CORE_RPC_ERROR } from "_c/constants";
+import { CORE_RPC_ERROR } from "_c/constants";
 
 const hashRegex = /[0-9a-fA-F]{64}/;
 
@@ -31,9 +31,9 @@ export const useSearchHandlers = () => {
         } catch (error) {
           /* istanbul ignore if */
           if (
-            error.code !== BITCOIN_CORE_RPC_ERROR.invalidParameter &&
-            error.code !== BITCOIN_CORE_RPC_ERROR.miscError &&
-            error.code !== BITCOIN_CORE_RPC_ERROR.blockNotFound
+            error.code !== CORE_RPC_ERROR.invalidParameter &&
+            error.code !== CORE_RPC_ERROR.miscError &&
+            error.code !== CORE_RPC_ERROR.blockNotFound
           ) {
             throw error;
           }

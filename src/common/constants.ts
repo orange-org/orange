@@ -1,4 +1,4 @@
-export const BITCOIN_CORE_RPC_ERROR = {
+export const CORE_RPC_ERROR = {
   /**
    * The below codes map to:
    * https://github.com/bitcoin/bitcoin/blob/75fb37ce68289eb7e00e2ccdd2ef7f9271332545/src/rpc/protocol.h#L39

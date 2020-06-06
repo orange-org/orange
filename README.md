@@ -6,7 +6,7 @@ Orange aims to be a mainstream user-friendly Bitcoin payment software. The
 project is under active development.
 
 Orange is built with Electron, TypeScript and React. It uses
-[btcd](https://github.com/btcsuite/btcd) as its back-end.
+[Bitcoin Core](https://github.com/bitcoin/bitcoin) as its back-end.
 
 ![Orange](./docs/orange.png)
 

@@ -1,4 +1,4 @@
-import { BITCOIN_CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
+import { CORE_RPC_ERROR, NODE_ERROR, RPC_ERROR } from "_c/constants";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
 import { CoreRpcConfigurations } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/CoreRpcConfigurations/CoreRpcConfigurations";
 import { windowManager } from "_m/WindowManager/WindowManager";
@@ -69,7 +69,7 @@ export class RpcRequestIpcEvent {
 
         {
           message: "Server is warming up",
-          condition: error.code === BITCOIN_CORE_RPC_ERROR.warmingUp,
+          condition: error.code === CORE_RPC_ERROR.warmingUp,
         },
 
         {

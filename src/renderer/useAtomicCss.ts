@@ -142,6 +142,8 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     marginTop05: c("marginTop", theme.spacing(5)),
     marginTop16: c("marginTop", theme.spacing(16)),
 
+    marginTopNegative02: c("marginTop", -theme.spacing(2)),
+
     marginX04: {
       marginLeft: theme.spacing(4),
       marginRight: theme.spacing(4),

@@ -16,8 +16,9 @@ import { AppBar } from "./AppBar/AppBar";
 import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { Settings } from "./Settings/Settings";
+import { StartScreen } from "./StartScreen/StartScreen";
 
-export const Routes = () => {
+const MainRoutes = () => {
   const appBar = <AppBar />;
 
   return (
@@ -44,13 +45,21 @@ export const Routes = () => {
   );
 };
 
+const renderComponent = () => {
+  if (window.location.hash === "#start") {
+    return <StartScreen />;
+  }
+
+  return <MainRoutes />;
+};
+
 const App = () => (
   <StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
-        <Routes />
+        {renderComponent()}
       </ThemeProvider>
     </Provider>
   </StrictMode>

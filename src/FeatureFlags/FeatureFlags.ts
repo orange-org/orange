@@ -1,1 +1,3 @@
-export class FeatureFlags {}
+export class FeatureFlags {
+  static disableExplorer = true;
+}

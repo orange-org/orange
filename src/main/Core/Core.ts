@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import fs from "fs-extra";
 import { spawn } from "child_process";
 import { app, dialog } from "electron";
 import { commandLineArgs } from "_m/common/CommandLineArgs";
@@ -7,14 +8,15 @@ import { Settings } from "_m/Settings/Settings";
 import { Utils } from "../common/Utils";
 
 class Core {
+  private static getDatadir = () => `${Settings.userDataPath()}/Core`;
+
   private static getArgs = () => {
     const args = [
       `--rpcuser=${RpcServerConfigurations.username}`,
       `--rpcpassword=${RpcServerConfigurations.password}`,
-      `--rpcbind=${RpcServerConfigurations.hostname}`,
       "--server=1",
       "--prune=550",
-      `--datadir=${Settings.userDataPath()}/Core`,
+      `--datadir=${Core.getDatadir()}`,
     ];
 
     /* istanbul ignore if */
@@ -38,8 +40,9 @@ class Core {
 
   private process: ReturnType<typeof spawn> | null = null;
 
-  spawn = () => {
-    this.process = spawn(Core.getPath(), Core.getArgs());
+  spawn = async () => {
+    await fs.ensureDir(Core.getDatadir());
+    this.process = spawn(Core.getPath(), Core.getArgs(), { stdio: "ignore" });
     this.process.on(
       "error",
       /* istanbul ignore next */ error => {

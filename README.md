@@ -18,11 +18,11 @@ Orange is built with Electron, TypeScript and React. It uses
 
 ## Goal of the project
 
-The goal is to be a mainstream payment software for merchants, power-users, and
-Bitcoin enthusiasts, to deliver an integrated package of a full-node, on-chain,
-and off-chain payments, with best privacy and security options as the default.
-Provide a simple and modern interface to send and receive payments, free of
-technical jargon and overwhelming configuration options.
+The goal is to be a mainstream payment software for merchants and power-users,
+to deliver an integrated package of a full-node, on-chain, and off-chain
+payments, with best privacy and security options as the default. Provide a
+simple and modern interface to send and receive payments, free of technical
+jargon and overwhelming configuration options.
 
 And for all of this to be built on a robust and
 [secure code and architecture](./SECURITY.md).

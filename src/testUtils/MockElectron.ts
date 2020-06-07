@@ -1,6 +1,6 @@
 import { vol } from "memfs";
 import { app, BrowserWindow } from "__mocks__/electron";
-import { DEFAULT_SERVER_URL } from "_c/constants";
+import { Constants } from "_c/constants";
 import { Main } from "_m/main";
 import { Preload } from "_m/preload";
 
@@ -9,7 +9,7 @@ export class MockElectron {
 
   static PASSWORD = "1337";
 
-  static SERVER_URL = DEFAULT_SERVER_URL;
+  static SERVER_URL = Constants.defaultServerUrl;
 
   static start = (
     options: {

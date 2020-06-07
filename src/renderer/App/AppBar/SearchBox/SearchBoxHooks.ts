@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { RpcService } from "_r/RpcService/RpcService";
-import { CORE_RPC_ERROR } from "_c/constants";
+import { Constants } from "_c/constants";
 
 const hashRegex = /[0-9a-fA-F]{64}/;
 
@@ -31,9 +31,9 @@ export const useSearchHandlers = () => {
         } catch (error) {
           /* istanbul ignore if */
           if (
-            error.code !== CORE_RPC_ERROR.invalidParameter &&
-            error.code !== CORE_RPC_ERROR.miscError &&
-            error.code !== CORE_RPC_ERROR.blockNotFound
+            error.code !== Constants.coreRpcError.invalidParameter &&
+            error.code !== Constants.coreRpcError.miscError &&
+            error.code !== Constants.coreRpcError.blockNotFound
           ) {
             throw error;
           }

@@ -1,4 +1,4 @@
-import { CORE_RPC_ERROR, NODE_ERROR } from "_c/constants";
+import { Constants } from "_c/constants";
 import { RpcError } from "_t/RpcResponses";
 import { Actions } from "_r/redux/Actions";
 import { store } from "_r/redux/StoreCreator";
@@ -15,9 +15,9 @@ export class RpcIssue {
 
   static determineRpcIssue = (rpcError: RpcError) => {
     const possibleErrors: [TRpcIssue, RpcError["code"]][] = [
-      ["serverUnreachable", NODE_ERROR.ECONNREFUSED],
-      ["serverUnreachable", NODE_ERROR.ENOTFOUND],
-      ["serverWarmingUp", CORE_RPC_ERROR.warmingUp],
+      ["serverUnreachable", Constants.nodeError.ECONNREFUSED],
+      ["serverUnreachable", Constants.nodeError.ENOTFOUND],
+      ["serverWarmingUp", Constants.coreRpcError.warmingUp],
     ];
 
     return (

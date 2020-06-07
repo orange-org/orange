@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { matches } from "lodash";
 import nock from "nock";
-import { NODE_ERROR } from "_c/constants";
+import { Constants } from "_c/constants";
 import { MockElectron } from "_tu/MockElectron";
 import { Block, RawTransaction } from "_t/RpcResponses";
 import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
@@ -38,7 +38,9 @@ export class MockRpcServer {
     cb: (transactionFixture: RawTransaction) => boolean,
   ) => MockRpcServer.findFixture<RawTransaction>(cb, transactionFixtures);
 
-  static startErroring = (error: any = { code: NODE_ERROR.ECONNREFUSED }) => {
+  static startErroring = (
+    error: any = { code: Constants.nodeError.ECONNREFUSED },
+  ) => {
     nock.cleanAll();
 
     nock(MockElectron.SERVER_URL)

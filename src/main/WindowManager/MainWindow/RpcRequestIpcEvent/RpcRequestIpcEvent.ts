@@ -1,4 +1,4 @@
-import { CORE_RPC_ERROR, NODE_ERROR } from "_c/constants";
+import { Constants } from "_c/constants";
 import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
 import { windowManager } from "_m/WindowManager/WindowManager";
 import { SendableMessageToMain } from "_t/IpcMessages";
@@ -17,6 +17,7 @@ export class RpcRequestIpcEvent {
         RpcServerConfigurations,
       );
     } catch (error) {
+      console.log("error", error);
       const errorResponse = {
         result: null,
         error: { message: "", code: 0 },
@@ -27,13 +28,13 @@ export class RpcRequestIpcEvent {
         {
           message: "Server is unreachable",
           condition:
-            error.code === NODE_ERROR.ECONNREFUSED ||
-            error.code === NODE_ERROR.ENOTFOUND,
+            error.code === Constants.nodeError.ECONNREFUSED ||
+            error.code === Constants.nodeError.ENOTFOUND,
         },
 
         {
           message: "Server is warming up",
-          condition: error.code === CORE_RPC_ERROR.warmingUp,
+          condition: error.code === Constants.coreRpcError.warmingUp,
         },
       ];
 

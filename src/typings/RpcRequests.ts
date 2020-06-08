@@ -65,9 +65,7 @@ export type RawTransactionRpcRequest = {
   params: [string, number?];
 };
 
-export type RpcRequest = {
-  connectionConfigurations?: RpcConfigurations | null;
-} & (
+export type RpcRequest =
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest
@@ -80,7 +78,6 @@ export type RpcRequest = {
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
   | BlockHashRpcRequest
-  | RawTransactionRpcRequest
-);
+  | RawTransactionRpcRequest;
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

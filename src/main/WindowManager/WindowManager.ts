@@ -1,45 +1,60 @@
-import { SendableMessageToRenderer } from "_t/IpcMessages";
+import {
+  SendableMessageToRenderer,
+  SendableMessageToMain,
+} from "_t/IpcMessages";
+import { ipcMain } from "electron";
+import { ErrorDialog } from "_m/common/ErrorDialog";
 import { MainWindow } from "./MainWindow/MainWindow";
 import { StartWindow } from "./StartWindow/StartWindow";
+import { RpcRequestIpcEvent } from "./RpcRequestIpcEvent/RpcRequestIpcEvent";
 
 class WindowManager {
-  private mainWindow: MainWindow | null = null;
-
   private startWindow: StartWindow | null = null;
 
-  // private closeWindow: CloseWindow | null = null;
-
-  getMainWindow = () => {
-    if (!this.mainWindow) {
-      this.mainWindow = new MainWindow();
-    }
-
-    return this.mainWindow;
+  private rpcServerIsReady = () => {
+    this.createMainWindow();
+    this.startWindow?.destroy();
   };
 
-  createMainWindow = this.getMainWindow;
+  private registerIpcListener = () => {
+    ipcMain.on(
+      "message-to-main",
+      async (event, data: SendableMessageToMain) => {
+        const reply = (
+          messageToRenderer: Omit<SendableMessageToRenderer, "source">,
+        ) =>
+          event.reply("message-to-renderer", {
+            source: "@orange/main",
+            ...messageToRenderer,
+          });
 
-  getStartWindow = () => {
-    if (!this.startWindow) {
-      this.startWindow = new StartWindow();
-    }
-
-    return this.startWindow;
+        if (data.type === "rpcRequest") {
+          reply(await RpcRequestIpcEvent.handle(data));
+        } else if (data.type === "showError") {
+          await ErrorDialog.show(data.payload);
+        } else if (data.type === "setIsReady") {
+          this.rpcServerIsReady();
+        }
+      },
+    );
   };
 
-  createStartWindow = this.getStartWindow;
-
-  sendMessageToMainWindow = (
-    payload: Omit<SendableMessageToRenderer, "source">,
-  ) => {
-    /* istanbul ignore else */
-    if (!this.mainWindow?.isDestroyed()) {
-      this.mainWindow?.webContents.send("message-to-renderer", {
-        source: "@orange/main",
-        ...payload,
-      });
-    }
+  private createMainWindow = () => {
+    // eslint-disable-next-line no-new
+    new MainWindow();
   };
+
+  private createStartWindow = () => {
+    this.startWindow = new StartWindow();
+  };
+
+  show = () => {
+    this.createStartWindow();
+  };
+
+  constructor() {
+    this.registerIpcListener();
+  }
 }
 
 export const windowManager = new WindowManager();

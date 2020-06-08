@@ -1,5 +1,5 @@
+import { RpcRequestMtM, ShowErrorMtM } from "_t/IpcMessages";
 import { PromiseType } from "_t/typeHelpers";
-import { ShowErrorMtM, RpcRequestMtM, RpcConfigurations } from "_t/IpcMessages";
 import { IpcClient } from "./IpcClient";
 
 const extractPayload = async <T extends ReturnType<typeof IpcClient.send>>(
@@ -14,48 +14,29 @@ const showError = (nonce: NONCE, error: ShowErrorMtM["payload"]) =>
   extractPayload(
     IpcClient.send({
       nonce,
-      type: "show-error",
+      type: "showError",
       payload: error,
     }),
   );
 
 class IpcService {
-  getSavedRpcConfigurations = (nonce: NONCE) =>
-    extractPayload(
-      IpcClient.send({
-        nonce,
-        type: "get-saved-rpc-configurations",
-      }),
-    );
-
-  getCookiePathFromOpenDialog = (nonce: NONCE) =>
-    extractPayload(
-      IpcClient.send({
-        nonce,
-        type: "get-cookie-path-from-open-dialog",
-      }),
-    );
-
   showError = showError;
 
   rpcRequest = (nonce: NONCE, request: RpcRequestMtM["payload"]) =>
     extractPayload(
       IpcClient.send({
         nonce,
-        type: "rpc-request",
+        type: "rpcRequest",
         payload: request,
       }),
     );
 
-  saveRpcConfigurations = (
-    nonce: NONCE,
-    rpcConfigurations: RpcConfigurations | null,
-  ) =>
+  setIsReady = (nonce: NONCE) =>
     extractPayload(
       IpcClient.send({
         nonce,
-        type: "save-rpc-configurations",
-        payload: rpcConfigurations,
+        type: "setIsReady",
+        payload: undefined,
       }),
     );
 }

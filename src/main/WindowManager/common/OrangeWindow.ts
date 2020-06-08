@@ -1,14 +1,9 @@
 import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
 import { productName } from "_m/../../package.json";
-import { Utils } from "_m/common/Utils";
 import { UrlGuard } from "./UrlGuard/UrlGuard";
 
 export abstract class OrangeWindow extends BrowserWindow {
-  constructor(
-    browserWindowConstructorOptions: BrowserWindowConstructorOptions,
-  ) {
-    const { webPreferences, ...rest } = browserWindowConstructorOptions;
-
+  constructor({ webPreferences, ...rest }: BrowserWindowConstructorOptions) {
     super({
       webPreferences: {
         ...webPreferences,
@@ -28,6 +23,7 @@ export abstract class OrangeWindow extends BrowserWindow {
       },
       title: productName,
       center: true,
+      show: false,
       ...rest,
     });
 
@@ -41,6 +37,8 @@ export abstract class OrangeWindow extends BrowserWindow {
       response({ cancel: !UrlGuard.isAllowed(details.url) });
     });
 
-    this.loadFile(`${Utils.getAppRoot()}/renderer/index.html`);
+    this.once("ready-to-show", () => {
+      this.show();
+    });
   }
 }

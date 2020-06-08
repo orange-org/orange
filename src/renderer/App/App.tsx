@@ -13,9 +13,7 @@ import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/StoreCreator";
 import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
-import { RpcIssueDialog } from "./RpcIssueDialog/RpcIssueDialog";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
-import { Settings } from "./Settings/Settings";
 import { StartScreen } from "./StartScreen/StartScreen";
 
 const MainRoutes = () => {
@@ -23,8 +21,6 @@ const MainRoutes = () => {
 
   return (
     <Router>
-      <RpcIssueDialog />
-
       <Switch>
         <Route exact path="/">
           {appBar}
@@ -35,23 +31,20 @@ const MainRoutes = () => {
           {appBar}
           <Explorer />
         </Route>
-
-        <Route path="/settings">
-          {appBar}
-          <Settings />
-        </Route>
       </Switch>
     </Router>
   );
 };
 
-const renderComponent = () => {
+const getComponent = () => {
   if (window.location.hash === "#start") {
-    return <StartScreen />;
+    return StartScreen;
   }
 
-  return <MainRoutes />;
+  return MainRoutes;
 };
+
+const MainComponent = getComponent();
 
 const App = () => (
   <StrictMode>
@@ -59,7 +52,7 @@ const App = () => (
       <ThemeProvider theme={createMuiTheme(theme)}>
         <CssBaseline />
         <GlobalCss />
-        {renderComponent()}
+        <MainComponent />
       </ThemeProvider>
     </Provider>
   </StrictMode>

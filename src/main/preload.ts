@@ -8,11 +8,11 @@ export class Preload {
     data.source === "@orange/renderer";
 
   private handleWindowMessage = (event: MessageEvent) => {
-    const { data } = event;
+    const { data, source } = event;
 
     /* istanbul ignore else */
     if (this.isMessageFromRenderer(data) && data.nonce === __NONCE__) {
-      ipcRenderer.send("message-to-main", data);
+      ipcRenderer.send("message-to-main", data, (source as any).name);
     }
   };
 

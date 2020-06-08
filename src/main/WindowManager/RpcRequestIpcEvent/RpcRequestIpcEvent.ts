@@ -1,14 +1,16 @@
 import { Constants } from "_c/constants";
-import { MainRpcClient } from "_m/WindowManager/MainWindow/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
-import { windowManager } from "_m/WindowManager/WindowManager";
-import { SendableMessageToMain } from "_t/IpcMessages";
-import { RpcResponse } from "_t/RpcResponses";
 import { RpcServerConfigurations } from "_m/common/RpcServerConfigurations";
+import { MainRpcClient } from "_m/WindowManager/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
+import {
+  SendableMessageToMain,
+  SendableMessageToRenderer,
+} from "_t/IpcMessages";
+import { RpcResponse } from "_t/RpcResponses";
 
 export class RpcRequestIpcEvent {
   static handle = async (
-    data: Extract<SendableMessageToMain, { type: "rpc-request" }>,
-  ) => {
+    data: Extract<SendableMessageToMain, { type: "rpcRequest" }>,
+  ): Promise<Omit<SendableMessageToRenderer, "source">> => {
     let response!: RpcResponse;
 
     try {
@@ -17,7 +19,6 @@ export class RpcRequestIpcEvent {
         RpcServerConfigurations,
       );
     } catch (error) {
-      console.log("error", error);
       const errorResponse = {
         result: null,
         error: { message: "", code: 0 },
@@ -58,11 +59,11 @@ export class RpcRequestIpcEvent {
       }
     }
 
-    windowManager.sendMessageToMainWindow({
+    return {
       nonce: __NONCE__,
-      type: "rpc-request",
+      type: "rpcRequest",
       payload: response,
       messageId: data.messageId,
-    });
+    };
   };
 }

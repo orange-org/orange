@@ -36,8 +36,7 @@ export class Main {
       ChromeExtensions.install();
     }
 
-    windowManager.createStartWindow();
-    // windowManager.createMainWindow();
+    windowManager.show();
   };
 
   private registerErrorHandling = () => {

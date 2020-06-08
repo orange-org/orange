@@ -1,8 +1,10 @@
-import React from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
-import { Typography, LinearProgress, makeStyles } from "@material-ui/core";
-import { productName } from "_r/../../package.json";
+import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
 import clsx from "clsx";
+import React, { useEffect } from "react";
+import { productName } from "_r/../../package.json";
+import { ipcService } from "_r/IpcService/IpcService";
+import { useAtomicCss } from "_r/useAtomicCss";
+import { useConnectionStatus } from "./useConnectionStatus";
 
 const useStyles = makeStyles({
   background: {
@@ -14,6 +16,13 @@ const useStyles = makeStyles({
 export const StartScreen = () => {
   const a = useAtomicCss();
   const styles = useStyles();
+  const connectionStatus = useConnectionStatus();
+
+  useEffect(() => {
+    if (connectionStatus === "ready") {
+      ipcService.setIsReady(__NONCE__);
+    }
+  }, [connectionStatus]);
 
   return (
     <div

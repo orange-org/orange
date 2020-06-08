@@ -17,11 +17,11 @@ describe("main", () => {
   });
 
   describe("general integration", () => {
-    test('"show-error" IPC event', () => {
+    test('"showError" IPC event', () => {
       window.postMessage(
         {
           nonce: __NONCE__,
-          type: "show-error",
+          type: "showError",
           source: "@orange/renderer",
           payload: "stuff",
         },

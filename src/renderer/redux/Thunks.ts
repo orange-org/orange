@@ -97,4 +97,14 @@ export class Thunks {
 
     return transaction;
   };
+
+  static requestPeerInfo = (nonce: NONCE, cacheDuration?: number) => async (
+    dispatch: Dispatch,
+  ) => {
+    const peerInfo = await RpcService.requestPeerInfo(nonce, cacheDuration);
+
+    dispatch(Actions.setPeerInfo(peerInfo));
+
+    return peerInfo;
+  };
 }

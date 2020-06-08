@@ -55,4 +55,13 @@ export class RpcService {
       method: "getrawtransaction",
       params: [transactionId, verbose],
     });
+
+  static requestPeerInfo = async (nonce: NONCE, cacheDuration?: number) =>
+    RpcClient.send(
+      nonce,
+      {
+        method: "getpeerinfo",
+      },
+      cacheDuration,
+    );
 }

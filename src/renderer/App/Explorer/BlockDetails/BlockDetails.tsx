@@ -25,7 +25,7 @@ import {
 } from "react-router-dom";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { FixedSizeList } from "react-window";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";
 import { Delay } from "_r/utils/Delay";

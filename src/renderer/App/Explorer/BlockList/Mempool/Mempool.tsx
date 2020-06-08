@@ -14,7 +14,7 @@ import {
 } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Poll } from "_r/utils/Poll";

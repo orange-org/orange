@@ -5,6 +5,7 @@ import {
   BlockchainInfo,
   MempoolInfo,
   RawTransaction,
+  PeerInfo,
 } from "_t/RpcResponses";
 import { StateConfig } from "_t/typeHelpers";
 
@@ -19,6 +20,7 @@ export type State = StateConfig<{
   newRpcConfigurationsSaved: boolean;
   hasRpcIssue: boolean;
   requestSearchBoxFocus: boolean;
+  peerInfo: PeerInfo;
 }>;
 
 class ReducerCreator {
@@ -33,6 +35,7 @@ class ReducerCreator {
     newRpcConfigurationsSaved: null,
     requestSearchBoxFocus: null,
     hasRpcIssue: null,
+    peerInfo: null,
   };
 
   static create = () =>
@@ -70,6 +73,10 @@ class ReducerCreator {
       .handleAction(Actions.setMempoolInfo, (state, action) => ({
         ...state,
         mempoolInfo: action.payload,
+      }))
+      .handleAction(Actions.setPeerInfo, (state, action) => ({
+        ...state,
+        peerInfo: action.payload,
       }))
       .handleAction(Actions.setHasRpcIssue, (state, action) => ({
         ...state,

@@ -1,6 +1,6 @@
 import { Paper } from "@material-ui/core";
 import React, { ReactElement } from "react";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { useAtomicCss } from "_r/useAtomicCss";
 
 export const OtherDetails: React.FC<{

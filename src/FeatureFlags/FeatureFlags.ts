@@ -1,3 +1,3 @@
 export class FeatureFlags {
-  static disableExplorer = true;
+  static enableExplorer = false;
 }

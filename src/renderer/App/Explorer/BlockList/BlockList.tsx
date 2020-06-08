@@ -2,7 +2,7 @@ import { Link, useTheme } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { Actions } from "_r/redux/Actions";
 import { Thunks } from "_r/redux/Thunks";
 import {

@@ -1,6 +1,6 @@
 import { SvgIcon, Tooltip } from "@material-ui/core";
 import React, { ReactText } from "react";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Null } from "_t/typeHelpers";
 

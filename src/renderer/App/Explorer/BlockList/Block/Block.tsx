@@ -3,7 +3,7 @@ import { QueryBuilder, Repeat, SaveOutlined } from "@material-ui/icons";
 import clsx from "clsx";
 import React, { memo, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";
 import { Block as TBlock } from "_t/RpcResponses";

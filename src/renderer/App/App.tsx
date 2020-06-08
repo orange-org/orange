@@ -12,6 +12,7 @@ import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/StoreCreator";
 import { theme } from "_r/theme";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { StartScreen } from "./StartScreen/StartScreen";
@@ -25,13 +26,15 @@ const MainRoutes = () => {
       <Switch>
         <Route exact path="/">
           {appBar}
-          <RedirectToHighestBlock />
+          {FeatureFlags.enableExplorer ? <RedirectToHighestBlock /> : null}
         </Route>
 
-        <Route path="/explorer/:blockHeightAsId">
-          {appBar}
-          <Explorer />
-        </Route>
+        {FeatureFlags.enableExplorer ? (
+          <Route path="/explorer/:blockHeightAsId">
+            {appBar}
+            <Explorer />
+          </Route>
+        ) : null}
       </Switch>
     </Router>
   );

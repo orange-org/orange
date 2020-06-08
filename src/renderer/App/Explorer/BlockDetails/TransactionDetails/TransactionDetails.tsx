@@ -3,7 +3,7 @@ import { ArrowForwardIos } from "@material-ui/icons";
 import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useLoadingAwareTypography } from "_r/hooks";
+import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
 import { Thunks } from "_r/redux/Thunks";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { Utils } from "_r/utils/Utils";

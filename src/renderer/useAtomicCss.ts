@@ -41,6 +41,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     ),
     borderColorSecondaryMain: c("borderColor", theme.palette.secondary.main),
 
+    borderLeftNone: c("borderLeft", "none"),
     borderLeftStyleSolid: c("borderLeftStyle", "solid"),
 
     borderRadius0: c("borderRadius", 0),
@@ -48,10 +49,12 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
 
     borderRadiusShape: c("borderRadius", theme.shape.borderRadius),
 
+    borderRightNone: c("borderRight", "none"),
     borderRightStyleSolid: c("borderRightStyle", "solid"),
 
     borderStyleSolid: c("borderStyle", "solid"),
 
+    borderTopNone: c("borderTop", "none"),
     borderTopStyleSolid: c("borderTopStyle", "solid"),
 
     borderWidth1px: c("borderWidth", 1),

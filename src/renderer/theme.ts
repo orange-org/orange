@@ -70,6 +70,10 @@ export const theme: ThemeOptions = {
   },
 
   props: {
+    MuiPaper: {
+      variant: "outlined",
+    },
+
     MuiButtonBase: {
       disableRipple: true,
       disableTouchRipple: true,

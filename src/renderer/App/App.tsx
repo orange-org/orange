@@ -15,6 +15,7 @@ import { theme } from "_r/theme";
 import { AppBar } from "./AppBar/AppBar";
 import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
 import { StartScreen } from "./StartScreen/StartScreen";
+import { CloseScreen } from "./CloseScreen/CloseScreen";
 
 const MainRoutes = () => {
   const appBar = <AppBar />;
@@ -39,6 +40,9 @@ const MainRoutes = () => {
 const getComponent = () => {
   if (window.location.hash === "#start") {
     return StartScreen;
+  }
+  if (window.location.hash === "#close") {
+    return CloseScreen;
   }
 
   return MainRoutes;

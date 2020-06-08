@@ -3,6 +3,8 @@ import { productName } from "_m/../../package.json";
 import { UrlGuard } from "./UrlGuard/UrlGuard";
 
 export abstract class OrangeWindow extends BrowserWindow {
+  abstract load(): void;
+
   constructor({ webPreferences, ...rest }: BrowserWindowConstructorOptions) {
     super({
       webPreferences: {
@@ -36,6 +38,8 @@ export abstract class OrangeWindow extends BrowserWindow {
     this.webContents.session.webRequest.onBeforeRequest((details, response) => {
       response({ cancel: !UrlGuard.isAllowed(details.url) });
     });
+
+    this.load();
 
     this.once("ready-to-show", () => {
       this.show();

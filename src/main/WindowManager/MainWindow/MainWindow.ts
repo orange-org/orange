@@ -3,6 +3,10 @@ import { Utils } from "_m/common/Utils";
 import { OrangeWindow } from "../common/OrangeWindow";
 
 export class MainWindow extends OrangeWindow {
+  load() {
+    this.loadFile(`${Utils.getAppRoot()}/renderer/index.html`);
+  }
+
   constructor() {
     super({
       minWidth: 800,
@@ -20,7 +24,5 @@ export class MainWindow extends OrangeWindow {
         globalShortcut.register("CmdOrCtrl+R", () => null);
       }
     });
-
-    this.loadFile(`${Utils.getAppRoot()}/renderer/index.html`);
   }
 }

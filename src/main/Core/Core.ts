@@ -58,6 +58,14 @@ class Core {
       },
     );
   };
+
+  stop = () =>
+    new Promise(resolve => {
+      this.process?.on("close", () => {
+        resolve();
+      });
+      this.process?.kill("SIGTERM");
+    });
 }
 
 export const core = new Core();

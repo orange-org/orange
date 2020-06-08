@@ -8,7 +8,9 @@ import { ChromeExtensions } from "./ChromeExtensions/ChromeExtensions";
 import { core } from "./Core/Core";
 
 export class Main {
-  isStarted = false;
+  private isStarted = false;
+
+  private isQuitting = false;
 
   private preventNewWebViewsAndWindows = (
     _event: Event,
@@ -36,7 +38,19 @@ export class Main {
       ChromeExtensions.install();
     }
 
-    windowManager.show();
+    windowManager.start();
+  };
+
+  private handleQuitting = async (event: Electron.Event) => {
+    if (!this.isQuitting) {
+      event.preventDefault();
+
+      this.isQuitting = true;
+
+      windowManager.close();
+      await core.stop();
+      app.quit();
+    }
   };
 
   private registerErrorHandling = () => {
@@ -72,6 +86,8 @@ export class Main {
     app.enableSandbox();
     app.on("web-contents-created", this.preventNewWebViewsAndWindows);
     app.on("ready", this.onAppReady);
+    app.on("before-quit", this.handleQuitting);
+    app.on("window-all-closed", this.handleQuitting);
   };
 }
 

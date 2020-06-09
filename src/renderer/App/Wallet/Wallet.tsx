@@ -5,14 +5,10 @@ import { WalletUtils } from "_r/redux/WalletUtils";
 import { RpcService } from "_r/RpcService/RpcService";
 import { CreateWallet } from "./CreateWallet/CreateWallet";
 import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
-// import { rpcService } from "_r/rpcClient/rpcService";
-// import { getOrangeWalletList } from "_r/redux/walletDataHelpers";
-// import { CreateWallet } from "./CreateWallet/CreateWallet";
-// import { DisplayWallet } from "./DisplayWallet/DisplayWallet";
+import { DisplayWallet } from "./DisplayWallet/DisplayWallet";
 
-export const Wallet = () => {
+export const useAutomaticInitialRedirect = () => {
   const history = useHistory();
-  const a = useAtomicCss();
 
   useEffect(() => {
     const request = async () => {
@@ -29,6 +25,12 @@ export const Wallet = () => {
 
     request();
   }, [history]);
+};
+
+export const Wallet = () => {
+  const a = useAtomicCss();
+
+  useAutomaticInitialRedirect();
 
   return (
     <div className={a("topLevelComponent")}>
@@ -41,9 +43,9 @@ export const Wallet = () => {
           <CreateWallet />
         </Route>
 
-        {/* <Route path="/wallet/:walletName">
+        <Route path="/wallet/:walletName">
           <DisplayWallet />
-        </Route> */}
+        </Route>
       </Switch>
     </div>
   );

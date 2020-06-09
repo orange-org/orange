@@ -47,8 +47,11 @@ export class MainRpcClient {
       serverUrl: string;
     },
   ): Promise<ExtractedRpcResponse<TRpcRequest>> => {
-    const { method, params = [] } = rpcRequest;
+    const { method, params = [], walletName } = rpcRequest;
     const { username, password, serverUrl } = rpcConfigurations;
+    const finalServerUrl = walletName
+      ? `${serverUrl}/${encodeURIComponent(walletName)}`
+      : serverUrl;
 
     const options = {
       method: "POST",
@@ -58,12 +61,15 @@ export class MainRpcClient {
     const body = { jsonrpc: "1.0", id: "N/A", method, params };
 
     const response = await MainRpcClient.httpRequest({
-      url: serverUrl,
+      url: finalServerUrl,
       options,
       body,
     });
 
-    const { result, error }: RawRpcResponse = JSON.parse(response.data);
+    const { result, error }: RawRpcResponse =
+      response.data.length > 0
+        ? JSON.parse(response.data)
+        : { result: "", error: null };
 
     return { result, error, method } as ExtractedRpcResponse<TRpcRequest>;
   };

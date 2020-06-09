@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { ipcService } from "_r/IpcService/IpcService";
-import { SplashScreen } from "../../components/SplashScreen";
+import { SplashScreen } from "../components/SplashScreen";
 import { useConnectionStatus } from "./useConnectionStatus";
 
 export const StartScreen = () => {

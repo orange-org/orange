@@ -191,6 +191,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     paddingLeft2: c("paddingLeft", theme.spacing(2)),
 
     paddingTop1: c("paddingTop", theme.spacing(1)),
+    paddingTop16: c("paddingTop", theme.spacing(16)),
     paddingTop2: c("paddingTop", theme.spacing(2)),
 
     paddingX4: {
@@ -238,7 +239,7 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
     },
     topLevelComponent: {
       height: `calc(100% - ${theme.spacing(16)}px)`,
-      ...atomicCss.marginTop16, // compensate for AppBar
+      ...atomicCss.paddingTop16, // compensate for AppBar
     },
   } as const;
   /* eslint-disable sort-keys */

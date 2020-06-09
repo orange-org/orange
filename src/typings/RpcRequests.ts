@@ -65,6 +65,24 @@ export type RawTransactionRpcRequest = {
   params: [string, number?];
 };
 
+export type ListWalletsRpcRequest = {
+  method: "listwallets";
+  params?: null;
+  walletName?: undefined;
+};
+
+export type SetHdSeed = {
+  method: "sethdseed";
+  params?: [boolean?, string?];
+  walletName: string;
+};
+
+export type CreateWalletRpcRequest = {
+  method: "createwallet";
+  params: [string, boolean?, boolean?, string?, boolean?];
+  walletName?: undefined;
+};
+
 export type RpcRequest =
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -78,6 +96,9 @@ export type RpcRequest =
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
   | BlockHashRpcRequest
+  | ListWalletsRpcRequest
+  | SetHdSeed
+  | CreateWalletRpcRequest
   | RawTransactionRpcRequest;
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

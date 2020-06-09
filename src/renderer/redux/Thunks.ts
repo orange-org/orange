@@ -4,6 +4,7 @@ import { RpcService } from "_r/RpcService/RpcService";
 import { GetState } from "_t/typeHelpers";
 import { Actions } from "./Actions";
 import { ExplorerBlockListHeights } from "./ExplorerBlockListHeights";
+import { WalletUtils } from "./WalletUtils";
 
 export class Thunks {
   static requestBlockchainInfo = (
@@ -106,5 +107,28 @@ export class Thunks {
     dispatch(Actions.setPeerInfo(peerInfo));
 
     return peerInfo;
+  };
+
+  static createWallet = (
+    nonce: NONCE,
+    selectedMnemonic: string,
+  ) => async () => {
+    const walletsList = await RpcService.listWallets(nonce);
+
+    const orangeWalletsList = WalletUtils.getOrangeWalletList(walletsList);
+    const walletName = WalletUtils.getWalletName(orangeWalletsList);
+
+    await RpcService.createWallet(
+      nonce,
+      walletName,
+      false,
+      true,
+      selectedMnemonic,
+      true,
+    );
+
+    await RpcService.setHdSeed(nonce, walletName, true, selectedMnemonic);
+
+    return walletName;
   };
 }

@@ -64,4 +64,32 @@ export class RpcService {
       },
       cacheDuration,
     );
+
+  static listWallets = (nonce: NONCE) =>
+    RpcClient.send(nonce, { method: "listwallets" });
+
+  static createWallet = async (
+    nonce: NONCE,
+    walletName: string,
+    disablePrivateKeys: boolean,
+    blank: boolean,
+    passphrase: string,
+    avoidReuse: boolean,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "createwallet",
+      params: [walletName, disablePrivateKeys, blank, passphrase, avoidReuse],
+    });
+
+  static setHdSeed = (
+    nonce: NONCE,
+    walletName: string,
+    newKeyPool: boolean,
+    seed: string,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "sethdseed",
+      params: [newKeyPool, seed],
+      walletName,
+    });
 }

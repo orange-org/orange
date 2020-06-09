@@ -15,7 +15,7 @@ const useRpcDataRequest = () => {
   const dispatch = useDispatch();
 
   return useEffect(() => {
-    const poll = new Poll(async () => {
+    const poll = new Poll(() => {
       dispatch(Thunks.requestBlockchainInfo(__NONCE__, 4000));
       dispatch(Thunks.requestPeerInfo(__NONCE__, 4000));
     }, 5000);
@@ -63,24 +63,22 @@ export const useStatus = (): Status => {
   return "connected";
 };
 
-const useVerificationPercentage = () => {
+const useStatusText = (status: Status) => {
   const verificationProgress = useSelector(
     state => state.blockchainInfo?.verificationprogress,
   );
-
-  return Number(verificationProgress || 0.0).toLocaleString(undefined, {
-    style: "percent",
-    maximumFractionDigits: 2,
-  });
-};
-
-const useStatusText = (status: Status) => {
-  const verificationPercentage = useVerificationPercentage();
 
   if (status === "waiting") {
     return "Looking for network connection...";
   }
   if (status === "syncing") {
+    const verificationPercentage = Number(
+      verificationProgress || 0.0,
+    ).toLocaleString(undefined, {
+      style: "percent",
+      maximumFractionDigits: 2,
+    });
+
     return `Synchronizing (${verificationPercentage} completed)...`;
   }
 

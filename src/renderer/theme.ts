@@ -67,6 +67,14 @@ export const theme: ThemeOptions = {
         textTransform: "inherit",
       },
     },
+
+    MuiLink: {
+      underlineHover: {
+        "&:hover": {
+          textDecoration: "none",
+        },
+      },
+    },
   },
 
   props: {
@@ -80,6 +88,7 @@ export const theme: ThemeOptions = {
     },
 
     MuiButton: {
+      disableElevation: true,
       disableFocusRipple: true,
     },
   },

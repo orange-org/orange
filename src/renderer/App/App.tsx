@@ -1,32 +1,41 @@
 import {
-  // @ts-ignore
-  unstable_createMuiStrictModeTheme as createMuiTheme,
   CssBaseline,
   ThemeProvider,
+  // @ts-ignore
+  unstable_createMuiStrictModeTheme as createMuiTheme,
 } from "@material-ui/core";
 import React, { StrictMode } from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import "typeface-roboto";
+import { FeatureFlags } from "_f/FeatureFlags";
 import { Explorer } from "_r/App/Explorer/Explorer";
 import { GlobalCss } from "_r/globalCss";
 import { store } from "_r/redux/StoreCreator";
 import { theme } from "_r/theme";
-import { FeatureFlags } from "_f/FeatureFlags";
 import { AppBar } from "./AppBar/AppBar";
-import { RedirectToHighestBlock } from "./RedirectToHighestBlock/RedirectToHighestBlock";
-import { StartScreen } from "./StartScreen/StartScreen";
 import { CloseScreen } from "./CloseScreen/CloseScreen";
+import { RedirectFromRoot } from "./RedirectFromRoot/RedirectFromRoot";
+import { StartScreen } from "./StartScreen/StartScreen";
+import { Wallet } from "./Wallet/Wallet";
+import { DebugLocation } from "./DebugLocation";
 
 const MainRoutes = () => {
   const appBar = <AppBar />;
 
   return (
     <Router>
+      <DebugLocation />
+
       <Switch>
         <Route exact path="/">
           {appBar}
-          {FeatureFlags.enableExplorer ? <RedirectToHighestBlock /> : null}
+          <RedirectFromRoot />
+        </Route>
+
+        <Route path="/wallet">
+          {appBar}
+          <Wallet />
         </Route>
 
         {FeatureFlags.enableExplorer ? (

@@ -15,13 +15,18 @@ class Core {
       `--rpcuser=${RpcServerConfigurations.username}`,
       `--rpcpassword=${RpcServerConfigurations.password}`,
       "--server=1",
-      "--prune=550",
-      `--datadir=${Core.getDatadir()}`,
+      "--txindex",
     ];
 
     /* istanbul ignore if */
     if (commandLineArgs.testnet) {
       args.push("--testnet");
+    }
+
+    if (commandLineArgs.datadir) {
+      args.push(`--datadir=${commandLineArgs.datadir}`);
+    } else {
+      args.push(`--datadir=${Core.getDatadir()}`);
     }
 
     return args;
@@ -42,7 +47,11 @@ class Core {
 
   spawn = async () => {
     await fs.ensureDir(Core.getDatadir());
-    this.process = spawn(Core.getPath(), Core.getArgs(), { stdio: "ignore" });
+
+    this.process = spawn(Core.getPath(), Core.getArgs(), {
+      stdio: ["ignore", "ignore", "pipe"],
+    });
+
     this.process.on(
       "error",
       /* istanbul ignore next */ error => {

@@ -13,6 +13,8 @@ import {
   RpcInfoRpcRequest,
   UptimeRpcRequest,
   ListWalletsRpcRequest,
+  ListTransactionsRpcRequest,
+  ListWalletDirRpcRequest,
 } from "_t/RpcRequests";
 import { ObjectValues } from "./typeHelpers";
 
@@ -331,6 +333,85 @@ export type ListWalletsRpcResponse = CreateRpcResponse<
   WalletList
 >;
 
+export type WalletTransaction = [
+  {
+    // (string) The bitcoin address of the transaction.
+    address: string;
+
+    // (string) The transaction category.
+    category:
+      | "send" // Transactions sent.
+      | "receive" // Non-coinbase transactions received.
+      | "generate" // Coinbase transactions received with more than 100 confirmations.
+      | "immature" // Coinbase transactions received with 100 or fewer confirmations.
+      | "orphan"; // Orphaned coinbase transactions received.
+
+    // (numeric) The amount in BTC. This is negative for the 'send' category, and is positive
+    // for all other categories
+    amount: number;
+
+    // (string) A comment for the address/transaction, if any
+    label: string;
+
+    // (numeric) the vout value
+    vout: number;
+
+    // (numeric) The amount of the fee in BTC. This is negative and only available for the
+    // 'send' category of transactions.
+    fee: number;
+
+    // (numeric) The number of confirmations for the transaction. Negative confirmations indicate the
+    // transaction conflicts with the block chain
+    confirmations: number;
+
+    // (bool) Whether we consider the outputs of this unconfirmed transaction safe to spend.
+    trusted: boolean;
+
+    // (string) The block hash containing the transaction.
+    blockhash: string;
+
+    // (numeric) The index of the transaction in the block that includes it.
+    blockindex: number;
+
+    // (numeric) The block time in seconds since epoch (1 Jan 1970 GMT).
+    blocktime: number;
+
+    // (string) The transaction id.
+    txid: string;
+
+    // (numeric) The transaction time in seconds since epoch (midnight Jan 1 1970 GMT).
+    time: number;
+
+    // (numeric) The time received in seconds since epoch (midnight Jan 1 1970 GMT).
+    timereceived: number;
+
+    // (string) If a comment is associated with the transaction.
+    comment: string;
+
+    // (string) Whether this transaction could be replaced due to BIP125 (replace-by-fee);
+    // may be unknown for unconfirmed transactions not in the mempool
+    "bip125-replaceable": "yes" | "no" | "unknown";
+
+    // (bool) 'true' if the transaction has been abandoned (inputs are respendable). Only available for the
+    // 'send' category of transactions.
+    abandoned: boolean;
+  },
+];
+
+export type WalletTransactionList = WalletTransaction[];
+
+export type WalletTransactionListRpcResponse = CreateRpcResponse<
+  ListTransactionsRpcRequest["method"],
+  WalletTransactionList
+>;
+
+export type ListWalletDir = { wallets: { name: string }[] };
+
+export type ListWalletDirRpcResponse = CreateRpcResponse<
+  ListWalletDirRpcRequest["method"],
+  ListWalletDir
+>;
+
 export type RpcResponse =
   | NetworkInfoRpcResponse
   | BlockchainInfoRpcResponse
@@ -343,6 +424,8 @@ export type RpcResponse =
   | BlockHeaderRpcResponse
   | BlockHashRpcResponse
   | ListWalletsRpcResponse
+  | ListWalletDirRpcResponse
+  | WalletTransactionListRpcResponse
   | RawTransactionRpcResponse;
 
 export type RawRpcResponse = {

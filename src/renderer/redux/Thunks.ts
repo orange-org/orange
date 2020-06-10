@@ -131,4 +131,12 @@ export class Thunks {
 
     return walletName;
   };
+
+  static requestOrangeWalletsList = (nonce: NONCE) => async () => {
+    const walletDirList = await RpcService.listWalletDir(nonce);
+
+    const walletNames = walletDirList.wallets.map(walletDir => walletDir.name);
+
+    return WalletUtils.getOrangeWalletList(walletNames);
+  };
 }

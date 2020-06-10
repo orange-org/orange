@@ -1,7 +1,7 @@
 import { Utils } from "./Utils";
 
 class CommandLineArgs {
-  public dataDir: string | null = null;
+  public datadir: string | null = null;
 
   public testnet: string | null = null;
 

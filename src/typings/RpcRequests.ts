@@ -84,6 +84,12 @@ export type ListWalletsRpcRequest = {
   walletName?: null;
 };
 
+export type ListWalletDirRpcRequest = {
+  method: "listwalletdir";
+  params?: null;
+  walletName?: null;
+};
+
 export type SetHdSeed = {
   method: "sethdseed";
   params?: [boolean?, string?];
@@ -96,6 +102,12 @@ export type CreateWalletRpcRequest = {
   walletName?: null;
 };
 
+export type ListTransactionsRpcRequest = {
+  method: "listtransactions";
+  params: ["*", number, number, boolean];
+  walletName: string;
+};
+
 export type RpcRequest =
   | NetworkInfoRpcRequest
   | BestBlockHashRpcRequest
@@ -105,7 +117,9 @@ export type RpcRequest =
   | PeerInfoRpcRequest
   | MempoolInfoRpcRequest
   | SetNetworkActiveRpcRequest
+  | ListWalletDirRpcRequest
   | RpcInfoRpcRequest
+  | ListTransactionsRpcRequest
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
   | BlockHashRpcRequest

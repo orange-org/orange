@@ -3,17 +3,20 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { WalletUtils } from "_r/redux/WalletUtils";
 import { RpcService } from "_r/RpcService/RpcService";
+import { useDispatch } from "react-redux";
+import { Thunks } from "_r/redux/Thunks";
 import { CreateWallet } from "./CreateWallet/CreateWallet";
-import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
-import { DisplayWallet } from "./DisplayWallet/DisplayWallet";
+import { WalletContainerWelcome } from "./WalletContainerWelcome/WalletContainerWelcome";
+import { Wallet } from "./Wallet/Wallet";
 
-export const useAutomaticInitialRedirect = () => {
+const useAutomaticRedirect = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const request = async () => {
-      const orangeWallets = WalletUtils.getOrangeWalletList(
-        await RpcService.listWallets(__NONCE__),
+      const orangeWallets = await dispatch(
+        Thunks.requestOrangeWalletsList(__NONCE__),
       );
 
       if (orangeWallets.length > 0) {
@@ -24,19 +27,19 @@ export const useAutomaticInitialRedirect = () => {
     };
 
     request();
-  }, [history]);
+  }, [dispatch, history]);
 };
 
-export const Wallet = () => {
+export const WalletContainer = () => {
   const a = useAtomicCss();
 
-  useAutomaticInitialRedirect();
+  useAutomaticRedirect();
 
   return (
     <div className={a("topLevelComponent")}>
       <Switch>
         <Route path="/wallet/welcome">
-          <WalletWelcome />
+          <WalletContainerWelcome />
         </Route>
 
         <Route path="/wallet/create">
@@ -44,7 +47,7 @@ export const Wallet = () => {
         </Route>
 
         <Route path="/wallet/:walletName">
-          <DisplayWallet />
+          <Wallet />
         </Route>
       </Switch>
     </div>

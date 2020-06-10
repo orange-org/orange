@@ -17,7 +17,7 @@ import { AppBar } from "./AppBar/AppBar";
 import { CloseScreen } from "./CloseScreen/CloseScreen";
 import { RedirectFromRoot } from "./RedirectFromRoot/RedirectFromRoot";
 import { StartScreen } from "./StartScreen/StartScreen";
-import { Wallet } from "./Wallet/Wallet";
+import { WalletContainer } from "./WalletContainer/WalletContainer";
 import { DebugLocation } from "./DebugLocation";
 
 const MainRoutes = () => {
@@ -35,7 +35,7 @@ const MainRoutes = () => {
 
         <Route path="/wallet">
           {appBar}
-          <Wallet />
+          <WalletContainer />
         </Route>
 
         {FeatureFlags.enableExplorer ? (

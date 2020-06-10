@@ -3,7 +3,11 @@ import { useAtomicCss } from "_r/useAtomicCss";
 import { Typography, Link } from "@material-ui/core";
 import { Link as ReactRouterLink } from "react-router-dom";
 
-export const WalletWelcome = () => {
+export const Welcome: React.FC<{
+  prompt: string;
+  action: string;
+  link: string;
+}> = props => {
   const a = useAtomicCss();
 
   return (
@@ -15,14 +19,14 @@ export const WalletWelcome = () => {
         "flexDirectionColumn",
       )}
     >
-      <Typography variant="h2">You don&apos;t have a wallet yet</Typography>
+      <Typography variant="h2">{props.prompt}</Typography>
       <Link
         variant="h1"
         className={a("marginTop05")}
         component={ReactRouterLink}
-        to="/wallet/create"
+        to={props.link}
       >
-        Create one
+        {props.action}
       </Link>
     </div>
   );

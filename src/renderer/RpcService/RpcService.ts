@@ -68,6 +68,9 @@ export class RpcService {
   static listWallets = (nonce: NONCE) =>
     RpcClient.send(nonce, { method: "listwallets" });
 
+  static listWalletDir = (nonce: NONCE) =>
+    RpcClient.send(nonce, { method: "listwalletdir" });
+
   static createWallet = async (
     nonce: NONCE,
     walletName: string,
@@ -90,6 +93,19 @@ export class RpcService {
     RpcClient.send(nonce, {
       method: "sethdseed",
       params: [newKeyPool, seed],
+      walletName,
+    });
+
+  static listTransactions = (
+    nonce: NONCE,
+    walletName: string,
+    count: number = 1000,
+    skip: number = 0,
+    includeWatchOnly: boolean = false,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "listtransactions",
+      params: ["*", count, skip, includeWatchOnly],
       walletName,
     });
 }

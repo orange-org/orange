@@ -1,12 +1,12 @@
+import { Link, LinkProps, Typography } from "@material-ui/core";
 import React from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
-import { Typography, Link } from "@material-ui/core";
 import { Link as ReactRouterLink } from "react-router-dom";
+import { useAtomicCss } from "_r/useAtomicCss";
 
 export const Welcome: React.FC<{
   prompt: string;
   action: string;
-  link: string;
+  to: LinkProps<typeof ReactRouterLink>["to"];
 }> = props => {
   const a = useAtomicCss();
 
@@ -24,7 +24,7 @@ export const Welcome: React.FC<{
         variant="h1"
         className={a("marginTop05")}
         component={ReactRouterLink}
-        to={props.link}
+        to={props.to}
       >
         {props.action}
       </Link>

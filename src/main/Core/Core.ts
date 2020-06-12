@@ -14,6 +14,8 @@ class Core {
     const args = [
       `--rpcuser=${RpcServerConfigurations.username}`,
       `--rpcpassword=${RpcServerConfigurations.password}`,
+      `--zmqpubrawblock=tcp://${RpcServerConfigurations.hostname}:28332`,
+      `--zmqpubrawtx=tcp://${RpcServerConfigurations.hostname}:28333`,
       "--server=1",
       "--txindex",
     ];

@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
-import { useParams, useHistory, Switch, Route } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { RpcService } from "_r/RpcService/RpcService";
-import { WalletContainerWelcome } from "../WalletContainerWelcome/WalletContainerWelcome";
-import { CreateWallet } from "../CreateWallet/CreateWallet";
-import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
+import { WalletReceive } from "./WalletReceiveDialog/WalletReceiveDialog";
 import { WalletTransactions } from "./WalletTransactions/WalletTransactions";
+import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
 
 const useAutomaticRedirect = () => {
   const { walletName } = useParams();
@@ -28,18 +33,35 @@ const useAutomaticRedirect = () => {
   }, [history, walletName]);
 };
 
+const useBackgroundState = () => {
+  const location = useLocation();
+  const background = location.state && (location.state as any).background;
+
+  return { location, background };
+};
+
 export const Wallet = () => {
   useAutomaticRedirect();
 
-  return (
-    <Switch>
-      <Route path="/wallet/:walletName/welcome">
-        <WalletWelcome />
-      </Route>
+  const { location, background } = useBackgroundState();
 
-      <Route path="/wallet/:walletName/transactions">
-        <WalletTransactions />
-      </Route>
-    </Switch>
+  return (
+    <div>
+      <Switch location={background || location}>
+        <Route path="/wallet/:walletName/welcome">
+          <WalletWelcome />
+        </Route>
+
+        <Route path="/wallet/:walletName/transactions">
+          <WalletTransactions />
+        </Route>
+      </Switch>
+
+      {background && (
+        <Route path="/wallet/:walletName/receive">
+          <WalletReceive />
+        </Route>
+      )}
+    </div>
   );
 };

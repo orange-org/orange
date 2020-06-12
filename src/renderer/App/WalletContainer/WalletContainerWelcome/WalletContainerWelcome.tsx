@@ -5,6 +5,6 @@ export const WalletContainerWelcome = () => (
   <Welcome
     prompt="You don't have a wallet yet"
     action="Create one"
-    link="/wallet/create"
+    to="/wallet/create"
   />
 );

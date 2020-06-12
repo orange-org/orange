@@ -14,7 +14,7 @@ type Status = "syncing" | "waiting" | "connected";
 const useRpcDataRequest = () => {
   const dispatch = useDispatch();
 
-  return useEffect(() => {
+  useEffect(() => {
     const poll = new Poll(() => {
       dispatch(Thunks.requestBlockchainInfo(__NONCE__, 4000));
       dispatch(Thunks.requestPeerInfo(__NONCE__, 4000));
@@ -23,7 +23,7 @@ const useRpcDataRequest = () => {
     poll.start();
 
     return poll.stop;
-  });
+  }, [dispatch]);
 };
 
 const useStatusColor = (status: Status) => {

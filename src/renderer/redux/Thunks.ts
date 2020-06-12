@@ -2,6 +2,9 @@ import { map } from "bluebird";
 import { Dispatch } from "redux";
 import { RpcService } from "_r/RpcService/RpcService";
 import { GetState } from "_t/typeHelpers";
+import * as bip39 from "bip39";
+import * as bip32 from "bip32";
+import { BitcoinNetwork } from "_c/BitcoinNetwork";
 import { Actions } from "./Actions";
 import { ExplorerBlockListHeights } from "./ExplorerBlockListHeights";
 import { WalletUtils } from "./WalletUtils";
@@ -109,10 +112,9 @@ export class Thunks {
     return peerInfo;
   };
 
-  static createWallet = (
-    nonce: NONCE,
-    selectedMnemonic: string,
-  ) => async () => {
+  static createWallet = (nonce: NONCE, selectedMnemonic: string) => async (
+    dispatch: Dispatch<any>,
+  ) => {
     const walletsList = await RpcService.listWallets(nonce);
 
     const orangeWalletsList = WalletUtils.getOrangeWalletList(walletsList);
@@ -127,7 +129,21 @@ export class Thunks {
       true,
     );
 
-    await RpcService.setHdSeed(nonce, walletName, true, selectedMnemonic);
+    const blockchainInfo = await dispatch(
+      Thunks.requestBlockchainInfo(nonce, 5000),
+    );
+    const network =
+      blockchainInfo.chain === "test"
+        ? BitcoinNetwork.test
+        : BitcoinNetwork.main;
+
+    const seed = await bip39.mnemonicToSeed(selectedMnemonic);
+    const node = bip32.fromSeed(seed, network);
+    const wif = node.toWIF();
+
+    await RpcService.walletPassPhrase(nonce, walletName, selectedMnemonic, 10);
+    await RpcService.setHdSeed(nonce, walletName, true, wif);
+    await RpcService.walletLock(nonce, walletName);
 
     return walletName;
   };

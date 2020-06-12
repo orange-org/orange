@@ -15,6 +15,8 @@ import {
   ListWalletsRpcRequest,
   ListTransactionsRpcRequest,
   ListWalletDirRpcRequest,
+  WalletPassPhraseRpcRequest,
+  WalletLockRpcRequest,
 } from "_t/RpcRequests";
 import { ObjectValues } from "./typeHelpers";
 
@@ -71,7 +73,7 @@ export type NetworkInfoRpcResponse = CreateRpcResponse<
 >;
 
 export type BlockchainInfo = {
-  chain: string;
+  chain: "main" | "test" | "regtest";
   blocks: number;
   headers: number;
   bestblockhash: string;
@@ -412,8 +414,20 @@ export type ListWalletDirRpcResponse = CreateRpcResponse<
   ListWalletDir
 >;
 
+export type WalletPassPhraseRpcResponse = CreateRpcResponse<
+  WalletPassPhraseRpcRequest["method"],
+  ""
+>;
+
+export type WalletLockRpcResponse = CreateRpcResponse<
+  WalletLockRpcRequest["method"],
+  ""
+>;
+
 export type RpcResponse =
   | NetworkInfoRpcResponse
+  | WalletLockRpcResponse
+  | WalletPassPhraseRpcResponse
   | BlockchainInfoRpcResponse
   | BlockRpcResponse
   | UptimeRpcResponse

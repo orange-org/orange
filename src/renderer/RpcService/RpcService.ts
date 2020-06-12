@@ -108,4 +108,22 @@ export class RpcService {
       params: ["*", count, skip, includeWatchOnly],
       walletName,
     });
+
+  static walletPassPhrase = (
+    nonce: NONCE,
+    walletName: string,
+    passphrase: string,
+    timeout: number,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "walletpassphrase",
+      params: [passphrase, timeout],
+      walletName,
+    });
+
+  static walletLock = (nonce: NONCE, walletName: string) =>
+    RpcClient.send(nonce, {
+      method: "walletlock",
+      walletName,
+    });
 }

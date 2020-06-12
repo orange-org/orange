@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { WalletUtils } from "_r/redux/WalletUtils";
 import { RpcService } from "_r/RpcService/RpcService";
@@ -12,22 +12,30 @@ import { Wallet } from "./Wallet/Wallet";
 const useAutomaticRedirect = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const match = useRouteMatch({
+    path: "/wallet",
+    exact: true,
+  });
+
+  const isRoot = !!match;
 
   useEffect(() => {
     const request = async () => {
-      const orangeWallets = await dispatch(
-        Thunks.requestOrangeWalletsList(__NONCE__),
-      );
+      if (isRoot) {
+        const orangeWallets = await dispatch(
+          Thunks.requestOrangeWalletsList(__NONCE__),
+        );
 
-      if (orangeWallets.length > 0) {
-        history.push(`/wallet/${encodeURIComponent(orangeWallets[0])}`);
-      } else {
-        history.push("/wallet/welcome");
+        if (orangeWallets.length > 0) {
+          history.push(`/wallet/${encodeURIComponent(orangeWallets[0])}`);
+        } else {
+          history.push("/wallet/welcome");
+        }
       }
     };
 
     request();
-  }, [dispatch, history]);
+  });
 };
 
 export const WalletContainer = () => {

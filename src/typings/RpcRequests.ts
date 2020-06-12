@@ -108,8 +108,21 @@ export type ListTransactionsRpcRequest = {
   walletName: string;
 };
 
+export type WalletPassPhraseRpcRequest = {
+  method: "walletpassphrase";
+  params: [string, number];
+  walletName: string;
+};
+
+export type WalletLockRpcRequest = {
+  method: "walletlock";
+  params?: null;
+  walletName: string;
+};
+
 export type RpcRequest =
   | NetworkInfoRpcRequest
+  | WalletLockRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest
   | BlockRpcRequest
@@ -122,6 +135,7 @@ export type RpcRequest =
   | ListTransactionsRpcRequest
   | ChainTipsRpcRequest
   | BlockHeaderRpcRequest
+  | WalletPassPhraseRpcRequest
   | BlockHashRpcRequest
   | ListWalletsRpcRequest
   | SetHdSeed

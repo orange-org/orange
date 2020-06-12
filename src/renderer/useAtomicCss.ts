@@ -237,6 +237,17 @@ export const getAtomicCssAndStyleGroups = (theme: Theme) => {
       ...atomicCss["fontSize0.8Rem"],
       ...atomicCss.marginTop01,
     },
+
+    monospacedTypographyBox: {
+      ...atomicCss.fontFamilyMonospace,
+      ...atomicCss["backgroundColorBlack10%Opaque"],
+      ...atomicCss.padding6,
+      ...atomicCss.borderRadius4px,
+      ...atomicCss.borderStyleSolid,
+      ...atomicCss.borderColorDivider,
+      ...atomicCss.borderWidth1px,
+    },
+
     topLevelComponent: {
       height: `calc(100% - ${theme.spacing(16)}px)`,
       ...atomicCss.paddingTop16, // compensate for AppBar

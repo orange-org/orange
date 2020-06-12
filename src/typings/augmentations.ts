@@ -17,17 +17,9 @@ declare module "react-redux" {
 }
 
 type ThunkType<T> = (dispatch: T, getState: GetState) => Promise<any>;
-type CachableThunk<T> = {
-  thunk: ThunkType<T>;
-  cacheDuration: number;
-};
 declare module "redux" {
   export interface Dispatch<A extends Action = AnyAction> {
-    <T extends A>(action: T): T extends ThunkType<Dispatch>
-      ? ReturnType<T>
-      : T extends CachableThunk<Dispatch>
-      ? ReturnType<T["thunk"]>
-      : T;
+    <T extends A>(action: T): T extends ThunkType<Dispatch> ? ReturnType<T> : T;
   }
 }
 

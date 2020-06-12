@@ -50,7 +50,7 @@ export class MainRpcClient {
     const { method, params = [], walletName } = rpcRequest;
     const { username, password, serverUrl } = rpcConfigurations;
     const finalServerUrl = walletName
-      ? `${serverUrl}/${encodeURIComponent(walletName)}`
+      ? `${serverUrl}/wallet/${encodeURIComponent(walletName)}`
       : serverUrl;
 
     const options = {

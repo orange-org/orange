@@ -15,18 +15,7 @@ export const CreateKey: React.FC<{
 
       <div>
         <div>
-          <Typography
-            className={a(
-              "marginTop05",
-              "fontFamilyMonospace",
-              "backgroundColorBlack10%Opaque",
-              "padding6",
-              "borderRadius4px",
-              "borderStyleSolid",
-              "borderColorDivider",
-              "borderWidth1px",
-            )}
-          >
+          <Typography className={a("marginTop05", "monospacedTypographyBox")}>
             {mnemonic}
           </Typography>
 

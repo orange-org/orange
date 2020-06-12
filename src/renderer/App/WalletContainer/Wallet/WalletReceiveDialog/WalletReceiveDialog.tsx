@@ -1,14 +1,14 @@
-import React from "react";
-import { useAtomicCss } from "_r/useAtomicCss";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Typography,
 } from "@material-ui/core";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { useAtomicCss } from "_r/useAtomicCss";
 
 const useIsMatch = () => {
   const match = useRouteMatch("/wallet/:walletName/receive");
@@ -26,6 +26,7 @@ const useGoBack = () => {
 };
 
 export const WalletReceive = () => {
+  const a = useAtomicCss();
   const isMatch = useIsMatch();
   const goBack = useGoBack();
 
@@ -34,15 +35,15 @@ export const WalletReceive = () => {
       <DialogTitle>Receive to</DialogTitle>
 
       <DialogContent>
-        <DialogContentText>
+        <Typography className={a("monospacedTypographyBox")}>
           Let Google help apps determine location. This means sending anonymous
           location data to Google, even when no apps are running.
-        </DialogContentText>
+        </Typography>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={goBack} color="primary">
-          Close
+        <Button variant="contained" onClick={goBack} color="primary">
+          OK
         </Button>
       </DialogActions>
     </Dialog>

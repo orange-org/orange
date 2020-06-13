@@ -120,11 +120,27 @@ export type WalletLockRpcRequest = {
   walletName: string;
 };
 
+export type LoadWalletRpcRequest = {
+  method: "loadwallet";
+  params: [string];
+  walletName?: null;
+};
+
+export type AddressType = "legacy" | "p2sh-segwit" | "bech32";
+
+export type GetNewAddressRpcRequest = {
+  method: "getnewaddress";
+  params: ["", AddressType];
+  walletName: string;
+};
+
 export type RpcRequest =
   | NetworkInfoRpcRequest
+  | GetNewAddressRpcRequest
   | WalletLockRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest
+  | LoadWalletRpcRequest
   | BlockRpcRequest
   | UptimeRpcRequest
   | PeerInfoRpcRequest

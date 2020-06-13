@@ -155,4 +155,15 @@ export class Thunks {
 
     return WalletUtils.getOrangeWalletList(walletNames);
   };
+
+  static loadWalletIfNecessary = (
+    nonce: NONCE,
+    walletName: string,
+  ) => async () => {
+    const walletList = await RpcService.listWallets(nonce);
+
+    if (!walletList.includes(walletName)) {
+      await RpcService.loadWallet(nonce, walletName);
+    }
+  };
 }

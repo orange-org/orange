@@ -1,4 +1,6 @@
+import { AddressType } from "_t/RpcRequests";
 import { RpcClient } from "./RpcClient";
+import { rpcClientCache } from "./RpcClientCache";
 
 type Verbosity = 0 | 1 | 2;
 
@@ -125,5 +127,22 @@ export class RpcService {
     RpcClient.send(nonce, {
       method: "walletlock",
       walletName,
+    });
+
+  static getNewAddress = (
+    nonce: NONCE,
+    walletName: string,
+    addressType: AddressType,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "getnewaddress",
+      params: ["", addressType],
+      walletName,
+    });
+
+  static loadWallet = (nonce: NONCE, walletName: string) =>
+    RpcClient.send(nonce, {
+      method: "loadwallet",
+      params: [walletName],
     });
 }

@@ -7,6 +7,8 @@ import {
   useParams,
 } from "react-router-dom";
 import { RpcService } from "_r/RpcService/RpcService";
+import { useDispatch } from "react-redux";
+import { Thunks } from "_r/redux/Thunks";
 import { WalletReceive } from "./WalletReceiveDialog/WalletReceiveDialog";
 import { WalletTransactions } from "./WalletTransactions/WalletTransactions";
 import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
@@ -14,9 +16,12 @@ import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
 const useAutomaticRedirect = () => {
   const { walletName } = useParams();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const request = async () => {
+      await dispatch(Thunks.loadWalletIfNecessary(__NONCE__, walletName!));
+
       const transactions = await RpcService.listTransactions(
         __NONCE__,
         walletName!,
@@ -30,7 +35,7 @@ const useAutomaticRedirect = () => {
     };
 
     request();
-  }, [history, walletName]);
+  }, [dispatch, history, walletName]);
 };
 
 const useBackgroundState = () => {

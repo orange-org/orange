@@ -17,6 +17,8 @@ import {
   ListWalletDirRpcRequest,
   WalletPassPhraseRpcRequest,
   WalletLockRpcRequest,
+  GetNewAddressRpcRequest,
+  LoadWalletRpcRequest,
 } from "_t/RpcRequests";
 import { ObjectValues } from "./typeHelpers";
 
@@ -424,9 +426,21 @@ export type WalletLockRpcResponse = CreateRpcResponse<
   ""
 >;
 
+export type GetNewAddressRpcResponse = CreateRpcResponse<
+  GetNewAddressRpcRequest["method"],
+  string
+>;
+
+export type LoadWalletRpcResponse = CreateRpcResponse<
+  LoadWalletRpcRequest["method"],
+  ""
+>;
+
 export type RpcResponse =
   | NetworkInfoRpcResponse
+  | GetNewAddressRpcResponse
   | WalletLockRpcResponse
+  | LoadWalletRpcResponse
   | WalletPassPhraseRpcResponse
   | BlockchainInfoRpcResponse
   | BlockRpcResponse

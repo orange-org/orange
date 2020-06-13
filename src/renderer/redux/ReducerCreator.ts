@@ -6,6 +6,8 @@ import {
   MempoolInfo,
   RawTransaction,
   PeerInfo,
+  WalletTransactionList,
+  WalletList,
 } from "_t/RpcResponses";
 import { StateConfig } from "_t/typeHelpers";
 
@@ -21,6 +23,8 @@ export type State = StateConfig<{
   hasRpcIssue: boolean;
   requestSearchBoxFocus: boolean;
   peerInfo: PeerInfo;
+  transactionList: WalletTransactionList;
+  walletList: WalletList;
 }>;
 
 class ReducerCreator {
@@ -36,6 +40,8 @@ class ReducerCreator {
     requestSearchBoxFocus: null,
     hasRpcIssue: null,
     peerInfo: null,
+    transactionList: null,
+    walletList: null,
   };
 
   static create = () =>
@@ -74,13 +80,13 @@ class ReducerCreator {
         ...state,
         mempoolInfo: action.payload,
       }))
+      .handleAction(Actions.setTransactionList, (state, action) => ({
+        ...state,
+        transactionList: action.payload,
+      }))
       .handleAction(Actions.setPeerInfo, (state, action) => ({
         ...state,
         peerInfo: action.payload,
-      }))
-      .handleAction(Actions.setHasRpcIssue, (state, action) => ({
-        ...state,
-        hasRpcIssue: action.payload,
       }));
 }
 

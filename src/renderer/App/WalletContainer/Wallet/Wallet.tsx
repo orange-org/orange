@@ -1,54 +1,34 @@
 import React, { useEffect } from "react";
-import {
-  Route,
-  Switch,
-  useHistory,
-  useLocation,
-  useParams,
-} from "react-router-dom";
-import { RpcService } from "_r/RpcService/RpcService";
 import { useDispatch } from "react-redux";
+import { Route, Switch, useHistory, useParams } from "react-router-dom";
+import { useLocationStateBackground } from "_r/App/hooks/useLocationStateBackground";
 import { Thunks } from "_r/redux/Thunks";
 import { WalletReceive } from "./WalletReceiveDialog/WalletReceiveDialog";
 import { WalletTransactions } from "./WalletTransactions/WalletTransactions";
 import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
+import { useTransactionList } from "../common/useTransactionList";
 
 const useAutomaticRedirect = () => {
   const { walletName } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
+  const transactionList = useTransactionList();
 
   useEffect(() => {
-    const request = async () => {
-      await dispatch(Thunks.loadWalletIfNecessary(__NONCE__, walletName!));
-
-      const transactions = await RpcService.listTransactions(
-        __NONCE__,
-        walletName!,
-      );
-
+    if (transactionList) {
       history.push(
         `/wallet/${walletName}/${
-          transactions.length === 0 ? "welcome" : "transactions"
+          transactionList.length ? "transactions" : "welcome"
         }`,
       );
-    };
-
-    request();
-  }, [dispatch, history, walletName]);
-};
-
-const useBackgroundState = () => {
-  const location = useLocation();
-  const background = location.state && (location.state as any).background;
-
-  return { location, background };
+    }
+  }, [dispatch, history, transactionList, walletName]);
 };
 
 export const Wallet = () => {
   useAutomaticRedirect();
 
-  const { location, background } = useBackgroundState();
+  const { location, background } = useLocationStateBackground();
 
   return (
     <div>

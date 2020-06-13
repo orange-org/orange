@@ -8,9 +8,15 @@ import {
   RawTransaction,
   RpcInfo,
   Uptime,
+  WalletTransactionList,
+  WalletList,
 } from "_t/RpcResponses";
 
 export class Actions {
+  static setTransactionList = createAction("SET_TRANSACTION_LIST")<
+    WalletTransactionList
+  >();
+
   static setNetworkInfo = createAction("SET_NETWORK_INFO")<NetworkInfo>();
 
   static setBlockchainInfo = createAction("SET_BLOCKCHAIN_INFO")<
@@ -45,11 +51,9 @@ export class Actions {
     "SET_SELECTED_EXPLORER_TRANSACTION_INPUT_VALUES",
   )<RawTransaction["vout"][number]["value"][]>();
 
-  static setHasRpcIssue = createAction("SET_HAS_RPC_CONNECTION_ISSUE")<
-    boolean
-  >();
-
   static requestSearchBoxFocus = createAction("REQUEST_SEARCH_BOX_FOCUS")<
     boolean
   >();
+
+  static setWalletList = createAction("SET_LOADED_WALLET_LIST")<WalletList>();
 }

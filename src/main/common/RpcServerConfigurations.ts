@@ -6,16 +6,21 @@ export class RpcServerConfigurations {
   private static generateRandomPassword = () =>
     Utils.isDevelopment() ? "1" : randomBytes(16).toString("hex");
 
-  private static computeUrl() {
-    let port = 8334;
+  private static computePort = () => {
+    let port = 8332;
 
     /* istanbul ignore if */
     if (commandLineArgs.testnet) {
       port = 18332;
     }
 
-    return `http://${RpcServerConfigurations.hostname}:${port}`;
-  }
+    return port;
+  };
+
+  private static computeUrl = () =>
+    `http://${RpcServerConfigurations.hostname}:${RpcServerConfigurations.port}`;
+
+  static port = RpcServerConfigurations.computePort();
 
   static hostname = "127.0.0.1";
 

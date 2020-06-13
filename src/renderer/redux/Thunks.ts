@@ -156,14 +156,43 @@ export class Thunks {
     return WalletUtils.getOrangeWalletList(walletNames);
   };
 
-  static loadWalletIfNecessary = (
+  static ensureWalletLoaded = (nonce: NONCE, walletName: string) => async (
+    dispatch: Dispatch,
+    getState: GetState,
+  ) => {
+    const { walletList } = getState();
+
+    if (!walletList?.includes(walletName)) {
+      const serverWalletList = await RpcService.listWallets(nonce);
+
+      if (!serverWalletList.includes(walletName)) {
+        await RpcService.loadWallet(nonce, walletName);
+        const walletList_ = await RpcService.listWallets(nonce);
+        dispatch(Actions.setWalletList(walletList_));
+      }
+    }
+
+    return getState().walletList!;
+  };
+
+  static listTransactions = (
     nonce: NONCE,
     walletName: string,
-  ) => async () => {
-    const walletList = await RpcService.listWallets(nonce);
+    cacheDuration?: number,
+  ) => async (dispatch: Dispatch<any>) => {
+    await dispatch(Thunks.ensureWalletLoaded(nonce, walletName));
 
-    if (!walletList.includes(walletName)) {
-      await RpcService.loadWallet(nonce, walletName);
-    }
+    const transactionList = await RpcService.listTransactions(
+      nonce,
+      walletName,
+      undefined,
+      undefined,
+      undefined,
+      cacheDuration,
+    );
+
+    dispatch(Actions.setTransactionList(transactionList));
+
+    return transactionList;
   };
 }

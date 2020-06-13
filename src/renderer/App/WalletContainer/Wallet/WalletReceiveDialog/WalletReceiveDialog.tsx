@@ -6,10 +6,10 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useHistory, useRouteMatch, useParams } from "react-router-dom";
-import { useAtomicCss } from "_r/useAtomicCss";
-import { RpcService } from "_r/RpcService/RpcService";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import { useLoadingAwareTypography } from "_r/App/hooks/useLoadingAwareTypography";
+import { RpcService } from "_r/RpcService/RpcService";
+import { useAtomicCss } from "_r/useAtomicCss";
 
 const useIsMatch = () => {
   const match = useRouteMatch("/wallet/:walletName/receive");

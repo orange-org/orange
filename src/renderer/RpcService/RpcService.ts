@@ -104,12 +104,17 @@ export class RpcService {
     count: number = 1000,
     skip: number = 0,
     includeWatchOnly: boolean = false,
+    cacheDuration?: number,
   ) =>
-    RpcClient.send(nonce, {
-      method: "listtransactions",
-      params: ["*", count, skip, includeWatchOnly],
-      walletName,
-    });
+    RpcClient.send(
+      nonce,
+      {
+        method: "listtransactions",
+        params: ["*", count, skip, includeWatchOnly],
+        walletName,
+      },
+      cacheDuration,
+    );
 
   static walletPassPhrase = (
     nonce: NONCE,

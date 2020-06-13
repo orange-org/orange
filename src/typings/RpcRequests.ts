@@ -134,28 +134,35 @@ export type GetNewAddressRpcRequest = {
   walletName: string;
 };
 
+export type GetBalanceRpcRequest = {
+  method: "getbalance";
+  params: ["*", number, boolean, boolean];
+  walletName: string;
+};
+
 export type RpcRequest =
-  | NetworkInfoRpcRequest
-  | GetNewAddressRpcRequest
-  | WalletLockRpcRequest
   | BestBlockHashRpcRequest
   | BlockchainInfoRpcRequest
-  | LoadWalletRpcRequest
-  | BlockRpcRequest
-  | UptimeRpcRequest
-  | PeerInfoRpcRequest
-  | MempoolInfoRpcRequest
-  | SetNetworkActiveRpcRequest
-  | ListWalletDirRpcRequest
-  | RpcInfoRpcRequest
-  | ListTransactionsRpcRequest
-  | ChainTipsRpcRequest
-  | BlockHeaderRpcRequest
-  | WalletPassPhraseRpcRequest
   | BlockHashRpcRequest
-  | ListWalletsRpcRequest
-  | SetHdSeed
+  | BlockHeaderRpcRequest
+  | BlockRpcRequest
+  | ChainTipsRpcRequest
   | CreateWalletRpcRequest
-  | RawTransactionRpcRequest;
+  | GetBalanceRpcRequest
+  | GetNewAddressRpcRequest
+  | ListTransactionsRpcRequest
+  | ListWalletDirRpcRequest
+  | ListWalletsRpcRequest
+  | LoadWalletRpcRequest
+  | MempoolInfoRpcRequest
+  | NetworkInfoRpcRequest
+  | PeerInfoRpcRequest
+  | RawTransactionRpcRequest
+  | RpcInfoRpcRequest
+  | SetHdSeed
+  | SetNetworkActiveRpcRequest
+  | UptimeRpcRequest
+  | WalletLockRpcRequest
+  | WalletPassPhraseRpcRequest;
 
 export type RpcRequestWithNonce = { nonce: NONCE } & RpcRequest;

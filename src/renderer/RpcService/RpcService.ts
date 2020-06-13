@@ -150,4 +150,17 @@ export class RpcService {
       method: "loadwallet",
       params: [walletName],
     });
+
+  static getBalance = (
+    nonce: NONCE,
+    walletName: string,
+    minConf: number = 0,
+    includeWatchOnly: boolean = true,
+    avoidReuse: boolean = false,
+  ) =>
+    RpcClient.send(nonce, {
+      method: "getbalance",
+      params: ["*", minConf, includeWatchOnly, avoidReuse],
+      walletName,
+    });
 }

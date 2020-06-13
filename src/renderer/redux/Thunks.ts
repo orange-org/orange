@@ -195,4 +195,14 @@ export class Thunks {
 
     return transactionList;
   };
+
+  static getBalance = (nonce: NONCE, walletName: string) => async (
+    dispatch: Dispatch,
+  ) => {
+    const balance = await RpcService.getBalance(nonce, walletName);
+
+    dispatch(Actions.setBalance(balance));
+
+    return balance;
+  };
 }

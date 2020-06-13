@@ -25,6 +25,7 @@ export type State = StateConfig<{
   peerInfo: PeerInfo;
   transactionList: WalletTransactionList;
   walletList: WalletList;
+  balance: number;
 }>;
 
 class ReducerCreator {
@@ -42,6 +43,7 @@ class ReducerCreator {
     peerInfo: null,
     transactionList: null,
     walletList: null,
+    balance: null,
   };
 
   static create = () =>
@@ -83,6 +85,10 @@ class ReducerCreator {
       .handleAction(Actions.setTransactionList, (state, action) => ({
         ...state,
         transactionList: action.payload,
+      }))
+      .handleAction(Actions.setBalance, (state, action) => ({
+        ...state,
+        balance: action.payload,
       }))
       .handleAction(Actions.setPeerInfo, (state, action) => ({
         ...state,

@@ -19,6 +19,7 @@ import {
   WalletLockRpcRequest,
   GetNewAddressRpcRequest,
   LoadWalletRpcRequest,
+  GetBalanceRpcRequest,
 } from "_t/RpcRequests";
 import { ObjectValues } from "./typeHelpers";
 
@@ -436,8 +437,14 @@ export type LoadWalletRpcResponse = CreateRpcResponse<
   ""
 >;
 
+export type GetBalanceRpcResponse = CreateRpcResponse<
+  GetBalanceRpcRequest["method"],
+  number
+>;
+
 export type RpcResponse =
   | NetworkInfoRpcResponse
+  | GetBalanceRpcResponse
   | GetNewAddressRpcResponse
   | WalletLockRpcResponse
   | LoadWalletRpcResponse

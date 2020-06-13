@@ -56,4 +56,6 @@ export class Actions {
   >();
 
   static setWalletList = createAction("SET_LOADED_WALLET_LIST")<WalletList>();
+
+  static setBalance = createAction("SET_BALANCE")<number>();
 }

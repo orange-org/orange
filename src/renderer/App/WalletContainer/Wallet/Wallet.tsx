@@ -6,7 +6,7 @@ import { Thunks } from "_r/redux/Thunks";
 import { WalletReceive } from "./WalletReceiveDialog/WalletReceiveDialog";
 import { WalletTransactions } from "./WalletTransactions/WalletTransactions";
 import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
-import { useTransactionList } from "../common/useTransactionList";
+import { useTransactionList } from "./common/useTransactionList";
 
 const useAutomaticRedirect = () => {
   const { walletName } = useParams();

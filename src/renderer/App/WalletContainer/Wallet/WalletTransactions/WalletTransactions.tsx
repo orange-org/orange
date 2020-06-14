@@ -1,4 +1,4 @@
-import { Typography, Paper } from "@material-ui/core";
+import { Typography, Paper, Button } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Thunks } from "_r/redux/Thunks";
@@ -10,6 +10,7 @@ import { red, green } from "@material-ui/core/colors";
 import { Constants } from "_c/constants";
 import { Utils } from "_r/utils/Utils";
 import { AppBarPortal } from "_r/App/AppBar/AppBar";
+import { CallMade, CallReceived, Loop } from "@material-ui/icons";
 import { useWalletName } from "../common/useWalletName";
 
 const pollInterval = 5000;
@@ -118,8 +119,40 @@ export const WalletTransactions = () => {
   return (
     <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
       <AppBarPortal>
-        <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
-          <Typography variant="h2">Balance: ₿{balance}</Typography>
+        <div
+          className={a(
+            "maxWidth800",
+            "marginLeftAuto",
+            "marginRightAuto",
+            "displayFlex",
+            "alignItemsCenter",
+          )}
+        >
+          <Typography variant="h2">₿{balance}</Typography>
+
+          <Button
+            color="primary"
+            className={a("marginLeft10")}
+            endIcon={<CallMade />}
+          >
+            Send
+          </Button>
+
+          <Button
+            color="primary"
+            className={a("marginLeft04")}
+            endIcon={<CallReceived />}
+          >
+            Receive
+          </Button>
+
+          <Button
+            color="primary"
+            className={a("marginLeft04")}
+            endIcon={<Loop />}
+          >
+            Move funds
+          </Button>
         </div>
       </AppBarPortal>
 

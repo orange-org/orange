@@ -34,16 +34,25 @@ export const AppBar: React.FC = () => {
           "borderColorSecondaryMain",
         )}
       >
-        <Toolbar variant={FeatureFlags.enableExplorer ? "regular" : "dense"}>
-          <Typography variant="h6" color="inherit">
-            {productName}
-          </Typography>
+        <Toolbar
+          className={a("displayGrid")}
+          variant={FeatureFlags.enableExplorer ? "regular" : "dense"}
+          style={{
+            gridTemplateColumns: "100px auto 100px",
+          }}
+        >
+          <div>
+            <Typography variant="h6" color="inherit">
+              {productName}
+            </Typography>
+            {FeatureFlags.enableExplorer ? <SearchBox /> : null}
+          </div>
 
-          {FeatureFlags.enableExplorer ? <SearchBox /> : null}
+          <div id="appBarPortal" />
 
-          <div className={a("flexGrow1")} id="appBarPortal" />
-
-          <StatusIndicator />
+          <div className={a("displayFlex", "justifyContentFlexEnd")}>
+            <StatusIndicator />
+          </div>
         </Toolbar>
       </div>
     </MuiAppBar>

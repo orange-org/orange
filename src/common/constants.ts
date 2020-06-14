@@ -20,4 +20,6 @@ export class Constants {
   } as const;
 
   static defaultServerUrl = "http://127.0.0.1:8332";
+
+  static b = "₿";
 }

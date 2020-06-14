@@ -1,17 +1,28 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useHistory, useParams } from "react-router-dom";
 import { useLocationStateBackground } from "_r/App/hooks/useLocationStateBackground";
 import { Thunks } from "_r/redux/Thunks";
+import { Selectors } from "_r/redux/Selectors";
 import { WalletReceive } from "./WalletReceiveDialog/WalletReceiveDialog";
 import { WalletTransactions } from "./WalletTransactions/WalletTransactions";
 import { WalletWelcome } from "./WalletWelcome/WalletWelcome";
-import { useTransactionList } from "./common/useTransactionList";
+import { useWalletName } from "./common/useWalletName";
+
+const useTransactionList = () => {
+  const dispatch = useDispatch();
+  const walletName = useWalletName();
+
+  useEffect(() => {
+    dispatch(Thunks.listTransactions(__NONCE__, walletName!));
+  }, [dispatch, walletName]);
+
+  return useSelector(Selectors.transactionList);
+};
 
 const useAutomaticRedirect = () => {
   const { walletName } = useParams();
   const history = useHistory();
-  const dispatch = useDispatch();
   const transactionList = useTransactionList();
 
   useEffect(() => {
@@ -22,7 +33,8 @@ const useAutomaticRedirect = () => {
         }`,
       );
     }
-  }, [dispatch, history, transactionList, walletName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!transactionList]);
 };
 
 export const Wallet = () => {

@@ -1,10 +1,21 @@
 import { AppBar as MuiAppBar, Toolbar, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useRef } from "react";
 import { productName } from "_r/../../package.json";
 import { useAtomicCss } from "_r/useAtomicCss";
 import { FeatureFlags } from "_f/FeatureFlags";
+import { createPortal } from "react-dom";
 import { SearchBox } from "./SearchBox/SearchBox";
 import { StatusIndicator } from "./StatusIndicator/StatusIndicator";
+
+export const AppBarPortal: React.FC = props => {
+  const appBarPortalEl = useRef(document.getElementById("appBarPortal"));
+
+  if (!appBarPortalEl.current) {
+    return null;
+  }
+
+  return createPortal(props.children, appBarPortalEl.current);
+};
 
 export const AppBar: React.FC = () => {
   const a = useAtomicCss();
@@ -30,7 +41,7 @@ export const AppBar: React.FC = () => {
 
           {FeatureFlags.enableExplorer ? <SearchBox /> : null}
 
-          <div className={a("flexGrow1")} />
+          <div className={a("flexGrow1")} id="appBarPortal" />
 
           <StatusIndicator />
         </Toolbar>

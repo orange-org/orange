@@ -9,6 +9,7 @@ import { WalletTransaction, WalletTransactionList } from "_t/RpcResponses";
 import { red, green } from "@material-ui/core/colors";
 import { Constants } from "_c/constants";
 import { Utils } from "_r/utils/Utils";
+import { AppBarPortal } from "_r/App/AppBar/AppBar";
 import { useWalletName } from "../common/useWalletName";
 
 const pollInterval = 5000;
@@ -116,7 +117,11 @@ export const WalletTransactions = () => {
 
   return (
     <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
-      <Typography variant="h2">Balance: ₿{balance}</Typography>
+      <AppBarPortal>
+        <div className={a("maxWidth800", "marginLeftAuto", "marginRightAuto")}>
+          <Typography variant="h2">Balance: ₿{balance}</Typography>
+        </div>
+      </AppBarPortal>
 
       <div className={a("marginTop05")}>
         <div>

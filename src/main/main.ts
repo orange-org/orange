@@ -5,7 +5,7 @@ import { squirrelEvents } from "./SquirrelEvents/SquirrelEvents";
 import { windowManager } from "./WindowManager/WindowManager";
 import { Utils } from "./common/Utils";
 import { ChromeExtensions } from "./ChromeExtensions/ChromeExtensions";
-import { core } from "./Core/Core";
+import { backendServicesManager } from "./BackendServicesManager/BackendServicesManager";
 
 export class Main {
   private isStarted = false;
@@ -31,7 +31,7 @@ export class Main {
       return;
     }
 
-    core.spawn();
+    backendServicesManager.spawn();
 
     /* istanbul ignore if */
     if (Utils.isDevelopment()) {
@@ -48,7 +48,7 @@ export class Main {
       this.isQuitting = true;
 
       windowManager.close();
-      await core.stop();
+      await backendServicesManager.stop();
       app.quit();
     }
   };

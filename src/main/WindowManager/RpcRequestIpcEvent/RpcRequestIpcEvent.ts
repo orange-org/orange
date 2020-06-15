@@ -1,6 +1,5 @@
 import { Constants } from "_c/constants";
-import { RpcServerConfigurations } from "_m/common/RpcServerConfigurations";
-import { MainRpcClient } from "_m/WindowManager/RpcRequestIpcEvent/MainRpcClient/MainRpcClient";
+import { backendServicesManager } from "_m/BackendServicesManager/BackendServicesManager";
 import {
   SendableMessageToMain,
   SendableMessageToRenderer,
@@ -14,10 +13,7 @@ export class RpcRequestIpcEvent {
     let response!: RpcResponse;
 
     try {
-      response = await MainRpcClient.call(
-        data.payload,
-        RpcServerConfigurations,
-      );
+      response = await backendServicesManager.callCore(data.payload);
     } catch (error) {
       const errorResponse = {
         result: null,

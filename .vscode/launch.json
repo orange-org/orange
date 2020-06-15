@@ -15,8 +15,8 @@
       "args": [
         "./artifacts/webpack",
         "--args",
-        "--testnet"
-        // "--datadir=/Users/mk/Library/Application Support/Bitcoin"
+        // "--testnet",
+        "--core.datadir=/Users/mk/bitcoin-core-full-node-datadir"
       ],
       "outputCapture": "std",
       "preLaunchTask": "_webpack-build-main",

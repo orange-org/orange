@@ -22,5 +22,6 @@
   "rewrap.wrappingColumn": 80,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }

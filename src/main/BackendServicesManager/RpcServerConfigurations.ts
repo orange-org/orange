@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto";
-import { commandLineArgs } from "./CommandLineArgs";
-import { Utils } from "./Utils";
+import { Utils } from "_m/common/Utils";
+import { commandLineArgs } from "_m/common/CommandLineArgs";
 
 export class RpcServerConfigurations {
   private static generateRandomPassword = () =>

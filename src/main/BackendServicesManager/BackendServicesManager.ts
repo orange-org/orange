@@ -2,6 +2,7 @@
 /* eslint-disable no-constant-condition */
 import { Core } from "_m/BackendServicesManager/Core/Core";
 import { Utils } from "_m/common/Utils";
+import { Constants } from "_c/constants";
 import { Lnd } from "./Lnd/Lnd";
 
 class BackendServicesManager {
@@ -9,10 +10,16 @@ class BackendServicesManager {
 
   private spawnLndWhenCoreIsReady = async () => {
     while (true) {
-      const response = await this.callCore({ method: "uptime" });
+      try {
+        const response = await this.callCore({ method: "uptime" });
 
-      if (response.result) {
-        break;
+        if (response.result) {
+          break;
+        }
+      } catch (error) {
+        if (error.code !== Constants.nodeError.ECONNREFUSED) {
+          throw error;
+        }
       }
 
       await Utils.delay(500);

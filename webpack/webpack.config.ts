@@ -12,6 +12,9 @@ import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import getContentSecurityPolicy from "./getContentSecurityPolicy";
 import getIsDevelopment from "./getIsDevelopment";
 
+/**
+ * This ensures TsconfigPathsPlugin doesn't get confused
+ */
 delete process.env.TS_NODE_PROJECT;
 
 const root = resolve(__dirname, "..");
@@ -61,7 +64,18 @@ export const configuration: Configuration = {
 
       {
         test: /\.css$/i,
-        use: [{ loader: "style-loader" }, "css-loader"],
+        use: [
+          "style-loader",
+          "@teamsupercell/typings-for-css-modules-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]_[local]_[hash:base64:5]",
+              },
+            },
+          },
+        ],
       },
 
       {

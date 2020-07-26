@@ -30,18 +30,18 @@
     "noEmitHelpers": true,
     "removeComments": true,
     "stripInternal": true,
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
 
-    "paths": {
-      "_r/*": ["src/renderer/*"],
-      "_m/*": ["src/main/*"],
-      "_a/*": ["src/assets/*"],
-      "_t/*": ["src/renderer/typings/*"],
-      "_c/*": ["src/renderer/common/*"],
-      "_tu/*": ["src/renderer/testUtils/*"],
-      "_f/*": ["src/renderer/FeatureFlags/*"],
-      "__mocks__/*": ["__mocks__/*"]
-    }
+    // "paths": {
+    //   "_r/*": ["src/renderer/*"],
+    //   "_m/*": ["src/main/*"],
+    //   "_a/*": ["src/assets/*"],
+    //   "_t/*": ["src/renderer/typings/*"],
+    //   "_c/*": ["src/renderer/common/*"],
+    //   "_tu/*": ["src/renderer/testUtils/*"],
+    //   "_f/*": ["src/renderer/FeatureFlags/*"],
+    //   "__mocks__/*": ["__mocks__/*"]
+    // }
   },
   "include": ["src/**/*", "webpack/**/*", "scripts/**/*", ".github/action/**/*.ts"]
 }

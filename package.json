@@ -18,7 +18,7 @@
     "check:typescript": "npm run _typescript",
     "check:depcheck": "depcheck",
     "check": "run-p --aggregate-output -cln check:*",
-    "develop": "cross-env NODE_ENV=development run-s _webpack-build-main _electron",
+    "develop": "cross-env NODE_ENV=development run-s _webpack-server",
     "trigger-release": "cross-env TS_NODE_PROJECT='commonjsTsconfig/tsconfig.json' ts-node scripts/triggerRelease.ts",
     "see-coverage": "run-s --continue-on-error --silent '_test-with-coverage -- --coverageThreshold={}' _open-coverage-results",
     "test": "jest",
@@ -27,9 +27,7 @@
     "_rimraf-artifacts": "rimraf artifacts",
     "_test-with-coverage": "npm run test -- --coverage",
     "_typescript": "tsc --noEmit",
-    "_webpack-build-main": "cross-env TS_NODE_PROJECT='commonjsTsconfig/tsconfig.json' webpack --config webpack/webpack.main.config.ts",
-    "_webpack-build-renderer": "cross-env TS_NODE_PROJECT='commonjsTsconfig/tsconfig.json' webpack --config webpack/webpack.renderer.config.ts",
-    "_webpack-server": "cross-env TS_NODE_PROJECT='commonjsTsconfig/tsconfig.json' webpack-dev-server --config webpack/webpack.renderer.dev.config.ts"
+    "_webpack-server": "cross-env TS_NODE_PROJECT='commonjsTsconfig/tsconfig.json' webpack-dev-server --config webpack/webpack.dev.config.ts"
   },
   "devDependencies": {
     "@actions/artifact": "^0.3.2",
@@ -93,6 +91,7 @@
     "file-loader": "^5.0.2",
     "formik": "^2.1.4",
     "fs-extra": "^9.0.0",
+    "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^3.1.0",
     "jest": "^25.1.0",

@@ -2,9 +2,9 @@ import getIsDevelopment from "./getIsDevelopment";
 
 const isDevelopment = getIsDevelopment();
 
-export default (nonce: string) =>
+export default () =>
   [
-    ["style-src-elem", `'self' 'nonce-${nonce}'`],
+    ["style-src-elem", `'self'`],
     [
       "connect-src",
       isDevelopment
@@ -28,7 +28,7 @@ export default (nonce: string) =>
     // Allow unsafe eval during development for hot module replacement
     ["script-src", isDevelopment ? "'unsafe-eval'" : "'none'"],
     ["script-src-attr", "'none'"],
-    ["style-src", `'self' 'nonce-${nonce}'`],
+    ["style-src", `'self'`],
     ["style-src-attr", isDevelopment ? "'self'" : "'none'"],
     ["worker-src", "'none'"],
     ["base-uri", "'none'"],

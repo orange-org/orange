@@ -1,7 +1,7 @@
 import merge from "webpack-merge";
-import baseRendererConfig from "./webpack.renderer.config";
+import { configuration } from "./webpack.config";
 
-export default merge.smart(baseRendererConfig, {
+export default merge.smart(configuration, {
   resolve: {
     alias: {
       "react-dom": "@hot-loader/react-dom",
@@ -9,7 +9,6 @@ export default merge.smart(baseRendererConfig, {
   },
 
   devServer: {
-    writeToDisk: true,
     port: 2003,
     compress: true,
     stats: "errors-only",

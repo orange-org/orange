@@ -36,10 +36,10 @@
       "_r/*": ["src/renderer/*"],
       "_m/*": ["src/main/*"],
       "_a/*": ["src/assets/*"],
-      "_t/*": ["src/typings/*"],
-      "_c/*": ["src/common/*"],
-      "_tu/*": ["src/testUtils/*"],
-      "_f/*": ["src/FeatureFlags/*"],
+      "_t/*": ["src/renderer/typings/*"],
+      "_c/*": ["src/renderer/common/*"],
+      "_tu/*": ["src/renderer/testUtils/*"],
+      "_f/*": ["src/renderer/FeatureFlags/*"],
       "__mocks__/*": ["__mocks__/*"]
     }
   },

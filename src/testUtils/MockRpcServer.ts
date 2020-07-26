@@ -1,12 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 import { matches } from "lodash";
 import nock from "nock";
-import { NODE_ERROR } from "_c/constants";
-import { MockElectron } from "_tu/MockElectron";
-import { Block, RawTransaction } from "_t/RpcResponses";
-import { blockchainInfoFixture1 } from "_tu/fixtures/blockchainInfoFixtures";
-import * as blockFixtures from "_tu/fixtures/blockFixtures";
-import * as transactionFixtures from "_tu/fixtures/transactionFixtures";
+import { NODE_ERROR } from "_r/common/constants";
+import { MockElectron } from "_r/testUtils/MockElectron";
+import { Block, RawTransaction } from "_r/typings/RpcResponses";
+import { blockchainInfoFixture1 } from "_r/testUtils/fixtures/blockchainInfoFixtures";
+import * as blockFixtures from "_r/testUtils/fixtures/blockFixtures";
+import * as transactionFixtures from "_r/testUtils/fixtures/transactionFixtures";
 import { mempoolFixture01 } from "./fixtures/mempoolFixtures";
 
 export class MockRpcServer {

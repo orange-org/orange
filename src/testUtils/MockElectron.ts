@@ -1,6 +1,6 @@
 import { vol } from "memfs";
 import { app, BrowserWindow } from "__mocks__/electron";
-import { DEFAULT_SERVER_URL } from "_c/constants";
+import { DEFAULT_SERVER_URL } from "_r/common/constants";
 import { Main } from "_m/main";
 import { Preload } from "_m/preload";
 

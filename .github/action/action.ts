@@ -1,6 +1,5 @@
 import * as core from "@actions/core";
 import bluebird from "bluebird";
-import { createExecutable } from "./createExecutable";
 import { execWithErrorMessage } from "./utils";
 import { draftRelease } from "./draftRelease";
 
@@ -12,10 +11,6 @@ const action = async () => {
   }
 
   const task = core.getInput("task");
-
-  if (task === "create-executable") {
-    return await createExecutable();
-  }
 
   if (task === "draft-release") {
     return await draftRelease();

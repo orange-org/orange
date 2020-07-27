@@ -9,6 +9,7 @@ export default merge.smart(configuration, {
   },
 
   devServer: {
+    writeToDisk: true,
     port: 2003,
     compress: true,
     stats: "errors-only",

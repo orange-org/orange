@@ -41,7 +41,7 @@ export const configuration: Configuration = {
   },
 
   output: {
-    path: `${root}/artifacts/webpack/renderer`,
+    path: `${root}/artifacts`,
     filename: "[name].js",
   },
 

@@ -30,6 +30,27 @@ module.exports = {
     "react/destructuring-assignment": "off", // to allow `props.whateverProp`
     "arrow-body-style": ["error", "as-needed"],
     "no-console": "error",
+    "no-plusplus": "off",
+    "no-await-in-loop": "off",
+    camelcase: [
+      "error",
+      {
+        allow: [
+          "chain_stats",
+          "funded_txo_count",
+          "funded_txo_sum",
+          "spent_txo_count",
+          "spent_txo_sum",
+          "tx_count",
+          "mempool_stats",
+          "funded_txo_count",
+          "funded_txo_sum",
+          "spent_txo_count",
+          "spent_txo_sum",
+          "tx_count",
+        ],
+      },
+    ],
     "import/no-extraneous-dependencies": "off",
     "react/display-name": "error",
     "react-hooks/rules-of-hooks": "error",

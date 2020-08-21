@@ -1,7 +1,10 @@
 import * as bip39 from "bip39";
 import * as bip32 from "bip32";
 import * as bs58 from "bs58check";
+import * as bitcoinjs from "bitcoinjs-lib";
 import createHash from "create-hash";
+import { Constants } from "src/common/constants";
+import { BlockchainService as TBlockchainService } from "./BlockchainService";
 
 export class Wallet {
   static generateMnemonic = () => bip39.generateMnemonic();
@@ -19,15 +22,67 @@ export class Wallet {
     const child = root.derivePath(path).neutered();
     const xpub = child.toBase58();
 
-    // Convert to zpub
-    const xpubBuffer = bs58.decode(xpub);
-    const xpubBufferWithoutVersion = xpubBuffer.slice(4);
-    const zpubBuffer = Buffer.concat([
-      Buffer.from("04b24746", "hex"),
-      xpubBufferWithoutVersion,
-    ]);
-    const zpub = bs58.encode(zpubBuffer);
+    return xpub;
+  };
 
-    return zpub;
+  private static fetchAllAddressData = async (
+    node: bip32.BIP32Interface,
+    BlockchainService: TBlockchainService,
+  ) => {
+    const addresses: string[] = [];
+
+    let gap = 0;
+    let addressIndex = 0;
+    let balance = 0;
+    let pendingBalance = 0;
+    while (gap <= Constants.gapLimit) {
+      const childNode = node.derive(addressIndex);
+      const { address } = bitcoinjs.payments.p2wpkh({
+        pubkey: childNode.publicKey,
+      });
+
+      console.log("address", address);
+
+      const addressData = await BlockchainService.fetchAddressData(address!);
+
+      if (addressData.chain_stats.tx_count === 0) {
+        gap++;
+      } else {
+        gap = 0;
+      }
+
+      const { chain_stats, mempool_stats } = addressData;
+      balance += chain_stats.funded_txo_sum - chain_stats.spent_txo_sum;
+      pendingBalance +=
+        mempool_stats.funded_txo_sum - mempool_stats.spent_txo_sum;
+
+      addresses.push(addressData.address);
+      addressIndex++;
+    }
+
+    return { balance, pendingBalance, addresses };
+  };
+
+  static fetchInitialState = async (
+    masterPublicKey: string,
+    BlockchainService: TBlockchainService,
+  ) => {
+    const hdNode = bip32.fromBase58(masterPublicKey);
+    const [addressData, changeAddressData] = await Promise.all([
+      Wallet.fetchAllAddressData(hdNode.derive(0), BlockchainService),
+      Wallet.fetchAllAddressData(hdNode.derive(1), BlockchainService),
+    ]);
+    const balance = addressData.balance + changeAddressData.balance;
+    const pendingBalance =
+      addressData.pendingBalance + changeAddressData.pendingBalance;
+    const { addresses } = addressData;
+    const changeAddresses = changeAddressData.addresses;
+
+    return {
+      balance,
+      pendingBalance,
+      addresses,
+      changeAddresses,
+    };
   };
 }

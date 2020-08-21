@@ -5,12 +5,16 @@ import { StateConfig } from "src/typings/typeHelpers";
 export type State = StateConfig<{
   walletId: string;
   walletMasterPublicKey: string;
-}>;
+}> &
+  Readonly<{
+    walletNextFreeAddress: number;
+  }>;
 
 class ReducerCreator {
   private static initialState: State = {
     walletId: null,
     walletMasterPublicKey: null,
+    walletNextFreeAddress: 0,
   };
 
   static create = () =>

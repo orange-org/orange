@@ -1,4 +1,4 @@
-import { State } from "_r/redux/ReducerCreator";
+import { State } from "src/data/ReducerCreator";
 import { RpcRequest } from "./RpcRequests";
 import { RpcResponse } from "./RpcResponses";
 

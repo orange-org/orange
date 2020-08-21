@@ -1,4 +1,4 @@
-import { RawTransaction } from "_r/typings/RpcResponses";
+import { RawTransaction } from "src/data/node_modules/_r/typings/RpcResponses";
 
 export const rawTransactionFixture1: RawTransaction = {
   txid: "d1a52e20fa7108aeeb678f669210c4f5ad0135b3b18aa6081a9712c4172a9524",

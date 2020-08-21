@@ -1,4 +1,4 @@
-import { MempoolInfo } from "_r/typings/RpcResponses";
+import { MempoolInfo } from "src/data/node_modules/_r/typings/RpcResponses";
 
 export const mempoolFixture01: MempoolInfo = {
   loaded: true,

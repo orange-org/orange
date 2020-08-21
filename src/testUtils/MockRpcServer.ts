@@ -3,7 +3,10 @@ import { matches } from "lodash";
 import nock from "nock";
 import { NODE_ERROR } from "_r/common/constants";
 import { MockElectron } from "_r/testUtils/MockElectron";
-import { Block, RawTransaction } from "_r/typings/RpcResponses";
+import {
+  Block,
+  RawTransaction,
+} from "src/data/node_modules/_r/typings/RpcResponses";
 import { blockchainInfoFixture1 } from "_r/testUtils/fixtures/blockchainInfoFixtures";
 import * as blockFixtures from "_r/testUtils/fixtures/blockFixtures";
 import * as transactionFixtures from "_r/testUtils/fixtures/transactionFixtures";

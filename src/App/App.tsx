@@ -1,27 +1,32 @@
-// @ts-ignore
-import "src/global.css";
+import "sakura.css/css/normalize.css";
+import "sakura.css/css/sakura-dark.css";
 
 import React, { StrictMode } from "react";
-import { cn } from "src/cn";
-import s from "src/styles.css";
-import { TransactionList } from "./TransactionList/TransactionList";
+import { store } from "src/data/StoreCreator";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Home } from "./Home/Home";
+import { Wallet } from "./Wallet/Wallet";
 
 const App = () => (
   <StrictMode>
-    <div {...cn(s.maxWidth400, s.marginY0, s.marginXAuto, s.fontFamilySerif)}>
-      <h1
-        {...cn(
-          s.fontWeightBold,
-          s.margin2,
-          s.colorGray900,
-          s.fontSize150Percent,
-          s.marginLeft0,
-        )}
-      >
-        Orange
-      </h1>
-      <TransactionList />
-    </div>
+    <Provider store={store}>
+      <Router>
+        <h1>
+          <Link to="/">Orange</Link>
+        </h1>
+
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+
+          <Route path="/wallet">
+            <Wallet />
+          </Route>
+        </Switch>
+      </Router>
+    </Provider>
   </StrictMode>
 );
 

@@ -5,11 +5,11 @@ import {
   ActionCreatorBuilder,
 } from "typesafe-actions";
 
-export type RootAction = ActionType<typeof import("../redux/Actions")>;
+export type WalletActions = ActionType<typeof import("../data/WalletActions")>;
 
 declare module "typesafe-actions" {
   interface Types {
-    RootAction: RootAction;
+    RootAction: WalletActions;
   }
 
   export function createAction<TType extends TypeConstant>(

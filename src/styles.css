@@ -15,6 +15,10 @@
   color: var(--gray800);
 }
 
+.displayBlock {
+  display: block;
+}
+
 .fontFamilySerif {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -47,4 +51,12 @@
 
 .maxWidth400 {
   max-width: 400px;
+}
+
+.overflowHidden {
+  overflow: hidden;
+}
+
+.textOverflowEllipsis {
+  text-overflow: ellipsis;
 }

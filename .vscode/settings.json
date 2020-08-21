@@ -22,5 +22,8 @@
   "rewrap.wrappingColumn": 80,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "[markdown]": {
+    "editor.rulers": [50]
   }
 }

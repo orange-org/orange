@@ -1,4 +1,4 @@
-import { Block } from "_r/typings/RpcResponses";
+import { Block } from "src/data/node_modules/_r/typings/RpcResponses";
 
 export const blockFixture20: Block = {
   hash: "00000000000000daf54a28b5ddff93a8ab735effeee8b917a2d0ec72ac02dc66",

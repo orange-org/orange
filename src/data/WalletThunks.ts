@@ -23,6 +23,13 @@ export class WalletThunks {
   ) => {
     const initialState = await Wallet.fetchInitialState(pubkey, esplora);
 
-    console.log("initialState", initialState);
+    dispatch(WalletActions.setWalletAddresses(initialState.addresses));
+    dispatch(
+      WalletActions.setWalletChangeAddresses(initialState.changeAddresses),
+    );
+    dispatch(WalletActions.setWalletBalance(initialState.balance));
+    dispatch(
+      WalletActions.setWalletPendingBalance(initialState.pendingBalance),
+    );
   };
 }

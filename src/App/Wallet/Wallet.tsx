@@ -3,6 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import { CreateWallet } from "./CreateWallet/CreateWallet";
 import { ImportWallet } from "./ImportWallet/ImportWallet";
 import { WalletHome } from "./WalletHome/WalletHome";
+import { WalletSend } from "./WalletSend/WalletSend";
+import { WalletReceive } from "./WalletReceive/WalletReceive";
 
 export const Wallet = () => (
   <Switch>
@@ -12,6 +14,14 @@ export const Wallet = () => (
 
     <Route path="/wallet/import">
       <ImportWallet />
+    </Route>
+
+    <Route path="/wallet/send">
+      <WalletSend />
+    </Route>
+
+    <Route path="/wallet/receive">
+      <WalletReceive />
     </Route>
 
     <Route path="/wallet">

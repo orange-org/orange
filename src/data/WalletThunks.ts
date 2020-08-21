@@ -21,15 +21,11 @@ export class WalletThunks {
   static loadWalletInitialState = (pubkey: string) => async (
     dispatch: Dispatch,
   ) => {
-    const initialState = await Wallet.fetchInitialState(pubkey, esplora);
+    const initialState = await Wallet.fetchAddressesSummary(pubkey, esplora);
 
     dispatch(WalletActions.setWalletAddresses(initialState.addresses));
     dispatch(
       WalletActions.setWalletChangeAddresses(initialState.changeAddresses),
-    );
-    dispatch(WalletActions.setWalletBalance(initialState.balance));
-    dispatch(
-      WalletActions.setWalletPendingBalance(initialState.pendingBalance),
     );
   };
 }

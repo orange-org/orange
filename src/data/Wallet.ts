@@ -4,7 +4,7 @@ import * as bs58 from "bs58check";
 import * as bitcoinjs from "bitcoinjs-lib";
 import createHash from "create-hash";
 import { Constants } from "src/common/constants";
-import { BlockchainService } from "./BlockchainService";
+import { BlockchainService, AddressData } from "./BlockchainService";
 
 export class Wallet {
   static generateMnemonic = () => bip39.generateMnemonic();
@@ -29,7 +29,7 @@ export class Wallet {
     node: bip32.BIP32Interface,
     blockchainService: BlockchainService,
   ) => {
-    const addresses: string[] = [];
+    const allAddressData: AddressData[] = [];
 
     let gap = 0;
     let addressIndex = 0;
@@ -54,31 +54,24 @@ export class Wallet {
       pendingBalance +=
         mempool_stats.funded_txo_sum - mempool_stats.spent_txo_sum;
 
-      addresses.push(addressData.address);
+      allAddressData.push(addressData);
       addressIndex++;
     }
 
-    return { balance, pendingBalance, addresses };
+    return allAddressData;
   };
 
-  static fetchInitialState = async (
+  static fetchAddressesSummary = async (
     masterPublicKey: string,
     blockchainService: BlockchainService,
   ) => {
     const hdNode = bip32.fromBase58(masterPublicKey);
-    const [addressData, changeAddressData] = await Promise.all([
+    const [addresses, changeAddresses] = await Promise.all([
       Wallet.fetchAllAddressData(hdNode.derive(0), blockchainService),
       Wallet.fetchAllAddressData(hdNode.derive(1), blockchainService),
     ]);
-    const balance = addressData.balance + changeAddressData.balance;
-    const pendingBalance =
-      addressData.pendingBalance + changeAddressData.pendingBalance;
-    const { addresses } = addressData;
-    const changeAddresses = changeAddressData.addresses;
 
     return {
-      balance,
-      pendingBalance,
       addresses,
       changeAddresses,
     };

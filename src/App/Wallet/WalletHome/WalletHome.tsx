@@ -2,25 +2,43 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cn } from "src/cn";
 import s from "src/styles.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { WalletThunks } from "src/data/WalletThunks";
+import { AddressData } from "src/data/BlockchainService";
+import { Selectors } from "src/data/Selectors";
 
 const useGlobalState = () => {
   return {
     walletMasterPublicKey: useSelector(state => state.walletMasterPublicKey),
-    walletBalance: useSelector(state => state.walletBalance),
-    walletPendingBalance: useSelector(state => state.walletPendingBalance),
     walletAddresses: useSelector(state => state.walletAddresses),
     walletChangeAddresses: useSelector(state => state.walletChangeAddresses),
+    walletAddressesAnalysis: useSelector(Selectors.getAddressesAnalysis),
+  };
+};
+
+const useFetchWalletState = () => {
+  const dispatch = useDispatch();
+  const [isFetchingState, setFetchingState] = useState(false);
+
+  return {
+    fetchWalletState: async (walletMasterPublicKey: string) => {
+      setFetchingState(true);
+      await dispatch(
+        WalletThunks.loadWalletInitialState(walletMasterPublicKey),
+      );
+      setFetchingState(false);
+
+      return isFetchingState;
+    },
+
+    isFetchingState,
   };
 };
 
 const useInitialFetch = (walletMasterPublicKey: string | null) => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [isFetchingInitialState, setFetchingInitialState] = useState<boolean>(
-    true,
-  );
+  const { fetchWalletState } = useFetchWalletState();
+  const [isInitialFetching, setInitialFetching] = useState(true);
 
   useEffect(() => {
     const request = async () => {
@@ -29,24 +47,21 @@ const useInitialFetch = (walletMasterPublicKey: string | null) => {
         return;
       }
 
-      setFetchingInitialState(true);
-      await dispatch(
-        WalletThunks.loadWalletInitialState(walletMasterPublicKey),
-      );
-      setFetchingInitialState(false);
+      await fetchWalletState(walletMasterPublicKey);
+      setInitialFetching(false);
     };
 
     request();
   }, [history, walletMasterPublicKey]);
 
-  return isFetchingInitialState;
+  return isInitialFetching;
 };
 
-const list = (addresses: string[]) => {
+const list = (addresses: AddressData[]) => {
   return (
     <ul>
-      {addresses.map(address => (
-        <li key={address}>{address}</li>
+      {addresses.map(addressData => (
+        <li key={addressData.address}>{addressData.address}</li>
       ))}
     </ul>
   );
@@ -54,9 +69,12 @@ const list = (addresses: string[]) => {
 
 export const WalletHome = () => {
   const globalState = useGlobalState();
-  const isFetchingInitialState = useInitialFetch(
-    globalState.walletMasterPublicKey,
-  );
+  const isInitialFetching = useInitialFetch(globalState.walletMasterPublicKey);
+  const {
+    fetchWalletState,
+    isFetchingState: isRefreshingState,
+  } = useFetchWalletState();
+  const isFetchingState = isInitialFetching || isRefreshingState;
 
   return (
     <>
@@ -68,15 +86,31 @@ export const WalletHome = () => {
         </code>
       </blockquote>
 
-      {isFetchingInitialState ? (
-        <h4>Loading wallet...</h4>
+      {isFetchingState ? (
+        <h4>{isRefreshingState ? "Refreshing..." : "Loading wallet..."}</h4>
       ) : (
         <>
+          <h3>Actions</h3>
+          <div>
+            <button
+              type="button"
+              onClick={() =>
+                fetchWalletState(globalState.walletMasterPublicKey!)
+              }
+            >
+              Refresh
+            </button>{" "}
+            | <button type="button">Send</button> |{" "}
+            <Link to="/wallet/receive">
+              <button type="button">Receive</button>
+            </Link>
+          </div>
+
           <h3>Balance</h3>
-          <p>{globalState.walletBalance}</p>
+          <p>{globalState.walletAddressesAnalysis?.balance}</p>
 
           <h3>Pending balance</h3>
-          <p>{globalState.walletPendingBalance}</p>
+          <p>{globalState.walletAddressesAnalysis?.pendingBalance}</p>
 
           <h3>Addresses</h3>
           {list(globalState.walletAddresses!)}

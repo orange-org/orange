@@ -4,15 +4,11 @@ import { cn } from "src/cn";
 import s from "src/styles.css";
 import { useHistory, Link } from "react-router-dom";
 import { WalletThunks } from "src/data/WalletThunks";
-import { AddressData } from "src/data/BlockchainService";
-import { Selectors } from "src/data/Selectors";
 
 const useGlobalState = () => {
   return {
     walletMasterPublicKey: useSelector(state => state.walletMasterPublicKey),
-    walletAddresses: useSelector(state => state.walletAddresses),
-    walletChangeAddresses: useSelector(state => state.walletChangeAddresses),
-    walletAddressesAnalysis: useSelector(Selectors.getAddressesAnalysis),
+    walletStats: useSelector(state => state.walletStats),
   };
 };
 
@@ -23,9 +19,7 @@ const useFetchWalletState = () => {
   return {
     fetchWalletState: async (walletMasterPublicKey: string) => {
       setFetchingState(true);
-      await dispatch(
-        WalletThunks.loadWalletInitialState(walletMasterPublicKey),
-      );
+      await dispatch(WalletThunks.loadAddressData(walletMasterPublicKey));
       setFetchingState(false);
 
       return isFetchingState;
@@ -57,11 +51,11 @@ const useInitialFetch = (walletMasterPublicKey: string | null) => {
   return isInitialFetching;
 };
 
-const list = (addresses: AddressData[]) => {
+const list = (addresses: string[]) => {
   return (
     <ul>
-      {addresses.map(addressData => (
-        <li key={addressData.address}>{addressData.address}</li>
+      {addresses.map(address => (
+        <li key={address}>{address}</li>
       ))}
     </ul>
   );
@@ -100,23 +94,26 @@ export const WalletHome = () => {
             >
               Refresh
             </button>{" "}
-            | <button type="button">Send</button> |{" "}
+            |{" "}
+            <Link to="/wallet/send">
+              <button type="button">Send</button> |{" "}
+            </Link>
             <Link to="/wallet/receive">
               <button type="button">Receive</button>
             </Link>
           </div>
 
           <h3>Balance</h3>
-          <p>{globalState.walletAddressesAnalysis?.balance}</p>
+          <p>{globalState.walletStats?.balance}</p>
 
           <h3>Pending balance</h3>
-          <p>{globalState.walletAddressesAnalysis?.pendingBalance}</p>
+          <p>{globalState.walletStats?.pendingBalance}</p>
 
           <h3>Addresses</h3>
-          {list(globalState.walletAddresses!)}
+          {list(globalState.walletStats!.addresses)}
 
           <h3>Change addresses</h3>
-          {list(globalState.walletChangeAddresses!)}
+          {list(globalState.walletStats!.changeAddresses)}
         </>
       )}
     </>

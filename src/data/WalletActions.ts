@@ -1,5 +1,5 @@
 import { createAction } from "typesafe-actions";
-import { AddressData } from "./BlockchainService";
+import { WalletStats } from "./Wallet";
 
 export class WalletActions {
   static setWalletMasterPublicKey = createAction(
@@ -8,11 +8,5 @@ export class WalletActions {
 
   static setWalletId = createAction("SET_WALLET_ID")<string>();
 
-  static setWalletAddresses = createAction("SET_WALLET_ADDRESSES")<
-    AddressData[]
-  >();
-
-  static setWalletChangeAddresses = createAction("SET_WALLET_CHANGE_ADDRESSES")<
-    AddressData[]
-  >();
+  static setWalletStats = createAction("SET_WALLET_STATS")<WalletStats>();
 }

@@ -1,13 +1,13 @@
 import { createReducer } from "typesafe-actions";
 import { WalletActions } from "src/data/WalletActions";
 import { StateConfig } from "src/typings/typeHelpers";
-import { AddressData } from "./BlockchainService";
+import { AddressStats } from "./BlockchainService";
+import { WalletStats } from "./Wallet";
 
 export type State = StateConfig<{
   walletId: string;
   walletMasterPublicKey: string;
-  walletAddresses: AddressData[];
-  walletChangeAddresses: AddressData[];
+  walletStats: WalletStats;
 }> &
   Readonly<{
     walletNextFreeAddress: number;
@@ -18,8 +18,7 @@ class ReducerCreator {
     walletId: null,
     walletMasterPublicKey: null,
     walletNextFreeAddress: 0,
-    walletAddresses: null,
-    walletChangeAddresses: null,
+    walletStats: null,
   };
 
   static create = () =>
@@ -35,17 +34,10 @@ class ReducerCreator {
           walletMasterPublicKey: action.payload,
         }),
       )
-      .handleAction(WalletActions.setWalletAddresses, (state, action) => ({
+      .handleAction(WalletActions.setWalletStats, (state, action) => ({
         ...state,
-        walletAddresses: action.payload,
-      }))
-      .handleAction(
-        WalletActions.setWalletChangeAddresses,
-        (state, action) => ({
-          ...state,
-          walletChangeAddresses: action.payload,
-        }),
-      );
+        walletStats: action.payload,
+      }));
 }
 
 export const reducer = ReducerCreator.create();

@@ -3,9 +3,11 @@ import { Wallet } from "./Wallet";
 import { WalletActions } from "./WalletActions";
 import { esplora } from "./Esplora";
 
+const wallet = new Wallet(esplora);
+
 export class WalletThunks {
   static setId = (mnemonic: string) => (dispatch: Dispatch) => {
-    dispatch(WalletActions.setWalletId(Wallet.getId(mnemonic)));
+    dispatch(WalletActions.setWalletId(wallet.getId(mnemonic)));
   };
 
   static setMasterPublicKey = (mnemonic: string) => async (
@@ -13,19 +15,14 @@ export class WalletThunks {
   ) => {
     dispatch(
       WalletActions.setWalletMasterPublicKey(
-        await Wallet.getMasterPublicKey(mnemonic),
+        await wallet.getMasterPublicKey(mnemonic),
       ),
     );
   };
 
-  static loadWalletInitialState = (pubkey: string) => async (
-    dispatch: Dispatch,
-  ) => {
-    const initialState = await Wallet.fetchAddressesSummary(pubkey, esplora);
+  static loadAddressData = (pubkey: string) => async (dispatch: Dispatch) => {
+    const walletStats = await wallet.fetchWalletStats(pubkey);
 
-    dispatch(WalletActions.setWalletAddresses(initialState.addresses));
-    dispatch(
-      WalletActions.setWalletChangeAddresses(initialState.changeAddresses),
-    );
+    dispatch(WalletActions.setWalletStats(walletStats));
   };
 }

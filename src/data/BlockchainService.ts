@@ -1,4 +1,4 @@
-export type AddressData = {
+export type AddressStats = {
   address: string;
   chain_stats: {
     funded_txo_count: number;
@@ -16,6 +16,20 @@ export type AddressData = {
   };
 };
 
+export type AddressUtxos = {
+  txid: string;
+  vout: number;
+  status: {
+    confirmed: boolean;
+    block_height: number;
+    block_hash: string;
+    block_time: number;
+  };
+  value: number;
+}[];
+
 export abstract class BlockchainService {
-  abstract fetchAddressData(address: string): Promise<AddressData>;
+  abstract fetchAddressStats(address: string): Promise<AddressStats>;
+
+  abstract fetchAddressUtxos(address: string): Promise<AddressUtxos>;
 }

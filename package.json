@@ -130,6 +130,7 @@
     "bluebird": "^3.7.2",
     "bs58check": "^2.1.2",
     "clsx": "^1.0.4",
+    "coinselect": "^3.1.12",
     "create-hash": "^1.2.0",
     "idb": "^5.0.4",
     "lodash": "^4.17.15",

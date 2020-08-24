@@ -10,12 +10,16 @@
     "Mempool",
     "SCROLLABLE",
     "Satoshi",
+    "Utxo",
+    "Utxos",
     "bitcoind",
     "btcd",
     "clsx",
     "formik",
     "start",
-    "testid"
+    "testid",
+    "txid",
+    "vout"
   ],
   "editor.formatOnSave": true,
   "editor.rulers": [80],

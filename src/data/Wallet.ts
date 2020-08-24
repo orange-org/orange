@@ -1,51 +1,69 @@
 import * as bip39 from "bip39";
 import * as bip32 from "bip32";
 import * as bitcoinjs from "bitcoinjs-lib";
-import createHash from "create-hash";
-import { BlockchainService } from "./BlockchainService";
+import coinSelectAccumulative, { Target } from "coinselect/accumulative";
+import { BlockchainService, Utxos, Utxo } from "./BlockchainService";
+
+export type AddressMetadata = {
+  address: string;
+  derivationPath: string;
+  publicKey: Buffer;
+};
 
 export type WalletStats = {
   balance: number;
   pendingBalance: number;
-  nextUnusedAddress: string;
-  nextUnusedChangeAddress: string;
-  addresses: string[];
-  changeAddresses: string[];
-  addressesWithUtxo: string[];
+  nextUnusedAddress: AddressMetadata;
+  nextUnusedChangeAddress: AddressMetadata;
+  addresses: AddressMetadata[];
+  changeAddresses: AddressMetadata[];
+  addressesWithUtxo: AddressMetadata[];
 };
+
+export type UtxoWithMetadata = Utxo & {
+  address: string;
+  derivationPath: string;
+};
+
+export type AddressCollectionStats = Omit<
+  WalletStats,
+  "nextUnusedChangeAddress" | "changeAddresses"
+>;
 
 export class Wallet {
   constructor(
     private blockchainService: BlockchainService,
     private gapLimit = 20,
+    private derivationPath = "m/84'/0'/0'",
   ) {}
 
   generateMnemonic = () => bip39.generateMnemonic();
 
-  getId = (mnemonic: string) =>
-    createHash("sha256")
-      .update(mnemonic)
-      .digest()
-      .toString("hex");
-
-  getMasterPublicKey = async (mnemonic: string) => {
+  private createHdRoot = async (mnemonic: string) => {
     const seed = await bip39.mnemonicToSeed(mnemonic);
-    const root = bip32.fromSeed(seed);
-    const path = "m/84'/0'/0'";
-    const child = root.derivePath(path).neutered();
-    const xpub = child.toBase58();
+    const hdRoot = bip32.fromSeed(seed);
 
-    return xpub;
+    return hdRoot;
   };
 
-  private fetchAddressCollectionStats = async (node: bip32.BIP32Interface) => {
+  getMasterPublicKey = async (mnemonic: string) => {
+    const hdRoot = await this.createHdRoot(mnemonic);
+    const derivedNode = hdRoot.derivePath(this.derivationPath).neutered();
+    const masterPublicKey = derivedNode.toBase58();
+
+    return masterPublicKey;
+  };
+
+  private fetchAddressCollectionStats = async (
+    node: bip32.BIP32Interface,
+  ): Promise<AddressCollectionStats> => {
     let gap = 0;
     let addressIndex = 0;
     let balance = 0;
     let pendingBalance = 0;
-    let addresses: string[] = [];
-    let addressesWithUtxo: string[] = [];
-    let nextUnusedAddress = "";
+    let addresses: AddressMetadata[] = [];
+    let addressesWithUtxo: AddressMetadata[] = [];
+    let nextUnusedAddress: AddressMetadata | null = null;
     while (gap < this.gapLimit) {
       const childNode = node.derive(addressIndex);
       const { address } = bitcoinjs.payments.p2wpkh({
@@ -63,18 +81,27 @@ export class Wallet {
         chain_stats.spent_txo_count > 0 ||
         mempool_stats.funded_txo_count > 0 ||
         mempool_stats.spent_txo_count > 0;
+      const addressBalance =
+        chain_stats.funded_txo_sum - chain_stats.spent_txo_sum;
 
-      balance += chain_stats.funded_txo_sum - chain_stats.spent_txo_sum;
+      balance += addressBalance;
       pendingBalance +=
         mempool_stats.funded_txo_sum - mempool_stats.spent_txo_sum;
-      addresses.push(address!);
 
-      if (balance > 0) {
-        addressesWithUtxo.push(address!);
+      const addressMetadata = {
+        address: address!,
+        derivationPath: `${node.index}/${addressIndex}`,
+        publicKey: childNode.publicKey,
+      };
+
+      addresses.push(addressMetadata);
+
+      if (addressBalance > 0) {
+        addressesWithUtxo.push(addressMetadata);
       }
 
-      if (!isUsedAddress && nextUnusedAddress.length === 0) {
-        nextUnusedAddress = address!;
+      if (!isUsedAddress && !nextUnusedAddress) {
+        nextUnusedAddress = addressMetadata;
       }
 
       if (!isUsedAddress) {
@@ -91,7 +118,7 @@ export class Wallet {
       pendingBalance,
       addresses,
       addressesWithUtxo,
-      nextUnusedAddress,
+      nextUnusedAddress: nextUnusedAddress!,
     };
   };
 
@@ -124,15 +151,104 @@ export class Wallet {
     };
   };
 
-  fetchUtxos = async (addressesWithUtxo: string[]) => {
+  fetchUtxos = async (
+    addressesWithUtxo: AddressMetadata[],
+  ): Promise<UtxoWithMetadata[]> => {
     const totalUtxos = [];
 
     for (const addressWithUtxo of addressesWithUtxo) {
-      totalUtxos.push(
-        ...(await this.blockchainService.fetchAddressUtxos(addressWithUtxo)),
+      const utxos = await this.blockchainService.fetchAddressUtxos(
+        addressWithUtxo.address,
       );
+
+      for (const utxo of utxos) {
+        totalUtxos.push({
+          ...utxo,
+          address: addressWithUtxo.address,
+          derivationPath: addressWithUtxo.derivationPath,
+        });
+      }
     }
 
     return totalUtxos;
+  };
+
+  private findPublicKeyForAddress = (
+    address: string,
+    addressesMetadata: AddressMetadata[],
+  ) => {
+    return addressesMetadata.find(
+      addressMetadata => address === addressMetadata.address,
+    )?.publicKey;
+  };
+
+  createTransaction = async (
+    addressesWithUtxo: AddressMetadata[],
+    targetAddress: Target,
+    feeRate: number,
+    changeAddress: string,
+    mnemonic: string,
+  ) => {
+    const utxos = await this.fetchUtxos(addressesWithUtxo);
+    const { inputs, outputs, fee } = coinSelectAccumulative(
+      utxos,
+      [targetAddress],
+      feeRate,
+    );
+    const hdRoot = await this.createHdRoot(mnemonic);
+
+    if (!inputs || !outputs) {
+      throw new Error("Not enough balance. Try sending a smaller amount.");
+    }
+
+    const psbt = new bitcoinjs.Psbt();
+
+    for (const input of inputs) {
+      const inputPublicKey = this.findPublicKeyForAddress(
+        input.address,
+        addressesWithUtxo,
+      );
+
+      if (!inputPublicKey) {
+        throw new Error("Could not find public key for input");
+      }
+
+      const p2wpkh = bitcoinjs.payments.p2wpkh({ pubkey: inputPublicKey });
+
+      psbt.addInput({
+        hash: input.txid,
+        index: input.vout,
+        sequence: 2147483648,
+        bip32Derivation: [
+          {
+            masterFingerprint: hdRoot.fingerprint,
+            path: `${this.derivationPath}/${input.derivationPath}`,
+            pubkey: inputPublicKey,
+          },
+        ],
+        witnessUtxo: {
+          script: p2wpkh.output!,
+          value: input.value,
+        },
+      });
+    }
+
+    for (const output of outputs) {
+      if (!output.address) {
+        output.address = changeAddress;
+      }
+
+      psbt.addOutput({
+        address: output.address,
+        value: output.value,
+      });
+    }
+
+    const transaction = psbt
+      .signAllInputsHD(hdRoot)
+      .finalizeAllInputs()
+      .extractTransaction();
+
+    return { transaction, inputs, outputs, fee };
   };
 }

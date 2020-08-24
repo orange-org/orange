@@ -7,7 +7,6 @@ export const useHandleCreateWallet = () => {
   const history = useHistory();
 
   return async (mnemonic: string) => {
-    dispatch(WalletThunks.setId(mnemonic));
     await dispatch(WalletThunks.setMasterPublicKey(mnemonic));
 
     history.push("/wallet");

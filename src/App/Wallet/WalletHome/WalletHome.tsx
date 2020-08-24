@@ -4,6 +4,7 @@ import { cn } from "src/cn";
 import s from "src/styles.css";
 import { useHistory, Link } from "react-router-dom";
 import { WalletThunks } from "src/data/WalletThunks";
+import { AddressMetadata } from "src/data/Wallet";
 
 const useGlobalState = () => {
   return {
@@ -51,11 +52,11 @@ const useInitialFetch = (walletMasterPublicKey: string | null) => {
   return isInitialFetching;
 };
 
-const list = (addresses: string[]) => {
+const list = (addressesMetadata: AddressMetadata[]) => {
   return (
     <ul>
-      {addresses.map(address => (
-        <li key={address}>{address}</li>
+      {addressesMetadata.map(addressMetaData => (
+        <li key={addressMetaData.address}>{addressMetaData.address}</li>
       ))}
     </ul>
   );

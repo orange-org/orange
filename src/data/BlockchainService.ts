@@ -16,7 +16,7 @@ export type AddressStats = {
   };
 };
 
-export type AddressUtxos = {
+export type Utxo = {
   txid: string;
   vout: number;
   status: {
@@ -26,10 +26,12 @@ export type AddressUtxos = {
     block_time: number;
   };
   value: number;
-}[];
+};
+
+export type Utxos = Utxo[];
 
 export abstract class BlockchainService {
   abstract fetchAddressStats(address: string): Promise<AddressStats>;
 
-  abstract fetchAddressUtxos(address: string): Promise<AddressUtxos>;
+  abstract fetchAddressUtxos(address: string): Promise<Utxos>;
 }

@@ -14,5 +14,11 @@ export const Home = () => (
         <button type="button">Import wallet</button>
       </Link>
     </p>
+
+    <p>
+      <Link to="/wallet">
+        <button type="button">Wallet</button>
+      </Link>
+    </p>
   </>
 );

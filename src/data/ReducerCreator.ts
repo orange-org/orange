@@ -5,7 +5,6 @@ import { AddressStats } from "./BlockchainService";
 import { WalletStats } from "./Wallet";
 
 export type State = StateConfig<{
-  walletId: string;
   walletMasterPublicKey: string;
   walletStats: WalletStats;
 }> &
@@ -15,7 +14,6 @@ export type State = StateConfig<{
 
 class ReducerCreator {
   private static initialState: State = {
-    walletId: null,
     walletMasterPublicKey: null,
     walletNextFreeAddress: 0,
     walletStats: null,
@@ -23,10 +21,6 @@ class ReducerCreator {
 
   static create = () =>
     createReducer(ReducerCreator.initialState)
-      .handleAction(WalletActions.setWalletId, (state, action) => ({
-        ...state,
-        walletId: action.payload,
-      }))
       .handleAction(
         WalletActions.setWalletMasterPublicKey,
         (state, action) => ({

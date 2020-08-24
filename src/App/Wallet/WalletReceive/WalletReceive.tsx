@@ -13,7 +13,7 @@ export const WalletReceive = () => {
       <h2>Receive</h2>
       <p>Your current Bitcoin receiving address is:</p>
       <blockquote>
-        <code>{walletStats.nextUnusedAddress}</code>
+        <code>{walletStats.nextUnusedAddress.address}</code>
       </blockquote>
     </div>
   );

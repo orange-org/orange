@@ -41,6 +41,7 @@ export const AppBar = () => (
       </Button>
     </Link>
 
+    {/* eslint-disable-next-line jsx-a11y/heading-has-content */}
     <h1
       {...cn(s.margin0, s.flex1, s.textAlignCenter, s.fontSize120Percent)}
       id="appBarPortal"

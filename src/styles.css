@@ -117,6 +117,10 @@
   margin-left: 0;
 }
 
+.marginLeft3 {
+  margin-left: calc(var(--pixelUnit) * 3);
+}
+
 .maxWidth400 {
   max-width: 400px;
 }
@@ -129,12 +133,20 @@
   padding: 0;
 }
 
+.paddingLeft0 {
+  padding-left: 0;
+}
+
 .textAlignCenter {
   text-align: center;
 }
 
 .textOverflowEllipsis {
   text-overflow: ellipsis;
+}
+
+.transformScale1_5 {
+  transform: scale(1.5);
 }
 
 .width50 {

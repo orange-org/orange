@@ -3,18 +3,19 @@
   --black: #000000;
 }
 
+a {
+  color: var(--foregroundColor);
+}
+
 a:hover {
   border-bottom: none;
 }
 
-html {
-  font-size: 70%;
-}
-
 body {
-  margin: 0;
+  margin: 0 auto;
   border-top: 4px solid #ff9900;
   color: var(--foregroundColor);
+  height: 100vh;
 }
 
 button {
@@ -44,8 +45,9 @@ h6 {
   font-weight: 400;
 }
 
-a {
-  color: var(--foregroundColor);
+html {
+  font-size: 70%;
+  background-color: #2b2b2b;
 }
 
 hr {

@@ -1,3 +1,53 @@
+:root {
+  --foregroundColor: #c2c2c2;
+  --black: #000000;
+}
+
+a:hover {
+  border-bottom: none;
+}
+
+html {
+  font-size: 70%;
+}
+
 body {
   margin: 0;
+  border-top: 4px solid #ff9900;
+  color: var(--foregroundColor);
+}
+
+button {
+  background-color: #222222;
+  color: var(--foregroundColor);
+  border-radius: 20px;
+  padding: 10px;
+  border-color: var(--foregroundColor);
+}
+
+button:hover:enabled {
+  color: var(--foregroundColor);
+  border-color: var(--foregroundColor);
+  background-color: var(--black);
+}
+
+h1 {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+
+a {
+  color: var(--foregroundColor);
+}
+
+hr {
+  border-color: var(--foregroundColor);
 }

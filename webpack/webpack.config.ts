@@ -59,14 +59,14 @@ export const configuration: Configuration = {
 
       {
         test: /\.(gif|png|jpe?g|svg)$/,
-        use: ["file-loader"],
+        use: ["url-loader"],
       },
 
       {
         test: /\.css$/i,
+        // exclude: /global\.css/i,
         use: [
           "style-loader",
-          "@teamsupercell/typings-for-css-modules-loader",
           {
             loader: "css-loader",
             options: {
@@ -76,11 +76,6 @@ export const configuration: Configuration = {
             },
           },
         ],
-      },
-
-      {
-        test: /\.(woff|woff2|eot|ttf|svg)$/,
-        use: ["file-loader?name=fonts/[name].[ext]"],
       },
 
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.

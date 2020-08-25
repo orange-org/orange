@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Wallet } from "src/data/Wallet";
 import { useHandleCreateWallet } from "../common/useHandleCreateWallet";
+import { wallet } from "src/data/WalletThunks";
 
 const useGenerateMnemonic = () => {
   const [mnemonic, setMnemonic] = useState<string | null>(null);
 
   useEffect(() => {
-    setMnemonic(Wallet.generateMnemonic());
+    setMnemonic(wallet.generateMnemonic());
   }, []);
 
   return mnemonic;

@@ -30,7 +30,7 @@ const createAppWithStore = () => {
 
         // Wait for initial load
         try {
-          await TestElement.findAllByTestId("blockListBlock");
+          // await TestElement.findAllByTestId("blockListBlock");
         } catch (e) {
           // No need to throw if we can't find them. Maybe we are testing
           // where the server is not loading the blocks correctly.

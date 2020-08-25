@@ -23,7 +23,7 @@ const Button: React.FC<React.DetailedHTMLProps<
   />
 );
 
-export const AppBarPortal: React.FC = props => {
+export const AppBarTitle: React.FC = props => {
   const appBarPortalEl = useRef(document.getElementById("appBarPortal"));
 
   if (!appBarPortalEl.current) {

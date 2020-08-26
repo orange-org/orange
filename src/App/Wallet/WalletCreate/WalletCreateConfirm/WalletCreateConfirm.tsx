@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { FiChevronLeft } from "react-icons/fi";
 import { Icon } from "src/App/common/Icon";
 import { useFormik } from "formik";
+import { LinkButton } from "src/App/common/LinkButton";
+import { BsExclamationCircle } from "react-icons/bs";
 
 export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
   const formik = useFormik({
@@ -21,7 +23,8 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       };
 
       if (values.enteredMnemonic !== p.mnemonic) {
-        errors.enteredMnemonic = "error";
+        errors.enteredMnemonic =
+          "The secret phrase you entered does not match the generated phrase";
       }
 
       if (values.iUnderstand !== true) {
@@ -47,10 +50,30 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       </p>
 
       <textarea
+        {...cn(styles.marginBottom0)}
         id="mnemonicTextarea"
         rows={5}
         {...formik.getFieldProps("enteredMnemonic")}
       />
+
+      <p
+        {...cn(
+          styles.fontSize80Percent,
+          styles.marginBottom1,
+          styles.colorRed900,
+          styles.displayFlex,
+          styles.alignItemsCenter,
+          formik.touched.enteredMnemonic && formik.errors.enteredMnemonic
+            ? styles.visibilityVisible
+            : styles.visibilityHidden,
+        )}
+      >
+        <Icon
+          IconType={BsExclamationCircle}
+          iconContextValue={{ color: "#b71c1c", size: "1em" }}
+        />
+        <span {...cn(styles.marginLeft2)}>{formik.errors.enteredMnemonic}</span>
+      </p>
 
       <p>
         Orange will not store your secret but will ask you again for it before
@@ -78,26 +101,25 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       <div {...cn(styles.marginTop10)} />
 
       <div {...cn(styles.displayFlex, styles.alignItemsCenter)}>
-        <Link to="/wallet/create" {...cn(styles.flex1)}>
-          <button
-            {...cn(
-              styles.borderNone,
-              styles.displayFlex,
-              styles.alignItemsCenter,
-              styles.paddingLeft0,
-            )}
-            type="button"
-          >
-            <Icon IconType={FiChevronLeft} />
-            Go back
-          </button>
+        <Link
+          to="/wallet/create"
+          {...cn(
+            styles.borderNone,
+            styles.displayFlex,
+            styles.alignItemsCenter,
+            styles.paddingLeft0,
+          )}
+          type="button"
+        >
+          <Icon IconType={FiChevronLeft} />
+          Go back
         </Link>
 
-        <Link to="/wallet">
-          <button type="button" disabled={!formik.isValid}>
-            Open wallet
-          </button>
-        </Link>
+        <div {...cn(styles.flex1)} />
+
+        <LinkButton disabled={!formik.isValid} to="/wallet">
+          Open wallet
+        </LinkButton>
       </div>
     </Page>
   );

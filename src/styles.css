@@ -1,6 +1,7 @@
 :root {
   --pixelUnit: 4px;
   --gray800: #424242;
+  --red900: #b71c1c;
 }
 
 .alignItemsCenter {
@@ -17,6 +18,10 @@
 
 .colorRed {
   color: red;
+}
+
+.colorRed900 {
+  color: var(--red900);
 }
 
 .colorGray900 {
@@ -59,6 +64,10 @@
   font-weight: lighter;
 }
 
+.fontSize80Percent {
+  font-size: 80%;
+}
+
 .fontSize120Percent {
   font-size: 120%;
 }
@@ -85,6 +94,14 @@
 
 .margin2 {
   margin: calc(var(--pixelUnit) * 2);
+}
+
+.marginBottom0 {
+  margin-bottom: 0;
+}
+
+.marginBottom1 {
+  margin-bottom: calc(var(--pixelUnit) * 1);
 }
 
 .marginTop0 {
@@ -117,6 +134,10 @@
   margin-left: 0;
 }
 
+.marginLeft2 {
+  margin-left: calc(var(--pixelUnit) * 2);
+}
+
 .marginLeft3 {
   margin-left: calc(var(--pixelUnit) * 3);
 }
@@ -147,6 +168,14 @@
 
 .transformScale1_5 {
   transform: scale(1.5);
+}
+
+.visibilityHidden {
+  visibility: hidden;
+}
+
+.visibilityVisible {
+  visibility: visible;
 }
 
 .width50 {

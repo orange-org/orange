@@ -3,6 +3,10 @@
   --black: #000000;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   color: var(--foregroundColor);
 }

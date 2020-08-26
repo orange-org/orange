@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import { Page } from "src/App/common/Page";
-import styles from "src/styles.css";
-import { cn } from "src/cn";
-import { Link } from "react-router-dom";
-import { FiChevronLeft } from "react-icons/fi";
-import { Icon } from "src/App/common/Icon";
 import { useFormik } from "formik";
-import { LinkButton } from "src/App/common/LinkButton";
+import React from "react";
 import { BsExclamationCircle } from "react-icons/bs";
+import { FiChevronLeft } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { Icon } from "src/App/common/Icon";
+import { Page } from "src/App/common/Page";
+import { cn } from "src/cn";
+import { wallet } from "src/data/WalletThunks";
+import styles from "src/styles.css";
+import { useSetInitialMasterPublicKey } from "../../common/useSetInitialMasterPublicKey";
 
-export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
-  const formik = useFormik({
+const useConfiguredFormik = (mnemonic: string) =>
+  useFormik({
     validateOnMount: true,
     initialValues: {
       enteredMnemonic: "",
@@ -22,7 +23,7 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
         iUnderstand: "",
       };
 
-      if (values.enteredMnemonic !== p.mnemonic) {
+      if (values.enteredMnemonic !== mnemonic) {
         errors.enteredMnemonic =
           "The secret phrase you entered does not match the generated phrase";
       }
@@ -41,6 +42,10 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
+  const formik = useConfiguredFormik(p.mnemonic);
+  const setInitialMasterPublicKey = useSetInitialMasterPublicKey();
 
   return (
     <Page title="Confirm Secret">
@@ -120,9 +125,16 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
 
         <div {...cn(styles.flex1)} />
 
-        <LinkButton disabled={!formik.isValid} to="/wallet">
+        <button
+          type="button"
+          disabled={!formik.isValid}
+          onClick={async () => {
+            const masterPublicKey = await wallet.getMasterPublicKey(p.mnemonic);
+            setInitialMasterPublicKey(masterPublicKey);
+          }}
+        >
           Open wallet
-        </LinkButton>
+        </button>
       </div>
     </Page>
   );

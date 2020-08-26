@@ -5,7 +5,6 @@ import { Page } from "src/App/common/Page";
 import s from "src/styles.css";
 import { cn } from "src/cn";
 import { Switch, Route } from "react-router-dom";
-import { useHandleCreateWallet } from "../common/useHandleCreateWallet";
 import { WalletCreateSecret } from "./WalletCreateSecret/WalletCreateSecret";
 import { WalletCreateConfirm } from "./WalletCreateConfirm/WalletCreateConfirm";
 

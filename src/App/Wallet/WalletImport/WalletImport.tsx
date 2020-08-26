@@ -6,9 +6,13 @@ import { Page } from "src/App/common/Page";
 import { cn } from "src/cn";
 import { Wallet } from "src/data/Wallet";
 import styles from "src/styles.css";
+import { WalletThunks } from "src/data/WalletThunks";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useSetInitialMasterPublicKey } from "../common/useSetInitialMasterPublicKey";
 
-export const WalletImport = () => {
-  const formik = useFormik({
+const useConfiguredFormik = () =>
+  useFormik({
     validateOnMount: true,
     initialValues: {
       masterPublicKey: "",
@@ -18,7 +22,7 @@ export const WalletImport = () => {
         masterPublicKey: "",
       };
 
-      if (!Wallet.isValidMasterPublicKey(values.masterPublicKey)) {
+      if (!Wallet.isValidMasterPublicKey(values.masterPublicKey.trim())) {
         errors.masterPublicKey = "Please enter a valid master public key";
       }
 
@@ -30,8 +34,10 @@ export const WalletImport = () => {
     },
     onSubmit: () => undefined,
   });
-  const isValidMasterPublicKey =
-    formik.touched.masterPublicKey && !formik.errors.masterPublicKey;
+
+export const WalletImport = () => {
+  const formik = useConfiguredFormik();
+  const setInitialMasterPublicKey = useSetInitialMasterPublicKey();
 
   return (
     <Page title="Import Wallet">
@@ -41,9 +47,6 @@ export const WalletImport = () => {
         id="masterPublicKey"
         rows={5}
         {...formik.getFieldProps("masterPublicKey")}
-        onChange={e => {
-          formik.setFieldValue("masterPublicKey", e.target.value.trim());
-        }}
       />
 
       <p
@@ -66,7 +69,13 @@ export const WalletImport = () => {
       </p>
 
       <div {...cn(styles.displayFlex, styles.justifyContentFlexEnd)}>
-        <button type="button" disabled={!!formik.errors.masterPublicKey}>
+        <button
+          type="button"
+          disabled={!!formik.errors.masterPublicKey}
+          onClick={() =>
+            setInitialMasterPublicKey(formik.values.masterPublicKey)
+          }
+        >
           Import
         </button>
       </div>

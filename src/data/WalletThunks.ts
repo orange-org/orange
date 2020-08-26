@@ -6,14 +6,10 @@ import { esplora } from "./Esplora";
 export const wallet = new Wallet(esplora);
 
 export class WalletThunks {
-  static setMasterPublicKey = (mnemonic: string) => async (
+  static setMasterPublicKey = (masterPublicKey: string) => async (
     dispatch: Dispatch,
   ) => {
-    dispatch(
-      WalletActions.setWalletMasterPublicKey(
-        await wallet.getMasterPublicKey(mnemonic),
-      ),
-    );
+    dispatch(WalletActions.setWalletMasterPublicKey(masterPublicKey));
   };
 
   static loadAddressData = (pubkey: string) => async (dispatch: Dispatch) => {

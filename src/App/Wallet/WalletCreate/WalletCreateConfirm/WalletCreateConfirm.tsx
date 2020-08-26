@@ -54,6 +54,9 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
         id="mnemonicTextarea"
         rows={5}
         {...formik.getFieldProps("enteredMnemonic")}
+        onChange={e =>
+          formik.setFieldValue("enteredMnemonic", e.target.value.trim())
+        }
       />
 
       <p

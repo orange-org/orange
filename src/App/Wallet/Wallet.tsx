@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
-import { WalletOpen } from "./WalletOpen/WalletOpen";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 import { WalletCreate } from "./WalletCreate/WalletCreate";
+import { WalletImport } from "./WalletImport/WalletImport";
 
 export const Wallet = () => (
   <Switch>
@@ -9,8 +9,8 @@ export const Wallet = () => (
       <WalletCreate />
     </Route>
 
-    <Route path="/wallet/open">
-      <WalletOpen />
+    <Route path="/wallet/import">
+      <WalletImport />
     </Route>
   </Switch>
 );

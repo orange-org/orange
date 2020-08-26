@@ -21,7 +21,6 @@ const useGenerateMnemonic = () => {
 
 export const WalletCreate = () => {
   const mnemonic = useGenerateMnemonic();
-  // const handleCreateWallet = useHandleCreateWallet();
 
   return (
     <>
@@ -36,7 +35,7 @@ export const WalletCreate = () => {
           </Route>
         </Switch>
       ) : (
-        <p>Creating wallet...</p>
+        <p>Creating secret...</p>
       )}
     </>
   );

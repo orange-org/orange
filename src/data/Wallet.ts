@@ -61,8 +61,8 @@ export class Wallet {
     let addressIndex = 0;
     let balance = 0;
     let pendingBalance = 0;
-    let addresses: AddressMetadata[] = [];
-    let addressesWithUtxo: AddressMetadata[] = [];
+    const addresses: AddressMetadata[] = [];
+    const addressesWithUtxo: AddressMetadata[] = [];
     let nextUnusedAddress: AddressMetadata | null = null;
     while (gap < this.gapLimit) {
       const childNode = node.derive(addressIndex);
@@ -132,9 +132,9 @@ export class Wallet {
     const balance = addressesData.balance + changeAddressesData.balance;
     const pendingBalance =
       addressesData.pendingBalance + changeAddressesData.pendingBalance;
-    const nextUnusedAddress = addressesData.nextUnusedAddress;
+    const { nextUnusedAddress } = addressesData;
     const nextUnusedChangeAddress = changeAddressesData.nextUnusedAddress;
-    const addresses = addressesData.addresses;
+    const { addresses } = addressesData;
     const changeAddresses = changeAddressesData.addresses;
     const addressesWithUtxo = addressesData.addressesWithUtxo.concat(
       changeAddressesData.addressesWithUtxo,
@@ -176,11 +176,10 @@ export class Wallet {
   private findPublicKeyForAddress = (
     address: string,
     addressesMetadata: AddressMetadata[],
-  ) => {
-    return addressesMetadata.find(
+  ) =>
+    addressesMetadata.find(
       addressMetadata => address === addressMetadata.address,
     )?.publicKey;
-  };
 
   createTransaction = async (
     addressesWithUtxo: AddressMetadata[],
@@ -250,5 +249,15 @@ export class Wallet {
       .extractTransaction();
 
     return { transaction, inputs, outputs, fee };
+  };
+
+  static isValidMasterPublicKey = (masterPublicKey: string) => {
+    try {
+      bip32.fromBase58(masterPublicKey);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   };
 }

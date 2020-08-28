@@ -61,7 +61,7 @@ export const WalletHome = () => {
   const { isLoadingWallet: isRefreshingWallet } = useLoadWallet();
   const isLoadingWallet = isInitialLoading || isRefreshingWallet;
 
-  console.log("globals", globalState.walletTxs);
+  console.log("globals", globalState.walletTxs?.confirmed);
 
   return (
     <Page title="Wallet">

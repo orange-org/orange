@@ -23,7 +23,7 @@ const useConfiguredFormik = (mnemonic: string) =>
         iUnderstand: "",
       };
 
-      if (values.enteredMnemonic !== mnemonic) {
+      if (values.enteredMnemonic.trim() !== mnemonic) {
         errors.enteredMnemonic =
           "The secret phrase you entered does not match the generated phrase";
       }
@@ -59,9 +59,6 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
         id="mnemonicTextarea"
         rows={5}
         {...formik.getFieldProps("enteredMnemonic")}
-        onChange={e =>
-          formik.setFieldValue("enteredMnemonic", e.target.value.trim())
-        }
       />
 
       <p

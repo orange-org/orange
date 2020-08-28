@@ -2,7 +2,7 @@ import * as bip39 from "bip39";
 import * as bip32 from "bip32";
 import * as bitcoinjs from "bitcoinjs-lib";
 import coinSelectAccumulative, { Target } from "coinselect/accumulative";
-import { BlockchainService, Utxos, Utxo } from "./BlockchainService";
+import { BlockchainService, Utxos, Utxo, Txs, Tx } from "./BlockchainService";
 
 export type AddressMetadata = {
   address: string;
@@ -18,6 +18,7 @@ export type WalletStats = {
   addresses: AddressMetadata[];
   changeAddresses: AddressMetadata[];
   addressesWithUtxo: AddressMetadata[];
+  addressesWithTxs: AddressMetadata[];
 };
 
 export type UtxoWithMetadata = Utxo & {
@@ -63,7 +64,9 @@ export class Wallet {
     let pendingBalance = 0;
     const addresses: AddressMetadata[] = [];
     const addressesWithUtxo: AddressMetadata[] = [];
+    const addressesWithTxs: AddressMetadata[] = [];
     let nextUnusedAddress: AddressMetadata | null = null;
+
     while (gap < this.gapLimit) {
       const childNode = node.derive(addressIndex);
       const { address } = bitcoinjs.payments.p2wpkh({
@@ -100,6 +103,10 @@ export class Wallet {
         addressesWithUtxo.push(addressMetadata);
       }
 
+      if (chain_stats.tx_count || mempool_stats.tx_count) {
+        addressesWithTxs.push(addressMetadata);
+      }
+
       if (!isUsedAddress && !nextUnusedAddress) {
         nextUnusedAddress = addressMetadata;
       }
@@ -118,6 +125,7 @@ export class Wallet {
       pendingBalance,
       addresses,
       addressesWithUtxo,
+      addressesWithTxs,
       nextUnusedAddress: nextUnusedAddress!,
     };
   };
@@ -139,6 +147,9 @@ export class Wallet {
     const addressesWithUtxo = addressesData.addressesWithUtxo.concat(
       changeAddressesData.addressesWithUtxo,
     );
+    const addressesWithTxs = addressesData.addressesWithTxs.concat(
+      changeAddressesData.addressesWithTxs,
+    );
 
     return {
       balance,
@@ -148,6 +159,7 @@ export class Wallet {
       addresses,
       changeAddresses,
       addressesWithUtxo,
+      addressesWithTxs,
     };
   };
 
@@ -171,6 +183,40 @@ export class Wallet {
     }
 
     return totalUtxos;
+  };
+
+  fetchTxs = async (
+    addressesWithTxs: AddressMetadata[],
+  ): Promise<{
+    confirmed: Txs;
+    mempool: Txs;
+  }> => {
+    const confirmedTxs: Txs = [];
+    const mempoolTxs: Txs = [];
+    const seenTxs: { [txId: string]: true } = {};
+
+    for (const addressWithTxs of addressesWithTxs) {
+      const addressTxs = await this.blockchainService.fetchAddressTxs(
+        addressWithTxs.address,
+      );
+
+      for (const tx of addressTxs) {
+        if (!seenTxs[tx.txid]) {
+          if (tx.status.confirmed) {
+            confirmedTxs.push(tx);
+          } else {
+            mempoolTxs.push(tx);
+          }
+        }
+
+        seenTxs[tx.txid] = true;
+      }
+    }
+
+    return {
+      confirmed: confirmedTxs,
+      mempool: mempoolTxs,
+    };
   };
 
   private findPublicKeyForAddress = (

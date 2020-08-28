@@ -64,6 +64,10 @@
   font-weight: lighter;
 }
 
+.fontWeightNormal {
+  font-weight: normal;
+}
+
 .fontSize80Percent {
   font-size: 80%;
 }

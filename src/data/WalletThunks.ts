@@ -17,4 +17,16 @@ export class WalletThunks {
 
     dispatch(WalletActions.setWalletStats(walletStats));
   };
+
+  static loadWallet = (masterPublicKey: string) => async (
+    dispatch: Dispatch,
+  ) => {
+    const walletStats = await wallet.fetchWalletStats(masterPublicKey);
+
+    dispatch(WalletActions.setWalletStats(walletStats));
+
+    const txs = await wallet.fetchTxs(walletStats.addressesWithTxs);
+
+    dispatch(WalletActions.setWalletTxs(txs));
+  };
 }

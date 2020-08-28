@@ -1,39 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Page } from "src/App/common/Page";
 import { cn } from "src/cn";
-import s from "src/styles.css";
-import { useHistory, Link } from "react-router-dom";
 import { WalletThunks } from "src/data/WalletThunks";
-import { AddressMetadata } from "src/data/Wallet";
+import styles from "src/styles.css";
 
-const useGlobalState = () => {
-  return {
-    walletMasterPublicKey: useSelector(state => state.walletMasterPublicKey),
-    walletStats: useSelector(state => state.walletStats),
-  };
-};
+const useGlobalState = () => ({
+  walletMasterPublicKey: useSelector(state => state.walletMasterPublicKey),
+  walletStats: useSelector(state => state.walletStats),
+  walletTxs: useSelector(state => state.walletTxs),
+});
 
-const useFetchWalletState = () => {
+const useLoadWallet = () => {
   const dispatch = useDispatch();
-  const [isFetchingState, setFetchingState] = useState(false);
+  const [isLoadingWallet, setLoadingWallet] = useState(false);
 
   return {
-    fetchWalletState: async (walletMasterPublicKey: string) => {
-      setFetchingState(true);
-      await dispatch(WalletThunks.loadAddressData(walletMasterPublicKey));
-      setFetchingState(false);
+    loadWallet: async (walletMasterPublicKey: string) => {
+      setLoadingWallet(true);
+      await dispatch(WalletThunks.loadWallet(walletMasterPublicKey));
+      setLoadingWallet(false);
 
-      return isFetchingState;
+      return isLoadingWallet;
     },
 
-    isFetchingState,
+    isLoadingWallet,
   };
 };
 
-const useInitialFetch = (walletMasterPublicKey: string | null) => {
+const useInitialLoadWallet = (walletMasterPublicKey: string | null) => {
   const history = useHistory();
-  const { fetchWalletState } = useFetchWalletState();
-  const [isInitialFetching, setInitialFetching] = useState(true);
+  const { loadWallet } = useLoadWallet();
+  const [isInitialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
     const request = async () => {
@@ -42,81 +41,45 @@ const useInitialFetch = (walletMasterPublicKey: string | null) => {
         return;
       }
 
-      await fetchWalletState(walletMasterPublicKey);
-      setInitialFetching(false);
+      await loadWallet(walletMasterPublicKey);
+      setInitialLoading(false);
     };
 
     request();
-  }, [history, walletMasterPublicKey]);
 
-  return isInitialFetching;
-};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-const list = (addressesMetadata: AddressMetadata[]) => {
-  return (
-    <ul>
-      {addressesMetadata.map(addressMetaData => (
-        <li key={addressMetaData.address}>{addressMetaData.address}</li>
-      ))}
-    </ul>
-  );
+  return isInitialLoading;
 };
 
 export const WalletHome = () => {
   const globalState = useGlobalState();
-  const isInitialFetching = useInitialFetch(globalState.walletMasterPublicKey);
-  const {
-    fetchWalletState,
-    isFetchingState: isRefreshingState,
-  } = useFetchWalletState();
-  const isFetchingState = isInitialFetching || isRefreshingState;
+  const isInitialLoading = useInitialLoadWallet(
+    globalState.walletMasterPublicKey,
+  );
+  const { isLoadingWallet: isRefreshingWallet } = useLoadWallet();
+  const isLoadingWallet = isInitialLoading || isRefreshingWallet;
+
+  console.log("globals", globalState.walletTxs);
 
   return (
-    <>
-      <h2>Details</h2>
-      <h3>Master public key</h3>
-      <blockquote>
-        <code {...cn(s.displayBlock, s.overflowHidden, s.textOverflowEllipsis)}>
-          {globalState.walletMasterPublicKey}
-        </code>
-      </blockquote>
-
-      {isFetchingState ? (
-        <h4>{isRefreshingState ? "Refreshing..." : "Loading wallet..."}</h4>
+    <Page title="Wallet">
+      {isLoadingWallet ? (
+        <h4>{isRefreshingWallet ? "Refreshing..." : "Loading wallet..."}</h4>
       ) : (
         <>
-          <h3>Actions</h3>
-          <div>
-            <button
-              type="button"
-              onClick={() =>
-                fetchWalletState(globalState.walletMasterPublicKey!)
-              }
-            >
-              Refresh
-            </button>{" "}
-            |{" "}
-            <Link to="/wallet/send">
-              <button type="button">Send</button> |{" "}
-            </Link>
-            <Link to="/wallet/receive">
-              <button type="button">Receive</button>
-            </Link>
-          </div>
+          <h4 {...cn(styles.fontWeightLighter)}>
+            Balance is{" "}
+            <span {...cn(styles.fontWeightNormal)}>
+              {globalState.walletStats?.balance.toLocaleString()}
+            </span>{" "}
+            sats
+          </h4>
 
-          <h3>Balance</h3>
-          <p>{globalState.walletStats?.balance}</p>
-
-          <h3>Pending balance</h3>
-          <p>{globalState.walletStats?.pendingBalance}</p>
-
-          <h3>Addresses</h3>
-          {list(globalState.walletStats!.addresses)}
-
-          <h3>Change addresses</h3>
-          {list(globalState.walletStats!.changeAddresses)}
+          <h4 {...cn(styles.fontWeightLighter)}>Transactions</h4>
         </>
       )}
-    </>
+    </Page>
   );
 };

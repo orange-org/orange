@@ -19,7 +19,7 @@ body {
   margin: 0 auto;
   border-top: 4px solid #ff9900;
   color: var(--foregroundColor);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 button {

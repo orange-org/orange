@@ -6,13 +6,12 @@ export class Esplora extends BlockchainService {
     return response.json();
   };
 
-  fetchAddressStats = (address: string) => {
-    return Esplora.call(`address/${address}`);
-  };
+  fetchAddressStats = (address: string) => Esplora.call(`address/${address}`);
 
-  fetchAddressUtxos = (address: string) => {
-    return Esplora.call(`address/${address}/utxo`);
-  };
+  fetchAddressUtxos = (address: string) =>
+    Esplora.call(`address/${address}/utxo`);
+
+  fetchAddressTxs = (address: string) => Esplora.call(`address/${address}/txs`);
 }
 
 export const esplora = new Esplora();

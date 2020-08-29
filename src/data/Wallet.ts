@@ -1,8 +1,8 @@
-import * as bip39 from "bip39";
 import * as bip32 from "bip32";
+import * as bip39 from "bip39";
 import * as bitcoinjs from "bitcoinjs-lib";
 import coinSelectAccumulative, { Target } from "coinselect/accumulative";
-import { BlockchainService, Utxos, Utxo, Txs, Tx } from "./BlockchainService";
+import { BlockchainService, Tx, Utxo } from "./BlockchainService";
 
 export type AddressMetadata = {
   address: string;

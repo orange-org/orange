@@ -1,6 +1,5 @@
 import { createAction } from "typesafe-actions";
-import { WalletStats } from "./Wallet";
-import { Txs } from "./BlockchainService";
+import { TxsWithBalance, WalletStats } from "./Wallet";
 
 export class WalletActions {
   static setWalletMasterPublicKey = createAction(
@@ -10,7 +9,7 @@ export class WalletActions {
   static setWalletStats = createAction("SET_WALLET_STATS")<WalletStats>();
 
   static setWalletTxs = createAction("SET_WALLET_TXS")<{
-    confirmed: Txs;
-    mempool: Txs;
+    confirmed: TxsWithBalance;
+    mempool: TxsWithBalance;
   }>();
 }

@@ -34,7 +34,7 @@ export const AppBarTitle: React.FC = props => {
 };
 
 export const AppBar = () => (
-  <div {...cn(s.displayFlex, s.justifyContentCenter, s.alignItemsCenter)}>
+  <nav {...cn(s.displayFlex, s.justifyContentCenter, s.alignItemsCenter)}>
     <Link to="/menu" {...cn(s.flex_2)}>
       <Button>
         <Icon IconType={FiMenu} />
@@ -48,5 +48,5 @@ export const AppBar = () => (
     />
 
     <div {...cn(s.flex_2)} />
-  </div>
+  </nav>
 );

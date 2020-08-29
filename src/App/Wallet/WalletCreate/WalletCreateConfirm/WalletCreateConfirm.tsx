@@ -65,7 +65,6 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
         {...cn(
           styles.fontSize80Percent,
           styles.marginBottom1,
-          styles.colorRed900,
           styles.displayFlex,
           styles.alignItemsCenter,
           formik.touched.enteredMnemonic && formik.errors.enteredMnemonic

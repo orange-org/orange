@@ -1,15 +1,14 @@
 import { WalletActions } from "src/data/WalletActions";
 import { StateConfig } from "src/typings/typeHelpers";
 import { createReducer } from "typesafe-actions";
-import { WalletStats } from "./Wallet";
-import { Txs } from "./BlockchainService";
+import { TxsWithBalance, WalletStats } from "./Wallet";
 
 export type State = StateConfig<{
   walletMasterPublicKey: string;
   walletStats: WalletStats;
   walletTxs: {
-    confirmed: Txs;
-    mempool: Txs;
+    confirmed: TxsWithBalance;
+    mempool: TxsWithBalance;
   };
 }> &
   Readonly<{

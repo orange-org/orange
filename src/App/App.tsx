@@ -1,15 +1,14 @@
+import "normalize.css";
 import React, { StrictMode, useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "sakura.css/css/normalize.css";
-import "sakura.css/css/sakura-dark.css";
 import { store } from "src/data/StoreCreator";
-import "src/global.css";
+import "src/styles.css";
 import { AppBar } from "./AppBar/AppBar";
 import { Home } from "./Home/Home";
+import { Menu } from "./Menu/Menu";
 import { Settings } from "./Settings/Settings";
 import { Wallet } from "./Wallet/Wallet";
-import { Menu } from "./Menu/Menu";
 
 const App = () => {
   const [isReady, setReady] = useState(false);

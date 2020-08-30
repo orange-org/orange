@@ -9,6 +9,9 @@ import styles from "src/styles.css";
 import { WalletThunks } from "src/data/WalletThunks";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Textarea } from "src/commonComponents/Textarea/Textarea";
+import { Button } from "src/commonComponents/Button/Button";
+import { BackButton } from "src/commonComponents/BackButton/BackButton";
 import { useSetInitialMasterPublicKey } from "../common/useSetInitialMasterPublicKey";
 
 const useConfiguredFormik = () =>
@@ -40,12 +43,11 @@ export const WalletImport = () => {
   const setInitialMasterPublicKey = useSetInitialMasterPublicKey();
 
   return (
-    <Page title="Import Wallet">
-      <p>Enter your master public key below to import your existing wallet</p>
-
-      <textarea
+    <Page title="Import Wallet" leftLink={<BackButton />}>
+      <Textarea
+        label="Master public key"
+        placeholder="Enter your master public key"
         id="masterPublicKey"
-        rows={5}
         {...formik.getFieldProps("masterPublicKey")}
       />
 
@@ -55,6 +57,7 @@ export const WalletImport = () => {
           styles.marginBottom1,
           styles.displayFlex,
           styles.alignItemsCenter,
+          styles.colorRed,
           formik.touched.masterPublicKey && formik.errors.masterPublicKey
             ? styles.visibilityVisible
             : styles.visibilityHidden,
@@ -64,19 +67,19 @@ export const WalletImport = () => {
           IconType={BsExclamationCircle}
           iconContextValue={{ color: "#b71c1c", size: "1em" }}
         />
-        <span {...cn(styles.marginLeft2)}>{formik.errors.masterPublicKey}</span>
+        <span {...cn(styles.marginLeft1)}>{formik.errors.masterPublicKey}</span>
       </p>
 
       <div {...cn(styles.displayFlex, styles.justifyContentFlexEnd)}>
-        <button
-          type="button"
+        <Button
+          {...cn(styles.width25)}
           disabled={!!formik.errors.masterPublicKey}
           onClick={() =>
             setInitialMasterPublicKey(formik.values.masterPublicKey)
           }
         >
           Import
-        </button>
+        </Button>
       </div>
     </Page>
   );

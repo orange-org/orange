@@ -8,8 +8,6 @@ export const Textarea: React.FC<React.DetailedHTMLProps<
 > & { label: string }> = ({ label, onBlur, onFocus, ...p }) => {
   const [isFocused, setFocused] = useState(false);
 
-  console.log("isFocused", isFocused);
-
   return (
     <label
       htmlFor={p.id}

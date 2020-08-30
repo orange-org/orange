@@ -8,6 +8,9 @@ import { Page } from "src/App/common/Page";
 import { cn } from "src/cn";
 import { wallet } from "src/data/WalletThunks";
 import styles from "src/styles.css";
+import { LinkButton } from "src/commonComponents/LinkButton/LinkButton";
+import { Button } from "src/commonComponents/Button/Button";
+import { BackButton } from "src/commonComponents/BackButton/BackButton";
 import { useSetInitialMasterPublicKey } from "../../common/useSetInitialMasterPublicKey";
 
 const useConfiguredFormik = (mnemonic: string) =>
@@ -48,14 +51,14 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
   const setInitialMasterPublicKey = useSetInitialMasterPublicKey();
 
   return (
-    <Page title="Confirm Secret">
+    <Page title="Confirm Secret" leftLink={<BackButton />}>
       <p>
         Enter your secret phrase below to confirm that you&apos;ve wrote it down
         correctly
       </p>
 
       <textarea
-        {...cn(styles.marginBottom0)}
+        {...cn(styles.marginBottom0, styles.width100Percent)}
         id="mnemonicTextarea"
         rows={5}
         {...formik.getFieldProps("enteredMnemonic")}
@@ -67,6 +70,7 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
           styles.marginBottom1,
           styles.displayFlex,
           styles.alignItemsCenter,
+          styles.colorRed,
           formik.touched.enteredMnemonic && formik.errors.enteredMnemonic
             ? styles.visibilityVisible
             : styles.visibilityHidden,
@@ -74,7 +78,10 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       >
         <Icon
           IconType={BsExclamationCircle}
-          iconContextValue={{ color: "#b71c1c", size: "1em" }}
+          iconContextValue={{
+            size: "1em",
+            ...cn(styles.colorRed),
+          }}
         />
         <span {...cn(styles.marginLeft2)}>{formik.errors.enteredMnemonic}</span>
       </p>
@@ -105,23 +112,9 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
       <div {...cn(styles.marginTop10)} />
 
       <div {...cn(styles.displayFlex, styles.alignItemsCenter)}>
-        <Link
-          to="/wallet/create"
-          {...cn(
-            styles.borderNone,
-            styles.displayFlex,
-            styles.alignItemsCenter,
-            styles.paddingLeft0,
-          )}
-          type="button"
-        >
-          <Icon IconType={FiChevronLeft} />
-          Go back
-        </Link>
-
         <div {...cn(styles.flex1)} />
 
-        <button
+        <Button
           type="button"
           disabled={!formik.isValid}
           onClick={async () => {
@@ -130,7 +123,7 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
           }}
         >
           Open wallet
-        </button>
+        </Button>
       </div>
     </Page>
   );

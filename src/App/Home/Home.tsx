@@ -1,8 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import s from "src/styles.css";
 import { cn } from "src/cn";
+import { LinkButton } from "src/commonComponents/LinkButton/LinkButton";
+import s from "src/styles.css";
 import { Page } from "../common/Page";
 
 export const Home = () => (
@@ -17,19 +16,15 @@ export const Home = () => (
     >
       <div {...cn(s.marginTop10)} />
 
-      <Link to="/wallet/create">
-        <button {...cn(s.width50)} type="button">
-          Create new wallet
-        </button>
-      </Link>
+      <LinkButton to="/wallet/create" {...cn(s.width50)}>
+        Create new wallet
+      </LinkButton>
 
       <div {...cn(s.marginTop10)} />
 
-      <Link to="/wallet/import">
-        <button {...cn(s.width50)} type="button">
-          Import wallet
-        </button>
-      </Link>
+      <LinkButton to="/wallet/import" {...cn(s.width50)}>
+        Import wallet
+      </LinkButton>
     </div>
   </Page>
 );

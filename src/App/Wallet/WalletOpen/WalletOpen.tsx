@@ -1,12 +1,10 @@
 import React from "react";
-import { AppBarTitle } from "src/App/AppBar/AppBar";
 
 import s from "src/styles.css";
 import { cn } from "src/cn";
 
 export const WalletOpen = () => (
   <>
-    <AppBarTitle>Open wallet</AppBarTitle>
     <div {...cn(s.marginTop10)}>
       <label htmlFor="walletOpenTextarea">
         Enter your seed phrase or master public key

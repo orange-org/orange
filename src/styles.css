@@ -1,19 +1,54 @@
-/* Color palette: https://coolors.co/15202b-1da1f2-c73e1d-3e885b-ff9f1c-d8e2dc */
+/* Dark color palette: https://coolors.co/15202b-1da1f2-c73e1d-3e885b-ff9f1c-d8e2dc */
+/* Light color palette: https://coolors.co/ffffff-14171a-1da1f2-c1292e-43c59e-f58f29 */
 :root {
   --pixelUnit: 4px;
-  --fontColor: #d8e2dc;
-  --backgroundColor: #15202b;
+  --fontColor: #14171a;
+  --backgroundColor: #ffffff;
   --buttonColor: #1da1f2;
-  --orange: #ff9f1c;
-  --border: #38444d;
+  --orangeColor: #f58f29;
+  --borderColor: #e6ecf0;
+  --buttonFontColor: #ffffff;
+  --redColor: #c1292e;
 }
 
 .alignItemsCenter {
   align-items: center;
 }
 
+.opacity0_5ForDisabled:disabled {
+  opacity: 0.5;
+}
+
+.backgroundColorButton {
+  background-color: var(--buttonColor);
+}
+
+.backgroundTransparent {
+  background: transparent;
+}
+
+.borderColorButton {
+  border-color: var(--buttonColor);
+}
+
+.borderRadiusRounded {
+  border-radius: 9999px;
+}
+
+.borderStyleSolid {
+  border-style: solid;
+}
+
 .borderNone {
   border: none;
+}
+
+.borderWidth1px {
+  border-width: 1px;
+}
+
+.colorButtonFont {
+  color: var(--buttonFontColor);
 }
 
 .displayBlock {
@@ -146,12 +181,28 @@
   padding: 0;
 }
 
+.padding2 {
+  padding: calc(var(--pixelUnit) * 2);
+}
+
+.padding4 {
+  padding: calc(var(--pixelUnit) * 4);
+}
+
 .paddingLeft0 {
   padding-left: 0;
 }
 
+.colorRed {
+  color: var(--redColor);
+}
+
 .textAlignCenter {
   text-align: center;
+}
+
+.textDecorationNone {
+  text-decoration: none;
 }
 
 .textOverflowEllipsis {
@@ -174,6 +225,10 @@
   width: calc(var(--pixelUnit) * 50);
 }
 
+.width100Percent {
+  width: 100%;
+}
+
 /**
 * GLOBAL STYLES
 **/
@@ -185,22 +240,14 @@
 
 body {
   margin: 0 auto;
-  border-top: 4px solid var(--orange);
+  border-top: 4px solid var(--orangeColor);
   color: var(--fontColor);
   min-height: 100vh;
 }
 
-button {
-  background-color: var(--buttonColor);
-  color: white;
-  padding: 10px;
-  border: 1px solid var(--buttonColor);
-  border-radius: 10px;
-}
-
 nav {
   padding: calc(var(--pixelUnit) * 3);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--borderColor);
 }
 
 p {

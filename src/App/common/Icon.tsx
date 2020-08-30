@@ -10,7 +10,12 @@ export const Icon: React.FC<{
 
   return (
     <IconContext.Provider
-      value={{ color: "#c2c2c2", size: "1.5em", ...p.iconContextValue }}
+      value={{
+        color: "#14171a",
+        size: "1.5em",
+        style: { color: undefined },
+        ...p.iconContextValue,
+      }}
     >
       <IconType />
     </IconContext.Provider>

@@ -1,9 +1,8 @@
 import React from "react";
-
-import s from "src/styles.css";
-import { cn } from "src/cn";
+import { MdMenu } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { FiMenu } from "react-icons/fi";
+import { cn } from "src/cn";
+import s from "src/styles.css";
 import { Icon } from "./Icon";
 
 export const Page: React.FC<{
@@ -35,7 +34,7 @@ export const Page: React.FC<{
       <div {...cn(s.flex_2)}>
         {p.leftLink || (
           <Link to="/menu">
-            <Icon IconType={FiMenu} />
+            <Icon IconType={MdMenu} iconContextValue={{ size: "25px" }} />
           </Link>
         )}
       </div>

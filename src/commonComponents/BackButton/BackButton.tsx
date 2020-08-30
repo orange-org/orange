@@ -21,7 +21,7 @@ export const BackButton = () => {
       )}
       onClick={() => history.goBack()}
     >
-      <Icon IconType={FiChevronLeft} />
+      <Icon IconType={FiChevronLeft} iconContextValue={{ size: "25px" }} />
       <span>Back</span>
     </button>
   );

@@ -2,13 +2,13 @@
 /* Light color palette: https://coolors.co/ffffff-14171a-1da1f2-c1292e-43c59e-f58f29 */
 :root {
   --pixelUnit: 4px;
-  --fontColor: #14171a;
+  --textColor: #14171a;
   --backgroundColor: #ffffff;
   --buttonColor: #1da1f2;
   --buttonHoverColor: #1a92da;
   --orangeColor: #f58f29;
   --borderColor: #e6ecf0;
-  --buttonFontColor: #ffffff;
+  --buttonTextColor: #ffffff;
   --redColor: #c1292e;
 }
 
@@ -68,8 +68,20 @@
   border-width: 1px;
 }
 
-.colorButtonFont {
-  color: var(--buttonFontColor);
+.colorButton {
+  color: var(--buttonColor);
+}
+
+.colorButtonOnHover:hover {
+  color: var(--buttonColor);
+}
+
+.colorButtonText {
+  color: var(--buttonTextColor);
+}
+
+.colorText {
+  color: var(--textColor);
 }
 
 .cursorPointer {
@@ -246,6 +258,10 @@
   text-overflow: ellipsis;
 }
 
+.transformScale1_2 {
+  transform: scale(1.2);
+}
+
 .transformScale1_5 {
   transform: scale(1.5);
 }
@@ -277,7 +293,7 @@
 
 body {
   border-top: 4px solid var(--orangeColor);
-  color: var(--fontColor);
+  color: var(--textColor);
 }
 
 /* nav {

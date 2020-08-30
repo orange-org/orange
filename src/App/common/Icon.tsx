@@ -12,7 +12,6 @@ export const Icon: React.FC<{
     <IconContext.Provider
       value={{
         color: "#14171a",
-        size: "1.5em",
         style: { color: undefined },
         ...p.iconContextValue,
       }}

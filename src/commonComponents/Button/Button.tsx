@@ -4,7 +4,7 @@ import { cn } from "src/cn";
 
 export const buttonClasses = [
   styles.backgroundColorButton,
-  styles.colorButtonFont,
+  styles.colorButtonText,
   styles.padding2,
   styles.borderColorButton,
   styles.borderWidth1px,

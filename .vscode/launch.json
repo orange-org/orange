@@ -2,25 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Main Process",
-      "type": "node",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
-      "windows": {
-        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
-      },
-      "outFiles": ["${workspaceRoot}/artifacts/webpack/main/main.js"],
-      "sourceMaps": true,
-      // "args": ["./artifacts/webpack"],
-      "args": ["./artifacts/webpack", "--args", "--testnet"],
-      "outputCapture": "std",
-      "preLaunchTask": "_webpack-build-main",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    {
       "name": "Debug Jest Tests",
       "type": "node",
       "request": "launch",

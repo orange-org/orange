@@ -77,20 +77,3 @@ To compile the bundle, run
 ```bash
 NODE_ENV=production npm run build-action
 ```
-
-## Building an executable locally
-
-If you need to build an executable locally for your operating system, you can
-run the command
-
-```bash
-npm run create-executable
-```
-
-This command will run the script
-[`.github/action/createExecutable.ts`](../action/createExecutable.ts), which
-will generate an executable targeted to your operating system. You will find the
-executable at `artifacts/electronPackager`.
-
-`createExecutable.ts` can run on a local development environment in addition to
-running on a GitHub Action machine.

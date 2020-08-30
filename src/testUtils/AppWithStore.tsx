@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import React from "react";
 import { act } from "react-dom/test-utils";
-import { getApp } from "_r/App/App";
+import { getApp } from "src/App/App";
 import { TestElement } from "./TestElement";
 
 /**
@@ -30,7 +30,7 @@ const createAppWithStore = () => {
 
         // Wait for initial load
         try {
-          await TestElement.findAllByTestId("blockListBlock");
+          // await TestElement.findAllByTestId("blockListBlock");
         } catch (e) {
           // No need to throw if we can't find them. Maybe we are testing
           // where the server is not loading the blocks correctly.

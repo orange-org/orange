@@ -10,17 +10,25 @@
     "Mempool",
     "SCROLLABLE",
     "Satoshi",
+    "Utxo",
+    "Utxos",
     "bitcoind",
     "btcd",
     "clsx",
     "formik",
+    "sats",
     "start",
-    "testid"
+    "testid",
+    "txid",
+    "vout"
   ],
   "editor.formatOnSave": true,
   "editor.rulers": [80],
   "rewrap.wrappingColumn": 80,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
+  },
+  "[markdown]": {
+    "editor.rulers": [50]
   }
 }

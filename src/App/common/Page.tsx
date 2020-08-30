@@ -11,7 +11,7 @@ export const Page: React.FC<{
 }> = p => (
   <div
     {...cn(
-      s.maxWidth600,
+      s.maxWidth600px,
       s.marginXAuto,
       s.borderWidth1px,
       s.borderColorBorder,

@@ -11,6 +11,7 @@ import styles from "src/styles.css";
 import { LinkButton } from "src/commonComponents/LinkButton/LinkButton";
 import { Button } from "src/commonComponents/Button/Button";
 import { BackButton } from "src/commonComponents/BackButton/BackButton";
+import { Textarea } from "src/commonComponents/Textarea/Textarea";
 import { useSetInitialMasterPublicKey } from "../../common/useSetInitialMasterPublicKey";
 
 const useConfiguredFormik = (mnemonic: string) =>
@@ -52,15 +53,11 @@ export const WalletCreateConfirm: React.FC<{ mnemonic: string }> = p => {
 
   return (
     <Page title="Confirm Secret" leftLink={<BackButton />}>
-      <p>
-        Enter your secret phrase below to confirm that you&apos;ve wrote it down
-        correctly
-      </p>
-
-      <textarea
-        {...cn(styles.marginBottom0, styles.width100Percent)}
+      <Textarea
+        placeholder="Enter your secret phrase here to confirm that you've wrote it down
+      correctly"
+        label="Secret phrase"
         id="mnemonicTextarea"
-        rows={5}
         {...formik.getFieldProps("enteredMnemonic")}
       />
 

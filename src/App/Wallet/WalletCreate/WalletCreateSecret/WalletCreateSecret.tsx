@@ -3,26 +3,35 @@ import { Page } from "src/App/common/Page";
 import { cn } from "src/cn";
 import { BackButton } from "src/commonComponents/BackButton/BackButton";
 import { LinkButton } from "src/commonComponents/LinkButton/LinkButton";
-import s from "src/styles.css";
+import { P } from "src/commonComponents/P/P";
+import styles from "src/styles.css";
 
 export const WalletCreateSecret: React.FC<{
   mnemonic: string;
 }> = p => (
   <Page title="Your Secret" leftLink={<BackButton />}>
-    <p>
+    <P>
       Below is the secret phrase to unlock your money. You must keep it safe. If
       you lose it, you lose your money. If somebody sees it, they can steal your
       money. <strong>Orange does not store this secret</strong>.
-    </p>
+    </P>
 
-    <blockquote>
+    <P
+      {...cn(
+        styles.backgroundColorDarkerBackground,
+        styles.padding4,
+        styles.borderRadius4,
+      )}
+    >
       <code>{p.mnemonic}</code>
-    </blockquote>
+    </P>
 
-    <div {...cn(s.marginTop10)} />
+    <div {...cn(styles.marginTop10)} />
 
-    <div {...cn(s.displayFlex, s.justifyContentFlexEnd)}>
-      <LinkButton to="/wallet/create/confirm">OK</LinkButton>
+    <div {...cn(styles.displayFlex, styles.justifyContentFlexEnd)}>
+      <LinkButton {...cn(styles.width25)} to="/wallet/create/confirm">
+        OK
+      </LinkButton>
     </div>
   </Page>
 );

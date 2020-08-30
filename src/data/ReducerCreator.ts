@@ -2,6 +2,7 @@ import { WalletActions } from "src/data/WalletActions";
 import { StateConfig } from "src/typings/typeHelpers";
 import { createReducer } from "typesafe-actions";
 import { TxsWithBalance, WalletStats } from "./Wallet";
+import { Actions } from "./Actions";
 
 export type State = StateConfig<{
   walletMasterPublicKey: string;
@@ -36,6 +37,10 @@ class ReducerCreator {
         ...state,
         walletTxs: action.payload,
       }))
+      .handleAction(
+        Actions.setState,
+        (_state, action) => action.payload || ReducerCreator.initialState,
+      )
       .handleAction(WalletActions.setWalletStats, (state, action) => ({
         ...state,
         walletStats: action.payload,

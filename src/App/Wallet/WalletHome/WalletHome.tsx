@@ -30,7 +30,11 @@ const useLoadWallet = () => {
   };
 };
 
-const useInitialLoadWallet = (walletMasterPublicKey: string | null) => {
+const useInitialLoadWallet = () => {
+  const walletMasterPublicKey = useSelector(
+    state => state.walletMasterPublicKey,
+  );
+  const walletStats = useSelector(state => state.walletStats);
   const history = useHistory();
   const { loadWallet } = useLoadWallet();
   const [isInitialLoading, setInitialLoading] = useState(true);
@@ -42,7 +46,10 @@ const useInitialLoadWallet = (walletMasterPublicKey: string | null) => {
         return;
       }
 
-      await loadWallet(walletMasterPublicKey);
+      if (!walletStats) {
+        await loadWallet(walletMasterPublicKey);
+      }
+
       setInitialLoading(false);
     };
 
@@ -66,9 +73,7 @@ const listTransactions = (txs: TxsWithBalance) => (
 
 export const WalletHome = () => {
   const globalState = useGlobalState();
-  const isInitialLoading = useInitialLoadWallet(
-    globalState.walletMasterPublicKey,
-  );
+  const isInitialLoading = useInitialLoadWallet();
   const { isLoadingWallet: isRefreshingWallet } = useLoadWallet();
   const isLoadingWallet = isInitialLoading || isRefreshingWallet;
 

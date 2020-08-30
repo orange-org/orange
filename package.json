@@ -135,6 +135,7 @@
     "coinselect": "^3.1.12",
     "create-hash": "^1.2.0",
     "idb": "^5.0.4",
+    "localforage": "^1.9.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",

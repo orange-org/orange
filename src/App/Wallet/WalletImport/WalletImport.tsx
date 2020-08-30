@@ -4,14 +4,11 @@ import { BsExclamationCircle } from "react-icons/bs";
 import { Icon } from "src/App/common/Icon";
 import { Page } from "src/App/common/Page";
 import { cn } from "src/cn";
+import { BackButton } from "src/commonComponents/BackButton/BackButton";
+import { Button } from "src/commonComponents/Button/Button";
+import { Textarea } from "src/commonComponents/Textarea/Textarea";
 import { Wallet } from "src/data/Wallet";
 import styles from "src/styles.css";
-import { WalletThunks } from "src/data/WalletThunks";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Textarea } from "src/commonComponents/Textarea/Textarea";
-import { Button } from "src/commonComponents/Button/Button";
-import { BackButton } from "src/commonComponents/BackButton/BackButton";
 import { useSetInitialMasterPublicKey } from "../common/useSetInitialMasterPublicKey";
 
 const useConfiguredFormik = () =>

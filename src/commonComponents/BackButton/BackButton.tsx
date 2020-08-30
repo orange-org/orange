@@ -17,6 +17,7 @@ export const BackButton = () => {
         styles.displayFlex,
         styles.alignItemsCenter,
         styles.padding0,
+        styles.cursorPointer,
       )}
       onClick={() => history.goBack()}
     >

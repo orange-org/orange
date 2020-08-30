@@ -10,8 +10,28 @@ export const Page: React.FC<{
   title: string;
   leftLink?: React.ReactNode;
 }> = p => (
-  <div>
-    <nav {...cn(s.displayFlex, s.justifyContentCenter, s.alignItemsCenter)}>
+  <div
+    {...cn(
+      s.maxWidth600,
+      s.marginXAuto,
+      s.borderWidth1px,
+      s.borderColorBorder,
+      s.borderLeftStyleSolid,
+      s.borderRightStyleSolid,
+      s.minHeight100vh,
+    )}
+  >
+    <nav
+      {...cn(
+        s.displayFlex,
+        s.justifyContentCenter,
+        s.alignItemsCenter,
+        s.padding3,
+        s.borderWidth1px,
+        s.borderColorBorder,
+        s.borderBottomStyleSolid,
+      )}
+    >
       <div {...cn(s.flex_2)}>
         {p.leftLink || (
           <Link to="/menu">

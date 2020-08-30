@@ -5,6 +5,7 @@
   --fontColor: #14171a;
   --backgroundColor: #ffffff;
   --buttonColor: #1da1f2;
+  --buttonHoverColor: #1a92da;
   --orangeColor: #f58f29;
   --borderColor: #e6ecf0;
   --buttonFontColor: #ffffff;
@@ -23,16 +24,36 @@
   background-color: var(--buttonColor);
 }
 
+.backgroundColorButtonHoverOnHover:hover {
+  background-color: var(--buttonHoverColor);
+}
+
 .backgroundTransparent {
   background: transparent;
+}
+
+.borderBottomStyleSolid {
+  border-bottom-style: solid;
+}
+
+.borderColorBorder {
+  border-color: var(--borderColor);
 }
 
 .borderColorButton {
   border-color: var(--buttonColor);
 }
 
+.borderLeftStyleSolid {
+  border-left-style: solid;
+}
+
 .borderRadiusRounded {
   border-radius: 9999px;
+}
+
+.borderRightStyleSolid {
+  border-right-style: solid;
 }
 
 .borderStyleSolid {
@@ -49,6 +70,10 @@
 
 .colorButtonFont {
   color: var(--buttonFontColor);
+}
+
+.cursorPointer {
+  cursor: pointer;
 }
 
 .displayBlock {
@@ -173,6 +198,14 @@
   max-width: 400px;
 }
 
+.maxWidth600 {
+  max-width: 600px;
+}
+
+.minHeight100vh {
+  min-height: 100vh;
+}
+
 .overflowHidden {
   overflow: hidden;
 }
@@ -183,6 +216,10 @@
 
 .padding2 {
   padding: calc(var(--pixelUnit) * 2);
+}
+
+.padding3 {
+  padding: calc(var(--pixelUnit) * 3);
 }
 
 .padding4 {
@@ -239,33 +276,18 @@
 }
 
 body {
-  margin: 0 auto;
   border-top: 4px solid var(--orangeColor);
   color: var(--fontColor);
-  min-height: 100vh;
 }
 
-nav {
+/* nav {
   padding: calc(var(--pixelUnit) * 3);
   border-bottom: 1px solid var(--borderColor);
-}
+} */
 
-p {
-  margin-bottom: 1.5rem;
-}
-
-h1 {
+/* h1 {
   margin-top: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 400;
-}
+} */
 
 html {
   background-color: var(--backgroundColor);

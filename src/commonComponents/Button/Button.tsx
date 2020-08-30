@@ -11,6 +11,11 @@ export const buttonClasses = [
   styles.borderStyleSolid,
   styles.borderRadiusRounded,
   styles.opacity0_5ForDisabled,
+  styles.cursorPointer,
+  styles.displayFlex,
+  styles.alignItemsCenter,
+  styles.justifyContentCenter,
+  styles.backgroundColorButtonHoverOnHover,
 ];
 
 export const Button: React.FC<React.DetailedHTMLProps<
